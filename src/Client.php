@@ -11,23 +11,7 @@ class Client
     private $auth_token;
 
     private $modules = [
-        'Leads',
-        'Accounts',
-        'Contacts',
-        'Potentials',
-        'Campaigns',
-        'Cases',
-        'Solutions',
-        'Products',
-        'PriceBooks',
-        'Quotes',
-        'Invoices',
-        'SalesOrders',
-        'Vendors',
-        'PurchaseOrders',
-        'Events',
-        'Tasks',
-        'Calls'
+        'Leads'
     ];
 
     public function __construct($auth_token)
@@ -58,6 +42,8 @@ class Client
             $class_name = "\\Zoho\\CRM\\Modules\\$module";
             if (class_exists($class_name)) {
                 $this->{$parameterized_module} = new $class_name($this);
+            } else {
+                throw new Exception\ModuleNotFoundException("Module $class_name not found");
             }
         }
     }
