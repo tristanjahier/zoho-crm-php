@@ -8,19 +8,19 @@ abstract class AbstractModule
 {
     protected $supported_methods;
 
-    protected $owner;
+    private $owner;
 
-    private $module_name;
+    private $name;
 
     function __construct(ZohoClient $owner)
     {
         $this->owner = $owner;
-        $this->module_name = (new \ReflectionClass(get_class($this)))->getShortName();
+        $this->name = (new \ReflectionClass(get_class($this)))->getShortName();
     }
 
     public function getModuleName()
     {
-        return $this->module_name;
+        return $this->name;
     }
 
     public function getModuleOwner()
@@ -35,6 +35,6 @@ abstract class AbstractModule
 
     protected function request($method, array $params = [])
     {
-        return $this->owner->request($this->module_name, $method, $params);
+        return $this->owner->request($this->name, $method, $params);
     }
 }
