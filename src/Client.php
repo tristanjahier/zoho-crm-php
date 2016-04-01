@@ -62,6 +62,8 @@ class Client
         $response = $this->http_client->get($request_uri);
         $response_body = $response->getBody()->getContents();
 
-        return Core\ResponseParser::parse($response_body, $format);
+        $result = Core\ResponseParser::parse($response_body, $format);
+        $result = Core\ResponseParser::clean($module, $result);
+        return $result;
     }
 }
