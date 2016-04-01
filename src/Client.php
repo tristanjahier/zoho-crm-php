@@ -59,11 +59,8 @@ class Client
         }
 
         $request_uri = $format . '/' . $module . '/' . $method . $params_string;
-        $response = $this->http_client->get($request_uri);
-        $response_body = $response->getBody()->getContents();
+        $http_response = $this->http_client->get($request_uri);
 
-        $result = Core\ResponseParser::parse($response_body, $format);
-        $result = Core\ResponseParser::clean($module, $result);
-        return $result;
+        return new Core\Response($this, $module, $method, $format, $http_response->getBody()->getContents());
     }
 }
