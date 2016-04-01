@@ -35,6 +35,6 @@ abstract class AbstractModule
 
     protected function request($method, array $params = [])
     {
-        return $this->owner->request($this->name, $method, $params);
+        return $this->owner->request($this->name, $method, $params)->getData();
     }
 }
