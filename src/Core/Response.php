@@ -60,14 +60,14 @@ class Response
 
         if ($this->validate($parsed))
             $this->data = ResponseParser::clean($this->module_name, $parsed);
-        else
+        else // No error, but no data retrieved
             $this->data = null;
     }
 
     private function validate($data)
     {
         if (isset($data['response']['error'])) {
-            throw new \Exception($data['response']['error']['message'], $data['response']['error']['code']);
+            ApiErrorHandler::handle($data['response']['error']);
         }
 
         if (isset($data['response']['nodata'])) {
