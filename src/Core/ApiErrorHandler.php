@@ -8,7 +8,8 @@ class ApiErrorHandler
 {
     private static $exceptions = [
         '4600'  => ApiException\InvalidParametersException::class,
-        '4820'  => ApiException\RateLimitExceededException::class
+        '4820'  => ApiException\RateLimitExceededException::class,
+        '4834'  => ApiException\InvalidTicketIdException::class,
     ];
 
     public static function handle(array $error)
