@@ -16,7 +16,7 @@ class Client
 
     public function __construct($auth_token)
     {
-        $this->auth_token = $auth_token;
+        $this->setAuthToken($auth_token);
 
         $this->http_client = new \GuzzleHttp\Client([
             'base_uri' => self::API_BASE_URI
@@ -35,6 +35,14 @@ class Client
         return $this->auth_token;
     }
 
+    public function setAuthToken($auth_token)
+    {
+        if ($auth_token === null || $auth_token === '')
+            throw new Exception\NullAuthTokenException('Invalid auth token: it must not be null or empty.');
+        else
+            $this->auth_token = $auth_token;
+    }
+
     private function registerModules()
     {
         foreach ($this->modules as $module) {
@@ -50,9 +58,6 @@ class Client
 
     public function request($module, $method, array $params = [], $format = Core\ResponseFormat::JSON)
     {
-        if ($this->auth_token === null)
-            return;
-
         $default_parameters = new Core\UrlParameters([
             'authtoken' => $this->auth_token,
             'scope' => 'crmapi'
