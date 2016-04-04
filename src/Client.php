@@ -53,12 +53,12 @@ class Client
         if ($this->auth_token === null)
             return;
 
-        $params_string = '?authtoken=' . $this->auth_token;
-        foreach ($params as $key => $value) {
-            $params_string .= '&' . $key . '=' . urlencode($value);
-        }
+        $default_parameters = new Core\UrlParameters([
+            'authtoken' => $this->auth_token,
+            'scope' => 'crmapi'
+        ]);
 
-        $request_uri = $format . '/' . $module . '/' . $method . $params_string;
+        $request_uri = $format . '/' . $module . '/' . $method . '?' . $default_parameters->extend($params);
         $http_response = $this->http_client->get($request_uri);
 
         return new Core\Response($this, $module, $method, $format, $http_response->getBody()->getContents());
