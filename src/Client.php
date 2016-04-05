@@ -11,6 +11,7 @@ class Client
     private $auth_token;
 
     private $modules = [
+        'Info',
         'Leads'
     ];
 
