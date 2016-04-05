@@ -16,7 +16,7 @@ class ApiResponseParser
             if (class_exists($api_method_handler))
                 return $api_method_handler::tidyResponse($parsed_data, $module);
             else
-                throw new MethodNotFoundException("Method handler $api_method_handler not found");
+                throw new MethodNotFoundException("Method handler $api_method_handler not found.");
         } else {
             return null;
         }

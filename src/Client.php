@@ -52,7 +52,7 @@ class Client
             if (class_exists($class_name)) {
                 $this->{$parameterized_module} = new $class_name($this);
             } else {
-                throw new Exception\ModuleNotFoundException("Module $class_name not found");
+                throw new Exception\ModuleNotFoundException("Module $class_name not found.");
             }
         }
     }
