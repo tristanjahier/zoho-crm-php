@@ -38,7 +38,7 @@ class Client
     public function setAuthToken($auth_token)
     {
         if ($auth_token === null || $auth_token === '')
-            throw new Exception\NullAuthTokenException('Invalid auth token: it must not be null or empty.');
+            throw new Exception\NullAuthTokenException();
         else
             $this->auth_token = $auth_token;
     }
@@ -64,8 +64,9 @@ class Client
         ]);
 
         $request_uri = $format . '/' . $module . '/' . $method . '?' . $default_parameters->extend($params);
-        $http_response = $this->http_client->get($request_uri);
+        $response = $this->http_client->get($request_uri)->getBody()->getContents();
 
-        return new Core\Response($this, $module, $method, $format, $http_response->getBody()->getContents());
+        $clean_data = Core\ApiResponseParser::getData($response, $module, $method, $format);
+        return new Core\Response($this, $module, $method, $format, $response, $clean_data);
     }
 }

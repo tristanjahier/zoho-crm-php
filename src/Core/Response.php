@@ -18,15 +18,14 @@ class Response
 
     private $data;
 
-    public function __construct(ZohoClient $client, $module_name, $method, $format, $raw_data)
+    public function __construct(ZohoClient $client, $module_name, $method, $format, $raw_data, $data)
     {
         $this->client = $client;
         $this->module_name = $module_name;
         $this->method = $method;
         $this->format = $format;
         $this->raw_data = $raw_data;
-        $this->data = null;
-        $this->process();
+        $this->data = $data;
     }
 
     public function getModuleName()
@@ -52,29 +51,5 @@ class Response
     public function getData()
     {
         return $this->data;
-    }
-
-    private function process()
-    {
-        $parsed = ResponseParser::parse($this->raw_data, $this->format);
-
-        if ($this->validate($parsed))
-            $this->data = ResponseParser::clean($this->module_name, $parsed);
-        else // No error, but no data retrieved
-            $this->data = null;
-    }
-
-    private function validate($data)
-    {
-        if (isset($data['response']['error'])) {
-            ApiErrorHandler::handle($data['response']['error']);
-        }
-
-        if (isset($data['response']['nodata'])) {
-            // It is not a fatal error, so we won't raise an exception
-            return false;
-        }
-
-        return true;
     }
 }
