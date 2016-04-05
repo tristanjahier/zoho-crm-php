@@ -37,4 +37,9 @@ abstract class AbstractModule
     {
         return $this->owner->request($this->name, $method, $params)->getData();
     }
+
+    public function getFields()
+    {
+        return $this->request('getFields');
+    }
 }
