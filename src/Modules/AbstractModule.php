@@ -12,7 +12,7 @@ abstract class AbstractModule
 
     private $name;
 
-    protected function __construct(ZohoClient $owner)
+    public function __construct(ZohoClient $owner)
     {
         $this->owner = $owner;
         $this->name = (new \ReflectionClass(get_class($this)))->getShortName();

@@ -29,11 +29,6 @@ class Leads extends AbstractModule
         'searchRecords'
     ];
 
-    public function __construct($owner)
-    {
-        parent::__construct($owner);
-    }
-
     public function getById($id)
     {
         return $this->request('getRecordById', ['id' => $id]);
