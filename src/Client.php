@@ -15,6 +15,12 @@ class Client
         'Leads'
     ];
 
+    private $default_parameters = [
+        'scope' => 'crmapi',
+        'newFormat' => 1,
+        'version' => 2
+    ];
+
     public function __construct($auth_token)
     {
         $this->setAuthToken($auth_token);
@@ -44,6 +50,26 @@ class Client
             $this->auth_token = $auth_token;
     }
 
+    public function getDefaultParameters()
+    {
+        return $this->default_parameters;
+    }
+
+    public function setDefaultParameters(array $params)
+    {
+        $this->default_parameters = $params;
+    }
+
+    public function setDefaultParameter($key, $value)
+    {
+        $this->default_parameters[$key] = $value;
+    }
+
+    public function unsetDefaultParameter($key)
+    {
+        unset($this->default_parameters[$key]);
+    }
+
     private function registerModules()
     {
         foreach ($this->modules as $module) {
@@ -59,12 +85,11 @@ class Client
 
     public function request($module, $method, array $params = [], $format = Core\ResponseFormat::JSON)
     {
-        $default_parameters = new Core\UrlParameters([
-            'authtoken' => $this->auth_token,
-            'scope' => 'crmapi'
-        ]);
+        $url_parameters = (new Core\UrlParameters($this->default_parameters))
+                              ->extend(['authtoken' => $this->auth_token])
+                              ->extend($params);
 
-        $request_uri = $format . '/' . $module . '/' . $method . '?' . $default_parameters->extend($params);
+        $request_uri = "$format/$module/$method?$url_parameters";
         $response = $this->http_client->get($request_uri)->getBody()->getContents();
 
         $clean_data = Core\ApiResponseParser::getData($response, $module, $method, $format);
