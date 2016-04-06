@@ -53,9 +53,16 @@ class UrlParameters implements \ArrayAccess
 
         foreach ($this->parameters as $key => $value) {
             $str = "$key";
-            // Support for parameters without a value
-            if ($value !== null)
+
+            // Support for parameters with a value
+            if ($value !== null) {
+                // Support for arrays: joining elements with comas
+                // i.e.: (el1,el2,el3,el4)
+                if (is_array($value))
+                    $value = '(' . implode(',', $value) . ')';
                 $str .= '=' . urlencode($value);
+            }
+
             $chunks[] = $str;
         }
 
