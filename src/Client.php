@@ -10,9 +10,10 @@ class Client
 
     private $auth_token;
 
-    private $modules = [
+    private $supported_modules = [
         'Info',
-        'Leads'
+        'Leads',
+        'Users'
     ];
 
     private $default_parameters = [
@@ -34,7 +35,7 @@ class Client
 
     public function getSupportedModules()
     {
-        return $this->modules;
+        return $this->supported_modules;
     }
 
     public function getAuthToken()
@@ -72,7 +73,7 @@ class Client
 
     private function registerModules()
     {
-        foreach ($this->modules as $module) {
+        foreach ($this->supported_modules as $module) {
             $parameterized_module = lcfirst($module);
             $class_name = "\\Zoho\\CRM\\Modules\\$module";
             if (class_exists($class_name)) {
