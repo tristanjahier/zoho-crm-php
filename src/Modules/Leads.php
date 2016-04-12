@@ -10,7 +10,8 @@ class Leads extends AbstractModule
         'getFields',
         'getRecordById',
         'getRecords',
-        'getMyRecords'
+        'getMyRecords',
+        'searchRecords'
     ];
 
     public function getById($id)
@@ -26,5 +27,15 @@ class Leads extends AbstractModule
     public function getMine()
     {
         return $this->request('getMyRecords');
+    }
+
+    public function search($criteria)
+    {
+        return $this->request('searchRecords', ['criteria' => "($criteria)"]);
+    }
+
+    public function getBy($key, $value)
+    {
+        return $this->search(urlencode($key) . ':' . urlencode($value));
     }
 }
