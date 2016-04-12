@@ -38,6 +38,11 @@ class Client
         return $this->supported_modules;
     }
 
+    public function supports($module)
+    {
+        return in_array($module, $this->supported_modules);
+    }
+
     public function getAuthToken()
     {
         return $this->auth_token;
@@ -74,7 +79,7 @@ class Client
     private function registerModules()
     {
         foreach ($this->supported_modules as $module) {
-            $parameterized_module = lcfirst($module);
+            $parameterized_module = toSnakeCase($module);
             $class_name = "\\Zoho\\CRM\\Modules\\$module";
             if (class_exists($class_name)) {
                 $this->{$parameterized_module} = new $class_name($this);
@@ -86,6 +91,12 @@ class Client
 
     public function request($module, $method, array $params = [], $format = Core\ResponseFormat::JSON)
     {
+        if (!$this->supports($module)) {
+            throw new Exception\UnsupportedModuleException($module);
+        } elseif (!$this->{toSnakeCase($module)}->supports($method)) {
+            throw new Exception\UnsupportedMethodException($module, $method);
+        }
+
         $url_parameters = (new Core\UrlParameters($this->default_parameters))
                               ->extend(['authtoken' => $this->auth_token])
                               ->extend($params);

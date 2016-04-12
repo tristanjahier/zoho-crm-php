@@ -6,7 +6,7 @@ use Zoho\CRM\Client as ZohoClient;
 
 abstract class AbstractModule
 {
-    protected $supported_methods;
+    protected $supported_methods = [];
 
     private $owner;
 
@@ -31,6 +31,11 @@ abstract class AbstractModule
     public function getSupportedMethods()
     {
         return $this->supported_methods;
+    }
+
+    public function supports($method)
+    {
+        return in_array($method, $this->supported_methods);
     }
 
     protected function request($method, array $params = [])

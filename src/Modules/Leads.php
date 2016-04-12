@@ -7,28 +7,10 @@ use Zoho\CRM\Core\IdList;
 class Leads extends AbstractModule
 {
     protected $supported_methods = [
-        'getMyRecords',
-        'getRecords',
-        'getRecordById',
-        'getDeletedRecordIds',
-        'insertRecords',
-        'updateRecords',
-        'getSearchRecordsByPDC',
-        'deleteRecords',
-        'convertLead',
-        'getRelatedRecords',
         'getFields',
-        'updateRelatedRecords',
-        'getUsers',
-        'uploadFile',
-        'delink',
-        'downloadFile',
-        'deleteFile',
-        'uploadPhoto',
-        'downloadPhoto',
-        'deletePhoto',
-        'getModules',
-        'searchRecords'
+        'getRecordById',
+        'getRecords',
+        'getMyRecords'
     ];
 
     public function getById($id)

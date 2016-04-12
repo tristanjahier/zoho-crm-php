@@ -4,6 +4,10 @@ namespace Zoho\CRM\Modules;
 
 class Users extends AbstractModule
 {
+    protected $supported_methods = [
+        'getUsers'
+    ];
+
     public function getAll()
     {
         return $this->request('getUsers', ['type' => 'AllUsers']);
