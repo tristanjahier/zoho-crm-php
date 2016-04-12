@@ -11,12 +11,12 @@ class UrlParameters implements \ArrayAccess
         $this->parameters = $parameters;
     }
 
-    public function extend($custom)
+    public function extend($others)
     {
-        if ($custom instanceof UrlParameters)
-            $custom = $custom->toArray();
+        if ($others instanceof UrlParameters)
+            $others = $others->toArray();
 
-        return new UrlParameters(array_replace($this->parameters, $custom));
+        return new UrlParameters(array_replace($this->parameters, $others));
     }
 
     public function offsetSet($key, $value)
@@ -60,7 +60,7 @@ class UrlParameters implements \ArrayAccess
                 // i.e.: (el1,el2,el3,el4)
                 if (is_array($value))
                     $value = '(' . implode(',', $value) . ')';
-                $str .= '=' . urlencode($value);
+                $str .= '=' . $value;
             }
 
             $chunks[] = $str;
