@@ -38,8 +38,42 @@ abstract class AbstractModule
         return $this->owner->request($this->name, $method, $params)->getData();
     }
 
-    public function getFields()
+    public function getFields(array $params = [], callable $filter = null)
     {
-        return $this->request('getFields');
+        $sections = $this->request('getFields', $params);
+
+        if (isset($filter)) {
+            foreach($sections as &$section) {
+                $section['FL'] = array_filter($section['FL'], $filter);
+                if (empty($section['FL']))
+                    unset($section['FL']);
+            }
+        }
+
+        return $sections;
+    }
+
+    public function getNativeFields()
+    {
+        return $this->getFields([], function($field) {
+            return $field['customfield'] === 'false';
+        });
+    }
+
+    public function getCustomFields()
+    {
+        return $this->getFields([], function($field) {
+            return $field['customfield'] === 'true';
+        });
+    }
+
+    public function getSummaryFields()
+    {
+        return $this->getFields(['type' => 1]);
+    }
+
+    public function getMandatoryFields()
+    {
+        return $this->getFields(['type' => 2]);
     }
 }
