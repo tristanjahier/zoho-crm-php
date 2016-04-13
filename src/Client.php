@@ -10,6 +10,8 @@ class Client
 
     private $auth_token;
 
+    private $preferences;
+
     private $supported_modules = [
         'Info',
         'Leads',
@@ -30,6 +32,8 @@ class Client
             'base_uri' => self::API_BASE_URI
         ]);
 
+        $this->preferences = new Core\ClientPreferences();
+
         $this->registerModules();
     }
 
@@ -41,6 +45,11 @@ class Client
     public function supports($module)
     {
         return in_array($module, $this->supported_modules);
+    }
+
+    public function preferences()
+    {
+        return $this->preferences;
     }
 
     public function getAuthToken()
