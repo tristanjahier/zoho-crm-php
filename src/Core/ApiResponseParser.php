@@ -7,14 +7,14 @@ use Zoho\CRM\Exception\MethodNotFoundException;
 
 class ApiResponseParser
 {
-    public static function getData($response, $module, $method, $format)
+    public static function getData($request, $response)
     {
-        $parsed_data = self::parse($response, $format);
+        $parsed_data = self::parse($response, $request->getFormat());
 
         if (self::validate($parsed_data)) {
-            $api_method_handler = "\\Zoho\\CRM\\Methods\\" . ucfirst($method);
+            $api_method_handler = "\\Zoho\\CRM\\Methods\\" . ucfirst($request->getMethod());
             if (class_exists($api_method_handler))
-                return $api_method_handler::tidyResponse($parsed_data, $module);
+                return $api_method_handler::tidyResponse($parsed_data, $request->getModule());
             else
                 throw new MethodNotFoundException("Method handler $api_method_handler not found.");
         } else {

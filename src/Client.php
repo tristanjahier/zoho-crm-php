@@ -4,10 +4,6 @@ namespace Zoho\CRM;
 
 class Client
 {
-    const API_BASE_URI = 'https://crm.zoho.com/crm/private/';
-
-    private $http_client;
-
     private $auth_token;
 
     private $preferences;
@@ -27,10 +23,6 @@ class Client
     public function __construct($auth_token)
     {
         $this->setAuthToken($auth_token);
-
-        $this->http_client = new \GuzzleHttp\Client([
-            'base_uri' => self::API_BASE_URI
-        ]);
 
         $this->preferences = new Core\ClientPreferences();
 
@@ -110,10 +102,10 @@ class Client
                               ->extend(['authtoken' => $this->auth_token])
                               ->extend($params);
 
-        $request_uri = "$format/$module/$method?$url_parameters";
-        $response = $this->http_client->get($request_uri)->getBody()->getContents();
+        $request = new Core\Request($format, $module, $method, $url_parameters);
+        $raw_data = Core\ApiRequestLauncher::fire($request);
+        $clean_data = Core\ApiResponseParser::getData($request, $raw_data);
 
-        $clean_data = Core\ApiResponseParser::getData($response, $module, $method, $format);
-        return new Core\Response($this, $module, $method, $format, $response, $clean_data);
+        return new Core\Response($request, $raw_data, $clean_data);
     }
 }
