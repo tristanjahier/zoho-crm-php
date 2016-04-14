@@ -7,9 +7,9 @@ use Zoho\CRM\Exception\MethodNotFoundException;
 
 class ApiResponseParser
 {
-    public static function getData($request, $response)
+    public static function clean(Request $request, $data)
     {
-        $parsed_data = self::parse($response, $request->getFormat());
+        $parsed_data = self::parse($data, $request->getFormat());
 
         if (self::validate($parsed_data)) {
             $api_method_handler = "\\Zoho\\CRM\\Methods\\" . ucfirst($request->getMethod());
@@ -22,28 +22,28 @@ class ApiResponseParser
         }
     }
 
-    private static function parse($response, $format)
+    public static function parse($data, $format)
     {
         switch ($format) {
             case ResponseFormat::XML:
-                return self::parseXml($response);
+                return self::parseXml($data);
                 break;
             case ResponseFormat::JSON:
-                return self::parseJson($response);
+                return self::parseJson($data);
                 break;
             default:
                 break;
         }
     }
 
-    private static function parseXml($response)
+    private static function parseXml($data)
     {
         // TODO
     }
 
-    private static function parseJson($response)
+    private static function parseJson($data)
     {
-        return json_decode($response, true);
+        return json_decode($data, true);
     }
 
     private static function validate($parsed)

@@ -2,6 +2,8 @@
 
 namespace Zoho\CRM;
 
+use Zoho\CRM\Core\ApiRequestPaginator;
+
 class Client
 {
     private $auth_token;
@@ -17,7 +19,9 @@ class Client
     private $default_parameters = [
         'scope' => 'crmapi',
         'newFormat' => 1,
-        'version' => 2
+        'version' => 2,
+        'fromIndex' => Core\ApiRequestPaginator::MIN_INDEX,
+        'toIndex' => Core\ApiRequestPaginator::PAGE_MAX_SIZE
     ];
 
     public function __construct($auth_token)
@@ -90,21 +94,32 @@ class Client
         }
     }
 
-    public function request($module, $method, array $params = [], $format = Core\ResponseFormat::JSON)
+    public function request($module, $method, array $params = [], $pagination = false, $format = Core\ResponseFormat::JSON)
     {
+        // Check if the requested module and method are both supported
         if (!$this->supports($module)) {
             throw new Exception\UnsupportedModuleException($module);
         } elseif (!$this->{toSnakeCase($module)}->supports($method)) {
             throw new Exception\UnsupportedMethodException($module, $method);
         }
 
+        // Extend default parameters with the current auth token, and the user-defined parameters
         $url_parameters = (new Core\UrlParameters($this->default_parameters))
                               ->extend(['authtoken' => $this->auth_token])
                               ->extend($params);
 
+        // Build a request object which encapsulates everything
         $request = new Core\Request($format, $module, $method, $url_parameters);
+
+        // If pagination is requested or required, let a paginator handle the request
+        if ($pagination) {
+            $paginator = new Core\ApiRequestPaginator($request);
+            return $paginator;
+        }
+
+        // Send the request to the Zoho API, parse, then finally clean its response
         $raw_data = Core\ApiRequestLauncher::fire($request);
-        $clean_data = Core\ApiResponseParser::getData($request, $raw_data);
+        $clean_data = Core\ApiResponseParser::clean($request, $raw_data);
 
         return new Core\Response($request, $raw_data, $clean_data);
     }

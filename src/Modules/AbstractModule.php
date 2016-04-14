@@ -38,9 +38,9 @@ abstract class AbstractModule
         return in_array($method, $this->supported_methods);
     }
 
-    protected function request($method, array $params = [])
+    protected function request($method, array $params = [], $pagination = false)
     {
-        return $this->owner->request($this->name, $method, $params)->getData();
+        return $this->owner->request($this->name, $method, $params, $pagination);
     }
 
     public function getFields(array $params = [], callable $filter = null)

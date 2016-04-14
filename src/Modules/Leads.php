@@ -26,7 +26,7 @@ class Leads extends AbstractModule
 
     public function getMine()
     {
-        return $this->request('getMyRecords');
+        return $this->request('getMyRecords', [], true);
     }
 
     public function search($criteria)

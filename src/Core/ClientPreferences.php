@@ -45,7 +45,7 @@ class ClientPreferences
             $this->set($preference, ...$arguments);
             return;
         } else {
-            trigger_error("Call to undefined method ".__CLASS__."::$method_name()", E_USER_ERROR);
+            trigger_error("Call to undefined method " . __CLASS__ . "::$method_name()", E_USER_ERROR);
         }
     }
 
