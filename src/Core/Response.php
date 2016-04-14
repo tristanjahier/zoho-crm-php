@@ -2,45 +2,24 @@
 
 namespace Zoho\CRM\Core;
 
-use Zoho\CRM\Client as ZohoClient;
-
 class Response
 {
-    private $client;
-
-    private $module_name;
-
-    private $method;
-
-    private $format;
+    private $request;
 
     private $raw_data;
 
     private $data;
 
-    public function __construct(ZohoClient $client, $module_name, $method, $format, $raw_data, $data)
+    public function __construct(Request $request, $raw_data, $data)
     {
-        $this->client = $client;
-        $this->module_name = $module_name;
-        $this->method = $method;
-        $this->format = $format;
+        $this->request = $request;
         $this->raw_data = $raw_data;
         $this->data = $data;
     }
 
-    public function getModuleName()
+    public function getRequest()
     {
-        return $this->module_name;
-    }
-
-    public function getMethod()
-    {
-        return $this->method;
-    }
-
-    public function getFormat()
-    {
-        return $this->format;
+        return $this->request;
     }
 
     public function getRawData()
