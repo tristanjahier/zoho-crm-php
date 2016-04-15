@@ -16,7 +16,7 @@ class ClientPreferences
     public function resetDefaults()
     {
         $this->preferences = [
-            //
+            'auto_fetch_paginated_requests' => true
         ];
     }
     public function set($key, $value)

@@ -8,13 +8,16 @@ class Response
 
     private $raw_data;
 
-    private $data;
+    private $content;
 
-    public function __construct(Request $request, $raw_data, $data)
+    private $paginated;
+
+    public function __construct(Request $request, $raw_data, $content)
     {
         $this->request = $request;
         $this->raw_data = $raw_data;
-        $this->data = $data;
+        $this->content = $content;
+        $this->paginated = is_array($raw_data);
     }
 
     public function getRequest()
@@ -27,8 +30,13 @@ class Response
         return $this->raw_data;
     }
 
-    public function getData()
+    public function getContent()
     {
-        return $this->data;
+        return $this->content;
+    }
+
+    public function isPaginated()
+    {
+        return $this->paginated;
     }
 }

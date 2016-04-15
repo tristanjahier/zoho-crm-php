@@ -114,7 +114,12 @@ class Client
         // If pagination is requested or required, let a paginator handle the request
         if ($pagination) {
             $paginator = new Core\ApiRequestPaginator($request);
-            return $paginator;
+            if ($this->preferences->getAutoFetchPaginatedRequests()) {
+                $paginator->fetchAll();
+                return $paginator->getAggregatedResponse();
+            } else {
+                return $paginator;
+            }
         }
 
         // Send the request to the Zoho API, parse, then finally clean its response

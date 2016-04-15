@@ -77,15 +77,21 @@ class ApiRequestPaginator
 
     public function getAggregatedResponse()
     {
+        $raw_data = [];
+        $clean_data = [];
+
         // Extract data from each response
-        $responses = array_map(function($resp) {
-            return $resp->getData();
-        }, $this->responses);
+        foreach ($this->responses as $resp) {
+            $raw_data[] = $resp->getRawData();
+            $clean_data[] = $resp->getContent();
+        }
 
         // Get rid of potential null data
-        $responses = array_filter($responses);
+        $clean_data = array_filter($clean_data);
 
         // Merge it all
-        return array_merge(...$responses);
+        $clean_data = array_merge(...$clean_data);
+
+        return new Response($this->request, $raw_data, $clean_data);
     }
 }
