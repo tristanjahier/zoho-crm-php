@@ -3,6 +3,7 @@
 namespace Zoho\CRM;
 
 use Zoho\CRM\Core\ApiRequestPaginator;
+use Zoho\CRM\Core\ClientResponseMode;
 
 class Client
 {
@@ -111,21 +112,29 @@ class Client
         // Build a request object which encapsulates everything
         $request = new Core\Request($format, $module, $method, $url_parameters);
 
-        // If pagination is requested or required, let a paginator handle the request
+        $response = null;
+
         if ($pagination) {
+            // If pagination is requested or required, let a paginator handle the request
             $paginator = new Core\ApiRequestPaginator($request);
             if ($this->preferences->getAutoFetchPaginatedRequests()) {
                 $paginator->fetchAll();
-                return $paginator->getAggregatedResponse();
+                $response = $paginator->getAggregatedResponse();
             } else {
                 return $paginator;
             }
+        } else {
+            // Send the request to the Zoho API, parse, then finally clean its response
+            $raw_data = Core\ApiRequestLauncher::fire($request);
+            $clean_data = Core\ApiResponseParser::clean($request, $raw_data);
+            $response = new Core\Response($request, $raw_data, $clean_data);
         }
 
-        // Send the request to the Zoho API, parse, then finally clean its response
-        $raw_data = Core\ApiRequestLauncher::fire($request);
-        $clean_data = Core\ApiResponseParser::clean($request, $raw_data);
+        if ($this->preferences->getResponseMode() === ClientResponseMode::RECORDS_ARRAY) {
+            // Unwrap the response content
+            $response = $response->getContent();
+        }
 
-        return new Core\Response($request, $raw_data, $clean_data);
+        return $response;
     }
 }

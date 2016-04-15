@@ -16,7 +16,8 @@ class ClientPreferences
     public function resetDefaults()
     {
         $this->preferences = [
-            'auto_fetch_paginated_requests' => true
+            'auto_fetch_paginated_requests' => true,
+            'response_mode' => ClientResponseMode::RECORDS_ARRAY
         ];
     }
     public function set($key, $value)
