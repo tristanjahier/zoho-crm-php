@@ -3,6 +3,7 @@
 namespace Zoho\CRM\Core;
 
 use Zoho\CRM\Exception\UnsupportedClientPreferenceException;
+use Doctrine\Common\Inflector\Inflector;
 
 class ClientPreferences
 {
@@ -20,6 +21,7 @@ class ClientPreferences
             'response_mode' => ClientResponseMode::RECORDS_ARRAY
         ];
     }
+
     public function set($key, $value)
     {
         if (array_key_exists($key, $this->preferences))
@@ -39,10 +41,10 @@ class ClientPreferences
     public function __call($method_name, $arguments)
     {
         if (strpos($method_name, 'get') === 0) {
-            $preference = \Zoho\CRM\toSnakeCase(substr($method_name, 3));
+            $preference = Inflector::tableize(substr($method_name, 3));
             return $this->get($preference);
         } elseif (strpos($method_name, 'set') === 0) {
-            $preference = \Zoho\CRM\toSnakeCase(substr($method_name, 3));
+            $preference = Inflector::tableize(substr($method_name, 3));
             $this->set($preference, ...$arguments);
             return;
         } else {

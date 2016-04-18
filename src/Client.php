@@ -4,6 +4,7 @@ namespace Zoho\CRM;
 
 use Zoho\CRM\Core\ApiRequestPaginator;
 use Zoho\CRM\Core\ClientResponseMode;
+use Doctrine\Common\Inflector\Inflector;
 
 class Client
 {
@@ -85,8 +86,8 @@ class Client
     private function registerModules()
     {
         foreach ($this->supported_modules as $module) {
-            $parameterized_module = toSnakeCase($module);
-            $class_name = "\\Zoho\\CRM\\Modules\\$module";
+            $parameterized_module = Inflector::tableize($module);
+            $class_name = getModuleClassName($module);
             if (class_exists($class_name)) {
                 $this->{$parameterized_module} = new $class_name($this);
             } else {
@@ -95,12 +96,17 @@ class Client
         }
     }
 
+    private function getModule($module)
+    {
+        return $this->{Inflector::tableize($module)};
+    }
+
     public function request($module, $method, array $params = [], $pagination = false, $format = Core\ResponseFormat::JSON)
     {
         // Check if the requested module and method are both supported
         if (!$this->supports($module)) {
             throw new Exception\UnsupportedModuleException($module);
-        } elseif (!$this->{toSnakeCase($module)}->supports($method)) {
+        } elseif (!$this->getModule($module)->supports($method)) {
             throw new Exception\UnsupportedMethodException($module, $method);
         }
 

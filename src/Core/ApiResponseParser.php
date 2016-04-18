@@ -12,7 +12,7 @@ class ApiResponseParser
         $parsed_data = self::parse($data, $request->getFormat());
 
         if (self::validate($parsed_data)) {
-            $api_method_handler = "\\Zoho\\CRM\\Methods\\" . ucfirst($request->getMethod());
+            $api_method_handler = \Zoho\CRM\getMethodClassName(ucfirst($request->getMethod()));
             if (class_exists($api_method_handler))
                 return $api_method_handler::tidyResponse($parsed_data, $request->getModule());
             else
