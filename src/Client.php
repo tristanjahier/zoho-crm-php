@@ -139,6 +139,9 @@ class Client
         if ($this->preferences->getResponseMode() === ClientResponseMode::RECORDS_ARRAY) {
             // Unwrap the response content
             $response = $response->getContent();
+        } elseif ($this->preferences->getResponseMode() === ClientResponseMode::ENTITY) {
+            // Convert response data to an entity object
+            $response = $response->toEntity();
         }
 
         return $response;

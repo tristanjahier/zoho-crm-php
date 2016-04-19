@@ -39,4 +39,12 @@ class Response
     {
         return $this->paginated;
     }
+
+    public function toEntity()
+    {
+        $module_class = \Zoho\CRM\getModuleClassName($this->request->getModule());
+        $entity_name = $module_class::getAssociatedEntity();
+        $entity_class = \Zoho\CRM\getEntityClassName($entity_name);
+        return new $entity_class($this->content);
+    }
 }

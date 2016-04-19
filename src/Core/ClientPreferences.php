@@ -18,7 +18,7 @@ class ClientPreferences
     {
         $this->preferences = [
             'auto_fetch_paginated_requests' => true,
-            'response_mode' => ClientResponseMode::RECORDS_ARRAY
+            'response_mode' => ClientResponseMode::ENTITY
         ];
     }
 

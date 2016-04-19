@@ -3,24 +3,36 @@
 namespace Zoho\CRM\Modules;
 
 use Zoho\CRM\Client as ZohoClient;
+use Zoho\CRM\Core\BaseClassStaticHelper;
+use Doctrine\Common\Inflector\Inflector;
 
-abstract class AbstractModule
+abstract class AbstractModule extends BaseClassStaticHelper
 {
+    protected static $name;
+
+    protected static $associated_entity;
+
     protected $supported_methods = [];
 
     private $owner;
 
-    private $name;
-
     public function __construct(ZohoClient $owner)
     {
         $this->owner = $owner;
-        $this->name = (new \ReflectionClass(get_class($this)))->getShortName();
     }
 
-    public function getModuleName()
+    public static function getModuleName()
     {
-        return $this->name;
+        return self::getChildStaticProperty('name', self::class, function() {
+            return (new \ReflectionClass(static::class))->getShortName();
+        });
+    }
+
+    public static function getAssociatedEntity()
+    {
+        return self::getChildStaticProperty('associated_entity', self::class, function() {
+            return Inflector::singularize(self::getModuleName());
+        });
     }
 
     public function getModuleOwner()
@@ -40,7 +52,7 @@ abstract class AbstractModule
 
     protected function request($method, array $params = [], $pagination = false)
     {
-        return $this->owner->request($this->name, $method, $params, $pagination);
+        return $this->owner->request(self::getModuleName(), $method, $params, $pagination);
     }
 
     public function getFields(array $params = [], callable $filter = null)
