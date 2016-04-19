@@ -10,4 +10,9 @@ class GetRecordById extends GetRecords
         // Unwrap in case of single element
         return count($result) === 1 ? $result[0] : $result;
     }
+
+    public static function expectsMultipleRecords($request = null)
+    {
+        return isset($request) ? $request->getParameters()->contains('idlist') : false;
+    }
 }

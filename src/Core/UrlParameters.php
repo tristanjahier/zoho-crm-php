@@ -19,6 +19,11 @@ class UrlParameters implements \ArrayAccess
         return new UrlParameters(array_replace($this->parameters, $others));
     }
 
+    public function contains($key)
+    {
+        return isset($this->parameters[$key]);
+    }
+
     public function offsetSet($key, $value)
     {
         if ($key === null)
@@ -29,7 +34,7 @@ class UrlParameters implements \ArrayAccess
 
     public function offsetExists($key)
     {
-        return isset($this->parameters[$key]);
+        return $this->contains($key);
     }
 
     public function offsetUnset($key)

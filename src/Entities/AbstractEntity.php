@@ -25,7 +25,7 @@ abstract class AbstractEntity extends BaseClassStaticHelper
         });
     }
 
-    public function getRawData()
+    public function toArray()
     {
         return $this->properties;
     }
