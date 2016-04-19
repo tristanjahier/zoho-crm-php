@@ -14,9 +14,9 @@ class IdList implements \ArrayAccess
     public function offsetSet($key, $value)
     {
         if ($key === null)
-            $this->parameters[] = $value;
+            $this->id_list[] = $value;
         else
-            $this->parameters[$key] = $value;
+            $this->id_list[$key] = $value;
     }
 
     public function offsetExists($key)
