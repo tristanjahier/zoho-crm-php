@@ -52,4 +52,9 @@ abstract class AbstractEntity extends BaseClassStaticHelper
         else
             throw new UnsupportedEntityPropertyException($this->getEntityName(), $property);
     }
+
+    public function __toString()
+    {
+        return print_r($this->toArray(), true);
+    }
 }

@@ -47,8 +47,18 @@ class EntityCollection implements \ArrayAccess
         return count($this->entities);
     }
 
-    public function toArray()
+    public function getData()
     {
         return $this->entities;
+    }
+
+    public function toArray()
+    {
+        $result = [];
+
+        foreach ($this->entities as $entity)
+            $result[] = $entity->toArray();
+
+        return $result;
     }
 }
