@@ -25,9 +25,24 @@ abstract class AbstractEntity extends BaseClassStaticHelper
         });
     }
 
-    public function toArray()
+    public function getData()
     {
         return $this->properties;
+    }
+
+    public function toArray()
+    {
+        $hash = [];
+
+        // Reverse the properties keys mapping,
+        // from ['clean_name' => 'ZOHO NAME'] to ['ZOHO NAME' => 'clean_name']
+        $reversed_properties_mapping = array_flip(static::$properties_mapping);
+
+        // Generate a new hashmap with the entity's properties names as keys
+        foreach ($this->properties as $key => $value)
+            $hash[$reversed_properties_mapping[$key]] = $value;
+
+        return $hash;
     }
 
     public function __get($property)
