@@ -8,6 +8,8 @@ class Lead extends AbstractEntity
         'id'               => 'LEADID',
         'owner'            => 'SMOWNERID',
         'owner_name'       => 'Lead Owner',
+        'title'            => 'Salutation',
+        'first_name'       => 'First Name',
         'last_name'        => 'Last Name',
         'phone'            => 'Phone',
         'source'           => 'Lead Source',
