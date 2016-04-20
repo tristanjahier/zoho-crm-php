@@ -2,13 +2,15 @@
 
 namespace Zoho\CRM\Methods;
 
+use Zoho\CRM\Core\Request;
+
 class GetRecords extends AbstractMethod
 {
-    public static function tidyResponse(array $response, $module)
+    public static function tidyResponse(array $response, Request $request)
     {
         $entries = [];
 
-        foreach ($response['response']['result'][$module] as $rows) {
+        foreach ($response['response']['result'][$request->getModule()] as $rows) {
             // Determine if it is a single or multiple entries result
             $single = isset($rows['no']) && isset($rows['FL']);
 

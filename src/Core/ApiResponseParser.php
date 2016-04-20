@@ -14,7 +14,7 @@ class ApiResponseParser
         if (self::validate($parsed_data)) {
             $api_method_handler = \Zoho\CRM\getMethodClassName(ucfirst($request->getMethod()));
             if (class_exists($api_method_handler))
-                return $api_method_handler::tidyResponse($parsed_data, $request->getModule());
+                return $api_method_handler::tidyResponse($parsed_data, $request);
             else
                 throw new MethodNotFoundException("Method handler $api_method_handler not found.");
         } else {

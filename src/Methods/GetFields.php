@@ -2,10 +2,12 @@
 
 namespace Zoho\CRM\Methods;
 
+use Zoho\CRM\Core\Request;
+
 class GetFields extends AbstractMethod
 {
-    public static function tidyResponse(array $response, $module)
+    public static function tidyResponse(array $response, Request $request)
     {
-        return $response[$module]['section'];
+        return $response[$request->getModule()]['section'];
     }
 }
