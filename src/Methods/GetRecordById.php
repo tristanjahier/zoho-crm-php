@@ -10,7 +10,7 @@ class GetRecordById extends GetRecords
     {
         $result = parent::tidyResponse($response, $request);
         // Unwrap in case of single element
-        return count($result) === 1 ? $result[0] : $result;
+        return self::expectsMultipleRecords($request) ? $result : $result[0];
     }
 
     public static function expectsMultipleRecords($request = null)
