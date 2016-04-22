@@ -59,4 +59,12 @@ class Request
     {
         $this->parameters = $value;
     }
+
+    public function buildUri()
+    {
+        return $this->format . '/' .
+               $this->module . '/' .
+               $this->method . '?' .
+               $this->parameters;
+    }
 }
