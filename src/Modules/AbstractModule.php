@@ -4,6 +4,7 @@ namespace Zoho\CRM\Modules;
 
 use Zoho\CRM\Client as ZohoClient;
 use Zoho\CRM\Core\BaseClassStaticHelper;
+use Zoho\CRM\Core\UrlParameters;
 use Doctrine\Common\Inflector\Inflector;
 
 abstract class AbstractModule extends BaseClassStaticHelper
@@ -16,9 +17,12 @@ abstract class AbstractModule extends BaseClassStaticHelper
 
     private $owner;
 
+    protected $parameters_accumulator;
+
     public function __construct(ZohoClient $owner)
     {
         $this->owner = $owner;
+        $this->parameters_accumulator = new UrlParameters();
     }
 
     public static function getModuleName()
@@ -52,6 +56,8 @@ abstract class AbstractModule extends BaseClassStaticHelper
 
     protected function request($method, array $params = [], $pagination = false)
     {
+        $params = $this->parameters_accumulator->extend($params)->toArray();
+        $this->parameters_accumulator->reset();
         return $this->owner->request(self::getModuleName(), $method, $params, $pagination);
     }
 
@@ -92,5 +98,28 @@ abstract class AbstractModule extends BaseClassStaticHelper
     public function getMandatoryFields()
     {
         return $this->getFields(['type' => 2]);
+    }
+
+    public function orderBy($column, $order = 'asc')
+    {
+        $this->parameters_accumulator['sortColumnString'] = $column;
+        $this->parameters_accumulator['sortOrderString'] = $order;
+        return $this;
+    }
+
+    public function modifiedAfter($date)
+    {
+        if (!($date instanceof \DateTime))
+            $date = new \DateTime($date);
+
+        $this->parameters_accumulator['lastModifiedTime'] = $date->format('Y-m-d H:i:s');
+        return $this;
+    }
+
+    public function selectColumns(array $columns)
+    {
+        $selection_str = static::getModuleName() . '(' . implode(',', $columns) . ')';
+        $this->parameters_accumulator['selectColumns'] = $selection_str;
+        return $this;
     }
 }
