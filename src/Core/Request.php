@@ -4,6 +4,8 @@ namespace Zoho\CRM\Core;
 
 class Request
 {
+    private $http_verb;
+
     private $format;
 
     private $module;
@@ -12,12 +14,18 @@ class Request
 
     private $parameters;
 
-    public function __construct($format, $module, $method, UrlParameters $parameters)
+    public function __construct($format, $module, $method, UrlParameters $parameters, $http_verb = HttpVerb::GET)
     {
+        $this->http_verb = $http_verb;
         $this->format = $format;
         $this->module = $module;
         $this->method = $method;
         $this->parameters = $parameters;
+    }
+
+    public function getHttpVerb()
+    {
+        return $this->http_verb;
     }
 
     public function getFormat()
