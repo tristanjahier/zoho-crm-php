@@ -2,10 +2,13 @@
 
 namespace Zoho\CRM\Core;
 
+use Zoho\CRM\Core\ApiResponseType;
 use Zoho\CRM\Entities\EntityCollection;
 
 class Response
 {
+    private $type;
+
     private $request;
 
     private $raw_data;
@@ -23,7 +26,13 @@ class Response
         $this->content = $content;
         $this->paginated = is_array($raw_data);
         $method_class = \Zoho\CRM\getMethodClassName($this->request->getMethod());
+        $this->type = $method_class::getResponseType();
         $this->has_multiple_records = $method_class::expectsMultipleRecords($this->request);
+    }
+
+    public function getType()
+    {
+        return $this->type;
     }
 
     public function getRequest()
@@ -46,6 +55,11 @@ class Response
         return $this->paginated;
     }
 
+    public function containsRecords()
+    {
+        return $this->type === ApiResponseType::RECORDS;
+    }
+
     public function hasSingleRecord()
     {
         return !$this->has_multiple_records;
@@ -61,6 +75,11 @@ class Response
         $module_class = \Zoho\CRM\getModuleClassName($this->request->getModule());
         $entity_name = $module_class::getAssociatedEntity();
         $entity_class = \Zoho\CRM\getEntityClassName($entity_name);
+
+        // If no data has been retrieved, we cannot do anything...
+        if ($this->content === null) {
+            return null;
+        }
 
         if ($this->has_multiple_records) {
             $collection = new EntityCollection();

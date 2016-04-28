@@ -2,11 +2,14 @@
 
 namespace Zoho\CRM\Methods;
 
+use Zoho\CRM\Core\ApiResponseType;
 use Zoho\CRM\Core\Request;
 use Zoho\CRM\Core\HttpVerb;
 
 class InsertRecords extends AbstractMethod
 {
+    protected static $response_type = ApiResponseType::OTHER;
+
     protected static $http_verb = HttpVerb::POST;
 
     public static function tidyResponse(array $response, Request $request)

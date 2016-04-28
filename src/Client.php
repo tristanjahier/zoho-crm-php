@@ -126,6 +126,8 @@ class Client
         if ($pagination) {
             // If pagination is requested or required, let a paginator handle the request
             $paginator = new Core\ApiRequestPaginator($request);
+
+            // According to preferences, we may automatically fetch all for the user
             if ($this->preferences->getAutoFetchPaginatedRequests()) {
                 $paginator->fetchAll();
                 $response = $paginator->getAggregatedResponse();
@@ -139,12 +141,15 @@ class Client
             $response = new Core\Response($request, $raw_data, $clean_data);
         }
 
-        if ($this->preferences->getResponseMode() === ClientResponseMode::RECORDS_ARRAY) {
-            // Unwrap the response content
-            $response = $response->getContent();
-        } elseif ($this->preferences->getResponseMode() === ClientResponseMode::ENTITY) {
-            // Convert response data to an entity object
-            $response = $response->toEntity();
+        // Transform the response according to preferences
+        if ($this->preferences->getResponseMode() === ClientResponseMode::DIRECT) {
+            // If user prefers Entity objects rather than arrays,
+            // AND if the response contains records, convert them to entities
+            if ($this->preferences->getRecordsAsEntities() && $response->containsRecords()) {
+                return $response->toEntity();
+            } else {
+                return $response->getContent();
+            }
         }
 
         return $response;
