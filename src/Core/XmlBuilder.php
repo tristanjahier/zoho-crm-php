@@ -15,12 +15,12 @@ class XmlBuilder
         elseif ($records instanceof EntityCollection)
             $records = $records->toRawArray();
 
-        $document = new \SimpleXMLElement("<$module/>");
+        $xml = new \SimpleXMLElement("<$module/>");
 
         $row_count = 1;
 
         foreach ($records as $record) {
-            $row = $document->addChild('row');
+            $row = $xml->addChild('row');
             $row->addAttribute('no', $row_count);
 
             foreach ($record as $attr_name => $attr_value) {
@@ -31,6 +31,10 @@ class XmlBuilder
             $row_count++;
         }
 
-        return $document->asXML();
+        // We need to return the XML as a string,
+        // but also to get rid of the XML version declaration node.
+        // Otherwise Zoho won't be able to parse it...
+        $document = dom_import_simplexml($xml);
+        return $document->ownerDocument->saveXML($document->ownerDocument->documentElement);
     }
 }
