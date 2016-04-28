@@ -11,6 +11,7 @@ class Lead extends AbstractEntity
         'title'            => 'Salutation',
         'first_name'       => 'First Name',
         'last_name'        => 'Last Name',
+        'email'            => 'Email',
         'phone'            => 'Phone',
         'source'           => 'Lead Source',
         'created_by'       => 'SMCREATORID',

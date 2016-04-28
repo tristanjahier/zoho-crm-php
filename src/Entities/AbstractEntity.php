@@ -47,10 +47,24 @@ abstract class AbstractEntity extends BaseClassStaticHelper
 
     public function __get($property)
     {
-        if (array_key_exists($property, static::$properties_mapping))
-            return $this->properties[static::$properties_mapping[$property]];
-        else
+        if (array_key_exists($property, static::$properties_mapping)) {
+            if (isset($this->properties[static::$properties_mapping[$property]])) {
+                return $this->properties[static::$properties_mapping[$property]];
+            } else {
+                return null;
+            }
+        } else {
             throw new UnsupportedEntityPropertyException($this->getEntityName(), $property);
+        }
+    }
+
+    public function __set($property, $newvalue)
+    {
+        if (array_key_exists($property, static::$properties_mapping)) {
+            $this->properties[static::$properties_mapping[$property]] = $newvalue;
+        } else {
+            throw new UnsupportedEntityPropertyException($this->getEntityName(), $property);
+        }
     }
 
     public function __toString()
