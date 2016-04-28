@@ -52,6 +52,13 @@ class EntityCollection implements \ArrayAccess
         return $this->entities;
     }
 
+    public function toRawArray()
+    {
+        return array_map(function($entity) {
+            return $entity->getData();
+        }, $this->entities);
+    }
+
     public function toArray()
     {
         $result = [];
