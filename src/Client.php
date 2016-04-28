@@ -115,8 +115,11 @@ class Client
                               ->extend(['authtoken' => $this->auth_token])
                               ->extend($params);
 
+        // Determine the HTTP verb (GET or POST) to use based on the API method
+        $http_verb = getMethodClassName($method)::getHttpVerb();
+
         // Build a request object which encapsulates everything
-        $request = new Core\Request($format, $module, $method, $url_parameters);
+        $request = new Core\Request($format, $module, $method, $url_parameters, $http_verb);
 
         $response = null;
 

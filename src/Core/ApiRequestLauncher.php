@@ -23,8 +23,8 @@ class ApiRequestLauncher
 
     public static function fire(Request $request)
     {
-        $request_uri = $request->buildUri();
-        return self::$http_client->get($request_uri)->getBody()->getContents();
+        $response = self::$http_client->request($request->getHttpVerb(), $request->buildUri());
+        return $response->getBody()->getContents();
     }
 }
 

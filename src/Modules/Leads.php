@@ -3,6 +3,7 @@
 namespace Zoho\CRM\Modules;
 
 use Zoho\CRM\Core\IdList;
+use Zoho\CRM\Core\XmlBuilder;
 
 class Leads extends AbstractModule
 {
@@ -11,7 +12,8 @@ class Leads extends AbstractModule
         'getRecordById',
         'getRecords',
         'getMyRecords',
-        'searchRecords'
+        'searchRecords',
+        'insertRecords'
     ];
 
     public function getById($id)
@@ -37,5 +39,13 @@ class Leads extends AbstractModule
     public function getBy($key, $value)
     {
         return $this->search(urlencode($key) . ':' . urlencode($value));
+    }
+
+    public function insert($data)
+    {
+        return $this->request('insertRecords', [
+            'duplicateCheck' => 1,
+            'xmlData' => XmlBuilder::buildRecords(self::getModuleName(), $data)
+        ]);
     }
 }
