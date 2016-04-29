@@ -13,7 +13,8 @@ class Leads extends AbstractModule
         'getRecords',
         'getMyRecords',
         'searchRecords',
-        'insertRecords'
+        'insertRecords',
+        'updateRecords'
     ];
 
     public function getById($id)
@@ -46,6 +47,23 @@ class Leads extends AbstractModule
         return $this->request('insertRecords', [
             'version' => 4, // Required for full multiple records support
             'duplicateCheck' => 1,
+            'xmlData' => XmlBuilder::buildRecords(self::getModuleName(), $data)
+        ]);
+    }
+
+    public function update($id, $data)
+    {
+        return $this->request('updateRecords', [
+            'version' => 2, // Required for single record support
+            'id' => $id,
+            'xmlData' => XmlBuilder::buildRecords(self::getModuleName(), [$data])
+        ]);
+    }
+
+    public function updateMany($data)
+    {
+        return $this->request('updateRecords', [
+            'version' => 4, // Required for full multiple records support
             'xmlData' => XmlBuilder::buildRecords(self::getModuleName(), $data)
         ]);
     }
