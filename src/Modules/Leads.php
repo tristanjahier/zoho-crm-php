@@ -44,6 +44,7 @@ class Leads extends AbstractModule
     public function insert($data)
     {
         return $this->request('insertRecords', [
+            'version' => 4, // Required for full multiple records support
             'duplicateCheck' => 1,
             'xmlData' => XmlBuilder::buildRecords(self::getModuleName(), $data)
         ]);
