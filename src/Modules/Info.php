@@ -4,7 +4,7 @@ namespace Zoho\CRM\Modules;
 
 class Info extends AbstractModule
 {
-    protected $supported_methods = [
+    protected static $supported_methods = [
         'getModules'
     ];
 

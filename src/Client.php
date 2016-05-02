@@ -12,10 +12,10 @@ class Client
 
     private $preferences;
 
-    private $supported_modules = [
+    private static $supported_modules = [
         'Info',
-        'Leads',
-        'Users'
+        'Users',
+        'Leads'
     ];
 
     private $default_parameters = [
@@ -35,14 +35,14 @@ class Client
         $this->registerModules();
     }
 
-    public function getSupportedModules()
+    public static function supportedModules()
     {
-        return $this->supported_modules;
+        return self::$supported_modules;
     }
 
-    public function supports($module)
+    public static function supports($module)
     {
-        return in_array($module, $this->supported_modules);
+        return in_array($module, self::$supported_modules);
     }
 
     public function preferences()
@@ -85,7 +85,7 @@ class Client
 
     private function registerModules()
     {
-        foreach ($this->supported_modules as $module) {
+        foreach (self::$supported_modules as $module) {
             $parameterized_module = Inflector::tableize($module);
             $class_name = getModuleClassName($module);
             if (class_exists($class_name)) {

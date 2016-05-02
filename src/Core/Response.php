@@ -73,7 +73,7 @@ class Response
     public function toEntity()
     {
         $module_class = \Zoho\CRM\getModuleClassName($this->request->getModule());
-        $entity_name = $module_class::getAssociatedEntity();
+        $entity_name = $module_class::associatedEntity();
         $entity_class = \Zoho\CRM\getEntityClassName($entity_name);
 
         // If no data has been retrieved, we cannot do anything...

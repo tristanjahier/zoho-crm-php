@@ -13,7 +13,7 @@ abstract class AbstractModule extends BaseClassStaticHelper
 
     protected static $associated_entity;
 
-    protected $supported_methods = [];
+    protected static $supported_methods = [];
 
     private $owner;
 
@@ -25,18 +25,28 @@ abstract class AbstractModule extends BaseClassStaticHelper
         $this->parameters_accumulator = new UrlParameters();
     }
 
-    public static function getModuleName()
+    public static function moduleName()
     {
         return self::getChildStaticProperty('name', self::class, function() {
             return (new \ReflectionClass(static::class))->getShortName();
         });
     }
 
-    public static function getAssociatedEntity()
+    public static function associatedEntity()
     {
         return self::getChildStaticProperty('associated_entity', self::class, function() {
-            return Inflector::singularize(self::getModuleName());
+            return Inflector::singularize(self::moduleName());
         });
+    }
+
+    public static function supportedMethods()
+    {
+        return static::$supported_methods;
+    }
+
+    public static function supports($method)
+    {
+        return in_array($method, static::$supported_methods);
     }
 
     public function getModuleOwner()
@@ -44,21 +54,11 @@ abstract class AbstractModule extends BaseClassStaticHelper
         return $this->owner;
     }
 
-    public function getSupportedMethods()
-    {
-        return $this->supported_methods;
-    }
-
-    public function supports($method)
-    {
-        return in_array($method, $this->supported_methods);
-    }
-
     protected function request($method, array $params = [], $pagination = false)
     {
         $params = $this->parameters_accumulator->extend($params)->toArray();
         $this->parameters_accumulator->reset();
-        return $this->owner->request(self::getModuleName(), $method, $params, $pagination);
+        return $this->owner->request(self::moduleName(), $method, $params, $pagination);
     }
 
     public function getFields(array $params = [], callable $filter = null)
@@ -118,7 +118,7 @@ abstract class AbstractModule extends BaseClassStaticHelper
 
     public function selectColumns(array $columns)
     {
-        $selection_str = static::getModuleName() . '(' . implode(',', $columns) . ')';
+        $selection_str = static::moduleName() . '(' . implode(',', $columns) . ')';
         $this->parameters_accumulator['selectColumns'] = $selection_str;
         return $this;
     }

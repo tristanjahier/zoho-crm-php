@@ -18,7 +18,7 @@ abstract class AbstractEntity extends BaseClassStaticHelper
         $this->properties = $data;
     }
 
-    public static function getEntityName()
+    public static function entityName()
     {
         return self::getChildStaticProperty('name', self::class, function() {
             return (new \ReflectionClass(static::class))->getShortName();
@@ -54,7 +54,7 @@ abstract class AbstractEntity extends BaseClassStaticHelper
                 return null;
             }
         } else {
-            throw new UnsupportedEntityPropertyException($this->getEntityName(), $property);
+            throw new UnsupportedEntityPropertyException($this->entityName(), $property);
         }
     }
 
@@ -63,7 +63,7 @@ abstract class AbstractEntity extends BaseClassStaticHelper
         if (array_key_exists($property, static::$properties_mapping)) {
             $this->properties[static::$properties_mapping[$property]] = $newvalue;
         } else {
-            throw new UnsupportedEntityPropertyException($this->getEntityName(), $property);
+            throw new UnsupportedEntityPropertyException($this->entityName(), $property);
         }
     }
 

@@ -7,7 +7,7 @@ use Zoho\CRM\Core\XmlBuilder;
 
 class Leads extends AbstractModule
 {
-    protected $supported_methods = [
+    protected static $supported_methods = [
         'getFields',
         'getRecordById',
         'getRecords',
@@ -47,7 +47,7 @@ class Leads extends AbstractModule
         return $this->request('insertRecords', [
             'version' => 4, // Required for full multiple records support
             'duplicateCheck' => 1,
-            'xmlData' => XmlBuilder::buildRecords(self::getModuleName(), $data)
+            'xmlData' => XmlBuilder::buildRecords(self::moduleName(), $data)
         ]);
     }
 
@@ -56,7 +56,7 @@ class Leads extends AbstractModule
         return $this->request('updateRecords', [
             'version' => 2, // Required for single record support
             'id' => $id,
-            'xmlData' => XmlBuilder::buildRecords(self::getModuleName(), [$data])
+            'xmlData' => XmlBuilder::buildRecords(self::moduleName(), [$data])
         ]);
     }
 
@@ -64,7 +64,7 @@ class Leads extends AbstractModule
     {
         return $this->request('updateRecords', [
             'version' => 4, // Required for full multiple records support
-            'xmlData' => XmlBuilder::buildRecords(self::getModuleName(), $data)
+            'xmlData' => XmlBuilder::buildRecords(self::moduleName(), $data)
         ]);
     }
 }
