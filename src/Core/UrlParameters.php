@@ -24,6 +24,11 @@ class UrlParameters implements \ArrayAccess
         return isset($this->parameters[$key]);
     }
 
+    public function get($key)
+    {
+        return isset($this->parameters[$key]) ? $this->parameters[$key] : null;
+    }
+
     public function reset()
     {
         $this->parameters = [];
@@ -49,7 +54,7 @@ class UrlParameters implements \ArrayAccess
 
     public function offsetGet($key)
     {
-        return isset($this->parameters[$key]) ? $this->parameters[$key] : null;
+        return $this->get($key);
     }
 
     public function toArray()
