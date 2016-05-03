@@ -25,8 +25,21 @@ abstract class AbstractEntity extends BaseClassStaticHelper
         });
     }
 
-    public function property($property)
+    public function has($property)
     {
+        $clean = array_key_exists($property, static::$properties_mapping) &&
+                 isset($this->properties[static::$properties_mapping[$property]]);
+        $raw   = isset($this->properties[$property]);
+        return $clean || $raw;
+    }
+
+    public function get($property)
+    {
+        // Permissive mode: allows raw and clean property names
+        if (array_key_exists($property, static::$properties_mapping)) {
+            $property = static::$properties_mapping[$property];
+        }
+
         return isset($this->properties[$property]) ? $this->properties[$property] : null;
     }
 
