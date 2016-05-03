@@ -47,7 +47,7 @@ class EntityCollection implements \ArrayAccess
         return count($this->entities);
     }
 
-    public function getData()
+    public function rawData()
     {
         return $this->entities;
     }
@@ -55,7 +55,7 @@ class EntityCollection implements \ArrayAccess
     public function toRawArray()
     {
         return array_map(function($entity) {
-            return $entity->getData();
+            return $entity->rawData();
         }, $this->entities);
     }
 

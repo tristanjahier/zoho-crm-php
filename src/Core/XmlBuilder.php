@@ -11,7 +11,7 @@ class XmlBuilder
     {
         // If $records is an Entity or an EntityCollection, convert it to an array
         if ($records instanceof AbstractEntity)
-            $records = [$records->getData()];
+            $records = [$records->rawData()];
         elseif ($records instanceof EntityCollection)
             $records = $records->toRawArray();
 

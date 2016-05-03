@@ -25,7 +25,12 @@ abstract class AbstractEntity extends BaseClassStaticHelper
         });
     }
 
-    public function getData()
+    public function property($property)
+    {
+        return isset($this->properties[$property]) ? $this->properties[$property] : null;
+    }
+
+    public function rawData()
     {
         return $this->properties;
     }
@@ -39,8 +44,11 @@ abstract class AbstractEntity extends BaseClassStaticHelper
         $reversed_properties_mapping = array_flip(static::$properties_mapping);
 
         // Generate a new hashmap with the entity's properties names as keys
-        foreach ($this->properties as $key => $value)
-            $hash[$reversed_properties_mapping[$key]] = $value;
+        foreach ($this->properties as $key => $value) {
+            if (array_key_exists($key, $reversed_properties_mapping)) {
+                $hash[$reversed_properties_mapping[$key]] = $value;
+            }
+        }
 
         return $hash;
     }
