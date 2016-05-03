@@ -27,14 +27,14 @@ abstract class AbstractModule extends BaseClassStaticHelper
 
     public static function moduleName()
     {
-        return self::getChildStaticProperty('name', self::class, function() {
+        return self::getChildStaticProperty('name', function() {
             return (new \ReflectionClass(static::class))->getShortName();
         });
     }
 
     public static function associatedEntity()
     {
-        return self::getChildStaticProperty('associated_entity', self::class, function() {
+        return self::getChildStaticProperty('associated_entity', function() {
             return Inflector::singularize(self::moduleName());
         });
     }

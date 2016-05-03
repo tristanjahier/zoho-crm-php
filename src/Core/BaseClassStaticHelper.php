@@ -11,15 +11,26 @@ abstract class BaseClassStaticHelper
         unset($tmp);
     }
 
-    protected static function getChildStaticProperty($property_name, $base_class, callable $default)
+    protected static function getChildStaticProperty($property_name, callable $default)
     {
-        if (isset(static::$$property_name)) {
+        if (isset(static::$$property_name) || static::hasOwnProperty($property_name)) {
             return static::$$property_name;
-        } elseif (static::class !== $base_class) {
+        } elseif (!static::isAbstract()) {
             self::createChildStaticProperty(static::class, $property_name);
             return static::$$property_name = $default();
         } else {
-            return $default();
+            return null;
         }
+    }
+
+    protected static function hasOwnProperty($property_name)
+    {
+        $property = (new \ReflectionClass(static::class))->getProperty($property_name);
+        return $property->class === static::class;
+    }
+
+    protected static function isAbstract()
+    {
+        return (new \ReflectionClass(static::class))->isAbstract();
     }
 }

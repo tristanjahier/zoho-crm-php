@@ -20,7 +20,7 @@ abstract class AbstractEntity extends BaseClassStaticHelper
 
     public static function entityName()
     {
-        return self::getChildStaticProperty('name', self::class, function() {
+        return self::getChildStaticProperty('name', function() {
             return (new \ReflectionClass(static::class))->getShortName();
         });
     }
