@@ -15,7 +15,8 @@ class Client
     private static $supported_modules = [
         'Info',
         'Users',
-        'Leads'
+        'Leads',
+        'Potentials'
     ];
 
     private $default_parameters = [
