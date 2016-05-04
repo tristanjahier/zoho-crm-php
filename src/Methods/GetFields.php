@@ -11,6 +11,14 @@ class GetFields extends AbstractMethod
 
     public static function tidyResponse(array $response, Request $request)
     {
-        return $response[$request->getModule()]['section'];
+        $sections = $response[$request->getModule()]['section'];
+
+        // Single section or multiple sections?
+        // If single section: wrap it in an array to process it generically
+        if (isset($sections['FL'])) {
+            $sections = [$sections];
+        }
+
+        return $sections;
     }
 }
