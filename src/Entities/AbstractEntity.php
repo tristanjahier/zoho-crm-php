@@ -2,7 +2,7 @@
 
 namespace Zoho\CRM\Entities;
 
-use Zoho\CRM\Core\BaseClassStaticHelper;
+use Zoho\CRM\BaseClassStaticHelper;
 use Zoho\CRM\Exception\UnsupportedEntityPropertyException;
 
 abstract class AbstractEntity extends BaseClassStaticHelper

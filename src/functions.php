@@ -7,12 +7,12 @@ const FUNCTIONS_DEFINED = true;
 
 function getModuleClassName($name)
 {
-    return __NAMESPACE__ . "\\Modules\\$name";
+    return __NAMESPACE__ . "\\Api\\Modules\\$name";
 }
 
 function getMethodClassName($name)
 {
-    return __NAMESPACE__ . "\\Methods\\$name";
+    return __NAMESPACE__ . "\\Api\\Methods\\$name";
 }
 
 function getEntityClassName($name)

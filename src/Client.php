@@ -2,8 +2,7 @@
 
 namespace Zoho\CRM;
 
-use Zoho\CRM\Core\ApiRequestPaginator;
-use Zoho\CRM\Core\ClientResponseMode;
+use Zoho\CRM\ClientResponseMode;
 use Doctrine\Common\Inflector\Inflector;
 
 class Client
@@ -24,15 +23,15 @@ class Client
         'scope' => 'crmapi',
         'newFormat' => 1,
         'version' => 2,
-        'fromIndex' => Core\ApiRequestPaginator::MIN_INDEX,
-        'toIndex' => Core\ApiRequestPaginator::PAGE_MAX_SIZE
+        'fromIndex' => Api\RequestPaginator::MIN_INDEX,
+        'toIndex' => Api\RequestPaginator::PAGE_MAX_SIZE
     ];
 
     public function __construct($auth_token)
     {
         $this->setAuthToken($auth_token);
 
-        $this->preferences = new Core\ClientPreferences();
+        $this->preferences = new ClientPreferences();
 
         $this->registerModules();
     }
@@ -103,7 +102,7 @@ class Client
         return $this->{Inflector::tableize($module)};
     }
 
-    public function request($module, $method, array $params = [], $pagination = false, $format = Core\ResponseFormat::JSON)
+    public function request($module, $method, array $params = [], $pagination = false, $format = Api\ResponseFormat::JSON)
     {
         // Check if the requested module and method are both supported
         if (!$this->supports($module)) {
@@ -113,7 +112,7 @@ class Client
         }
 
         // Extend default parameters with the current auth token, and the user-defined parameters
-        $url_parameters = (new Core\UrlParameters($this->default_parameters))
+        $url_parameters = (new Api\UrlParameters($this->default_parameters))
                               ->extend(['authtoken' => $this->auth_token])
                               ->extend($params);
 
@@ -121,13 +120,13 @@ class Client
         $http_verb = getMethodClassName($method)::getHttpVerb();
 
         // Build a request object which encapsulates everything
-        $request = new Core\Request($format, $module, $method, $url_parameters, $http_verb);
+        $request = new Api\Request($format, $module, $method, $url_parameters, $http_verb);
 
         $response = null;
 
         if ($pagination) {
             // If pagination is requested or required, let a paginator handle the request
-            $paginator = new Core\ApiRequestPaginator($request);
+            $paginator = new Api\RequestPaginator($request);
 
             // According to preferences, we may automatically fetch all for the user
             if ($this->preferences->getAutoFetchPaginatedRequests()) {
@@ -138,9 +137,9 @@ class Client
             }
         } else {
             // Send the request to the Zoho API, parse, then finally clean its response
-            $raw_data = Core\ApiRequestLauncher::fire($request);
-            $clean_data = Core\ApiResponseParser::clean($request, $raw_data);
-            $response = new Core\Response($request, $raw_data, $clean_data);
+            $raw_data = Api\RequestLauncher::fire($request);
+            $clean_data = Api\ResponseParser::clean($request, $raw_data);
+            $response = new Api\Response($request, $raw_data, $clean_data);
         }
 
         // Transform the response according to preferences
