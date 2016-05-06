@@ -16,20 +16,20 @@ abstract class AbstractModule extends BaseClassStaticHelper
 
     protected static $supported_methods = [];
 
-    private $owner;
+    private $client;
 
     private $fields;
 
     protected $parameters_accumulator;
 
-    public function __construct(ZohoClient $owner)
+    public function __construct(ZohoClient $client)
     {
-        $this->owner = $owner;
+        $this->client = $client;
         $this->parameters_accumulator = new UrlParameters();
 
         // Add a meta module to retrieve this module's fields
         if (!($this instanceof ModuleFields)) {
-            $this->fields = new ModuleFields($owner, self::moduleName());
+            $this->fields = new ModuleFields($client, self::moduleName());
         }
     }
 
@@ -57,9 +57,9 @@ abstract class AbstractModule extends BaseClassStaticHelper
         return in_array($method, static::$supported_methods);
     }
 
-    public function getModuleOwner()
+    public function attachedClient()
     {
-        return $this->owner;
+        return $this->client;
     }
 
     public function fields()
@@ -76,7 +76,7 @@ abstract class AbstractModule extends BaseClassStaticHelper
     {
         $params = $this->parameters_accumulator->extend($params)->toArray();
         $this->parameters_accumulator->reset();
-        return $this->owner->request($this->managedModule(), $method, $params, $pagination);
+        return $this->client->request($this->managedModule(), $method, $params, $pagination);
     }
 
     public function orderBy($column, $order = 'asc')
