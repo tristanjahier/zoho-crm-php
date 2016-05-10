@@ -39,6 +39,13 @@ class ClientPreferences
             throw new UnsupportedClientPreferenceException($key);
     }
 
+    public function override(array $new_prefs)
+    {
+        foreach ($new_prefs as $key => $value) {
+            $this->set($key, $value);
+        }
+    }
+
     public function __call($method_name, $arguments)
     {
         if (strpos($method_name, 'get') === 0) {
