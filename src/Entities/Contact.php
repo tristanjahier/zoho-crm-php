@@ -2,25 +2,26 @@
 
 namespace Zoho\CRM\Entities;
 
-class Lead extends AbstractEntity
+class Contact extends AbstractEntity
 {
     protected static $properties_mapping = [
-        'id'                  => 'LEADID',
+        'id'                  => 'CONTACTID',
         'owner'               => 'SMOWNERID',
-        'owner_name'          => 'Lead Owner',
+        'owner_name'          => 'Contact Owner',
         'title'               => 'Salutation',
         'first_name'          => 'First Name',
         'last_name'           => 'Last Name',
-        'source'              => 'Lead Source',
+        'lead_source'         => 'Lead Source',
         'email'               => 'Email',
+        'fax'                 => 'Fax',
         'phone'               => 'Phone',
-        'mobile'              => 'Mobile',
-        'street'              => 'Street',
-        'city'                => 'City',
-        'state'               => 'State',
-        'zipcode'             => 'Zip Code',
+        'other_phone'         => 'Other Phone',
+        'mailing_street'      => 'Mailing Street',
+        'mailing_zipcode'     => 'Mailing Zip',
+        'mailing_city'        => 'Mailing City',
+        'mailing_state'       => 'Mailing State',
+        'email_opt_out'       => 'Email Opt Out',
         'description'         => 'Description',
-        'status'              => 'Lead Status',
         'average_time_spent'  => 'Average Time Spent (Minutes)',
         'chat_messages_count' => 'Number Of Chats',
         'days_visited'        => 'Days Visited',

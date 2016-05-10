@@ -16,7 +16,8 @@ class Client
         'Users',
         'Leads',
         'Potentials',
-        'Calls'
+        'Calls',
+        'Contacts'
     ];
 
     private $default_parameters = [
