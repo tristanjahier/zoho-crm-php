@@ -19,6 +19,16 @@ class GetFields extends AbstractMethod
             $sections = [$sections];
         }
 
+        foreach ($sections as &$section) {
+            $fields = $section['FL'];
+
+            // Single field or multiple fields?
+            // If single field: wrap it in an array to process it generically
+            if (isset($fields['dv'])) {
+                $section['FL'] = [$fields];
+            }
+        }
+
         return $sections;
     }
 }
