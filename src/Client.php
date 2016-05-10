@@ -98,7 +98,7 @@ class Client
         }
     }
 
-    private function getModule($module)
+    public function module($module)
     {
         return $this->{Inflector::tableize($module)};
     }
@@ -108,7 +108,7 @@ class Client
         // Check if the requested module and method are both supported
         if (!$this->supports($module)) {
             throw new Exception\UnsupportedModuleException($module);
-        } elseif (!$this->getModule($module)->supports($method)) {
+        } elseif (!$this->module($module)->supports($method)) {
             throw new Exception\UnsupportedMethodException($module, $method);
         }
 
