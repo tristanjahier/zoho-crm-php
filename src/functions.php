@@ -19,3 +19,8 @@ function getEntityClassName($name)
 {
     return __NAMESPACE__ . "\\Entities\\$name";
 }
+
+function booleanToString($le_bool)
+{
+    return $le_bool ? 'true' : 'false';
+}

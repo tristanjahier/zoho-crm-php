@@ -2,6 +2,8 @@
 
 namespace Zoho\CRM\Api;
 
+use function Zoho\CRM\booleanToString;
+
 class UrlParameters implements \ArrayAccess
 {
     private $parameters = [];
@@ -67,18 +69,32 @@ class UrlParameters implements \ArrayAccess
         $chunks = [];
 
         foreach ($this->parameters as $key => $value) {
-            $str = "$key";
+            $chunk = "$key";
 
             // Support for parameters with a value
             if ($value !== null) {
-                // Support for arrays: joining elements with comas
-                // i.e.: (el1,el2,el3,el4)
-                if (is_array($value))
+
+                // Support for arrays
+                if (is_array($value)) {
+                    // Stringify boolean values
+                    $value = array_map(function($el) {
+                        return is_bool($el) ? booleanToString($el) : $el;
+                    }, $value);
+
+                    // Join elements with comas i.e.: (el1,el2,el3,el4)
                     $value = '(' . implode(',', $value) . ')';
-                $str .= '=' . $value;
+
+                } else {
+                    // Stringify boolean values
+                    if (is_bool($value)) {
+                        $value = booleanToString($value);
+                    }
+                }
+
+                $chunk .= "=$value";
             }
 
-            $chunks[] = $str;
+            $chunks[] = $chunk;
         }
 
         return implode('&', $chunks);
