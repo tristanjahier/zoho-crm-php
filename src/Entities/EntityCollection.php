@@ -2,11 +2,11 @@
 
 namespace Zoho\CRM\Entities;
 
-class EntityCollection implements \ArrayAccess
+class EntityCollection implements \ArrayAccess, \IteratorAggregate, \Countable
 {
     private $entities = [];
 
-    public function push(AbstractEntity $entity)
+    public function add(AbstractEntity $entity)
     {
         $this->entities[] = $entity;
     }
@@ -42,9 +42,19 @@ class EntityCollection implements \ArrayAccess
         return $this->get($key);
     }
 
-    public function size()
+    public function getIterator()
+    {
+        return new \ArrayIterator($this->entities);
+    }
+
+    public function count()
     {
         return count($this->entities);
+    }
+
+    public function size()
+    {
+        return $this->count();
     }
 
     public function rawData()
