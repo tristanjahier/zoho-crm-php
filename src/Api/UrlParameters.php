@@ -4,7 +4,7 @@ namespace Zoho\CRM\Api;
 
 use function Zoho\CRM\booleanToString;
 
-class UrlParameters implements \ArrayAccess
+class UrlParameters implements \ArrayAccess, \IteratorAggregate, \Countable
 {
     private $parameters = [];
 
@@ -57,6 +57,16 @@ class UrlParameters implements \ArrayAccess
     public function offsetGet($key)
     {
         return $this->get($key);
+    }
+
+    public function getIterator()
+    {
+        return new \ArrayIterator($this->parameters);
+    }
+
+    public function count()
+    {
+        return count($this->parameters);
     }
 
     public function toArray()
