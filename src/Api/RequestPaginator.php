@@ -14,6 +14,8 @@ class RequestPaginator
 
     private $has_more_data = true;
 
+    private $fetch_count = 0;
+
     private $responses = [];
 
     public function __construct($request)
@@ -29,6 +31,11 @@ class RequestPaginator
     public function getResponses()
     {
         return $this->responses;
+    }
+
+    public function getNumberOfPagesFetched()
+    {
+        return $this->fetch_count;
     }
 
     public function hasMoreData()
@@ -63,6 +70,8 @@ class RequestPaginator
 
         // Move the record index pointer forward
         $this->last_fetched_index += self::PAGE_MAX_SIZE;
+
+        $this->fetch_count++;
 
         return $response;
     }
