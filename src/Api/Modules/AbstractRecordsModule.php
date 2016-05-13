@@ -7,6 +7,11 @@ use Zoho\CRM\Api\XmlBuilder;
 
 abstract class AbstractRecordsModule extends AbstractModule
 {
+    public function getAll()
+    {
+        return $this->request('getRecords', [], true);
+    }
+
     public function getById($id)
     {
         return $this->request('getRecordById', ['id' => $id]);

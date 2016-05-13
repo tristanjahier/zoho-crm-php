@@ -17,7 +17,7 @@ class ClientPreferences
     public function resetDefaults()
     {
         $this->preferences = [
-            'auto_fetch_paginated_requests' => true,
+            'auto_fetch_paginated_requests' => false,
             'response_mode' => ClientResponseMode::WRAPPED,
             'records_as_entities' => true
         ];
