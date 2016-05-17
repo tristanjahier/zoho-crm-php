@@ -53,6 +53,16 @@ abstract class AbstractEntity extends BaseClassStaticHelper
         return isset($this->properties[$property]) ? $this->properties[$property] : null;
     }
 
+    public function set($property, $value)
+    {
+        // Permissive mode: allows raw and clean property names
+        if (array_key_exists($property, static::$properties_mapping)) {
+            $property = static::$properties_mapping[$property];
+        }
+
+        $this->properties[$property] = $value;
+    }
+
     public function rawData()
     {
         return $this->properties;
