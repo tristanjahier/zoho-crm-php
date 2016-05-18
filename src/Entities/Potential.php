@@ -23,8 +23,8 @@ class Potential extends AbstractEntity
         'created_by_name'  => 'Created By',
         'modified_by'      => 'MODIFIEDBY',
         'modified_by_name' => 'Modified By',
-        'created_on'       => 'Created Time',
-        'modified_on'      => 'Modified Time',
-        'last_activity_on' => 'Last Activity Time'
+        'created_at'       => 'Created Time',
+        'modified_at'      => 'Modified Time',
+        'last_activity_at' => 'Last Activity Time'
     ];
 }

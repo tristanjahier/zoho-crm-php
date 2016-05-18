@@ -24,8 +24,8 @@ class Lead extends AbstractEntity
         'average_time_spent'  => 'Average Time Spent (Minutes)',
         'chat_messages_count' => 'Number Of Chats',
         'days_visited'        => 'Days Visited',
-        'last_visited_on'     => 'Last Visited Time',
-        'first_visited_on'    => 'First Visited Time',
+        'last_visited_at'     => 'Last Visited Time',
+        'first_visited_at'    => 'First Visited Time',
         'first_visited_url'   => 'First Visited URL',
         'visitor_score'       => 'Visitor Score',
         'referrer'            => 'Referrer',
@@ -33,8 +33,8 @@ class Lead extends AbstractEntity
         'created_by_name'     => 'Created By',
         'modified_by'         => 'MODIFIEDBY',
         'modified_by_name'    => 'Modified By',
-        'created_on'          => 'Created Time',
-        'modified_on'         => 'Modified Time',
-        'last_activity_on'    => 'Last Activity Time'
+        'created_at'          => 'Created Time',
+        'modified_at'         => 'Modified Time',
+        'last_activity_at'    => 'Last Activity Time'
     ];
 }

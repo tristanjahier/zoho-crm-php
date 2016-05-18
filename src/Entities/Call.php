@@ -12,7 +12,7 @@ class Call extends AbstractEntity
         'type'             => 'Call Type',
         'purpose'          => 'Call Purpose',
         'who_id'           => 'Who Id',
-        'started_on'       => 'Call Start Time',
+        'started_at'       => 'Call Start Time',
         'duration'         => 'Call Duration',
         'duration_seconds' => 'Call Duration (in seconds)',
         'description'      => 'Description',
@@ -22,7 +22,7 @@ class Call extends AbstractEntity
         'created_by_name'  => 'Created By',
         'modified_by'      => 'MODIFIEDBY',
         'modified_by_name' => 'Modified By',
-        'created_on'       => 'Created Time',
-        'modified_on'      => 'Modified Time',
+        'created_at'       => 'Created Time',
+        'modified_at'      => 'Modified Time',
     ];
 }
