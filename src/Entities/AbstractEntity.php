@@ -9,7 +9,7 @@ abstract class AbstractEntity extends BaseClassStaticHelper
 {
     protected static $name;
 
-    protected static $properties_mapping = [];
+    protected static $property_aliases = [];
 
     protected $properties = [];
 
@@ -27,7 +27,7 @@ abstract class AbstractEntity extends BaseClassStaticHelper
 
     public static function supportedProperties()
     {
-        return array_values(static::$properties_mapping);
+        return array_values(static::$property_aliases);
     }
 
     public static function supports($property)
@@ -37,8 +37,8 @@ abstract class AbstractEntity extends BaseClassStaticHelper
 
     public function has($property)
     {
-        $clean = array_key_exists($property, static::$properties_mapping) &&
-                 isset($this->properties[static::$properties_mapping[$property]]);
+        $clean = array_key_exists($property, static::$property_aliases) &&
+                 isset($this->properties[static::$property_aliases[$property]]);
         $raw   = isset($this->properties[$property]);
         return $clean || $raw;
     }
@@ -46,8 +46,8 @@ abstract class AbstractEntity extends BaseClassStaticHelper
     public function get($property)
     {
         // Permissive mode: allows raw and clean property names
-        if (array_key_exists($property, static::$properties_mapping)) {
-            $property = static::$properties_mapping[$property];
+        if (array_key_exists($property, static::$property_aliases)) {
+            $property = static::$property_aliases[$property];
         }
 
         return isset($this->properties[$property]) ? $this->properties[$property] : null;
@@ -56,8 +56,8 @@ abstract class AbstractEntity extends BaseClassStaticHelper
     public function set($property, $value)
     {
         // Permissive mode: allows raw and clean property names
-        if (array_key_exists($property, static::$properties_mapping)) {
-            $property = static::$properties_mapping[$property];
+        if (array_key_exists($property, static::$property_aliases)) {
+            $property = static::$property_aliases[$property];
         }
 
         $this->properties[$property] = $value;
@@ -74,37 +74,37 @@ abstract class AbstractEntity extends BaseClassStaticHelper
 
         // Reverse the properties keys mapping,
         // from ['clean_name' => 'ZOHO NAME'] to ['ZOHO NAME' => 'clean_name']
-        $reversed_properties_mapping = array_flip(static::$properties_mapping);
+        $reversed_property_aliases = array_flip(static::$property_aliases);
 
         // Generate a new hashmap with the entity's properties names as keys
         foreach ($this->properties as $key => $value) {
-            if (array_key_exists($key, $reversed_properties_mapping)) {
-                $hash[$reversed_properties_mapping[$key]] = $value;
+            if (array_key_exists($key, $reversed_property_aliases)) {
+                $hash[$reversed_property_aliases[$key]] = $value;
             }
         }
 
         return $hash;
     }
 
-    public function __get($property)
+    public function __get($alias)
     {
-        if (array_key_exists($property, static::$properties_mapping)) {
-            if (isset($this->properties[static::$properties_mapping[$property]])) {
-                return $this->properties[static::$properties_mapping[$property]];
+        if (array_key_exists($alias, static::$property_aliases)) {
+            if (isset($this->properties[static::$property_aliases[$alias]])) {
+                return $this->properties[static::$property_aliases[$alias]];
             } else {
                 return null;
             }
         } else {
-            throw new UnsupportedEntityPropertyException($this->entityName(), $property);
+            throw new UnsupportedEntityPropertyException($this->entityName(), $alias);
         }
     }
 
-    public function __set($property, $newvalue)
+    public function __set($alias, $value)
     {
-        if (array_key_exists($property, static::$properties_mapping)) {
-            $this->properties[static::$properties_mapping[$property]] = $newvalue;
+        if (array_key_exists($alias, static::$property_aliases)) {
+            $this->properties[static::$property_aliases[$alias]] = $value;
         } else {
-            throw new UnsupportedEntityPropertyException($this->entityName(), $property);
+            throw new UnsupportedEntityPropertyException($this->entityName(), $alias);
         }
     }
 

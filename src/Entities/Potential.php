@@ -4,7 +4,7 @@ namespace Zoho\CRM\Entities;
 
 class Potential extends AbstractEntity
 {
-    protected static $properties_mapping = [
+    protected static $property_aliases = [
         'id'               => 'POTENTIALID',
         'owner'            => 'SMOWNERID',
         'owner_name'       => 'Potential Owner',

@@ -4,7 +4,7 @@ namespace Zoho\CRM\Entities;
 
 class Lead extends AbstractEntity
 {
-    protected static $properties_mapping = [
+    protected static $property_aliases = [
         'id'                  => 'LEADID',
         'owner'               => 'SMOWNERID',
         'owner_name'          => 'Lead Owner',

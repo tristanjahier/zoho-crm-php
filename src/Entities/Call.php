@@ -4,7 +4,7 @@ namespace Zoho\CRM\Entities;
 
 class Call extends AbstractEntity
 {
-    protected static $properties_mapping = [
+    protected static $property_aliases = [
         'id'               => 'ACTIVITYID',
         'owner'            => 'SMOWNERID',
         'owner_name'       => 'Call Owner',

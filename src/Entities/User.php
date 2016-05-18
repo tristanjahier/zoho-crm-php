@@ -4,7 +4,7 @@ namespace Zoho\CRM\Entities;
 
 class User extends AbstractEntity
 {
-    protected static $properties_mapping = [
+    protected static $property_aliases = [
         'id'           => 'id',
         'zipcode'      => 'zip',
         'phone'        => 'phone',
