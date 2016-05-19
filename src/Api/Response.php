@@ -82,9 +82,13 @@ class Response
 
         if ($this->has_multiple_records) {
             $collection = new EntityCollection();
-            foreach ($this->content as $record)
+
+            foreach ($this->content as $record) {
                 $collection[] = new $entity_class($record);
-            return $collection;
+            }
+
+            // Remove potential duplicates before return
+            return $collection->removeDuplicatesOf($module_class::primaryKey());
         } else {
             return new $entity_class($this->content);
         }
