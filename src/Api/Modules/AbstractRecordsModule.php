@@ -7,6 +7,13 @@ use Zoho\CRM\Api\XmlBuilder;
 
 abstract class AbstractRecordsModule extends AbstractModule
 {
+    protected static $primary_key;
+
+    public static function primaryKey()
+    {
+        return static::$primary_key;
+    }
+
     public function getAll()
     {
         return $this->request('getRecords', [], true);
