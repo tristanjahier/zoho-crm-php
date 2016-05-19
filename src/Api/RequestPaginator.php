@@ -99,7 +99,7 @@ class RequestPaginator
         $clean_data = array_filter($clean_data);
 
         // Merge it all
-        $clean_data = array_merge(...$clean_data);
+        $clean_data = count($clean_data) > 0 ? array_merge(...$clean_data) : null;
 
         return new Response($this->request, $raw_data, $clean_data);
     }
