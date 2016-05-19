@@ -26,8 +26,8 @@ class EntityCollection implements \ArrayAccess, \IteratorAggregate, \Countable
 
     public function filtered(callable $filter)
     {
-        $new = clone $this;
-        return $new->filter($filter);
+        $copy = clone $this;
+        return $copy->filter($filter);
     }
 
     public function where($property, $operator, $value = null)
@@ -113,8 +113,8 @@ class EntityCollection implements \ArrayAccess, \IteratorAggregate, \Countable
 
     public function withoutDuplicatesOf($property, $strict = false)
     {
-        $new = clone $this;
-        return $new->removeDuplicatesOf($property, $strict);
+        $copy = clone $this;
+        return $copy->removeDuplicatesOf($property, $strict);
     }
 
     public function offsetSet($key, $value)
@@ -178,5 +178,16 @@ class EntityCollection implements \ArrayAccess, \IteratorAggregate, \Countable
             $result[] = $entity->toArray();
 
         return $result;
+    }
+
+    public function copy()
+    {
+        $copy = new EntityCollection();
+
+        foreach ($this->entities as $entity) {
+            $copy->add($entity->copy());
+        }
+
+        return $copy;
     }
 }

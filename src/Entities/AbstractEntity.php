@@ -86,6 +86,12 @@ abstract class AbstractEntity extends BaseClassStaticHelper
         return $hash;
     }
 
+    public function copy()
+    {
+        // Just a simple shallow copy because entities only have primitives attributes
+        return clone $this;
+    }
+
     public function __get($alias)
     {
         if (array_key_exists($alias, static::$property_aliases)) {
