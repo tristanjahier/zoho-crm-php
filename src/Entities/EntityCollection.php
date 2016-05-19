@@ -13,6 +13,11 @@ class EntityCollection implements \ArrayAccess, \IteratorAggregate, \Countable
         $this->entities[] = $entity;
     }
 
+    public function set($index, AbstractEntity $entity)
+    {
+        $this->entities[$index] = $entity;
+    }
+
     public function get($index)
     {
         return isset($this->entities[$index]) ? $this->entities[$index] : null;
@@ -119,13 +124,11 @@ class EntityCollection implements \ArrayAccess, \IteratorAggregate, \Countable
 
     public function offsetSet($key, $value)
     {
-        if (!$value instanceof AbstractEntity)
-            trigger_error(__CLASS__ . ' values must be instances of ' . AbstractEntity::class, E_USER_ERROR);
-
-        if ($key === null)
-            $this->entities[] = $value;
-        else
-            $this->entities[$key] = $value;
+        if ($key === null) {
+            $this->add($value);
+        } else {
+            $this->set($key, $value);
+        }
     }
 
     public function offsetExists($key)
@@ -174,8 +177,9 @@ class EntityCollection implements \ArrayAccess, \IteratorAggregate, \Countable
     {
         $result = [];
 
-        foreach ($this->entities as $entity)
+        foreach ($this->entities as $entity) {
             $result[] = $entity->toArray();
+        }
 
         return $result;
     }
