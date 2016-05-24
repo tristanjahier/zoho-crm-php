@@ -72,14 +72,14 @@ abstract class AbstractEntity extends BaseClassStaticHelper
     {
         $hash = [];
 
-        // Reverse the properties keys mapping,
+        // Reverse the property aliases mapping,
         // from ['clean_name' => 'ZOHO NAME'] to ['ZOHO NAME' => 'clean_name']
         $reversed_property_aliases = array_flip(static::$property_aliases);
 
-        // Generate a new hashmap with the entity's properties names as keys
-        foreach ($this->properties as $key => $value) {
-            if (array_key_exists($key, $reversed_property_aliases)) {
-                $hash[$reversed_property_aliases[$key]] = $value;
+        // Generate a new hashmap with the entity's property aliases as keys
+        foreach ($reversed_property_aliases as $prop => $alias) {
+            if (array_key_exists($prop, $this->properties)) {
+                $hash[$alias] = $this->properties[$prop];
             }
         }
 
