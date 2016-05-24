@@ -72,8 +72,7 @@ class Response
     public function toEntity()
     {
         $module_class = \Zoho\CRM\getModuleClassName($this->request->getModule());
-        $entity_name = $module_class::associatedEntity();
-        $entity_class = \Zoho\CRM\getEntityClassName($entity_name);
+        $entity_class = $module_class::associatedEntity();
 
         // If no data has been retrieved, we cannot do anything...
         if ($this->content === null) {
@@ -87,8 +86,12 @@ class Response
                 $collection[] = new $entity_class($record);
             }
 
-            // Remove potential duplicates before return
-            return $collection->removeDuplicatesOf($module_class::primaryKey());
+            // Remove potential duplicates
+            if ($this->containsRecords()) {
+                $collection->removeDuplicatesOf($module_class::primaryKey());
+            }
+
+            return $collection;
         } else {
             return new $entity_class($this->content);
         }

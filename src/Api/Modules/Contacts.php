@@ -6,6 +6,8 @@ class Contacts extends AbstractRecordsModule
 {
     protected static $primary_key = 'CONTACTID';
 
+    protected static $associated_entity = \Zoho\CRM\Entities\Contact::class;
+
     protected static $supported_methods = [
         'getFields',
         'getRecordById',

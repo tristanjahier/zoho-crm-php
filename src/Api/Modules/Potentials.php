@@ -6,6 +6,8 @@ class Potentials extends AbstractRecordsModule
 {
     protected static $primary_key = 'POTENTIALID';
 
+    protected static $associated_entity = \Zoho\CRM\Entities\Potential::class;
+
     protected static $supported_methods = [
         'getFields',
         'getRecordById',

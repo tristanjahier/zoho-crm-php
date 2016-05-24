@@ -113,6 +113,8 @@ class Client
             throw new Exception\UnsupportedMethodException($module, $method);
         }
 
+        $module_class = getModuleClassName($module);
+
         // Extend default parameters with the current auth token, and the user-defined parameters
         $url_parameters = (new Api\UrlParameters($this->default_parameters))
                               ->extend(['authtoken' => $this->auth_token])
@@ -144,11 +146,11 @@ class Client
             $response = new Api\Response($request, $raw_data, $clean_data);
         }
 
-        // Transform the response according to preferences
+        // Transform the response accordingly to preferences
         if ($this->preferences->getResponseMode() === ClientResponseMode::DIRECT) {
             // If user prefers Entity objects rather than arrays,
-            // AND if the response contains records, convert them to entities
-            if ($this->preferences->getRecordsAsEntities() && $response->containsRecords()) {
+            // AND if the module has an associated entity, convert data to entities
+            if ($this->preferences->getRecordsAsEntities() && $module_class::hasAssociatedEntity()) {
                 return $response->toEntity();
             } else {
                 return $response->getContent();

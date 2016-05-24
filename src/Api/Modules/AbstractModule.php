@@ -42,9 +42,12 @@ abstract class AbstractModule extends BaseClassStaticHelper
 
     public static function associatedEntity()
     {
-        return self::getChildStaticProperty('associated_entity', function() {
-            return Inflector::singularize(self::moduleName());
-        });
+        return static::$associated_entity;
+    }
+
+    public static function hasAssociatedEntity()
+    {
+        return static::$associated_entity !== null;
     }
 
     public static function supportedMethods()
