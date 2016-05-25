@@ -11,14 +11,20 @@ class ResponseParser
     {
         $parsed_data = self::parse($data, $request->getFormat());
 
-        if (self::validate($parsed_data)) {
-            $api_method_handler = \Zoho\CRM\getMethodClassName(ucfirst($request->getMethod()));
-            if (class_exists($api_method_handler))
-                return $api_method_handler::tidyResponse($parsed_data, $request);
-            else
-                throw new MethodNotFoundException("Method handler $api_method_handler not found.");
-        } else {
+        // Detect errors in the response
+        if (! self::validate($parsed_data)) {
             return null;
+        }
+
+        $api_method_handler = \Zoho\CRM\getMethodClassName(ucfirst($request->getMethod()));
+        if (! class_exists($api_method_handler)) {
+            throw new MethodNotFoundException("Method handler $api_method_handler not found.");
+        }
+
+        if ($api_method_handler::responseContainsData($parsed_data)) {
+            return $api_method_handler::tidyResponse($parsed_data, $request);
+        } else {
+            return null; // No data
         }
     }
 
@@ -50,14 +56,11 @@ class ResponseParser
     {
         if ($parsed === null || !is_array($parsed)) {
             throw new UnreadableResponseException();
+            return false;
         }
 
         if (isset($parsed['response']['error'])) {
             ErrorHandler::handle($parsed['response']['error']);
-        }
-
-        if (isset($parsed['response']['nodata'])) {
-            // It is not a fatal error, so we won't raise an exception
             return false;
         }
 
