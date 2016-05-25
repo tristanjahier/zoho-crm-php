@@ -16,7 +16,7 @@ class ResponseParser
             return null;
         }
 
-        $api_method_handler = \Zoho\CRM\getMethodClassName(ucfirst($request->getMethod()));
+        $api_method_handler = \Zoho\CRM\getMethodClassName($request->getMethod());
         if (! class_exists($api_method_handler)) {
             throw new MethodNotFoundException("Method handler $api_method_handler not found.");
         }
