@@ -13,6 +13,13 @@ class EntityCollection implements \ArrayAccess, \IteratorAggregate, \Countable
         $this->entities[] = $entity;
     }
 
+    public function remove($index)
+    {
+        unset($this->entities[$index]);
+        // Rebase array indexes
+        $this->entities = array_values($this->entities);
+    }
+
     public function set($index, AbstractEntity $entity)
     {
         $this->entities[$index] = $entity;
@@ -153,12 +160,22 @@ class EntityCollection implements \ArrayAccess, \IteratorAggregate, \Countable
 
     public function count()
     {
-        return count($this->entities);
+        return $this->size();
     }
 
     public function size()
     {
-        return $this->count();
+        return count($this->entities);
+    }
+
+    public function first()
+    {
+        return $this->size() > 0 ? $this->entities[0] : null;
+    }
+
+    public function last()
+    {
+        return $this->size() > 0 ? $this->entities[$this->size() - 1] : null;
     }
 
     public function rawData()
