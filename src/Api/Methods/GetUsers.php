@@ -18,8 +18,17 @@ class GetUsers extends AbstractMethod
     {
         $entries = [];
 
-        foreach ($response['users']['user'] as $user)
+        $users = $response['users']['user'];
+
+        // Single user or multiple users?
+        // If single user: wrap it in an array to process it generically
+        if (isset($users['id'])) {
+            $users = [$users];
+        }
+
+        foreach ($users as $user) {
             $entries[] = $user;
+        }
 
         return $entries;
     }

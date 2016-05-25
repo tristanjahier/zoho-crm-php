@@ -13,8 +13,9 @@ class GetModules extends AbstractMethod
     {
         $entries = [];
 
-        foreach ($response['response']['result']['row'] as $row)
+        foreach ($response['response']['result']['row'] as $row) {
             $entries[] = $row;
+        }
 
         return $entries;
     }

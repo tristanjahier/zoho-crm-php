@@ -53,8 +53,9 @@ class InsertRecords extends AbstractMethod
 
             // Single record or multiple records?
             // If single record: wrap it in an array to process it generically
-            if (isset($records['no']))
+            if (isset($records['no'])) {
                 $records = [$records];
+            }
 
             // For each record successfully insert, grab its ID
             foreach ($records as $record) {
@@ -68,8 +69,9 @@ class InsertRecords extends AbstractMethod
 
                 // Single attribute or multiple attributes?
                 // If single attribute: wrap it in an array to process it generically
-                if (isset($attributes['content']) && isset($attributes['val']))
+                if (isset($attributes['content']) && isset($attributes['val'])) {
                     $attributes = [$attributes];
+                }
 
                 foreach ($attributes as $attribute) {
                     if ($attribute['val'] === 'Id') {

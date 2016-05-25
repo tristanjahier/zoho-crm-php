@@ -13,8 +13,9 @@ class GetRecords extends AbstractMethod
         foreach ($response['response']['result'][$request->getModule()] as $rows) {
             // Single record or multiple records?
             // If single record: wrap it in an array to process it generically
-            if (isset($rows['no']) && isset($rows['FL']))
+            if (isset($rows['no']) && isset($rows['FL'])) {
                 $rows = [$rows];
+            }
 
             // For each record, convert it to an associative array ["field name" => "field value"]
             foreach ($rows as $row) {
@@ -23,11 +24,13 @@ class GetRecords extends AbstractMethod
 
                 // Single attribute or multiple attributes?
                 // If single attribute: wrap it in an array to process it generically
-                if (isset($attributes['content']) && isset($attributes['val']))
+                if (isset($attributes['content']) && isset($attributes['val'])) {
                     $attributes = [$attributes];
+                }
 
-                foreach ($attributes as $attr)
+                foreach ($attributes as $attr) {
                     $record[$attr['val']] = $attr['content'];
+                }
 
                 $records[] = $record;
             }
