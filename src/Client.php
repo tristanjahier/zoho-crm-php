@@ -3,15 +3,12 @@
 namespace Zoho\CRM;
 
 use Zoho\CRM\ClientResponseMode;
+use Zoho\CRM\Api\Modules\AbstractModule;
 use Doctrine\Common\Inflector\Inflector;
 
 class Client
 {
-    private $auth_token;
-
-    private $preferences;
-
-    private static $supported_modules = [
+    private static $default_modules = [
         'Info',
         'Users',
         'Leads',
@@ -21,6 +18,10 @@ class Client
         'Products'
     ];
 
+    private $auth_token;
+
+    private $preferences;
+
     private $default_parameters = [
         'scope' => 'crmapi',
         'newFormat' => 1,
@@ -29,23 +30,78 @@ class Client
         'toIndex' => Api\RequestPaginator::PAGE_MAX_SIZE
     ];
 
+    private $custom_modules = [];
+
     public function __construct($auth_token)
     {
         $this->setAuthToken($auth_token);
 
         $this->preferences = new ClientPreferences();
 
-        $this->registerModules();
+        $this->loadDefaultModules();
     }
 
-    public static function supportedModules()
+    public static function defaultModules()
     {
-        return self::$supported_modules;
+        return self::$default_modules;
     }
 
-    public static function supports($module)
+    public function supportedModules()
     {
-        return in_array($module, self::$supported_modules);
+        // Custom modules are registered by full class name,
+        // so we need to collect their short name
+        $custom_modules = array_map(function($m) {
+            return $m::moduleName();
+        }, $this->custom_modules);
+
+        return array_merge(self::$default_modules, $custom_modules);
+    }
+
+    public function supports($module)
+    {
+        return in_array($module, $this->supportedModules());
+    }
+
+    private function instantiateModule($module)
+    {
+        if (! class_exists($module)) {
+            throw new Exception\ModuleNotFoundException($module);
+        }
+
+        if (! in_array(AbstractModule::class, class_parents($module))) {
+            throw new Exception\InvalidModuleException('Zoho modules must extend ' . AbstractModule::class);
+        }
+
+        $parameterized_name = Inflector::tableize($module::moduleName());
+        return $this->{$parameterized_name} = new $module($this);
+    }
+
+    private function loadDefaultModules()
+    {
+        foreach (self::$default_modules as $module) {
+            $class_name = getModuleClassName($module);
+            $this->instantiateModule($class_name);
+        }
+    }
+
+    public function registerCustomModule($module)
+    {
+        // Register only if it is valid and instantiable
+        if ($this->instantiateModule($module)) {
+            $this->custom_modules[] = $module;
+        }
+    }
+
+    public function registerCustomModules(array $modules)
+    {
+        foreach ($modules as $module) {
+            $this->registerCustomModule($module);
+        }
+    }
+
+    public function module($module)
+    {
+        return $this->{Inflector::tableize($module)};
     }
 
     public function preferences()
@@ -84,24 +140,6 @@ class Client
     public function unsetDefaultParameter($key)
     {
         unset($this->default_parameters[$key]);
-    }
-
-    private function registerModules()
-    {
-        foreach (self::$supported_modules as $module) {
-            $parameterized_module = Inflector::tableize($module);
-            $class_name = getModuleClassName($module);
-            if (class_exists($class_name)) {
-                $this->{$parameterized_module} = new $class_name($this);
-            } else {
-                throw new Exception\ModuleNotFoundException("Module $class_name not found.");
-            }
-        }
-    }
-
-    public function module($module)
-    {
-        return $this->{Inflector::tableize($module)};
     }
 
     public function request($module, $method, array $params = [], $pagination = false, $format = Api\ResponseFormat::JSON)
