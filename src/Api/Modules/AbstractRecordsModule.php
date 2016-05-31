@@ -59,7 +59,7 @@ abstract class AbstractRecordsModule extends AbstractModule
         return $this->request('insertRecords', [
             'version' => 4, // Required for full multiple records support
             'duplicateCheck' => 1,
-            'xmlData' => XmlBuilder::buildRecords(self::moduleName(), $data)
+            'xmlData' => XmlBuilder::buildRecords(self::name(), $data)
         ]);
     }
 
@@ -68,7 +68,7 @@ abstract class AbstractRecordsModule extends AbstractModule
         return $this->request('updateRecords', [
             'version' => 2, // Required for single record support
             'id' => $id,
-            'xmlData' => XmlBuilder::buildRecords(self::moduleName(), [$data])
+            'xmlData' => XmlBuilder::buildRecords(self::name(), [$data])
         ]);
     }
 
@@ -76,7 +76,7 @@ abstract class AbstractRecordsModule extends AbstractModule
     {
         return $this->request('updateRecords', [
             'version' => 4, // Required for full multiple records support
-            'xmlData' => XmlBuilder::buildRecords(self::moduleName(), $data)
+            'xmlData' => XmlBuilder::buildRecords(self::name(), $data)
         ]);
     }
 }

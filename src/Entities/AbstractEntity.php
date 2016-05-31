@@ -2,11 +2,13 @@
 
 namespace Zoho\CRM\Entities;
 
-use Zoho\CRM\BaseClassStaticHelper;
+use Zoho\CRM\ClassShortNameTrait;
 use Zoho\CRM\Exception\UnsupportedEntityPropertyException;
 
-abstract class AbstractEntity extends BaseClassStaticHelper
+abstract class AbstractEntity
 {
+    use ClassShortNameTrait;
+
     protected static $name;
 
     protected static $property_aliases = [];
@@ -18,11 +20,9 @@ abstract class AbstractEntity extends BaseClassStaticHelper
         $this->properties = $data;
     }
 
-    public static function entityName()
+    public static function name()
     {
-        return self::getChildStaticProperty('name', function() {
-            return (new \ReflectionClass(static::class))->getShortName();
-        });
+        return isset(static::$name) ? static::$name : self::getClassShortName();
     }
 
     public static function supportedProperties()
@@ -101,7 +101,7 @@ abstract class AbstractEntity extends BaseClassStaticHelper
                 return null;
             }
         } else {
-            throw new UnsupportedEntityPropertyException($this->entityName(), $alias);
+            throw new UnsupportedEntityPropertyException($this->name(), $alias);
         }
     }
 
@@ -110,7 +110,7 @@ abstract class AbstractEntity extends BaseClassStaticHelper
         if (array_key_exists($alias, static::$property_aliases)) {
             $this->properties[static::$property_aliases[$alias]] = $value;
         } else {
-            throw new UnsupportedEntityPropertyException($this->entityName(), $alias);
+            throw new UnsupportedEntityPropertyException($this->name(), $alias);
         }
     }
 

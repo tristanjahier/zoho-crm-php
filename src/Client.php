@@ -51,7 +51,7 @@ class Client
         // Custom modules are registered by full class name,
         // so we need to collect their short name
         $custom_modules = array_map(function($m) {
-            return $m::moduleName();
+            return $m::name();
         }, $this->custom_modules);
 
         return array_merge(self::$default_modules, $custom_modules);
@@ -72,7 +72,7 @@ class Client
             throw new Exception\InvalidModuleException('Zoho modules must extend ' . AbstractModule::class);
         }
 
-        $parameterized_name = Inflector::tableize($module::moduleName());
+        $parameterized_name = Inflector::tableize($module::name());
         return $this->{$parameterized_name} = new $module($this);
     }
 

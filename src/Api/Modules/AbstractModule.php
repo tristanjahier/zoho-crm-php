@@ -3,13 +3,15 @@
 namespace Zoho\CRM\Api\Modules;
 
 use Zoho\CRM\Client as ZohoClient;
-use Zoho\CRM\BaseClassStaticHelper;
+use Zoho\CRM\ClassShortNameTrait;
 use Zoho\CRM\Api\UrlParameters;
 use Zoho\CRM\Api\Modules\ModuleFields;
 use Doctrine\Common\Inflector\Inflector;
 
-abstract class AbstractModule extends BaseClassStaticHelper
+abstract class AbstractModule
 {
+    use ClassShortNameTrait;
+
     protected static $name;
 
     protected static $associated_entity;
@@ -29,15 +31,13 @@ abstract class AbstractModule extends BaseClassStaticHelper
 
         // Add a meta module to retrieve this module's fields
         if (!($this instanceof ModuleFields)) {
-            $this->fields = new ModuleFields($client, self::moduleName());
+            $this->fields = new ModuleFields($client, self::name());
         }
     }
 
-    public static function moduleName()
+    public static function name()
     {
-        return self::getChildStaticProperty('name', function() {
-            return (new \ReflectionClass(static::class))->getShortName();
-        });
+        return isset(static::$name) ? static::$name : self::getClassShortName();
     }
 
     public static function associatedEntity()
@@ -72,7 +72,7 @@ abstract class AbstractModule extends BaseClassStaticHelper
 
     private function managedModule()
     {
-        return $this instanceof AbstractProxyModule ? $this->mandatedModule() : self::moduleName();
+        return $this instanceof AbstractProxyModule ? $this->mandatedModule() : self::name();
     }
 
     protected function request($method, array $params = [], $pagination = false)
