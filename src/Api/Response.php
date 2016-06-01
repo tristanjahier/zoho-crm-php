@@ -66,4 +66,10 @@ class Response
     {
         return $this->has_multiple_records;
     }
+
+    public function isConvertibleToEntity()
+    {
+        return $this->type === ResponseDataType::RECORDS ||
+               $this->request->getMethod() === 'getUsers';
+    }
 }

@@ -192,7 +192,7 @@ class Client
         // AND the data is convertible into entities
         // AND the module has an associated entity class
         $convert_to_entity = $this->preferences->getRecordsAsEntities() &&
-                             $response->containsRecords() &&
+                             $response->isConvertibleToEntity() &&
                              $module_class::hasAssociatedEntity();
 
         if ($convert_to_entity) {
