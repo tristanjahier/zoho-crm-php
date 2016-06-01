@@ -3,6 +3,7 @@
 namespace Zoho\CRM\Entities;
 
 use Zoho\CRM\Exception\InvalidComparisonOperatorException;
+use Zoho\CRM\Api\Response;
 
 class EntityCollection implements \ArrayAccess, \IteratorAggregate, \Countable
 {
@@ -210,5 +211,27 @@ class EntityCollection implements \ArrayAccess, \IteratorAggregate, \Countable
         }
 
         return $copy;
+    }
+
+    public static function createFromResponse(Response $response)
+    {
+        if ($response->getContent() === null) {
+            return null;
+        }
+
+        $module_class = $response->getRequest()->getModuleClass();
+        $entity_class = $module_class::associatedEntity();
+        $collection = new EntityCollection();
+
+        foreach ($response->getContent() as $record) {
+            $collection[] = new $entity_class($record);
+        }
+
+        // Remove potential duplicates
+        if ($response->containsRecords()) {
+            $collection->removeDuplicatesOf($module_class::primaryKey());
+        }
+
+        return $collection;
     }
 }

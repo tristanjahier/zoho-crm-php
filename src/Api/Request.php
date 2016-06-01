@@ -2,8 +2,12 @@
 
 namespace Zoho\CRM\Api;
 
+use Zoho\CRM\Client as ZohoClient;
+
 class Request
 {
+    private $emitter;
+
     private $http_verb;
 
     private $format;
@@ -14,13 +18,19 @@ class Request
 
     private $parameters;
 
-    public function __construct($format, $module, $method, UrlParameters $parameters, $http_verb = HttpVerb::GET)
+    public function __construct(ZohoClient $emitter, $format, $module, $method, UrlParameters $parameters, $http_verb = HttpVerb::GET)
     {
+        $this->emitter = $emitter;
         $this->http_verb = $http_verb;
         $this->format = $format;
         $this->module = $module;
         $this->method = $method;
         $this->parameters = $parameters;
+    }
+
+    public function getEmitter()
+    {
+        return $this->emitter;
     }
 
     public function getHttpVerb()
@@ -74,5 +84,10 @@ class Request
                $this->module . '/' .
                $this->method . '?' .
                $this->parameters;
+    }
+
+    public function getModuleClass()
+    {
+        return $this->emitter->moduleClass($this->module);
     }
 }

@@ -2,8 +2,6 @@
 
 namespace Zoho\CRM\Api;
 
-use Zoho\CRM\Entities\EntityCollection;
-
 class Response
 {
     private $type;
@@ -67,33 +65,5 @@ class Response
     public function hasMultipleRecords()
     {
         return $this->has_multiple_records;
-    }
-
-    public function toEntity()
-    {
-        $module_class = \Zoho\CRM\getModuleClassName($this->request->getModule());
-        $entity_class = $module_class::associatedEntity();
-
-        // If no data has been retrieved, we cannot do anything...
-        if ($this->content === null) {
-            return null;
-        }
-
-        if ($this->has_multiple_records) {
-            $collection = new EntityCollection();
-
-            foreach ($this->content as $record) {
-                $collection[] = new $entity_class($record);
-            }
-
-            // Remove potential duplicates
-            if ($this->containsRecords()) {
-                $collection->removeDuplicatesOf($module_class::primaryKey());
-            }
-
-            return $collection;
-        } else {
-            return new $entity_class($this->content);
-        }
     }
 }

@@ -4,6 +4,7 @@ namespace Zoho\CRM\Entities;
 
 use Zoho\CRM\ClassShortNameTrait;
 use Zoho\CRM\Exception\UnsupportedEntityPropertyException;
+use Zoho\CRM\Api\Response;
 
 abstract class AbstractEntity
 {
@@ -117,5 +118,17 @@ abstract class AbstractEntity
     public function __toString()
     {
         return print_r($this->toArray(), true);
+    }
+
+    public static function createFromResponse(Response $response)
+    {
+        if ($response->getContent() === null) {
+            return null;
+        }
+
+        $module_class = $response->getRequest()->getModuleClass();
+        $entity_class = $module_class::associatedEntity();
+
+        return new $entity_class($response->getContent());
     }
 }

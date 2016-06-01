@@ -3,6 +3,8 @@
 namespace Zoho\CRM;
 
 use Zoho\CRM\ClientResponseMode;
+use Zoho\CRM\Entities\AbstractEntity;
+use Zoho\CRM\Entities\EntityCollection;
 use Zoho\CRM\Api\Modules\AbstractModule;
 use Doctrine\Common\Inflector\Inflector;
 
@@ -30,7 +32,7 @@ class Client
         'toIndex' => Api\RequestPaginator::PAGE_MAX_SIZE
     ];
 
-    private $custom_modules = [];
+    private $modules = [];
 
     public function __construct($auth_token)
     {
@@ -38,7 +40,7 @@ class Client
 
         $this->preferences = new ClientPreferences();
 
-        $this->loadDefaultModules();
+        $this->attachDefaultModules();
     }
 
     public static function defaultModules()
@@ -48,13 +50,7 @@ class Client
 
     public function supportedModules()
     {
-        // Custom modules are registered by full class name,
-        // so we need to collect their short name
-        $custom_modules = array_map(function($m) {
-            return $m::name();
-        }, $this->custom_modules);
-
-        return array_merge(self::$default_modules, $custom_modules);
+        return array_keys($this->modules);
     }
 
     public function supports($module)
@@ -62,7 +58,7 @@ class Client
         return in_array($module, $this->supportedModules());
     }
 
-    private function instantiateModule($module)
+    public function attachModule($module)
     {
         if (! class_exists($module)) {
             throw new Exception\ModuleNotFoundException($module);
@@ -72,31 +68,28 @@ class Client
             throw new Exception\InvalidModuleException('Zoho modules must extend ' . AbstractModule::class);
         }
 
+        $this->modules[$module::name()] = $module;
         $parameterized_name = Inflector::tableize($module::name());
         return $this->{$parameterized_name} = new $module($this);
     }
 
-    private function loadDefaultModules()
-    {
-        foreach (self::$default_modules as $module) {
-            $class_name = getModuleClassName($module);
-            $this->instantiateModule($class_name);
-        }
-    }
-
-    public function registerCustomModule($module)
-    {
-        // Register only if it is valid and instantiable
-        if ($this->instantiateModule($module)) {
-            $this->custom_modules[] = $module;
-        }
-    }
-
-    public function registerCustomModules(array $modules)
+    public function attachModules(array $modules)
     {
         foreach ($modules as $module) {
-            $this->registerCustomModule($module);
+            $this->attachModule($module);
         }
+    }
+
+    private function attachDefaultModules()
+    {
+        foreach (self::$default_modules as $module) {
+            $this->attachModule(getModuleClassName($module));
+        }
+    }
+
+    public function moduleClass($name)
+    {
+        return isset($this->modules[$name]) ? $this->modules[$name] : null;
     }
 
     public function module($module)
@@ -145,13 +138,13 @@ class Client
     public function request($module, $method, array $params = [], $pagination = false, $format = Api\ResponseFormat::JSON)
     {
         // Check if the requested module and method are both supported
-        if (!$this->supports($module)) {
+        if (! $this->supports($module)) {
             throw new Exception\UnsupportedModuleException($module);
-        } elseif (!$this->module($module)->supports($method)) {
+        } elseif (! $this->module($module)->supports($method)) {
             throw new Exception\UnsupportedMethodException($module, $method);
         }
 
-        $module_class = getModuleClassName($module);
+        $module_class = $this->moduleClass($module);
 
         // Extend default parameters with the current auth token, and the user-defined parameters
         $url_parameters = (new Api\UrlParameters($this->default_parameters))
@@ -162,7 +155,7 @@ class Client
         $http_verb = getMethodClassName($method)::getHttpVerb();
 
         // Build a request object which encapsulates everything
-        $request = new Api\Request($format, $module, $method, $url_parameters, $http_verb);
+        $request = new Api\Request($this, $format, $module, $method, $url_parameters, $http_verb);
 
         $response = null;
 
@@ -178,23 +171,38 @@ class Client
                 return $paginator;
             }
         } else {
-            // Send the request to the Zoho API, parse, then finally clean its response
+            // Send request to Zoho, parse, then finally clean its response
             $raw_data = Api\RequestLauncher::fire($request);
             $clean_data = Api\ResponseParser::clean($request, $raw_data);
             $response = new Api\Response($request, $raw_data, $clean_data);
         }
 
-        // Transform the response accordingly to preferences
-        if ($this->preferences->getResponseMode() === ClientResponseMode::DIRECT) {
-            // If user prefers Entity objects rather than arrays,
-            // AND if the module has an associated entity, convert data to entities
-            if ($this->preferences->getRecordsAsEntities() && $module_class::hasAssociatedEntity()) {
-                return $response->toEntity();
+        return $this->preferredResponse($response);
+    }
+
+    private function preferredResponse(Api\Response $response)
+    {
+        if ($this->preferences->getResponseMode() === ClientResponseMode::WRAPPED) {
+            return $response;
+        }
+
+        $module_class = $response->getRequest()->getModuleClass();
+
+        // If the developer prefers entity objects rather than arrays
+        // AND the data is convertible into entities
+        // AND the module has an associated entity class
+        $convert_to_entity = $this->preferences->getRecordsAsEntities() &&
+                             $response->containsRecords() &&
+                             $module_class::hasAssociatedEntity();
+
+        if ($convert_to_entity) {
+            if ($response->hasMultipleRecords()) {
+                return EntityCollection::createFromResponse($response);
             } else {
-                return $response->getContent();
+                return AbstractEntity::createFromResponse($response);
             }
         }
 
-        return $response;
+        return $response->getContent();
     }
 }
