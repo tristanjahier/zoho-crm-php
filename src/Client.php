@@ -34,9 +34,12 @@ class Client
 
     private $modules = [];
 
-    public function __construct($auth_token)
+    public function __construct($auth_token = null)
     {
-        $this->setAuthToken($auth_token);
+        // Allow to instanciate a client without an auth token
+        if ($auth_token !== null) {
+            $this->setAuthToken($auth_token);
+        }
 
         $this->preferences = new ClientPreferences();
 
