@@ -2,7 +2,7 @@
 
 namespace Zoho\CRM\Api;
 
-use Zoho\CRM\Entities\EntityCollection;
+use Zoho\CRM\Entities\Collection;
 use Zoho\CRM\Entities\AbstractEntity;
 use function Zoho\CRM\booleanToString;
 
@@ -10,10 +10,10 @@ class XmlBuilder
 {
     public static function buildRecords($module, $records)
     {
-        // If $records is an Entity or an EntityCollection, convert it to an array
+        // If $records is an entity object or an entity collection, convert it into an array
         if ($records instanceof AbstractEntity)
             $records = [$records->rawData()];
-        elseif ($records instanceof EntityCollection)
+        elseif ($records instanceof Collection)
             $records = $records->toRawArray();
 
         $xml = new \SimpleXMLElement("<$module/>");

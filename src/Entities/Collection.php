@@ -5,7 +5,7 @@ namespace Zoho\CRM\Entities;
 use Zoho\CRM\Exception\InvalidComparisonOperatorException;
 use Zoho\CRM\Api\Response;
 
-class EntityCollection implements \ArrayAccess, \IteratorAggregate, \Countable
+class Collection implements \ArrayAccess, \IteratorAggregate, \Countable
 {
     private $entities = [];
 
@@ -204,7 +204,7 @@ class EntityCollection implements \ArrayAccess, \IteratorAggregate, \Countable
 
     public function copy()
     {
-        $copy = new EntityCollection();
+        $copy = new static();
 
         foreach ($this->entities as $entity) {
             $copy->add($entity->copy());
@@ -221,7 +221,7 @@ class EntityCollection implements \ArrayAccess, \IteratorAggregate, \Countable
 
         $module_class = $response->getRequest()->getModuleClass();
         $entity_class = $module_class::associatedEntity();
-        $collection = new EntityCollection();
+        $collection = new static();
 
         foreach ($response->getContent() as $record) {
             $collection[] = new $entity_class($record);

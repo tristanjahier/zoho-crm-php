@@ -4,7 +4,7 @@ namespace Zoho\CRM;
 
 use Zoho\CRM\ClientResponseMode;
 use Zoho\CRM\Entities\AbstractEntity;
-use Zoho\CRM\Entities\EntityCollection;
+use Zoho\CRM\Entities\Collection;
 use Zoho\CRM\Api\Modules\AbstractModule;
 use Doctrine\Common\Inflector\Inflector;
 
@@ -200,7 +200,7 @@ class Client
 
         if ($convert_to_entity) {
             if ($response->hasMultipleRecords()) {
-                return EntityCollection::createFromResponse($response);
+                return Collection::createFromResponse($response);
             } else {
                 return AbstractEntity::createFromResponse($response);
             }
