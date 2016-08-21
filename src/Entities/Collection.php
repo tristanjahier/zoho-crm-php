@@ -72,31 +72,40 @@ class Collection implements \ArrayAccess, \IteratorAggregate, \Countable
         });
     }
 
-    public function valuesOf($property, $flags = [])
+    public function pluck($property, $index = null, $filter = false)
     {
-        $property_values = [];
+        $values = [];
 
-        // We don't use `array_column` here because it would not allow us
-        // to get property values by alias
+        // We can't simply use `array_column` because it would not allow us
+        // to get property values by alias with the `get` method
         foreach ($this->entities as $entity) {
-            $property_values[] = $entity->get($property);
+            // If required, index the plucked values with another property
+            if (! is_null($index)) {
+                $values[$entity->get($index)] = $entity->get($property);
+            } else {
+                $values[] = $entity->get($property);
+            }
         }
 
         // If required, remove null, '' and [] values
         // Keep 'false' boolean value though, which is a significant value
-        if (in_array('filter', $flags)) {
-            $property_values = array_filter($property_values, function($value) {
+        if ($filter) {
+            $values = array_filter($values, function($value) {
                 return $value !== null && ! empty($value);
             });
+
+            if (is_null($index)) {
+                // Use `array_values` to reset array keys
+                $values = array_values($values);
+            }
         }
 
-        // If required, remove duplicates
-        if (in_array('unique', $flags)) {
-            $property_values = array_unique($property_values);
-        }
+        return $values;
+    }
 
-        // Use `array_values` to reset array keys
-        return array_values($property_values);
+    public function valuesOf($property, $index = null, $filter = false)
+    {
+        return $this->pluck($property, $index, $filter);
     }
 
     public function removeDuplicatesOf($property, $strict = false)
