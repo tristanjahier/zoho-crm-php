@@ -36,7 +36,7 @@ abstract class AbstractRecordsModule extends AbstractModule
 
     public function search($criteria)
     {
-        return $this->request('searchRecords', ['criteria' => "($criteria)"]);
+        return $this->request('searchRecords', ['criteria' => "($criteria)"], true);
     }
 
     public function getBy($key, $value)
