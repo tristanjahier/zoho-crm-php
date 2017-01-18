@@ -18,6 +18,8 @@ class RequestPaginator
 
     private $responses = [];
 
+    private $max_modified_time = null;
+
     public function __construct($request)
     {
         $this->request = $request;
@@ -43,9 +45,16 @@ class RequestPaginator
         return $this->has_more_data;
     }
 
+    public function setMaxModifiedTime(\DateTime $date)
+    {
+        $this->max_modified_time = $date;
+    }
+
     public function fetch()
     {
-        if (!$this->has_more_data) return;
+        if (! $this->has_more_data) {
+            return;
+        }
 
         // Create a temporary request object with pagination parameters
         $paginated_request = clone $this->request;
@@ -64,6 +73,12 @@ class RequestPaginator
             $this->has_more_data = false;
         }
 
+        // If 'maxModifiedTime' parameter is present, check that we haven't exceeded it yet
+        if ($this->exceedMaxModifiedTime($clean_data)) {
+            $this->has_more_data = false;
+            $clean_data = $this->purgeRecordsExceedingMaxModifiedTime($clean_data);
+        }
+
         $response = new Response($this->request, $raw_data, $clean_data);
 
         $this->responses[] = $response;
@@ -78,8 +93,9 @@ class RequestPaginator
 
     public function fetchAll()
     {
-        while ($this->has_more_data)
+        while ($this->has_more_data) {
             $this->fetch();
+        }
 
         return $this->responses;
     }
@@ -102,5 +118,21 @@ class RequestPaginator
         $clean_data = count($clean_data) > 0 ? array_merge(...$clean_data) : null;
 
         return new Response($this->request, $raw_data, $clean_data);
+    }
+
+    private function exceedMaxModifiedTime(array $response)
+    {
+        $last_record = $response[count($response) - 1];
+        $modified_at = new \DateTime($last_record['Modified Time']);
+
+        return isset($this->max_modified_time) && $modified_at >= $this->max_modified_time;
+    }
+
+    private function purgeRecordsExceedingMaxModifiedTime(array $records)
+    {
+        return array_filter($records, function ($record) {
+            $modified_at = new \DateTime($record['Modified Time']);
+            return $modified_at < $this->max_modified_time;
+        });
     }
 }

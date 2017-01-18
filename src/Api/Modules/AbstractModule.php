@@ -91,10 +91,21 @@ abstract class AbstractModule
 
     public function modifiedAfter($date)
     {
-        if (!($date instanceof \DateTime))
+        if (! ($date instanceof \DateTime) && is_string($date)) {
             $date = new \DateTime($date);
+        }
 
         $this->parameters_accumulator['lastModifiedTime'] = $date->format('Y-m-d H:i:s');
+        return $this;
+    }
+
+    public function modifiedBefore($date)
+    {
+        if (! ($date instanceof \DateTime) && is_string($date)) {
+            $date = new \DateTime($date);
+        }
+
+        $this->parameters_accumulator['maxModifiedTime'] = $date;
         return $this;
     }
 

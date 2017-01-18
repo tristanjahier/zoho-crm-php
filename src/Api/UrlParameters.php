@@ -31,6 +31,22 @@ class UrlParameters implements \ArrayAccess, \IteratorAggregate, \Countable
         return isset($this->parameters[$key]) ? $this->parameters[$key] : null;
     }
 
+    public function pull($key)
+    {
+        if (isset($this->parameters[$key])) {
+            $value = $this->parameters[$key];
+            unset($this->parameters[$key]);
+            return $value;
+        }
+
+        return null;
+    }
+
+    public function remove($key)
+    {
+        unset($this->parameters[$key]);
+    }
+
     public function reset()
     {
         $this->parameters = [];

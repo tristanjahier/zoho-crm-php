@@ -29,7 +29,9 @@ class Client
         'newFormat' => 1,
         'version' => 2,
         'fromIndex' => Api\RequestPaginator::MIN_INDEX,
-        'toIndex' => Api\RequestPaginator::PAGE_MAX_SIZE
+        'toIndex' => Api\RequestPaginator::PAGE_MAX_SIZE,
+        'sortColumnString' => 'Modified Time',
+        'sortOrderString' => 'asc'
     ];
 
     private $modules = [];
@@ -154,6 +156,9 @@ class Client
                               ->extend(['authtoken' => $this->auth_token])
                               ->extend($params);
 
+        // Edge case for 'maxModifiedTime' parameter which is not part of the Zoho API
+        $max_modified_time = $url_parameters->pull('maxModifiedTime');
+
         // Determine the HTTP verb (GET or POST) to use based on the API method
         $http_verb = getMethodClassName($method)::getHttpVerb();
 
@@ -165,6 +170,8 @@ class Client
         if ($pagination) {
             // If pagination is requested or required, let a paginator handle the request
             $paginator = new Api\RequestPaginator($request);
+
+            $paginator->setMaxModifiedTime($max_modified_time);
 
             // According to preferences, we may automatically fetch all for the user
             if ($this->preferences->getAutoFetchPaginatedRequests()) {
