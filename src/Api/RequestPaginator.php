@@ -71,10 +71,8 @@ class RequestPaginator
         // Determine if there is more data to fetch
         if ($clean_data === null) {
             $this->has_more_data = false;
-        }
-
-        // If 'maxModifiedTime' parameter is present, check that we haven't exceeded it yet
-        if ($this->exceedMaxModifiedTime($clean_data)) {
+        } elseif ($this->exceedMaxModifiedTime($clean_data)) {
+            // If 'maxModifiedTime' parameter is present, check that we haven't exceeded it yet
             $this->has_more_data = false;
             $clean_data = $this->purgeRecordsExceedingMaxModifiedTime($clean_data);
         }

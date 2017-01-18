@@ -171,7 +171,9 @@ class Client
             // If pagination is requested or required, let a paginator handle the request
             $paginator = new Api\RequestPaginator($request);
 
-            $paginator->setMaxModifiedTime($max_modified_time);
+            if (isset($max_modified_time)) {
+                $paginator->setMaxModifiedTime($max_modified_time);
+            }
 
             // According to preferences, we may automatically fetch all for the user
             if ($this->preferences->getAutoFetchPaginatedRequests()) {
