@@ -160,7 +160,8 @@ class Client
         $max_modified_time = $url_parameters->pull('maxModifiedTime');
 
         // Determine the HTTP verb (GET or POST) to use based on the API method
-        $http_verb = getMethodClassName($method)::getHttpVerb();
+        $method_class = getMethodClassName($method);
+        $http_verb = $method_class::getHttpVerb();
 
         // Build a request object which encapsulates everything
         $request = new Api\Request($this, $format, $module, $method, $url_parameters, $http_verb);
