@@ -2,12 +2,20 @@
 
 namespace Zoho\CRM\Entities;
 
+use ArrayAccess;
+use IteratorAggregate;
+use Countable;
 use Zoho\CRM\Exception\InvalidComparisonOperatorException;
 use Zoho\CRM\Api\Response;
 
-class Collection implements \ArrayAccess, \IteratorAggregate, \Countable
+class Collection implements ArrayAccess, IteratorAggregate, Countable
 {
     private $entities = [];
+
+    public function __construct(array $entities = [])
+    {
+        $this->entities = $entities;
+    }
 
     public function add(AbstractEntity $entity)
     {
