@@ -2,6 +2,7 @@
 
 namespace Zoho\CRM\Api;
 
+use SimpleXMLElement;
 use Zoho\CRM\Entities\Collection;
 use Zoho\CRM\Entities\AbstractEntity;
 use function Zoho\CRM\booleanToString;
@@ -10,19 +11,21 @@ class XmlBuilder
 {
     public static function buildRecords($module, $records)
     {
-        // If $records is an entity object or an entity collection, convert it into an array
-        if ($records instanceof AbstractEntity)
-            $records = [$records->rawData()];
-        elseif ($records instanceof Collection)
+        if ($records instanceof Collection) {
             $records = $records->toRawArray();
+        }
 
-        $xml = new \SimpleXMLElement("<$module/>");
+        $xml = new SimpleXMLElement("<$module/>");
 
         $row_count = 1;
 
         foreach ($records as $record) {
             $row = $xml->addChild('row');
             $row->addAttribute('no', $row_count);
+
+            if ($record instanceof AbstractEntity) {
+                $record = $record->rawData();
+            }
 
             foreach ($record as $attr_name => $attr_value) {
                 // Stringify boolean values
