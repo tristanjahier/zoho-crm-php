@@ -18,7 +18,7 @@ abstract class AbstractEntity
 
     public function __construct(array $data = [])
     {
-        $this->properties = $data;
+        $this->properties = $this->unaliasProperties($data);
     }
 
     public static function name()
@@ -62,6 +62,30 @@ abstract class AbstractEntity
         }
 
         $this->properties[$property] = $value;
+    }
+
+    public function hasAlias($property)
+    {
+        return in_array($property, static::$property_aliases);
+    }
+
+    public function isAlias($alias)
+    {
+        return array_key_exists($alias, static::$property_aliases);
+    }
+
+    public function unalias($alias)
+    {
+        return static::$property_aliases[$alias];
+    }
+
+    private function unaliasProperties(array $properties)
+    {
+        $unaliased_keys = array_map(function ($prop) {
+            return $this->isAlias($prop) ? $this->unalias($prop) : $prop;
+        }, array_keys($properties));
+
+        return array_combine($unaliased_keys, $properties);
     }
 
     public function rawData()
