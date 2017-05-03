@@ -53,7 +53,10 @@ class ClientPreferences
             return $this->get($preference);
         } elseif (strpos($method_name, 'set') === 0) {
             $preference = Inflector::tableize(substr($method_name, 3));
-            $this->set($preference, ...$arguments);
+            // PHP 5.5 compatible code:
+            call_user_func_array([$this, 'set'], array_merge([$preference], $arguments));
+            // PHP 5.6+, using splat operator:
+            // $this->set($preference, ...$arguments);
             return;
         } else {
             trigger_error("Call to undefined method " . __CLASS__ . "::$method_name()", E_USER_ERROR);
