@@ -79,4 +79,9 @@ abstract class AbstractRecordsModule extends AbstractModule
             'xmlData' => XmlBuilder::buildRecords(self::name(), $data)
         ]);
     }
+
+    public function getDeletedIds()
+    {
+        return $this->request('getDeletedRecordIds', [], true);
+    }
 }
