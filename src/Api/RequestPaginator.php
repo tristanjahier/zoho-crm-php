@@ -120,10 +120,14 @@ class RequestPaginator
 
     private function exceedMaxModifiedTime(array $response)
     {
+        if ($this->max_modified_time === null) {
+            return false;
+        }
+
         $last_record = $response[count($response) - 1];
         $modified_at = new \DateTime($last_record['Modified Time']);
 
-        return isset($this->max_modified_time) && $modified_at >= $this->max_modified_time;
+        return $modified_at >= $this->max_modified_time;
     }
 
     private function purgeRecordsExceedingMaxModifiedTime(array $records)
