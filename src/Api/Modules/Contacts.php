@@ -16,6 +16,7 @@ class Contacts extends AbstractRecordsModule
         'searchRecords',
         'insertRecords',
         'updateRecords',
-        'getDeletedRecordIds'
+        'getDeletedRecordIds',
+        'getRelatedRecords'
     ];
 }

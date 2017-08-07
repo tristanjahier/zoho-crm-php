@@ -44,6 +44,11 @@ abstract class AbstractRecordsModule extends AbstractModule
         return $this->search(urlencode($key) . ':' . urlencode($value));
     }
 
+    public function getRelatedById($module, $id)
+    {
+        return $this->request('getRelatedRecords', ['parentModule' => $module, 'id' => $id], true);
+    }
+
     public function exists($id)
     {
         return $this->getById($id) !== null;

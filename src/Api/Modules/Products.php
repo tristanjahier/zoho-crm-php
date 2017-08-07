@@ -16,6 +16,7 @@ class Products extends AbstractRecordsModule
         'searchRecords',
         'insertRecords',
         'updateRecords',
-        'getDeletedRecordIds'
+        'getDeletedRecordIds',
+        'getRelatedRecords'
     ];
 }
