@@ -16,6 +16,7 @@ class Calls extends AbstractRecordsModule
         'searchRecords',
         'insertRecords',
         'updateRecords',
+        'deleteRecords',
         'getDeletedRecordIds',
         'getRelatedRecords'
     ];

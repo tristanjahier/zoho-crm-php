@@ -16,6 +16,7 @@ class Potentials extends AbstractRecordsModule
         'searchRecords',
         'insertRecords',
         'updateRecords',
+        'deleteRecords',
         'getDeletedRecordIds',
         'getRelatedRecords'
     ];

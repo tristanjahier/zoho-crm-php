@@ -85,6 +85,16 @@ abstract class AbstractRecordsModule extends AbstractModule
         ]);
     }
 
+    public function delete($id)
+    {
+        return $this->request('deleteRecords', ['id' => $id]);
+    }
+
+    public function deleteMany(array $ids)
+    {
+        return $this->request('deleteRecords', ['idlist' => new IdList($ids)]);
+    }
+
     public function getDeletedIds()
     {
         return $this->request('getDeletedRecordIds', [], true);
