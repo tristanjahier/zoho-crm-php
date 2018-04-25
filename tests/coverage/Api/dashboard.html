@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <title>Dashboard for /home/selectra/Lab/zoho-crm-php/src/Api</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="../css/bootstrap.min.css" rel="stylesheet">
+  <link href="../css/nv.d3.min.css" rel="stylesheet">
+  <link href="../css/style.css" rel="stylesheet">
+  <!--[if lt IE 9]>
+  <script src="../js/html5shiv.min.js"></script>
+  <script src="../js/respond.min.js"></script>
+  <![endif]-->
+ </head>
+ <body>
+  <header>
+   <div class="container">
+    <div class="row">
+     <div class="col-md-12">
+      <ol class="breadcrumb">
+        <li><a href="../index.html">/home/selectra/Lab/zoho-crm-php/src</a></li>
+        <li><a href="index.html">Api</a></li>
+        <li class="active">(Dashboard)</li>
+
+      </ol>
+     </div>
+    </div>
+   </div>
+  </header>
+  <div class="container">
+   <div class="row">
+    <div class="col-md-12">
+     <h2>Classes</h2>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Coverage Distribution</h3>
+     <div id="classCoverageDistribution" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Complexity</h3>
+     <div id="classComplexity" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Insufficient Coverage</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Class</th>
+         <th class="text-right">Coverage</th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="ErrorHandler.php.html#5">ErrorHandler</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Exception/InvalidParametersException.php.html#5">InvalidParametersException</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Exception/InvalidTicketIdException.php.html#5">InvalidTicketIdException</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Exception/RateLimitExceededException.php.html#5">RateLimitExceededException</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Exception/AbstractException.php.html#5">AbstractException</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="IdList.php.html#5">IdList</a></td><td class="text-right">26%</td></tr>
+       <tr><td><a href="Modules/AbstractModule.php.html#11">AbstractModule</a></td><td class="text-right">53%</td></tr>
+       <tr><td><a href="UrlParameters.php.html#5">UrlParameters</a></td><td class="text-right">53%</td></tr>
+       <tr><td><a href="Response.php.html#5">Response</a></td><td class="text-right">55%</td></tr>
+       <tr><td><a href="Modules/AbstractRecordsModule.php.html#8">AbstractRecordsModule</a></td><td class="text-right">58%</td></tr>
+       <tr><td><a href="ResponseParser.php.html#8">ResponseParser</a></td><td class="text-right">59%</td></tr>
+       <tr><td><a href="Modules/ModuleFields.php.html#5">ModuleFields</a></td><td class="text-right">61%</td></tr>
+       <tr><td><a href="Request.php.html#7">Request</a></td><td class="text-right">69%</td></tr>
+       <tr><td><a href="RequestPaginator.php.html#5">RequestPaginator</a></td><td class="text-right">76%</td></tr>
+       <tr><td><a href="Methods/AbstractMethod.php.html#8">AbstractMethod</a></td><td class="text-right">80%</td></tr>
+       <tr><td><a href="XmlBuilder.php.html#9">XmlBuilder</a></td><td class="text-right">82%</td></tr>
+       <tr><td><a href="Methods/GetDeletedRecordIds.php.html#8">GetDeletedRecordIds</a></td><td class="text-right">83%</td></tr>
+       <tr><td><a href="Methods/GetRecords.php.html#7">GetRecords</a></td><td class="text-right">84%</td></tr>
+       <tr><td><a href="Methods/InsertRecords.php.html#9">InsertRecords</a></td><td class="text-right">87%</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Project Risks</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Class</th>
+         <th class="text-right"><abbr title="Change Risk Anti-Patterns (CRAP) Index">CRAP</abbr></th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="UrlParameters.php.html#5">UrlParameters</a></td><td class="text-right">99</td></tr>
+       <tr><td><a href="IdList.php.html#5">IdList</a></td><td class="text-right">68</td></tr>
+       <tr><td><a href="Modules/AbstractModule.php.html#11">AbstractModule</a></td><td class="text-right">65</td></tr>
+       <tr><td><a href="ResponseParser.php.html#8">ResponseParser</a></td><td class="text-right">24</td></tr>
+       <tr><td><a href="RequestPaginator.php.html#5">RequestPaginator</a></td><td class="text-right">23</td></tr>
+       <tr><td><a href="Response.php.html#5">Response</a></td><td class="text-right">21</td></tr>
+       <tr><td><a href="Methods/InsertRecords.php.html#9">InsertRecords</a></td><td class="text-right">17</td></tr>
+       <tr><td><a href="Modules/ModuleFields.php.html#5">ModuleFields</a></td><td class="text-right">15</td></tr>
+       <tr><td><a href="Methods/GetRecords.php.html#7">GetRecords</a></td><td class="text-right">8</td></tr>
+       <tr><td><a href="XmlBuilder.php.html#9">XmlBuilder</a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Methods/GetDeletedRecordIds.php.html#8">GetDeletedRecordIds</a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="ErrorHandler.php.html#5">ErrorHandler</a></td><td class="text-right">6</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-12">
+     <h2>Methods</h2>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Coverage Distribution</h3>
+     <div id="methodCoverageDistribution" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Complexity</h3>
+     <div id="methodComplexity" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Insufficient Coverage</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Method</th>
+         <th class="text-right">Coverage</th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="ErrorHandler.php.html#13"><abbr title="ErrorHandler::handle">handle</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="RequestPaginator.php.html#48"><abbr title="RequestPaginator::setMaxModifiedTime">setMaxModifiedTime</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Modules/AbstractRecordsModule.php.html#80"><abbr title="AbstractRecordsModule::updateMany">updateMany</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UrlParameters.php.html#66"><abbr title="UrlParameters::offsetUnset">offsetUnset</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UrlParameters.php.html#61"><abbr title="UrlParameters::offsetExists">offsetExists</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Exception/AbstractException.php.html#9"><abbr title="AbstractException::getGenericDescription">getGenericDescription</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Request.php.html#31"><abbr title="Request::getEmitter">getEmitter</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Request.php.html#61"><abbr title="Request::setFormat">setFormat</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Request.php.html#66"><abbr title="Request::setModule">setModule</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Request.php.html#71"><abbr title="Request::setMethod">setMethod</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Request.php.html#89"><abbr title="Request::getModuleClass">getModuleClass</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UrlParameters.php.html#53"><abbr title="UrlParameters::offsetSet">offsetSet</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Modules/AbstractRecordsModule.php.html#42"><abbr title="AbstractRecordsModule::getBy">getBy</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="RequestPaginator.php.html#135"><abbr title="RequestPaginator::anonymousFunction:135#718">anonymousFunction:135#718</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Response.php.html#30"><abbr title="Response::getType">getType</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Response.php.html#35"><abbr title="Response::getRequest">getRequest</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Response.php.html#50"><abbr title="Response::isPaginated">isPaginated</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Response.php.html#55"><abbr title="Response::containsRecords">containsRecords</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Response.php.html#60"><abbr title="Response::hasSingleRecord">hasSingleRecord</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Response.php.html#65"><abbr title="Response::hasMultipleRecords">hasMultipleRecords</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Response.php.html#70"><abbr title="Response::isConvertibleToEntity">isConvertibleToEntity</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UrlParameters.php.html#43"><abbr title="UrlParameters::remove">remove</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Modules/AbstractRecordsModule.php.html#52"><abbr title="AbstractRecordsModule::exists">exists</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Modules/AbstractRecordsModule.php.html#47"><abbr title="AbstractRecordsModule::getRelatedById">getRelatedById</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Modules/AbstractRecordsModule.php.html#37"><abbr title="AbstractRecordsModule::search">search</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Methods/AbstractMethod.php.html#16"><abbr title="AbstractMethod::getMethodName">getMethodName</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Exception/InvalidParametersException.php.html#9"><abbr title="InvalidParametersException::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Exception/InvalidTicketIdException.php.html#9"><abbr title="InvalidTicketIdException::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Exception/RateLimitExceededException.php.html#9"><abbr title="RateLimitExceededException::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="IdList.php.html#14"><abbr title="IdList::offsetSet">offsetSet</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="IdList.php.html#22"><abbr title="IdList::offsetExists">offsetExists</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="IdList.php.html#27"><abbr title="IdList::offsetUnset">offsetUnset</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="IdList.php.html#32"><abbr title="IdList::offsetGet">offsetGet</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="IdList.php.html#37"><abbr title="IdList::getIterator">getIterator</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="IdList.php.html#42"><abbr title="IdList::count">count</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="IdList.php.html#47"><abbr title="IdList::toArray">toArray</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UrlParameters.php.html#104"><abbr title="UrlParameters::anonymousFunction:104#563">anonymousFunction:104#563</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UrlParameters.php.html#81"><abbr title="UrlParameters::count">count</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UrlParameters.php.html#76"><abbr title="UrlParameters::getIterator">getIterator</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Modules/AbstractModule.php.html#85"><abbr title="AbstractModule::orderBy">orderBy</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Modules/AbstractModule.php.html#92"><abbr title="AbstractModule::modifiedAfter">modifiedAfter</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Modules/AbstractModule.php.html#102"><abbr title="AbstractModule::modifiedBefore">modifiedBefore</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Modules/AbstractModule.php.html#112"><abbr title="AbstractModule::selectColumns">selectColumns</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Modules/AbstractRecordsModule.php.html#12"><abbr title="AbstractRecordsModule::primaryKey">primaryKey</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Modules/AbstractRecordsModule.php.html#22"><abbr title="AbstractRecordsModule::getById">getById</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Modules/AbstractRecordsModule.php.html#32"><abbr title="AbstractRecordsModule::getMine">getMine</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ResponseParser.php.html#45"><abbr title="ResponseParser::parseXml">parseXml</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UrlParameters.php.html#32"><abbr title="UrlParameters::pull">pull</abbr></a></td><td class="text-right">40%</td></tr>
+       <tr><td><a href="RequestPaginator.php.html#121"><abbr title="RequestPaginator::exceedMaxModifiedTime">exceedMaxModifiedTime</abbr></a></td><td class="text-right">40%</td></tr>
+       <tr><td><a href="ResponseParser.php.html#31"><abbr title="ResponseParser::parse">parse</abbr></a></td><td class="text-right">40%</td></tr>
+       <tr><td><a href="Modules/ModuleFields.php.html#31"><abbr title="ModuleFields::anonymousFunction:31#204">anonymousFunction:31#204</abbr></a></td><td class="text-right">50%</td></tr>
+       <tr><td><a href="ResponseParser.php.html#55"><abbr title="ResponseParser::validate">validate</abbr></a></td><td class="text-right">50%</td></tr>
+       <tr><td><a href="Modules/ModuleFields.php.html#24"><abbr title="ModuleFields::anonymousFunction:24#159">anonymousFunction:24#159</abbr></a></td><td class="text-right">50%</td></tr>
+       <tr><td><a href="Modules/ModuleFields.php.html#7"><abbr title="ModuleFields::getAll">getAll</abbr></a></td><td class="text-right">57%</td></tr>
+       <tr><td><a href="UrlParameters.php.html#14"><abbr title="UrlParameters::extend">extend</abbr></a></td><td class="text-right">66%</td></tr>
+       <tr><td><a href="Methods/GetDeletedRecordIds.php.html#12"><abbr title="GetDeletedRecordIds::responseContainsData">responseContainsData</abbr></a></td><td class="text-right">75%</td></tr>
+       <tr><td><a href="ResponseParser.php.html#10"><abbr title="ResponseParser::clean">clean</abbr></a></td><td class="text-right">77%</td></tr>
+       <tr><td><a href="XmlBuilder.php.html#11"><abbr title="XmlBuilder::buildRecords">buildRecords</abbr></a></td><td class="text-right">82%</td></tr>
+       <tr><td><a href="RequestPaginator.php.html#53"><abbr title="RequestPaginator::fetch">fetch</abbr></a></td><td class="text-right">84%</td></tr>
+       <tr><td><a href="Methods/GetRecords.php.html#9"><abbr title="GetRecords::tidyResponse">tidyResponse</abbr></a></td><td class="text-right">84%</td></tr>
+       <tr><td><a href="Methods/InsertRecords.php.html#15"><abbr title="InsertRecords::tidyResponse">tidyResponse</abbr></a></td><td class="text-right">87%</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Project Risks</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Method</th>
+         <th class="text-right"><abbr title="Change Risk Anti-Patterns (CRAP) Index">CRAP</abbr></th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="Methods/InsertRecords.php.html#15"><abbr title="InsertRecords::tidyResponse">tidyResponse</abbr></a></td><td class="text-right">17</td></tr>
+       <tr><td><a href="Modules/AbstractModule.php.html#92"><abbr title="AbstractModule::modifiedAfter">modifiedAfter</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Modules/AbstractModule.php.html#102"><abbr title="AbstractModule::modifiedBefore">modifiedBefore</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Methods/GetRecords.php.html#9"><abbr title="GetRecords::tidyResponse">tidyResponse</abbr></a></td><td class="text-right">8</td></tr>
+       <tr><td><a href="XmlBuilder.php.html#11"><abbr title="XmlBuilder::buildRecords">buildRecords</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Response.php.html#70"><abbr title="Response::isConvertibleToEntity">isConvertibleToEntity</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="UrlParameters.php.html#104"><abbr title="UrlParameters::anonymousFunction:104#563">anonymousFunction:104#563</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="UrlParameters.php.html#53"><abbr title="UrlParameters::offsetSet">offsetSet</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="ResponseParser.php.html#55"><abbr title="ResponseParser::validate">validate</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="ErrorHandler.php.html#13"><abbr title="ErrorHandler::handle">handle</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="IdList.php.html#32"><abbr title="IdList::offsetGet">offsetGet</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="IdList.php.html#14"><abbr title="IdList::offsetSet">offsetSet</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Modules/ModuleFields.php.html#7"><abbr title="ModuleFields::getAll">getAll</abbr></a></td><td class="text-right">5</td></tr>
+       <tr><td><a href="ResponseParser.php.html#31"><abbr title="ResponseParser::parse">parse</abbr></a></td><td class="text-right">4</td></tr>
+       <tr><td><a href="Methods/GetDeletedRecordIds.php.html#12"><abbr title="GetDeletedRecordIds::responseContainsData">responseContainsData</abbr></a></td><td class="text-right">4</td></tr>
+       <tr><td><a href="ResponseParser.php.html#10"><abbr title="ResponseParser::clean">clean</abbr></a></td><td class="text-right">4</td></tr>
+       <tr><td><a href="RequestPaginator.php.html#53"><abbr title="RequestPaginator::fetch">fetch</abbr></a></td><td class="text-right">4</td></tr>
+       <tr><td><a href="UrlParameters.php.html#32"><abbr title="UrlParameters::pull">pull</abbr></a></td><td class="text-right">2</td></tr>
+       <tr><td><a href="RequestPaginator.php.html#121"><abbr title="RequestPaginator::exceedMaxModifiedTime">exceedMaxModifiedTime</abbr></a></td><td class="text-right">2</td></tr>
+       <tr><td><a href="UrlParameters.php.html#14"><abbr title="UrlParameters::extend">extend</abbr></a></td><td class="text-right">2</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+   </div>
+   <footer>
+    <hr/>
+    <p>
+     <small>Generated by <a href="https://github.com/sebastianbergmann/php-code-coverage" target="_top">php-code-coverage 4.0.8</a> using <a href="https://secure.php.net/" target="_top">PHP 7.2.4-1+ubuntu16.04.1+deb.sury.org+1</a> with <a href="https://xdebug.org/">Xdebug 2.6.0</a> and <a href="https://phpunit.de/">PHPUnit 5.5.4</a> at Tue Apr 24 15:34:13 UTC 2018.</small>
+    </p>
+   </footer>
+  </div>
+  <script src="../js/jquery.min.js" type="text/javascript"></script>
+  <script src="../js/bootstrap.min.js" type="text/javascript"></script>
+  <script src="../js/holder.min.js" type="text/javascript"></script>
+  <script src="../js/d3.min.js" type="text/javascript"></script>
+  <script src="../js/nv.d3.min.js" type="text/javascript"></script>
+  <script type="text/javascript">
+$(document).ready(function() {
+  nv.addGraph(function() {
+    var chart = nv.models.multiBarChart();
+    chart.tooltips(false)
+      .showControls(false)
+      .showLegend(false)
+      .reduceXTicks(false)
+      .staggerLabels(true)
+      .yAxis.tickFormat(d3.format('d'));
+
+    d3.select('#classCoverageDistribution svg')
+      .datum(getCoverageDistributionData([5,0,0,1,0,0,5,2,1,5,1,21], "Class Coverage"))
+      .transition().duration(500).call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  nv.addGraph(function() {
+    var chart = nv.models.multiBarChart();
+    chart.tooltips(false)
+      .showControls(false)
+      .showLegend(false)
+      .reduceXTicks(false)
+      .staggerLabels(true)
+      .yAxis.tickFormat(d3.format('d'));
+
+    d3.select('#methodCoverageDistribution svg')
+      .datum(getCoverageDistributionData([47,0,0,0,0,3,4,1,2,4,1,74], "Method Coverage"))
+      .transition().duration(500).call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  function getCoverageDistributionData(data, label) {
+    var labels = [
+      '0%',
+      '0-10%',
+      '10-20%',
+      '20-30%',
+      '30-40%',
+      '40-50%',
+      '50-60%',
+      '60-70%',
+      '70-80%',
+      '80-90%',
+      '90-100%',
+      '100%'
+    ];
+    var values = [];
+    $.each(labels, function(key) {
+      values.push({x: labels[key], y: data[key]});
+    });
+
+    return [
+      {
+        key: label,
+        values: values,
+        color: "#4572A7"
+      }
+    ];
+  }
+  nv.addGraph(function() {
+    var chart = nv.models.scatterChart()
+      .showDistX(true)
+      .showDistY(true)
+      .showLegend(false)
+      .forceX([0, 100]);
+    chart.tooltipContent(function(graph) {
+      return '<p>' + graph.point.class + '</p>';
+    });
+
+    chart.xAxis.axisLabel('Code Coverage (in percent)');
+    chart.yAxis.axisLabel('Cyclomatic Complexity');
+
+    d3.select('#classComplexity svg')
+      .datum(getComplexityData([[0,2,"<a href=\"ErrorHandler.php.html#5\">ErrorHandler<\/a>"],[0,1,"<a href=\"Exception\/AbstractException.php.html#5\">AbstractException<\/a>"],[100,0,"<a href=\"Exception\/GenericException.php.html#5\">GenericException<\/a>"],[0,1,"<a href=\"Exception\/InvalidParametersException.php.html#5\">InvalidParametersException<\/a>"],[0,1,"<a href=\"Exception\/InvalidTicketIdException.php.html#5\">InvalidTicketIdException<\/a>"],[0,1,"<a href=\"Exception\/RateLimitExceededException.php.html#5\">RateLimitExceededException<\/a>"],[100,0,"<a href=\"HttpVerb.php.html#5\">HttpVerb<\/a>"],[26.666666666666668,12,"<a href=\"IdList.php.html#5\">IdList<\/a>"],[80,5,"<a href=\"Methods\/AbstractMethod.php.html#8\">AbstractMethod<\/a>"],[100,1,"<a href=\"Methods\/DeleteRecords.php.html#8\">DeleteRecords<\/a>"],[83.33333333333334,6,"<a href=\"Methods\/GetDeletedRecordIds.php.html#8\">GetDeletedRecordIds<\/a>"],[90,5,"<a href=\"Methods\/GetFields.php.html#8\">GetFields<\/a>"],[100,2,"<a href=\"Methods\/GetModules.php.html#8\">GetModules<\/a>"],[100,0,"<a href=\"Methods\/GetMyRecords.php.html#5\">GetMyRecords<\/a>"],[100,4,"<a href=\"Methods\/GetRecordById.php.html#7\">GetRecordById<\/a>"],[84.61538461538461,8,"<a href=\"Methods\/GetRecords.php.html#7\">GetRecords<\/a>"],[100,0,"<a href=\"Methods\/GetRelatedRecords.php.html#5\">GetRelatedRecords<\/a>"],[100,4,"<a href=\"Methods\/GetUsers.php.html#8\">GetUsers<\/a>"],[87.09677419354838,17,"<a href=\"Methods\/InsertRecords.php.html#9\">InsertRecords<\/a>"],[100,0,"<a href=\"Methods\/SearchRecords.php.html#5\">SearchRecords<\/a>"],[100,0,"<a href=\"Methods\/UpdateRecords.php.html#5\">UpdateRecords<\/a>"],[53.333333333333336,21,"<a href=\"Modules\/AbstractModule.php.html#11\">AbstractModule<\/a>"],[100,2,"<a href=\"Modules\/AbstractProxyModule.php.html#5\">AbstractProxyModule<\/a>"],[58.333333333333336,16,"<a href=\"Modules\/AbstractRecordsModule.php.html#8\">AbstractRecordsModule<\/a>"],[100,0,"<a href=\"Modules\/Calls.php.html#5\">Calls<\/a>"],[100,0,"<a href=\"Modules\/Contacts.php.html#5\">Contacts<\/a>"],[100,1,"<a href=\"Modules\/Info.php.html#5\">Info<\/a>"],[100,0,"<a href=\"Modules\/Leads.php.html#5\">Leads<\/a>"],[61.53846153846154,10,"<a href=\"Modules\/ModuleFields.php.html#5\">ModuleFields<\/a>"],[100,0,"<a href=\"Modules\/Potentials.php.html#5\">Potentials<\/a>"],[100,0,"<a href=\"Modules\/Products.php.html#5\">Products<\/a>"],[100,5,"<a href=\"Modules\/Users.php.html#5\">Users<\/a>"],[69.23076923076923,13,"<a href=\"Request.php.html#7\">Request<\/a>"],[100,3,"<a href=\"RequestLauncher.php.html#5\">RequestLauncher<\/a>"],[76.08695652173914,19,"<a href=\"RequestPaginator.php.html#5\">RequestPaginator<\/a>"],[55.55555555555556,11,"<a href=\"Response.php.html#5\">Response<\/a>"],[100,0,"<a href=\"ResponseDataType.php.html#5\">ResponseDataType<\/a>"],[100,0,"<a href=\"ResponseFormat.php.html#5\">ResponseFormat<\/a>"],[59.09090909090909,13,"<a href=\"ResponseParser.php.html#8\">ResponseParser<\/a>"],[53.65853658536586,27,"<a href=\"UrlParameters.php.html#5\">UrlParameters<\/a>"],[82.35294117647058,6,"<a href=\"XmlBuilder.php.html#9\">XmlBuilder<\/a>"]], 'Class Complexity'))
+      .transition()
+      .duration(500)
+      .call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  nv.addGraph(function() {
+    var chart = nv.models.scatterChart()
+      .showDistX(true)
+      .showDistY(true)
+      .showLegend(false)
+      .forceX([0, 100]);
+    chart.tooltipContent(function(graph) {
+      return '<p>' + graph.point.class + '</p>';
+    });
+
+    chart.xAxis.axisLabel('Code Coverage (in percent)');
+    chart.yAxis.axisLabel('Method Complexity');
+
+    d3.select('#methodComplexity svg')
+      .datum(getComplexityData([[0,2,"<a href=\"ErrorHandler.php.html#13\">ErrorHandler::handle<\/a>"],[0,1,"<a href=\"Exception\/AbstractException.php.html#9\">AbstractException::getGenericDescription<\/a>"],[0,1,"<a href=\"Exception\/InvalidParametersException.php.html#9\">InvalidParametersException::__construct<\/a>"],[0,1,"<a href=\"Exception\/InvalidTicketIdException.php.html#9\">InvalidTicketIdException::__construct<\/a>"],[0,1,"<a href=\"Exception\/RateLimitExceededException.php.html#9\">RateLimitExceededException::__construct<\/a>"],[100,1,"<a href=\"IdList.php.html#9\">IdList::__construct<\/a>"],[0,2,"<a href=\"IdList.php.html#14\">IdList::offsetSet<\/a>"],[0,1,"<a href=\"IdList.php.html#22\">IdList::offsetExists<\/a>"],[0,1,"<a href=\"IdList.php.html#27\">IdList::offsetUnset<\/a>"],[0,2,"<a href=\"IdList.php.html#32\">IdList::offsetGet<\/a>"],[0,1,"<a href=\"IdList.php.html#37\">IdList::getIterator<\/a>"],[0,1,"<a href=\"IdList.php.html#42\">IdList::count<\/a>"],[0,1,"<a href=\"IdList.php.html#47\">IdList::toArray<\/a>"],[100,1,"<a href=\"IdList.php.html#52\">IdList::toString<\/a>"],[100,1,"<a href=\"IdList.php.html#57\">IdList::__toString<\/a>"],[0,1,"<a href=\"Methods\/AbstractMethod.php.html#16\">AbstractMethod::getMethodName<\/a>"],[100,1,"<a href=\"Methods\/AbstractMethod.php.html#21\">AbstractMethod::getResponseDataType<\/a>"],[100,1,"<a href=\"Methods\/AbstractMethod.php.html#26\">AbstractMethod::expectsMultipleRecords<\/a>"],[100,1,"<a href=\"Methods\/AbstractMethod.php.html#31\">AbstractMethod::getHttpVerb<\/a>"],[100,1,"<a href=\"Methods\/AbstractMethod.php.html#36\">AbstractMethod::responseContainsData<\/a>"],[100,1,"<a href=\"Methods\/DeleteRecords.php.html#12\">DeleteRecords::tidyResponse<\/a>"],[75,4,"<a href=\"Methods\/GetDeletedRecordIds.php.html#12\">GetDeletedRecordIds::responseContainsData<\/a>"],[100,2,"<a href=\"Methods\/GetDeletedRecordIds.php.html#26\">GetDeletedRecordIds::tidyResponse<\/a>"],[90,5,"<a href=\"Methods\/GetFields.php.html#12\">GetFields::tidyResponse<\/a>"],[100,2,"<a href=\"Methods\/GetModules.php.html#12\">GetModules::tidyResponse<\/a>"],[100,2,"<a href=\"Methods\/GetRecordById.php.html#9\">GetRecordById::tidyResponse<\/a>"],[100,2,"<a href=\"Methods\/GetRecordById.php.html#16\">GetRecordById::expectsMultipleRecords<\/a>"],[84.61538461538461,8,"<a href=\"Methods\/GetRecords.php.html#9\">GetRecords::tidyResponse<\/a>"],[100,1,"<a href=\"Methods\/GetUsers.php.html#12\">GetUsers::responseContainsData<\/a>"],[100,3,"<a href=\"Methods\/GetUsers.php.html#17\">GetUsers::tidyResponse<\/a>"],[87.09677419354838,17,"<a href=\"Methods\/InsertRecords.php.html#15\">InsertRecords::tidyResponse<\/a>"],[100,2,"<a href=\"Modules\/AbstractModule.php.html#27\">AbstractModule::__construct<\/a>"],[100,2,"<a href=\"Modules\/AbstractModule.php.html#38\">AbstractModule::name<\/a>"],[100,1,"<a href=\"Modules\/AbstractModule.php.html#43\">AbstractModule::associatedEntity<\/a>"],[100,1,"<a href=\"Modules\/AbstractModule.php.html#48\">AbstractModule::hasAssociatedEntity<\/a>"],[100,1,"<a href=\"Modules\/AbstractModule.php.html#53\">AbstractModule::supportedMethods<\/a>"],[100,1,"<a href=\"Modules\/AbstractModule.php.html#58\">AbstractModule::supports<\/a>"],[100,1,"<a href=\"Modules\/AbstractModule.php.html#63\">AbstractModule::attachedClient<\/a>"],[100,1,"<a href=\"Modules\/AbstractModule.php.html#68\">AbstractModule::fields<\/a>"],[100,2,"<a href=\"Modules\/AbstractModule.php.html#73\">AbstractModule::managedModule<\/a>"],[100,1,"<a href=\"Modules\/AbstractModule.php.html#78\">AbstractModule::request<\/a>"],[0,1,"<a href=\"Modules\/AbstractModule.php.html#85\">AbstractModule::orderBy<\/a>"],[0,3,"<a href=\"Modules\/AbstractModule.php.html#92\">AbstractModule::modifiedAfter<\/a>"],[0,3,"<a href=\"Modules\/AbstractModule.php.html#102\">AbstractModule::modifiedBefore<\/a>"],[0,1,"<a href=\"Modules\/AbstractModule.php.html#112\">AbstractModule::selectColumns<\/a>"],[100,1,"<a href=\"Modules\/AbstractProxyModule.php.html#9\">AbstractProxyModule::__construct<\/a>"],[100,1,"<a href=\"Modules\/AbstractProxyModule.php.html#15\">AbstractProxyModule::mandatedModule<\/a>"],[0,1,"<a href=\"Modules\/AbstractRecordsModule.php.html#12\">AbstractRecordsModule::primaryKey<\/a>"],[100,1,"<a href=\"Modules\/AbstractRecordsModule.php.html#17\">AbstractRecordsModule::getAll<\/a>"],[0,1,"<a href=\"Modules\/AbstractRecordsModule.php.html#22\">AbstractRecordsModule::getById<\/a>"],[100,1,"<a href=\"Modules\/AbstractRecordsModule.php.html#27\">AbstractRecordsModule::getByIds<\/a>"],[0,1,"<a href=\"Modules\/AbstractRecordsModule.php.html#32\">AbstractRecordsModule::getMine<\/a>"],[0,1,"<a href=\"Modules\/AbstractRecordsModule.php.html#37\">AbstractRecordsModule::search<\/a>"],[0,1,"<a href=\"Modules\/AbstractRecordsModule.php.html#42\">AbstractRecordsModule::getBy<\/a>"],[0,1,"<a href=\"Modules\/AbstractRecordsModule.php.html#47\">AbstractRecordsModule::getRelatedById<\/a>"],[0,1,"<a href=\"Modules\/AbstractRecordsModule.php.html#52\">AbstractRecordsModule::exists<\/a>"],[100,1,"<a href=\"Modules\/AbstractRecordsModule.php.html#57\">AbstractRecordsModule::insert<\/a>"],[100,1,"<a href=\"Modules\/AbstractRecordsModule.php.html#62\">AbstractRecordsModule::insertMany<\/a>"],[100,1,"<a href=\"Modules\/AbstractRecordsModule.php.html#71\">AbstractRecordsModule::update<\/a>"],[0,1,"<a href=\"Modules\/AbstractRecordsModule.php.html#80\">AbstractRecordsModule::updateMany<\/a>"],[100,1,"<a href=\"Modules\/AbstractRecordsModule.php.html#88\">AbstractRecordsModule::delete<\/a>"],[100,1,"<a href=\"Modules\/AbstractRecordsModule.php.html#93\">AbstractRecordsModule::deleteMany<\/a>"],[100,1,"<a href=\"Modules\/AbstractRecordsModule.php.html#98\">AbstractRecordsModule::getDeletedIds<\/a>"],[100,1,"<a href=\"Modules\/Info.php.html#11\">Info::getModules<\/a>"],[57.14285714285714,4,"<a href=\"Modules\/ModuleFields.php.html#7\">ModuleFields::getAll<\/a>"],[100,1,"<a href=\"Modules\/ModuleFields.php.html#22\">ModuleFields::getNative<\/a>"],[50,1,"<a href=\"Modules\/ModuleFields.php.html#24\">ModuleFields::anonymousFunction:24#159<\/a>"],[100,1,"<a href=\"Modules\/ModuleFields.php.html#29\">ModuleFields::getCustom<\/a>"],[50,1,"<a href=\"Modules\/ModuleFields.php.html#31\">ModuleFields::anonymousFunction:31#204<\/a>"],[100,1,"<a href=\"Modules\/ModuleFields.php.html#36\">ModuleFields::getSummary<\/a>"],[100,1,"<a href=\"Modules\/ModuleFields.php.html#41\">ModuleFields::getMandatory<\/a>"],[100,1,"<a href=\"Modules\/Users.php.html#13\">Users::getAll<\/a>"],[100,1,"<a href=\"Modules\/Users.php.html#18\">Users::getActives<\/a>"],[100,1,"<a href=\"Modules\/Users.php.html#23\">Users::getInactives<\/a>"],[100,1,"<a href=\"Modules\/Users.php.html#28\">Users::getAdmins<\/a>"],[100,1,"<a href=\"Modules\/Users.php.html#33\">Users::getActiveConfirmedAdmins<\/a>"],[100,1,"<a href=\"Request.php.html#21\">Request::__construct<\/a>"],[0,1,"<a href=\"Request.php.html#31\">Request::getEmitter<\/a>"],[100,1,"<a href=\"Request.php.html#36\">Request::getHttpVerb<\/a>"],[100,1,"<a href=\"Request.php.html#41\">Request::getFormat<\/a>"],[100,1,"<a href=\"Request.php.html#46\">Request::getModule<\/a>"],[100,1,"<a href=\"Request.php.html#51\">Request::getMethod<\/a>"],[100,1,"<a href=\"Request.php.html#56\">Request::getParameters<\/a>"],[0,1,"<a href=\"Request.php.html#61\">Request::setFormat<\/a>"],[0,1,"<a href=\"Request.php.html#66\">Request::setModule<\/a>"],[0,1,"<a href=\"Request.php.html#71\">Request::setMethod<\/a>"],[100,1,"<a href=\"Request.php.html#76\">Request::setParameters<\/a>"],[100,1,"<a href=\"Request.php.html#81\">Request::buildUri<\/a>"],[0,1,"<a href=\"Request.php.html#89\">Request::getModuleClass<\/a>"],[100,2,"<a href=\"RequestLauncher.php.html#13\">RequestLauncher::initialize<\/a>"],[100,1,"<a href=\"RequestLauncher.php.html#24\">RequestLauncher::fire<\/a>"],[100,1,"<a href=\"RequestPaginator.php.html#23\">RequestPaginator::__construct<\/a>"],[100,1,"<a href=\"RequestPaginator.php.html#28\">RequestPaginator::getRequest<\/a>"],[100,1,"<a href=\"RequestPaginator.php.html#33\">RequestPaginator::getResponses<\/a>"],[100,1,"<a href=\"RequestPaginator.php.html#38\">RequestPaginator::getNumberOfPagesFetched<\/a>"],[100,1,"<a href=\"RequestPaginator.php.html#43\">RequestPaginator::hasMoreData<\/a>"],[0,1,"<a href=\"RequestPaginator.php.html#48\">RequestPaginator::setMaxModifiedTime<\/a>"],[84.21052631578947,4,"<a href=\"RequestPaginator.php.html#53\">RequestPaginator::fetch<\/a>"],[100,2,"<a href=\"RequestPaginator.php.html#92\">RequestPaginator::fetchAll<\/a>"],[100,3,"<a href=\"RequestPaginator.php.html#101\">RequestPaginator::getAggregatedResponse<\/a>"],[40,2,"<a href=\"RequestPaginator.php.html#121\">RequestPaginator::exceedMaxModifiedTime<\/a>"],[100,1,"<a href=\"RequestPaginator.php.html#133\">RequestPaginator::purgeRecordsExceedingMaxModifiedTime<\/a>"],[0,1,"<a href=\"RequestPaginator.php.html#135\">RequestPaginator::anonymousFunction:135#718<\/a>"],[100,1,"<a href=\"Response.php.html#19\">Response::__construct<\/a>"],[0,1,"<a href=\"Response.php.html#30\">Response::getType<\/a>"],[0,1,"<a href=\"Response.php.html#35\">Response::getRequest<\/a>"],[100,1,"<a href=\"Response.php.html#40\">Response::getRawData<\/a>"],[100,1,"<a href=\"Response.php.html#45\">Response::getContent<\/a>"],[0,1,"<a href=\"Response.php.html#50\">Response::isPaginated<\/a>"],[0,1,"<a href=\"Response.php.html#55\">Response::containsRecords<\/a>"],[0,1,"<a href=\"Response.php.html#60\">Response::hasSingleRecord<\/a>"],[0,1,"<a href=\"Response.php.html#65\">Response::hasMultipleRecords<\/a>"],[0,2,"<a href=\"Response.php.html#70\">Response::isConvertibleToEntity<\/a>"],[77.77777777777779,4,"<a href=\"ResponseParser.php.html#10\">ResponseParser::clean<\/a>"],[40,3,"<a href=\"ResponseParser.php.html#31\">ResponseParser::parse<\/a>"],[0,1,"<a href=\"ResponseParser.php.html#45\">ResponseParser::parseXml<\/a>"],[100,1,"<a href=\"ResponseParser.php.html#50\">ResponseParser::parseJson<\/a>"],[50,4,"<a href=\"ResponseParser.php.html#55\">ResponseParser::validate<\/a>"],[100,1,"<a href=\"UrlParameters.php.html#9\">UrlParameters::__construct<\/a>"],[66.66666666666666,2,"<a href=\"UrlParameters.php.html#14\">UrlParameters::extend<\/a>"],[100,1,"<a href=\"UrlParameters.php.html#22\">UrlParameters::contains<\/a>"],[100,2,"<a href=\"UrlParameters.php.html#27\">UrlParameters::get<\/a>"],[40,2,"<a href=\"UrlParameters.php.html#32\">UrlParameters::pull<\/a>"],[0,1,"<a href=\"UrlParameters.php.html#43\">UrlParameters::remove<\/a>"],[100,1,"<a href=\"UrlParameters.php.html#48\">UrlParameters::reset<\/a>"],[0,2,"<a href=\"UrlParameters.php.html#53\">UrlParameters::offsetSet<\/a>"],[0,1,"<a href=\"UrlParameters.php.html#61\">UrlParameters::offsetExists<\/a>"],[0,1,"<a href=\"UrlParameters.php.html#66\">UrlParameters::offsetUnset<\/a>"],[100,1,"<a href=\"UrlParameters.php.html#71\">UrlParameters::offsetGet<\/a>"],[0,1,"<a href=\"UrlParameters.php.html#76\">UrlParameters::getIterator<\/a>"],[0,1,"<a href=\"UrlParameters.php.html#81\">UrlParameters::count<\/a>"],[100,1,"<a href=\"UrlParameters.php.html#86\">UrlParameters::toArray<\/a>"],[100,6,"<a href=\"UrlParameters.php.html#91\">UrlParameters::toString<\/a>"],[0,2,"<a href=\"UrlParameters.php.html#104\">UrlParameters::anonymousFunction:104#563<\/a>"],[100,1,"<a href=\"UrlParameters.php.html#127\">UrlParameters::__toString<\/a>"],[82.35294117647058,6,"<a href=\"XmlBuilder.php.html#11\">XmlBuilder::buildRecords<\/a>"]], 'Method Complexity'))
+      .transition()
+      .duration(500)
+      .call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  function getComplexityData(data, label) {
+    var values = [];
+    $.each(data, function(key) {
+      var value = Math.round(data[key][0]*100) / 100;
+      values.push({
+        x: value,
+        y: data[key][1],
+        class: data[key][2],
+        size: 0.05,
+        shape: 'diamond'
+      });
+    });
+
+    return [
+      {
+        key: label,
+        values: values,
+        color: "#4572A7"
+      }
+    ];
+  }
+});
+  </script>
+ </body>
+</html>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<phpunit colors="true">
+    <testsuites>
+        <testsuite name="ZOHO Unit Tests">
+            <directory>./tests</directory>
+        </testsuite>
+    </testsuites>
+    <filter>
+        <whitelist addUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">src/</directory>
+        </whitelist>e
+    </filter>
+    <php>
+        <env name="AUTH_TOKEN" value="0c85ee5db4119df7ad21bb9581d08670"/>
+    </php>
+</phpunit>
