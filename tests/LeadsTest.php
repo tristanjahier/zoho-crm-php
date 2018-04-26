@@ -94,7 +94,23 @@ class LeadsTest extends PHPUnit\Framework\TestCase
 
         $rawData = json_decode($lead->getRawData());
         $this->assertEquals('Record(s) updated successfully', $rawData->response->result->message);
+    }
 
+    public function testLeadEntity()
+    {
+        if (empty($this->insertedId))
+            $this->testInsert();
+
+        $response = $this->zohoInstance->leads->getById($this->insertedId[0]);
+
+        $lead = Zoho\CRM\Entities\Lead::createFromResponse($response);
+
+        $this->assertInstanceOf(Zoho\CRM\Entities\Lead::class, $lead);
+        $this->assertInternalType('string', $lead->id);
+
+        $lead->id = 'NEW_ID';
+
+        $this->assertEquals('NEW_ID', $lead->id);
     }
 
     /**

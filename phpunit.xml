@@ -9,9 +9,9 @@
     <filter>
         <whitelist addUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">src/</directory>
-        </whitelist>e
+        </whitelist>
     </filter>
     <php>
-        <env name="AUTH_TOKEN" value="0c85ee5db4119df7ad21bb9581d08670"/>
+        <env name="AUTH_TOKEN" value="311f03eb31459aecf50d02e8c4f5aa55"/>
     </php>
 </phpunit>
