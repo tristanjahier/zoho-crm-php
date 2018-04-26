@@ -113,6 +113,28 @@ class LeadsTest extends PHPUnit\Framework\TestCase
         $this->assertEquals('NEW_ID', $lead->id);
     }
 
+    public function testLeadEntityProperties()
+    {
+        $this->assertInternalType('array', Zoho\CRM\Entities\Lead::supportedProperties());
+        $this->assertTrue(Zoho\CRM\Entities\Lead::supports('LEADID'));
+        $this->assertFalse(Zoho\CRM\Entities\Lead::supports('INVALID'));
+    }
+
+    public function testInvalidLeadEntityAlias()
+    {
+        if (empty($this->insertedId))
+            $this->testInsert();
+
+        $response = $this->zohoInstance->leads->getById($this->insertedId[0]);
+
+        $lead = Zoho\CRM\Entities\Lead::createFromResponse($response);
+
+        $this->assertInstanceOf(Zoho\CRM\Entities\Lead::class, $lead);
+
+        $this->expectException(Zoho\CRM\Exception\UnsupportedEntityPropertyException::class);
+        $lead->invalid = 'DADASDAS';
+    }
+
     /**
      * Delete all records inserted after each test
      */

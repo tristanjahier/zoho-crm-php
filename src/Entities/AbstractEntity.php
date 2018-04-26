@@ -31,7 +31,7 @@ abstract class AbstractEntity
         return array_values(static::$property_aliases);
     }
 
-    public static function supports($property)
+        public static function supports($property)
     {
         return in_array($property, static::supportedProperties());
     }
