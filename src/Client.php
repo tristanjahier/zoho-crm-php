@@ -15,6 +15,7 @@ class Client
         'Users',
         'Leads',
         'Potentials',
+        'PotStageHistory',
         'Calls',
         'Contacts',
         'Products'
