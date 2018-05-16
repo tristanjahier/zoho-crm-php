@@ -1,4 +1,6 @@
-.DS_Store
-vendor/
+composer.phar
 composer.lock
+vendor/
 .psyshrc
+.idea
+.DS_Store
