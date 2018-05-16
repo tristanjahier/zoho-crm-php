@@ -12,7 +12,7 @@ class PotStageHistory extends AbstractRecordsModule
         'getRelatedRecords',
     ];
 
-    public function getPotentialHistory($potential_id)
+    public function getPotentialStageHistory($potential_id)
     {
         return $this->getRelatedById('Potential', $potential_id)->fetch()->getContent();
     }
