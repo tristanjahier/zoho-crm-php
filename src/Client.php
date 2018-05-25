@@ -20,6 +20,7 @@ class Client
         'Contacts',
         'Products',
         'Events',
+        'Tasks',
     ];
 
     private $auth_token;
