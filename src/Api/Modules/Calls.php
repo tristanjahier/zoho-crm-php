@@ -18,6 +18,7 @@ class Calls extends AbstractRecordsModule
         'updateRecords',
         'deleteRecords',
         'getDeletedRecordIds',
-        'getRelatedRecords'
+        'getRelatedRecords',
+        'getSearchRecordsByPDC',
     ];
 }

@@ -49,6 +49,14 @@ abstract class AbstractRecordsModule extends AbstractModule
         return $this->request('getRelatedRecords', ['parentModule' => $module, 'id' => $id], true);
     }
 
+    public function getByPredefinedColumn($column, $value)
+    {
+        return $this->request('getSearchRecordsByPDC', [
+            'searchColumn' => $column,
+            'searchValue' => $value
+        ], true);
+    }
+
     public function exists($id)
     {
         return $this->getById($id) !== null;

@@ -18,6 +18,7 @@ class Potentials extends AbstractRecordsModule
         'updateRecords',
         'deleteRecords',
         'getDeletedRecordIds',
-        'getRelatedRecords'
+        'getRelatedRecords',
+        'getSearchRecordsByPDC',
     ];
 }

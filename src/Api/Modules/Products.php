@@ -18,6 +18,7 @@ class Products extends AbstractRecordsModule
         'updateRecords',
         'deleteRecords',
         'getDeletedRecordIds',
-        'getRelatedRecords'
+        'getRelatedRecords',
+        'getSearchRecordsByPDC',
     ];
 }
