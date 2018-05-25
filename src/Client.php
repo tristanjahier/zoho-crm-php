@@ -18,7 +18,8 @@ class Client
         'PotStageHistory',
         'Calls',
         'Contacts',
-        'Products'
+        'Products',
+        'Events',
     ];
 
     private $auth_token;
