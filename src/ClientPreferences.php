@@ -19,7 +19,8 @@ class ClientPreferences
         $this->preferences = [
             'auto_fetch_paginated_requests' => false,
             'response_mode' => ClientResponseMode::WRAPPED,
-            'records_as_entities' => true
+            'records_as_entities' => true,
+            'validate_requests' => true,
         ];
     }
 

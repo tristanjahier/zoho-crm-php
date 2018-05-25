@@ -143,14 +143,14 @@ class Client
 
     public function request($module, $method, array $params = [], $pagination = false, $format = Api\ResponseFormat::JSON)
     {
-        // Check if the requested module and method are both supported
-        if (! $this->supports($module)) {
-            throw new Exception\UnsupportedModuleException($module);
-        } elseif (! $this->module($module)->supports($method)) {
-            throw new Exception\UnsupportedMethodException($module, $method);
+        if ($this->preferences->getValidateRequests()) {
+            // Check if the requested module and method are both supported
+            if (! $this->supports($module)) {
+                throw new Exception\UnsupportedModuleException($module);
+            } elseif (! $this->module($module)->supports($method)) {
+                throw new Exception\UnsupportedMethodException($module, $method);
+            }
         }
-
-        $module_class = $this->moduleClass($module);
 
         // Extend default parameters with the current auth token, and the user-defined parameters
         $url_parameters = (new Api\UrlParameters($this->default_parameters))
@@ -207,6 +207,7 @@ class Client
         // AND the module has an associated entity class
         $convert_to_entity = $this->preferences->getRecordsAsEntities() &&
                              $response->isConvertibleToEntity() &&
+                             isset($module_class) &&
                              $module_class::hasAssociatedEntity();
 
         if ($convert_to_entity) {
