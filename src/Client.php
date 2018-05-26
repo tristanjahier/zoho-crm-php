@@ -21,6 +21,7 @@ class Client
         'Products',
         'Events',
         'Tasks',
+        'Notes',
     ];
 
     private $auth_token;
