@@ -98,6 +98,15 @@ class RequestPaginator
         return $this->responses;
     }
 
+    public function fetchLimit($limit)
+    {
+        while ($this->has_more_data && $this->fetch_count < $limit) {
+            $this->fetch();
+        }
+
+        return $this->responses;
+    }
+
     public function getAggregatedResponse()
     {
         $raw_data = [];
