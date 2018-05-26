@@ -29,7 +29,7 @@ class GetRecords extends AbstractMethod
                 }
 
                 foreach ($attributes as $attr) {
-                    $record[$attr['val']] = $attr['content'];
+                    $record[$attr['val']] = isset($attr['content']) ? $attr['content'] : null;
                 }
 
                 $records[] = $record;
