@@ -10,6 +10,8 @@ class RequestLauncher
 
     private static $http_client;
 
+    private static $request_count = 0;
+
     public static function initialize()
     {
         if (self::$initialized) return;
@@ -21,9 +23,22 @@ class RequestLauncher
         self::$initialized = true;
     }
 
+    public static function resetRequestCount()
+    {
+        self::$request_count = 0;
+    }
+
+    public static function getRequestCount()
+    {
+        return self::$request_count;
+    }
+
     public static function fire(Request $request)
     {
         $response = self::$http_client->request($request->getHttpVerb(), $request->buildUri());
+
+        self::$request_count++;
+
         return $response->getBody()->getContents();
     }
 }
