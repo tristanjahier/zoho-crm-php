@@ -74,10 +74,17 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
                     return $entity->get($property) >= $value;
                 case '<=':
                     return $entity->get($property) <= $value;
+                case 'in':
+                    return in_array($entity->get($property), $value);
             }
 
             throw new InvalidComparisonOperatorException($operator);
         });
+    }
+
+    public function whereIn($property, array $values)
+    {
+        return $this->where($property, 'in', $values);
     }
 
     public function pluck($property, $index = null, $filter = false)
