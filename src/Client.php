@@ -22,6 +22,7 @@ class Client
         'Events',
         'Tasks',
         'Notes',
+        'Attachments',
     ];
 
     private $auth_token;
