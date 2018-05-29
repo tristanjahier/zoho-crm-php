@@ -107,4 +107,9 @@ abstract class AbstractRecordsModule extends AbstractModule
     {
         return $this->request('getDeletedRecordIds', [], true);
     }
+
+    public function deleteAttachedFile($attachment_id)
+    {
+        return $this->request('deleteFile', ['id' => $attachment_id]);
+    }
 }

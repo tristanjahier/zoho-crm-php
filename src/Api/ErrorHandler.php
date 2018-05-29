@@ -8,6 +8,7 @@ class ErrorHandler
         '4600'  => Exception\InvalidParametersException::class,
         '4820'  => Exception\RateLimitExceededException::class,
         '4834'  => Exception\InvalidTicketIdException::class,
+        '4103'  => Exception\RecordNotFoundException::class,
     ];
 
     public static function handle(array $error)

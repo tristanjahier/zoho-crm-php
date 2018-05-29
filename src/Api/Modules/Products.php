@@ -20,5 +20,6 @@ class Products extends AbstractRecordsModule
         'getDeletedRecordIds',
         'getRelatedRecords',
         'getSearchRecordsByPDC',
+        'deleteFile',
     ];
 }

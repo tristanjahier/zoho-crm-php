@@ -20,5 +20,6 @@ class Tasks extends AbstractRecordsModule
         'getDeletedRecordIds',
         'getRelatedRecords',
         'getSearchRecordsByPDC',
+        'deleteFile',
     ];
 }

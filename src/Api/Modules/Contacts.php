@@ -20,5 +20,6 @@ class Contacts extends AbstractRecordsModule
         'getDeletedRecordIds',
         'getRelatedRecords',
         'getSearchRecordsByPDC',
+        'deleteFile',
     ];
 }

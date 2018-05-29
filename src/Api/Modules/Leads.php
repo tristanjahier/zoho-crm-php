@@ -20,5 +20,6 @@ class Leads extends AbstractRecordsModule
         'getDeletedRecordIds',
         'getRelatedRecords',
         'getSearchRecordsByPDC',
+        'deleteFile',
     ];
 }

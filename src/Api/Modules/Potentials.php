@@ -20,5 +20,6 @@ class Potentials extends AbstractRecordsModule
         'getDeletedRecordIds',
         'getRelatedRecords',
         'getSearchRecordsByPDC',
+        'deleteFile',
     ];
 }
