@@ -14,6 +14,7 @@ class Event extends AbstractEntity
         'location'          => 'Venue',
         'starts_at'         => 'Start DateTime',
         'ends_at'           => 'End DateTime',
+        'recurrence_id'     => 'RECURRENCEID',
         'recurrence'        => 'Recurring Activity',
         'tags'              => 'Tag',
         'related_to'        => 'RELATEDTOID',
