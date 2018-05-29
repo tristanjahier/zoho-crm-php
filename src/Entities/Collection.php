@@ -76,10 +76,24 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
                     return $entity->get($property) <= $value;
                 case 'in':
                     return in_array($entity->get($property), $value);
+                case '=~':
+                    return preg_match($value, $entity->get($property)) === 1;
+                case 'like':
+                    return $this->stringIsLike($entity->get($property), $value);
             }
 
             throw new InvalidComparisonOperatorException($operator);
         });
+    }
+
+    private function stringIsLike($value, $pattern)
+    {
+        $pattern = preg_quote($pattern, '#');
+
+        // Asterisks are translated into zero-or-more regular expression wildcards.
+        $pattern = str_replace('\*', '.*', $pattern);
+
+        return preg_match('#^'.$pattern.'\z#ui', $value) === 1;
     }
 
     public function whereIn($property, array $values)
