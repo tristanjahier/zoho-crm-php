@@ -2,7 +2,7 @@
 
 namespace Zoho\CRM\Api\Modules;
 
-use Zoho\CRM\Client as ZohoClient;
+use Zoho\CRM\Connection;
 use Zoho\CRM\ClassShortNameTrait;
 use Zoho\CRM\Api\UrlParameters;
 use Zoho\CRM\Api\Modules\ModuleFields;
@@ -18,20 +18,20 @@ abstract class AbstractModule
 
     protected static $supported_methods = [];
 
-    private $client;
+    private $connection;
 
     private $fields;
 
     protected $parameters_accumulator;
 
-    public function __construct(ZohoClient $client)
+    public function __construct(Connection $connection)
     {
-        $this->client = $client;
+        $this->connection = $connection;
         $this->parameters_accumulator = new UrlParameters();
 
         // Add a meta module to retrieve this module's fields
         if (!($this instanceof ModuleFields)) {
-            $this->fields = new ModuleFields($client, self::name());
+            $this->fields = new ModuleFields($connection, self::name());
         }
     }
 
@@ -60,9 +60,9 @@ abstract class AbstractModule
         return in_array($method, static::$supported_methods);
     }
 
-    public function attachedClient()
+    public function connection()
     {
-        return $this->client;
+        return $this->connection;
     }
 
     public function fields()
@@ -79,7 +79,7 @@ abstract class AbstractModule
     {
         $params = $this->parameters_accumulator->extend($params)->toArray();
         $this->parameters_accumulator->reset();
-        return $this->client->request($this->managedModule(), $method, $params, $pagination);
+        return $this->connection->request($this->managedModule(), $method, $params, $pagination);
     }
 
     public function orderBy($column, $order = 'asc')

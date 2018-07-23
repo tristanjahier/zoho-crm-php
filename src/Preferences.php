@@ -2,10 +2,10 @@
 
 namespace Zoho\CRM;
 
-use Zoho\CRM\Exception\UnsupportedClientPreferenceException;
+use Zoho\CRM\Exception\UnsupportedPreferenceException;
 use Doctrine\Common\Inflector\Inflector;
 
-class ClientPreferences
+class Preferences
 {
     private $preferences = [];
 
@@ -18,7 +18,7 @@ class ClientPreferences
     {
         $this->preferences = [
             'auto_fetch_paginated_requests' => false,
-            'response_mode' => ClientResponseMode::WRAPPED,
+            'response_mode' => ResponseMode::WRAPPED,
             'records_as_entities' => true,
             'validate_requests' => true,
         ];
@@ -29,7 +29,7 @@ class ClientPreferences
         if (array_key_exists($key, $this->preferences))
             $this->preferences[$key] = $value;
         else
-            throw new UnsupportedClientPreferenceException($key);
+            throw new UnsupportedPreferenceException($key);
     }
 
     public function get($key)
@@ -37,7 +37,7 @@ class ClientPreferences
         if (array_key_exists($key, $this->preferences))
             return $this->preferences[$key];
         else
-            throw new UnsupportedClientPreferenceException($key);
+            throw new UnsupportedPreferenceException($key);
     }
 
     public function override(array $new_prefs)

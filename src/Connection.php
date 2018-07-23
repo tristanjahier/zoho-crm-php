@@ -2,13 +2,13 @@
 
 namespace Zoho\CRM;
 
-use Zoho\CRM\ClientResponseMode;
+use Zoho\CRM\ResponseMode;
 use Zoho\CRM\Entities\AbstractEntity;
 use Zoho\CRM\Entities\Collection;
 use Zoho\CRM\Api\Modules\AbstractModule;
 use Doctrine\Common\Inflector\Inflector;
 
-class Client
+class Connection
 {
     private static $default_modules = [
         'Info',
@@ -43,12 +43,12 @@ class Client
 
     public function __construct($auth_token = null)
     {
-        // Allow to instanciate a client without an auth token
+        // Allow to instanciate a connection without an auth token
         if ($auth_token !== null) {
             $this->setAuthToken($auth_token);
         }
 
-        $this->preferences = new ClientPreferences();
+        $this->preferences = new Preferences();
 
         $this->attachDefaultModules();
     }
@@ -200,7 +200,7 @@ class Client
 
     private function preferredResponse(Api\Response $response)
     {
-        if ($this->preferences->getResponseMode() === ClientResponseMode::WRAPPED) {
+        if ($this->preferences->getResponseMode() === ResponseMode::WRAPPED) {
             return $response;
         }
 

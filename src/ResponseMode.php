@@ -2,7 +2,7 @@
 
 namespace Zoho\CRM;
 
-abstract class ClientResponseMode
+abstract class ResponseMode
 {
     const WRAPPED = 0;
     const DIRECT = 1;

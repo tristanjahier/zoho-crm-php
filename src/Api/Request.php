@@ -2,7 +2,7 @@
 
 namespace Zoho\CRM\Api;
 
-use Zoho\CRM\Client as ZohoClient;
+use Zoho\CRM\Connection;
 
 class Request
 {
@@ -18,7 +18,7 @@ class Request
 
     private $parameters;
 
-    public function __construct(ZohoClient $emitter, $format, $module, $method, UrlParameters $parameters, $http_verb = HttpVerb::GET)
+    public function __construct(Connection $emitter, $format, $module, $method, UrlParameters $parameters, $http_verb = HttpVerb::GET)
     {
         $this->emitter = $emitter;
         $this->http_verb = $http_verb;
