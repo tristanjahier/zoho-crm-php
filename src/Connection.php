@@ -1,11 +1,11 @@
 <?php
 
-namespace Zoho\CRM;
+namespace Zoho\Crm;
 
-use Zoho\CRM\ResponseMode;
-use Zoho\CRM\Entities\AbstractEntity;
-use Zoho\CRM\Entities\Collection;
-use Zoho\CRM\Api\Modules\AbstractModule;
+use Zoho\Crm\ResponseMode;
+use Zoho\Crm\Entities\AbstractEntity;
+use Zoho\Crm\Entities\Collection;
+use Zoho\Crm\Api\Modules\AbstractModule;
 use Doctrine\Common\Inflector\Inflector;
 
 class Connection

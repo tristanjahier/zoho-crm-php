@@ -1,9 +1,9 @@
 <?php
 
-namespace Zoho\CRM\Api\Methods;
+namespace Zoho\Crm\Api\Methods;
 
-use Zoho\CRM\Api\Request;
-use Zoho\CRM\Api\ResponseDataType;
+use Zoho\Crm\Api\Request;
+use Zoho\Crm\Api\ResponseDataType;
 
 class DeleteFile extends AbstractMethod
 {

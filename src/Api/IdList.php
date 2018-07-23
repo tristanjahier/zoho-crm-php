@@ -1,6 +1,6 @@
 <?php
 
-namespace Zoho\CRM\Api;
+namespace Zoho\Crm\Api;
 
 class IdList implements \ArrayAccess, \IteratorAggregate, \Countable
 {

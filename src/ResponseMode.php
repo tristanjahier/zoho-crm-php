@@ -1,6 +1,6 @@
 <?php
 
-namespace Zoho\CRM;
+namespace Zoho\Crm;
 
 abstract class ResponseMode
 {

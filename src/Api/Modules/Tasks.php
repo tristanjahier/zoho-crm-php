@@ -1,12 +1,12 @@
 <?php
 
-namespace Zoho\CRM\Api\Modules;
+namespace Zoho\Crm\Api\Modules;
 
 class Tasks extends AbstractRecordsModule
 {
     protected static $primary_key = 'ACTIVITYID';
 
-    protected static $associated_entity = \Zoho\CRM\Entities\Task::class;
+    protected static $associated_entity = \Zoho\Crm\Entities\Task::class;
 
     protected static $supported_methods = [
         'getFields',

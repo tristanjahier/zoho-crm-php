@@ -1,6 +1,6 @@
 <?php
 
-namespace Zoho\CRM\Entities;
+namespace Zoho\Crm\Entities;
 
 class User extends AbstractEntity
 {

@@ -1,11 +1,11 @@
 <?php
 
-namespace Zoho\CRM\Api\Modules;
+namespace Zoho\Crm\Api\Modules;
 
-use Zoho\CRM\Connection;
-use Zoho\CRM\ClassShortNameTrait;
-use Zoho\CRM\Api\UrlParameters;
-use Zoho\CRM\Api\Modules\ModuleFields;
+use Zoho\Crm\Connection;
+use Zoho\Crm\ClassShortNameTrait;
+use Zoho\Crm\Api\UrlParameters;
+use Zoho\Crm\Api\Modules\ModuleFields;
 use Doctrine\Common\Inflector\Inflector;
 
 abstract class AbstractModule

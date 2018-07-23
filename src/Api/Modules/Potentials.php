@@ -1,12 +1,12 @@
 <?php
 
-namespace Zoho\CRM\Api\Modules;
+namespace Zoho\Crm\Api\Modules;
 
 class Potentials extends AbstractRecordsModule
 {
     protected static $primary_key = 'POTENTIALID';
 
-    protected static $associated_entity = \Zoho\CRM\Entities\Potential::class;
+    protected static $associated_entity = \Zoho\Crm\Entities\Potential::class;
 
     protected static $supported_methods = [
         'getFields',

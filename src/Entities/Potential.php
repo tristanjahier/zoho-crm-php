@@ -1,6 +1,6 @@
 <?php
 
-namespace Zoho\CRM\Entities;
+namespace Zoho\Crm\Entities;
 
 class Potential extends AbstractEntity
 {

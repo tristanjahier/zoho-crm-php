@@ -1,12 +1,12 @@
 <?php
 
-namespace Zoho\CRM\Api\Modules;
+namespace Zoho\Crm\Api\Modules;
 
 class Contacts extends AbstractRecordsModule
 {
     protected static $primary_key = 'CONTACTID';
 
-    protected static $associated_entity = \Zoho\CRM\Entities\Contact::class;
+    protected static $associated_entity = \Zoho\Crm\Entities\Contact::class;
 
     protected static $supported_methods = [
         'getFields',

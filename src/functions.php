@@ -1,6 +1,6 @@
 <?php
 
-namespace Zoho\CRM;
+namespace Zoho\Crm;
 
 // Guard to avoid multiple definitions of the following functions
 const FUNCTIONS_DEFINED = true;

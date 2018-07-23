@@ -17,7 +17,7 @@ This package is currently at an early development stage. Full documentation will
 
 ```php
 // Create a Zoho connection
-$zoho = new Zoho\CRM\Connection('MY_ZOHO_AUTH_TOKEN');
+$zoho = new Zoho\Crm\Connection('MY_ZOHO_AUTH_TOKEN');
 
 // Use its supported modules to make easy requests...
 $one_lead = $zoho->leads->getById('1212717324723478324');

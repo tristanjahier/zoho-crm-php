@@ -1,10 +1,10 @@
 <?php
 
-namespace Zoho\CRM\Api;
+namespace Zoho\Crm\Api;
 
 use SimpleXMLElement;
-use Zoho\CRM\Entities\Collection;
-use Zoho\CRM\Entities\AbstractEntity;
+use Zoho\Crm\Entities\Collection;
+use Zoho\Crm\Entities\AbstractEntity;
 
 class XmlBuilder
 {
@@ -29,7 +29,7 @@ class XmlBuilder
             foreach ($record as $attr_name => $attr_value) {
                 // Stringify boolean values
                 if (is_bool($attr_value)) {
-                    $attr_value = \Zoho\CRM\booleanToString($attr_value);
+                    $attr_value = \Zoho\Crm\booleanToString($attr_value);
                 }
 
                 $attr = $row->addChild('FL', $attr_value);

@@ -1,6 +1,6 @@
 <?php
 
-namespace Zoho\CRM\Api;
+namespace Zoho\Crm\Api;
 
 class Response
 {
@@ -22,7 +22,7 @@ class Response
         $this->raw_data = $raw_data;
         $this->content = $content;
         $this->paginated = is_array($raw_data);
-        $method_class = \Zoho\CRM\getMethodClassName($this->request->getMethod());
+        $method_class = \Zoho\Crm\getMethodClassName($this->request->getMethod());
         $this->type = $method_class::getResponseDataType();
         $this->has_multiple_records = $method_class::expectsMultipleRecords($this->request);
     }

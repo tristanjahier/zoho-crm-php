@@ -1,10 +1,10 @@
 <?php
 
-namespace Zoho\CRM\Api\Modules;
+namespace Zoho\Crm\Api\Modules;
 
 class Users extends AbstractModule
 {
-    protected static $associated_entity = \Zoho\CRM\Entities\User::class;
+    protected static $associated_entity = \Zoho\Crm\Entities\User::class;
 
     protected static $supported_methods = [
         'getUsers'

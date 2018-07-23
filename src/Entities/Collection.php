@@ -1,12 +1,12 @@
 <?php
 
-namespace Zoho\CRM\Entities;
+namespace Zoho\Crm\Entities;
 
 use ArrayAccess;
 use IteratorAggregate;
 use Countable;
-use Zoho\CRM\Exception\InvalidComparisonOperatorException;
-use Zoho\CRM\Api\Response;
+use Zoho\Crm\Exception\InvalidComparisonOperatorException;
+use Zoho\Crm\Api\Response;
 
 class Collection implements ArrayAccess, IteratorAggregate, Countable
 {

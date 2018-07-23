@@ -1,8 +1,8 @@
 <?php
 
-namespace Zoho\CRM;
+namespace Zoho\Crm;
 
-use Zoho\CRM\Exception\UnsupportedPreferenceException;
+use Zoho\Crm\Exception\UnsupportedPreferenceException;
 use Doctrine\Common\Inflector\Inflector;
 
 class Preferences

@@ -1,12 +1,12 @@
 <?php
 
-namespace Zoho\CRM\Api\Modules;
+namespace Zoho\Crm\Api\Modules;
 
 class Products extends AbstractRecordsModule
 {
     protected static $primary_key = 'PRODUCTID';
 
-    protected static $associated_entity = \Zoho\CRM\Entities\Product::class;
+    protected static $associated_entity = \Zoho\Crm\Entities\Product::class;
 
     protected static $supported_methods = [
         'getFields',

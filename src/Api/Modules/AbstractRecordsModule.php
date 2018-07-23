@@ -1,9 +1,9 @@
 <?php
 
-namespace Zoho\CRM\Api\Modules;
+namespace Zoho\Crm\Api\Modules;
 
-use Zoho\CRM\Api\IdList;
-use Zoho\CRM\Api\XmlBuilder;
+use Zoho\Crm\Api\IdList;
+use Zoho\Crm\Api\XmlBuilder;
 
 abstract class AbstractRecordsModule extends AbstractModule
 {

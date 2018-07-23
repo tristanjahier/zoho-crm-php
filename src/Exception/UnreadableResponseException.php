@@ -1,6 +1,6 @@
 <?php
 
-namespace Zoho\CRM\Exception;
+namespace Zoho\Crm\Exception;
 
 class UnreadableResponseException extends \Exception
 {

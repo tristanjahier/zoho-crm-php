@@ -1,8 +1,8 @@
 <?php
 
-namespace Zoho\CRM\Api;
+namespace Zoho\Crm\Api;
 
-use Zoho\CRM\Connection;
+use Zoho\Crm\Connection;
 
 class Request
 {

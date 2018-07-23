@@ -1,6 +1,6 @@
 <?php
 
-namespace Zoho\CRM\Api\Exception;
+namespace Zoho\Crm\Api\Exception;
 
 class InvalidTicketIdException extends AbstractException
 {

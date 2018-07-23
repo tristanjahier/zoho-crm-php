@@ -1,10 +1,10 @@
 <?php
 
-namespace Zoho\CRM\Entities;
+namespace Zoho\Crm\Entities;
 
-use Zoho\CRM\ClassShortNameTrait;
-use Zoho\CRM\Exception\UnsupportedEntityPropertyException;
-use Zoho\CRM\Api\Response;
+use Zoho\Crm\ClassShortNameTrait;
+use Zoho\Crm\Exception\UnsupportedEntityPropertyException;
+use Zoho\Crm\Api\Response;
 
 abstract class AbstractEntity
 {

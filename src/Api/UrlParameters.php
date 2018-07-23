@@ -1,6 +1,6 @@
 <?php
 
-namespace Zoho\CRM\Api;
+namespace Zoho\Crm\Api;
 
 class UrlParameters implements \ArrayAccess, \IteratorAggregate, \Countable
 {
@@ -102,7 +102,7 @@ class UrlParameters implements \ArrayAccess, \IteratorAggregate, \Countable
                 if (is_array($value)) {
                     // Stringify boolean values
                     $value = array_map(function($el) {
-                        return is_bool($el) ? \Zoho\CRM\booleanToString($el) : $el;
+                        return is_bool($el) ? \Zoho\Crm\booleanToString($el) : $el;
                     }, $value);
 
                     // Join elements with comas i.e.: (el1,el2,el3,el4)
@@ -111,7 +111,7 @@ class UrlParameters implements \ArrayAccess, \IteratorAggregate, \Countable
                 } else {
                     // Stringify boolean values
                     if (is_bool($value)) {
-                        $value = \Zoho\CRM\booleanToString($value);
+                        $value = \Zoho\Crm\booleanToString($value);
                     }
                 }
 

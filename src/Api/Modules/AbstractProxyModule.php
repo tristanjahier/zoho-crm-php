@@ -1,6 +1,6 @@
 <?php
 
-namespace Zoho\CRM\Api\Modules;
+namespace Zoho\Crm\Api\Modules;
 
 abstract class AbstractProxyModule extends AbstractModule
 {
