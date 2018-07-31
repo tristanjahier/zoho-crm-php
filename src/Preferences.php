@@ -17,10 +17,7 @@ class Preferences
     public function resetDefaults()
     {
         $this->preferences = [
-            'auto_fetch_paginated_requests' => false,
-            'response_mode' => ResponseMode::WRAPPED,
-            'records_as_entities' => true,
-            'validate_requests' => true,
+            'validate_queries' => true,
         ];
     }
 

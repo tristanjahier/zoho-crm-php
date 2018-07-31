@@ -10,6 +10,6 @@ class Info extends AbstractModule
 
     public function getModules()
     {
-        return $this->request('getModules');
+        return $this->newQuery('getModules')->get();
     }
 }

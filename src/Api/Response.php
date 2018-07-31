@@ -6,25 +6,22 @@ class Response
 {
     private $type;
 
-    private $request;
+    private $query;
 
-    private $raw_data;
+    private $raw_content;
 
     private $content;
 
-    private $paginated;
-
     private $has_multiple_records;
 
-    public function __construct(Request $request, $raw_data, $content)
+    public function __construct(Query $query, $content, $raw_content)
     {
-        $this->request = $request;
-        $this->raw_data = $raw_data;
+        $this->query = $query;
+        $this->raw_content = $raw_content;
         $this->content = $content;
-        $this->paginated = is_array($raw_data);
-        $method_class = \Zoho\Crm\getMethodClassName($this->request->getMethod());
+        $method_class = \Zoho\Crm\getMethodClassName($this->query->getMethod());
         $this->type = $method_class::getResponseDataType();
-        $this->has_multiple_records = $method_class::expectsMultipleRecords($this->request);
+        $this->has_multiple_records = $method_class::expectsMultipleRecords($this->query);
     }
 
     public function getType()
@@ -32,14 +29,14 @@ class Response
         return $this->type;
     }
 
-    public function getRequest()
+    public function getQuery()
     {
-        return $this->request;
+        return $this->query;
     }
 
-    public function getRawData()
+    public function getRawContent()
     {
-        return $this->raw_data;
+        return $this->raw_content;
     }
 
     public function getContent()
@@ -47,9 +44,21 @@ class Response
         return $this->content;
     }
 
-    public function isPaginated()
+    public function setContent($content)
     {
-        return $this->paginated;
+        $this->content = $content;
+
+        return $this;
+    }
+
+    public function isEmpty()
+    {
+        return $this->content === null || empty($this->content);
+    }
+
+    public function hasContent()
+    {
+        return ! $this->isEmpty();
     }
 
     public function containsRecords()
@@ -69,7 +78,7 @@ class Response
 
     public function isConvertibleToEntity()
     {
-        return $this->type === ResponseDataType::RECORDS ||
-               $this->request->getMethod() === 'getUsers';
+        return $this->containsRecords()
+            || $this->query->getMethod() === 'getUsers';
     }
 }

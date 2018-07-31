@@ -7,22 +7,22 @@ use Zoho\Crm\Exception\MethodNotFoundException;
 
 class ResponseParser
 {
-    public static function clean(Request $request, $data)
+    public static function clean(Query $query, $data)
     {
-        $parsed_data = self::parse($data, $request->getFormat());
+        $parsed_data = self::parse($data, $query->getFormat());
 
         // Detect errors in the response
         if (! self::validate($parsed_data)) {
             return null;
         }
 
-        $api_method_handler = \Zoho\Crm\getMethodClassName($request->getMethod());
+        $api_method_handler = \Zoho\Crm\getMethodClassName($query->getMethod());
         if (! class_exists($api_method_handler)) {
             throw new MethodNotFoundException("Method handler $api_method_handler not found.");
         }
 
         if ($api_method_handler::responseContainsData($parsed_data)) {
-            return $api_method_handler::tidyResponse($parsed_data, $request);
+            return $api_method_handler::tidyResponse($parsed_data, $query);
         } else {
             return null; // No data
         }

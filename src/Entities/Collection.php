@@ -257,7 +257,7 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
             return null;
         }
 
-        $module_class = $response->getRequest()->getModuleClass();
+        $module_class = \Zoho\Crm\getModuleClassName($response->getQuery()->getModule());
         $entity_class = $module_class::associatedEntity();
         $collection = new static();
 

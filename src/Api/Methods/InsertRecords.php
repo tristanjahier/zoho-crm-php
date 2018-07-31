@@ -3,7 +3,7 @@
 namespace Zoho\Crm\Api\Methods;
 
 use Zoho\Crm\Api\ResponseDataType;
-use Zoho\Crm\Api\Request;
+use Zoho\Crm\Api\Query;
 use Zoho\Crm\Api\HttpVerb;
 
 class InsertRecords extends AbstractMethod
@@ -12,10 +12,10 @@ class InsertRecords extends AbstractMethod
 
     protected static $http_verb = HttpVerb::POST;
 
-    public static function tidyResponse(array $response, Request $request)
+    public static function tidyResponse(array $response, Query $query)
     {
         $record_ids = [];
-        $version = $request->getParameters()['version'];
+        $version = $query->getParameter('version');
 
         if ($version === 2) {
 

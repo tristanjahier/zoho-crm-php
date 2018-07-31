@@ -150,7 +150,7 @@ abstract class AbstractEntity
             return null;
         }
 
-        $module_class = $response->getRequest()->getModuleClass();
+        $module_class = \Zoho\Crm\getModuleClassName($response->getQuery()->getModule());
         $entity_class = $module_class::associatedEntity();
 
         return new $entity_class($response->getContent());

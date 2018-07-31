@@ -3,15 +3,15 @@
 namespace Zoho\Crm\Api\Methods;
 
 use Zoho\Crm\Api\ResponseDataType;
-use Zoho\Crm\Api\Request;
+use Zoho\Crm\Api\Query;
 
 class GetFields extends AbstractMethod
 {
     protected static $response_type = ResponseDataType::OTHER;
 
-    public static function tidyResponse(array $response, Request $request)
+    public static function tidyResponse(array $response, Query $query)
     {
-        $sections = $response[$request->getModule()]['section'];
+        $sections = $response[$query->getModule()]['section'];
 
         // Single section or multiple sections?
         // If single section: wrap it in an array to process it generically

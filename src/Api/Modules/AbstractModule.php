@@ -4,7 +4,6 @@ namespace Zoho\Crm\Api\Modules;
 
 use Zoho\Crm\Connection;
 use Zoho\Crm\ClassShortNameTrait;
-use Zoho\Crm\Api\UrlParameters;
 use Zoho\Crm\Api\Modules\ModuleFields;
 use Doctrine\Common\Inflector\Inflector;
 
@@ -22,15 +21,12 @@ abstract class AbstractModule
 
     private $fields;
 
-    protected $parameters_accumulator;
-
     public function __construct(Connection $connection)
     {
         $this->connection = $connection;
-        $this->parameters_accumulator = new UrlParameters();
 
         // Add a meta module to retrieve this module's fields
-        if (!($this instanceof ModuleFields)) {
+        if (! ($this instanceof ModuleFields)) {
             $this->fields = new ModuleFields($connection, self::name());
         }
     }
@@ -70,49 +66,8 @@ abstract class AbstractModule
         return $this->fields;
     }
 
-    private function managedModule()
+    public function newQuery($method = null, $params = [], $paginated = false)
     {
-        return $this instanceof AbstractProxyModule ? $this->mandatedModule() : self::name();
-    }
-
-    protected function request($method, array $params = [], $pagination = false)
-    {
-        $params = $this->parameters_accumulator->extend($params)->toArray();
-        $this->parameters_accumulator->reset();
-        return $this->connection->request($this->managedModule(), $method, $params, $pagination);
-    }
-
-    public function orderBy($column, $order = 'asc')
-    {
-        $this->parameters_accumulator['sortColumnString'] = $column;
-        $this->parameters_accumulator['sortOrderString'] = $order;
-        return $this;
-    }
-
-    public function modifiedAfter($date)
-    {
-        if (! ($date instanceof \DateTime) && is_string($date)) {
-            $date = new \DateTime($date);
-        }
-
-        $this->parameters_accumulator['lastModifiedTime'] = $date->format('Y-m-d H:i:s');
-        return $this;
-    }
-
-    public function modifiedBefore($date)
-    {
-        if (! ($date instanceof \DateTime) && is_string($date)) {
-            $date = new \DateTime($date);
-        }
-
-        $this->parameters_accumulator['maxModifiedTime'] = $date;
-        return $this;
-    }
-
-    public function selectColumns(array $columns)
-    {
-        $selection_str = $this->managedModule() . '(' . implode(',', $columns) . ')';
-        $this->parameters_accumulator['selectColumns'] = $selection_str;
-        return $this;
+        return $this->connection->newQuery(self::name(), $method, $params, $paginated);
     }
 }

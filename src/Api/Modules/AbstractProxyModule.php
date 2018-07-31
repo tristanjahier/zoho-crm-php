@@ -4,16 +4,21 @@ namespace Zoho\Crm\Api\Modules;
 
 abstract class AbstractProxyModule extends AbstractModule
 {
-    protected $mandated_module;
+    protected $mandator;
 
     public function __construct($owner, $module)
     {
-        $this->mandated_module = $module;
         parent::__construct($owner);
+        $this->mandator = $module;
     }
 
-    public function mandatedModule()
+    public function mandatorModule()
     {
-        return $this->mandated_module;
+        return $this->mandator;
+    }
+
+    public function newQuery($method = null, $params = [], $paginated = false)
+    {
+        return parent::newQuery($method, $params, $paginated)->module($this->mandator);
     }
 }

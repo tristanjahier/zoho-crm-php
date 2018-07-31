@@ -2,14 +2,19 @@
 
 namespace Zoho\Crm;
 
-use Zoho\Crm\ResponseMode;
 use Zoho\Crm\Entities\AbstractEntity;
 use Zoho\Crm\Entities\Collection;
 use Zoho\Crm\Api\Modules\AbstractModule;
+use Zoho\Crm\Api\Query;
 use Doctrine\Common\Inflector\Inflector;
+use GuzzleHttp\Client as GuzzleClient;
 
 class Connection
 {
+    const DEFAULT_ENDPOINT = 'https://crm.zoho.com/crm/private/';
+
+    const DEFAULT_FORMAT = Api\ResponseFormat::JSON;
+
     private static $default_modules = [
         'Info',
         'Users',
@@ -25,7 +30,13 @@ class Connection
         'Attachments',
     ];
 
+    private $endpoint = self::DEFAULT_ENDPOINT;
+
     private $auth_token;
+
+    private $http_client;
+
+    private $request_count = 0;
 
     private $preferences;
 
@@ -33,8 +44,8 @@ class Connection
         'scope' => 'crmapi',
         'newFormat' => 1,
         'version' => 2,
-        'fromIndex' => Api\RequestPaginator::MIN_INDEX,
-        'toIndex' => Api\RequestPaginator::PAGE_MAX_SIZE,
+        'fromIndex' => Api\QueryPaginator::MIN_INDEX,
+        'toIndex' => Api\QueryPaginator::PAGE_MAX_SIZE,
         'sortColumnString' => 'Modified Time',
         'sortOrderString' => 'asc'
     ];
@@ -43,6 +54,10 @@ class Connection
 
     public function __construct($auth_token = null)
     {
+        $this->http_client = new GuzzleClient([
+            'base_uri' => $this->endpoint
+        ]);
+
         // Allow to instanciate a connection without an auth token
         if ($auth_token !== null) {
             $this->setAuthToken($auth_token);
@@ -107,6 +122,16 @@ class Connection
         return $this->{Inflector::tableize($module)};
     }
 
+    public function resetRequestCount()
+    {
+        $this->request_count = 0;
+    }
+
+    public function getRequestCount()
+    {
+        return $this->request_count;
+    }
+
     public function preferences()
     {
         return $this->preferences;
@@ -145,10 +170,33 @@ class Connection
         unset($this->default_parameters[$key]);
     }
 
-    public function request($module, $method, array $params = [], $pagination = false, $format = Api\ResponseFormat::JSON)
+    public function newQuery($module = null, $method = null, $params = [], $paginated = false)
     {
-        if ($this->preferences->getValidateRequests()) {
-            // Check if the requested module and method are both supported
+        return (new Query($this))
+            ->format(self::DEFAULT_FORMAT)
+            ->module($module)
+            ->method($method)
+            ->params($this->default_parameters)
+            ->params($params)
+            ->param('authtoken', '_HIDDEN_')
+            ->paginated($paginated);
+    }
+
+    public function executeQuery(Query $query)
+    {
+        if ($query->isPaginated()) {
+            $paginator = $query->getPaginator();
+            $paginator->fetchAll();
+            return $paginator->getAggregatedResponse();
+        }
+
+        $query->validate();
+
+        // Check if the requested module and method are both supported
+        if ($this->preferences->get('validate_queries')) {
+            $module = $query->getModule();
+            $method = $query->getMethod();
+
             if (! $this->supports($module)) {
                 throw new Exception\UnsupportedModuleException($module);
             } elseif (! $this->module($module)->supports($method)) {
@@ -156,65 +204,32 @@ class Connection
             }
         }
 
-        // Extend default parameters with the current auth token, and the user-defined parameters
-        $url_parameters = (new Api\UrlParameters($this->default_parameters))
-                              ->extend(['authtoken' => $this->auth_token])
-                              ->extend($params);
+        // Add auth token after validation to avoid exposing it in the error log messages
+        $query->param('authtoken', $this->auth_token);
 
-        // Edge case for 'maxModifiedTime' parameter which is not part of the Zoho API
-        $max_modified_time = $url_parameters->pull('maxModifiedTime');
-
-        // Determine the HTTP verb (GET or POST) to use based on the API method
-        $method_class = getMethodClassName($method);
+        // Determine the HTTP verb to use based on the API method
+        $method_class = getMethodClassName($query->getMethod());
         $http_verb = $method_class::getHttpVerb();
 
-        // Build a request object which encapsulates everything
-        $request = new Api\Request($this, $format, $module, $method, $url_parameters, $http_verb);
+        // Perform the HTTP request
+        $response = $this->http_client->request($http_verb, $query->buildUri());
+        $this->request_count++;
 
-        $response = null;
+        // Clean the response
+        $raw_content = $response->getBody()->getContents();
+        $content = Api\ResponseParser::clean($query, $raw_content);
+        $response = new Api\Response($query, $content, $raw_content);
 
-        if ($pagination) {
-            // If pagination is requested or required, let a paginator handle the request
-            $paginator = new Api\RequestPaginator($request);
-
-            if (isset($max_modified_time)) {
-                $paginator->setMaxModifiedTime($max_modified_time);
-            }
-
-            // According to preferences, we may automatically fetch all for the user
-            if ($this->preferences->getAutoFetchPaginatedRequests()) {
-                $paginator->fetchAll();
-                $response = $paginator->getAggregatedResponse();
-            } else {
-                return $paginator;
-            }
-        } else {
-            // Send request to Zoho, parse, then finally clean its response
-            $raw_data = Api\RequestLauncher::fire($request);
-            $clean_data = Api\ResponseParser::clean($request, $raw_data);
-            $response = new Api\Response($request, $raw_data, $clean_data);
-        }
-
-        return $this->preferredResponse($response);
+        return $response;
     }
 
-    private function preferredResponse(Api\Response $response)
+    public function getQueryResults(Query $query)
     {
-        if ($this->preferences->getResponseMode() === ResponseMode::WRAPPED) {
-            return $response;
-        }
+        $response = $query->execute();
 
-        $module_class = $response->getRequest()->getModuleClass();
+        $module_class = getModuleClassName($query->getModule());
 
-        // If the developer prefers entity objects rather than arrays
-        // AND the data is convertible into entities
-        // AND the module has an associated entity class
-        $convert_to_entity = $this->preferences->getRecordsAsEntities() &&
-                             $response->isConvertibleToEntity() &&
-                             isset($module_class) &&
-                             $module_class::hasAssociatedEntity();
-
-        if ($convert_to_entity) {
+        if ($response->isConvertibleToEntity() && $module_class::hasAssociatedEntity()) {
             if ($response->hasMultipleRecords()) {
                 return Collection::createFromResponse($response);
             } else {

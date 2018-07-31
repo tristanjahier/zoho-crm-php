@@ -3,7 +3,7 @@
 namespace Zoho\Crm\Api\Methods;
 
 use Zoho\Crm\Api\ResponseDataType;
-use Zoho\Crm\Api\Request;
+use Zoho\Crm\Api\Query;
 
 class GetUsers extends AbstractMethod
 {
@@ -14,7 +14,7 @@ class GetUsers extends AbstractMethod
         return ! isset($response['users']['nodata']);
     }
 
-    public static function tidyResponse(array $response, Request $request)
+    public static function tidyResponse(array $response, Query $query)
     {
         $entries = [];
 

@@ -4,6 +4,7 @@ namespace Zoho\Crm\Api\Methods;
 
 use Zoho\Crm\Api\ResponseDataType;
 use Zoho\Crm\Api\HttpVerb;
+use Zoho\Crm\Api\Query;
 
 abstract class AbstractMethod implements MethodInterface
 {
@@ -23,7 +24,7 @@ abstract class AbstractMethod implements MethodInterface
         return static::$response_type;
     }
 
-    public static function expectsMultipleRecords($request = null)
+    public static function expectsMultipleRecords(Query $query = null)
     {
         return static::$multiple_records;
     }

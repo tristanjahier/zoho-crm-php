@@ -2,15 +2,15 @@
 
 namespace Zoho\Crm\Api\Methods;
 
-use Zoho\Crm\Api\Request;
+use Zoho\Crm\Api\Query;
 
 class GetRecords extends AbstractMethod
 {
-    public static function tidyResponse(array $response, Request $request)
+    public static function tidyResponse(array $response, Query $query)
     {
         $records = [];
 
-        foreach ($response['response']['result'][$request->getModule()] as $rows) {
+        foreach ($response['response']['result'][$query->getModule()] as $rows) {
             // Single record or multiple records?
             // If single record: wrap it in an array to process it generically
             if (isset($rows['no']) && isset($rows['FL'])) {

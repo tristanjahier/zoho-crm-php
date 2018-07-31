@@ -2,7 +2,13 @@
 
 namespace Zoho\Crm\Api;
 
-class UrlParameters implements \ArrayAccess, \IteratorAggregate, \Countable
+use DateTime;
+use ArrayIterator;
+use ArrayAccess;
+use Countable;
+use IteratorAggregate;
+
+class UrlParameters implements ArrayAccess, IteratorAggregate, Countable
 {
     private $parameters = [];
 
@@ -22,6 +28,11 @@ class UrlParameters implements \ArrayAccess, \IteratorAggregate, \Countable
     public function contains($key)
     {
         return isset($this->parameters[$key]);
+    }
+
+    public function set($key, $value)
+    {
+        $this->parameters[$key] = $value;
     }
 
     public function get($key)
@@ -75,7 +86,7 @@ class UrlParameters implements \ArrayAccess, \IteratorAggregate, \Countable
 
     public function getIterator()
     {
-        return new \ArrayIterator($this->parameters);
+        return new ArrayIterator($this->parameters);
     }
 
     public function count()
@@ -112,6 +123,8 @@ class UrlParameters implements \ArrayAccess, \IteratorAggregate, \Countable
                     // Stringify boolean values
                     if (is_bool($value)) {
                         $value = \Zoho\Crm\booleanToString($value);
+                    } elseif ($value instanceof DateTime) {
+                        $value = $value->format('Y-m-d H:i:s');
                     }
                 }
 

@@ -16,27 +16,27 @@ abstract class AbstractRecordsModule extends AbstractModule
 
     public function getAll()
     {
-        return $this->request('getRecords', [], true);
+        return $this->newQuery('getRecords', [], true)->get();
     }
 
     public function getById($id)
     {
-        return $this->request('getRecordById', ['id' => $id]);
+        return $this->newQuery('getRecordById', ['id' => $id])->get();
     }
 
-    public function getByIds(array $id_list)
+    public function getByIds(array $ids)
     {
-        return $this->request('getRecordById', ['idlist' => new IdList($id_list)]);
+        return $this->newQuery('getRecordById', ['idlist' => new IdList($ids)])->get();
     }
 
     public function getMine()
     {
-        return $this->request('getMyRecords', [], true);
+        return $this->newQuery('getMyRecords', [], true)->get();
     }
 
     public function search($criteria)
     {
-        return $this->request('searchRecords', ['criteria' => "($criteria)"], true);
+        return $this->newQuery('searchRecords', ['criteria' => "($criteria)"], true)->get();
     }
 
     public function getBy($key, $value)
@@ -46,15 +46,18 @@ abstract class AbstractRecordsModule extends AbstractModule
 
     public function getRelatedById($module, $id)
     {
-        return $this->request('getRelatedRecords', ['parentModule' => $module, 'id' => $id], true);
+        return $this->newQuery('getRelatedRecords', [
+            'parentModule' => $module,
+            'id' => $id
+        ], true)->get();
     }
 
     public function getByPredefinedColumn($column, $value)
     {
-        return $this->request('getSearchRecordsByPDC', [
+        return $this->newQuery('getSearchRecordsByPDC', [
             'searchColumn' => $column,
             'searchValue' => $value
-        ], true);
+        ], true)->get();
     }
 
     public function exists($id)
@@ -69,47 +72,47 @@ abstract class AbstractRecordsModule extends AbstractModule
 
     public function insertMany($data)
     {
-        return $this->request('insertRecords', [
+        return $this->newQuery('insertRecords', [
             'version' => 4, // Required for full multiple records support
             'duplicateCheck' => 1,
             'xmlData' => XmlBuilder::buildRecords(self::name(), $data)
-        ]);
+        ])->get();
     }
 
     public function update($id, $data)
     {
-        return $this->request('updateRecords', [
+        return $this->newQuery('updateRecords', [
             'version' => 2, // Required for single record support
             'id' => $id,
             'xmlData' => XmlBuilder::buildRecords(self::name(), [$data])
-        ]);
+        ])->get();
     }
 
     public function updateMany($data)
     {
-        return $this->request('updateRecords', [
+        return $this->newQuery('updateRecords', [
             'version' => 4, // Required for full multiple records support
             'xmlData' => XmlBuilder::buildRecords(self::name(), $data)
-        ]);
+        ])->get();
     }
 
     public function delete($id)
     {
-        return $this->request('deleteRecords', ['id' => $id]);
+        return $this->newQuery('deleteRecords', ['id' => $id])->get();
     }
 
     public function deleteMany(array $ids)
     {
-        return $this->request('deleteRecords', ['idlist' => new IdList($ids)]);
+        return $this->newQuery('deleteRecords', ['idlist' => new IdList($ids)])->get();
     }
 
     public function getDeletedIds()
     {
-        return $this->request('getDeletedRecordIds', [], true);
+        return $this->newQuery('getDeletedRecordIds', [], true)->get();
     }
 
     public function deleteAttachedFile($attachment_id)
     {
-        return $this->request('deleteFile', ['id' => $attachment_id]);
+        return $this->newQuery('deleteFile', ['id' => $attachment_id])->get();
     }
 }

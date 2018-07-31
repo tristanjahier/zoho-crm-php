@@ -2,13 +2,13 @@
 
 namespace Zoho\Crm\Api\Methods;
 
-use Zoho\Crm\Api\Request;
+use Zoho\Crm\Api\Query;
 
 interface MethodInterface
 {
     public static function responseContainsData(array $response);
 
-    public static function tidyResponse(array $response, Request $request);
+    public static function tidyResponse(array $response, Query $query);
 
-    public static function expectsMultipleRecords($request);
+    public static function expectsMultipleRecords(Query $query);
 }

@@ -6,13 +6,15 @@ class ModuleFields extends AbstractProxyModule
 {
     public function getAll(array $params = [], callable $filter = null)
     {
-        $sections = $this->request('getFields', $params);
+        $sections = $this->newQuery('getFields', $params)->get();
 
         if (isset($filter)) {
             foreach($sections as &$section) {
                 $section['FL'] = array_filter($section['FL'], $filter);
-                if (empty($section['FL']))
+
+                if (empty($section['FL'])) {
                     unset($section['FL']);
+                }
             }
         }
 
