@@ -26,7 +26,7 @@ abstract class AbstractModule
         $this->connection = $connection;
 
         // Add a meta module to retrieve this module's fields
-        if (! ($this instanceof ModuleFields)) {
+        if ($this->supports('getFields') && ! ($this instanceof ModuleFields)) {
             $this->fields = new ModuleFields($connection, self::name());
         }
     }
