@@ -1,8 +1,10 @@
 <?php
 
-namespace Zoho\Crm\Exception;
+namespace Zoho\Crm\Exceptions;
 
-class ModuleNotFoundException extends \Exception
+use Exception;
+
+class ModuleNotFoundException extends Exception
 {
     public function __construct($module)
     {

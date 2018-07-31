@@ -2,6 +2,8 @@
 
 namespace Zoho\Crm;
 
+use Exception;
+
 // Guard to avoid multiple definitions of the following functions
 const FUNCTIONS_DEFINED = true;
 
@@ -34,5 +36,5 @@ function stringToBoolean($le_bool)
             return false;
     }
 
-    throw new \Exception('Invalid boolean string representation');
+    throw new Exception('Invalid boolean string representation');
 }

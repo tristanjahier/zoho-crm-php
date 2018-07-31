@@ -1,8 +1,10 @@
 <?php
 
-namespace Zoho\Crm\Exception;
+namespace Zoho\Crm\Exceptions;
 
-class UnsupportedMethodException extends \Exception
+use Exception;
+
+class UnsupportedMethodException extends Exception
 {
     public function __construct($module, $method)
     {

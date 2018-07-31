@@ -2,7 +2,7 @@
 
 namespace Zoho\Crm;
 
-use Zoho\Crm\Exception\UnsupportedPreferenceException;
+use Zoho\Crm\Exceptions\UnsupportedPreferenceException;
 use Doctrine\Common\Inflector\Inflector;
 
 class Preferences

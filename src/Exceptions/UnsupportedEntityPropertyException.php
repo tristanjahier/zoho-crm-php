@@ -1,8 +1,10 @@
 <?php
 
-namespace Zoho\Crm\Exception;
+namespace Zoho\Crm\Exceptions;
 
-class UnsupportedEntityPropertyException extends \Exception
+use Exception;
+
+class UnsupportedEntityPropertyException extends Exception
 {
     public function __construct($entity, $property)
     {

@@ -1,8 +1,10 @@
 <?php
 
-namespace Zoho\Crm\Exception;
+namespace Zoho\Crm\Exceptions;
 
-class UnsupportedPreferenceException extends \Exception
+use Exception;
+
+class UnsupportedPreferenceException extends Exception
 {
     public function __construct($preference)
     {

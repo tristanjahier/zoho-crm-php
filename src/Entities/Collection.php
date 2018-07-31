@@ -5,7 +5,7 @@ namespace Zoho\Crm\Entities;
 use ArrayAccess;
 use IteratorAggregate;
 use Countable;
-use Zoho\Crm\Exception\InvalidComparisonOperatorException;
+use Zoho\Crm\Exceptions\InvalidComparisonOperatorException;
 use Zoho\Crm\Api\Response;
 
 class Collection implements ArrayAccess, IteratorAggregate, Countable

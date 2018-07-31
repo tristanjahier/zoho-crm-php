@@ -1,8 +1,10 @@
 <?php
 
-namespace Zoho\Crm\Exception;
+namespace Zoho\Crm\Exceptions;
 
-class InvalidComparisonOperatorException extends \Exception
+use Exception;
+
+class InvalidComparisonOperatorException extends Exception
 {
     public function __construct($operator)
     {

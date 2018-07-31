@@ -1,8 +1,10 @@
 <?php
 
-namespace Zoho\Crm\Api\Exception;
+namespace Zoho\Crm\Api\Exceptions;
 
-abstract class AbstractException extends \Exception
+use Exception;
+
+abstract class AbstractException extends Exception
 {
     protected $description = '';
 

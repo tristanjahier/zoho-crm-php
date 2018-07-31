@@ -2,8 +2,8 @@
 
 namespace Zoho\Crm\Api;
 
-use Zoho\Crm\Exception\UnreadableResponseException;
-use Zoho\Crm\Exception\MethodNotFoundException;
+use Zoho\Crm\Exceptions\UnreadableResponseException;
+use Zoho\Crm\Exceptions\MethodNotFoundException;
 
 class ResponseParser
 {

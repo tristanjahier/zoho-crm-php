@@ -1,6 +1,6 @@
 <?php
 
-namespace Zoho\Crm\Api\Exception;
+namespace Zoho\Crm\Api\Exceptions;
 
 class RecordNotFoundException extends AbstractException
 {

@@ -5,7 +5,7 @@ namespace Zoho\Crm\Api;
 use DateTime;
 use Zoho\Crm\Connection;
 use Zoho\Crm\Api\UrlParameters;
-use Zoho\Crm\Exception\InvalidQueryException;
+use Zoho\Crm\Exceptions\InvalidQueryException;
 use Zoho\Crm\Entities\AbstractEntity;
 use Zoho\Crm\Entities\Collection;
 

@@ -86,11 +86,11 @@ class Connection
     public function attachModule($module)
     {
         if (! class_exists($module)) {
-            throw new Exception\ModuleNotFoundException($module);
+            throw new Exceptions\ModuleNotFoundException($module);
         }
 
         if (! in_array(AbstractModule::class, class_parents($module))) {
-            throw new Exception\InvalidModuleException('Zoho modules must extend ' . AbstractModule::class);
+            throw new Exceptions\InvalidModuleException('Zoho modules must extend ' . AbstractModule::class);
         }
 
         $this->modules[$module::name()] = $module;
@@ -145,7 +145,7 @@ class Connection
     public function setAuthToken($auth_token)
     {
         if ($auth_token === null || $auth_token === '')
-            throw new Exception\NullAuthTokenException();
+            throw new Exceptions\NullAuthTokenException();
         else
             $this->auth_token = $auth_token;
     }
@@ -198,9 +198,9 @@ class Connection
             $method = $query->getMethod();
 
             if (! $this->supports($module)) {
-                throw new Exception\UnsupportedModuleException($module);
+                throw new Exceptions\UnsupportedModuleException($module);
             } elseif (! $this->module($module)->supports($method)) {
-                throw new Exception\UnsupportedMethodException($module, $method);
+                throw new Exceptions\UnsupportedMethodException($module, $method);
             }
         }
 

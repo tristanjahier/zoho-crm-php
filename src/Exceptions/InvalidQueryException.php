@@ -1,6 +1,6 @@
 <?php
 
-namespace Zoho\Crm\Exception;
+namespace Zoho\Crm\Exceptions;
 
 use Exception;
 use Zoho\Crm\Api\Query;
