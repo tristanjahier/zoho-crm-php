@@ -274,6 +274,17 @@ class Query
         return $this->connection->getQueryResults($this);
     }
 
+    public function first()
+    {
+        // Set the range of fetched records to 1 to optimize the execution time.
+
+        return $this->copy()
+            ->param('toIndex', $this->getParameter('fromIndex'))
+            ->paginated(false)
+            ->get()
+            ->first();
+    }
+
     public function copy()
     {
         return clone $this;
