@@ -3,7 +3,7 @@
 namespace Zoho\Crm\Api\Modules;
 
 use Zoho\Crm\Connection;
-use Zoho\Crm\ClassShortNameTrait;
+use Zoho\Crm\Support\ClassShortNameTrait;
 use Zoho\Crm\Api\Modules\ModuleFields;
 use Doctrine\Common\Inflector\Inflector;
 

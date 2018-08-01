@@ -1,6 +1,6 @@
 <?php
 
-namespace Zoho\Crm;
+namespace Zoho\Crm\Support;
 
 trait ClassShortNameTrait
 {

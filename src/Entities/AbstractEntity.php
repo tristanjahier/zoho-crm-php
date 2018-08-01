@@ -3,7 +3,7 @@
 namespace Zoho\Crm\Entities;
 
 use Zoho\Crm\Support\Helper;
-use Zoho\Crm\ClassShortNameTrait;
+use Zoho\Crm\Support\ClassShortNameTrait;
 use Zoho\Crm\Exceptions\UnsupportedEntityPropertyException;
 use Zoho\Crm\Api\Response;
 
