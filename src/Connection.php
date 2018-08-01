@@ -2,6 +2,7 @@
 
 namespace Zoho\Crm;
 
+use Zoho\Crm\Support\Helper;
 use Zoho\Crm\Entities\AbstractEntity;
 use Zoho\Crm\Entities\Collection;
 use Zoho\Crm\Api\Modules\AbstractModule;
@@ -108,7 +109,7 @@ class Connection
     private function attachDefaultModules()
     {
         foreach (self::$default_modules as $module) {
-            $this->attachModule(getModuleClassName($module));
+            $this->attachModule(Helper::getModuleClass($module));
         }
     }
 
@@ -208,7 +209,7 @@ class Connection
         $query->param('authtoken', $this->auth_token);
 
         // Determine the HTTP verb to use based on the API method
-        $method_class = getMethodClassName($query->getMethod());
+        $method_class = Helper::getMethodClass($query->getMethod());
         $http_verb = $method_class::getHttpVerb();
 
         // Perform the HTTP request
@@ -227,7 +228,7 @@ class Connection
     {
         $response = $query->execute();
 
-        $module_class = getModuleClassName($query->getModule());
+        $module_class = Helper::getModuleClass($query->getModule());
 
         if ($response->isConvertibleToEntity() && $module_class::hasAssociatedEntity()) {
             if ($response->hasMultipleRecords()) {

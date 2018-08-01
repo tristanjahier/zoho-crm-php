@@ -5,6 +5,7 @@ namespace Zoho\Crm\Entities;
 use ArrayAccess;
 use IteratorAggregate;
 use Countable;
+use Zoho\Crm\Support\Helper;
 use Zoho\Crm\Exceptions\InvalidComparisonOperatorException;
 use Zoho\Crm\Api\Response;
 
@@ -257,7 +258,7 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
             return null;
         }
 
-        $module_class = \Zoho\Crm\getModuleClassName($response->getQuery()->getModule());
+        $module_class = Helper::getModuleClass($response->getQuery()->getModule());
         $entity_class = $module_class::associatedEntity();
         $collection = new static();
 

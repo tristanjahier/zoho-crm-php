@@ -2,6 +2,8 @@
 
 namespace Zoho\Crm\Api;
 
+use Zoho\Crm\Support\Helper;
+
 class Response
 {
     private $type;
@@ -19,7 +21,7 @@ class Response
         $this->query = $query;
         $this->raw_content = $raw_content;
         $this->content = $content;
-        $method_class = \Zoho\Crm\getMethodClassName($this->query->getMethod());
+        $method_class = Helper::getMethodClass($this->query->getMethod());
         $this->type = $method_class::getResponseDataType();
         $this->has_multiple_records = $method_class::expectsMultipleRecords($this->query);
     }

@@ -2,6 +2,7 @@
 
 namespace Zoho\Crm\Entities;
 
+use Zoho\Crm\Support\Helper;
 use Zoho\Crm\ClassShortNameTrait;
 use Zoho\Crm\Exceptions\UnsupportedEntityPropertyException;
 use Zoho\Crm\Api\Response;
@@ -150,7 +151,7 @@ abstract class AbstractEntity
             return null;
         }
 
-        $module_class = \Zoho\Crm\getModuleClassName($response->getQuery()->getModule());
+        $module_class = Helper::getModuleClass($response->getQuery()->getModule());
         $entity_class = $module_class::associatedEntity();
 
         return new $entity_class($response->getContent());

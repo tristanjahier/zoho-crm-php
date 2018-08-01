@@ -2,6 +2,7 @@
 
 namespace Zoho\Crm\Api;
 
+use Zoho\Crm\Support\Helper;
 use Zoho\Crm\Exceptions\UnreadableResponseException;
 use Zoho\Crm\Exceptions\MethodNotFoundException;
 
@@ -16,7 +17,7 @@ class ResponseParser
             return null;
         }
 
-        $api_method_handler = \Zoho\Crm\getMethodClassName($query->getMethod());
+        $api_method_handler = Helper::getMethodClass($query->getMethod());
         if (! class_exists($api_method_handler)) {
             throw new MethodNotFoundException("Method handler $api_method_handler not found.");
         }

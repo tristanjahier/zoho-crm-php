@@ -3,6 +3,7 @@
 namespace Zoho\Crm\Api;
 
 use SimpleXMLElement;
+use Zoho\Crm\Support\Helper;
 use Zoho\Crm\Entities\Collection;
 use Zoho\Crm\Entities\AbstractEntity;
 
@@ -29,7 +30,7 @@ class XmlBuilder
             foreach ($record as $attr_name => $attr_value) {
                 // Stringify boolean values
                 if (is_bool($attr_value)) {
-                    $attr_value = \Zoho\Crm\booleanToString($attr_value);
+                    $attr_value = Helper::booleanToString($attr_value);
                 }
 
                 $attr = $row->addChild('FL', $attr_value);
