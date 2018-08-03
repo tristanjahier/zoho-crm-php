@@ -86,7 +86,7 @@ class Query
 
     public function hasParameter($key)
     {
-        return $this->parameters->contains($key);
+        return $this->parameters->has($key);
     }
 
     public function resetParameters($parameters = [])
@@ -154,7 +154,7 @@ class Query
     public function modifiedAfter($date)
     {
         if ($date === null) {
-            $this->parameters->remove('lastModifiedTime');
+            $this->parameters->unset('lastModifiedTime');
             return $this;
         }
 

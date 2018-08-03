@@ -3,6 +3,7 @@
 namespace Zoho\Crm\Api;
 
 use Zoho\Crm\Support\Helper;
+use Zoho\Crm\Entities\Collection;
 
 class Response
 {
@@ -82,5 +83,34 @@ class Response
     {
         return $this->containsRecords()
             || $this->query->getMethod() === 'getUsers';
+    }
+
+    public function toEntity()
+    {
+        if ($this->isEmpty()) {
+            return null;
+        }
+
+        $module_class = Helper::getModuleClass($this->query->getModule());
+        $entity_class = $module_class::associatedEntity();
+
+        return new $entity_class($this->content);
+    }
+
+    public function toEntityCollection()
+    {
+        if ($this->isEmpty()) {
+            return new Collection;
+        }
+
+        $module_class = Helper::getModuleClass($this->query->getModule());
+        $entity_class = $module_class::associatedEntity();
+        $entities = [];
+
+        foreach ($this->content as $item) {
+            $entities[] = new $entity_class($item);
+        }
+
+        return new Collection($entities);
     }
 }

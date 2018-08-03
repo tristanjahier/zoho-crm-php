@@ -4,65 +4,51 @@ namespace Zoho\Crm;
 
 use Zoho\Crm\Exceptions\UnsupportedPreferenceException;
 use Doctrine\Common\Inflector\Inflector;
+use Zoho\Crm\Support\Collection;
 
-class Preferences
+class Preferences extends Collection
 {
-    private $preferences = [];
-
     public function __construct()
     {
         $this->resetDefaults();
     }
 
-    public function resetDefaults()
+    public function defaults()
     {
-        $this->preferences = [
+        return [
             'validate_queries' => true,
         ];
     }
 
+    public function resetDefaults()
+    {
+        $this->items = $this->defaults();
+    }
+
     public function set($key, $value)
     {
-        if (array_key_exists($key, $this->preferences))
-            $this->preferences[$key] = $value;
-        else
+        if ($this->has($key)) {
+            return parent::set($key, $value);
+        } else {
             throw new UnsupportedPreferenceException($key);
+        }
     }
 
-    public function get($key)
+    public function get($key, $default = null)
     {
-        if (array_key_exists($key, $this->preferences))
-            return $this->preferences[$key];
-        else
+        if ($this->has($key)) {
+            return parent::get($key);
+        } else {
             throw new UnsupportedPreferenceException($key);
+        }
     }
 
-    public function override(array $new_prefs)
+    public function override($new_prefs)
     {
         foreach ($new_prefs as $key => $value) {
             $this->set($key, $value);
         }
-    }
 
-    public function __call($method_name, $arguments)
-    {
-        if (strpos($method_name, 'get') === 0) {
-            $preference = Inflector::tableize(substr($method_name, 3));
-            return $this->get($preference);
-        } elseif (strpos($method_name, 'set') === 0) {
-            $preference = Inflector::tableize(substr($method_name, 3));
-            // PHP 5.5 compatible code:
-            call_user_func_array([$this, 'set'], array_merge([$preference], $arguments));
-            // PHP 5.6+, using splat operator:
-            // $this->set($preference, ...$arguments);
-            return;
-        } else {
-            trigger_error("Call to undefined method " . __CLASS__ . "::$method_name()", E_USER_ERROR);
-        }
-    }
-
-    public function toArray()
-    {
-        return $this->preferences;
+        return $this;
     }
 }

@@ -3,8 +3,6 @@
 namespace Zoho\Crm;
 
 use Zoho\Crm\Support\Helper;
-use Zoho\Crm\Entities\AbstractEntity;
-use Zoho\Crm\Entities\Collection;
 use Zoho\Crm\Api\Modules\AbstractModule;
 use Zoho\Crm\Api\Query;
 use Doctrine\Common\Inflector\Inflector;
@@ -232,9 +230,9 @@ class Connection
 
         if ($response->isConvertibleToEntity() && $module_class::hasAssociatedEntity()) {
             if ($response->hasMultipleRecords()) {
-                return Collection::createFromResponse($response);
+                return $response->toEntityCollection();
             } else {
-                return AbstractEntity::createFromResponse($response);
+                return $response->toEntity();
             }
         }
 

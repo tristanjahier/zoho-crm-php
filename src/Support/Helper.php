@@ -43,4 +43,18 @@ final class Helper
 
         throw new Exception('Invalid boolean string representation: "' . $bool . '"');
     }
+
+    public static function stringIsLike($value, $pattern)
+    {
+        if ($value === $pattern) {
+            return true;
+        }
+
+        $pattern = preg_quote($pattern, '#');
+
+        // Asterisks are translated into zero-or-more regular expression wildcards.
+        $pattern = str_replace('\*', '.*', $pattern);
+
+        return preg_match('#^'.$pattern.'\z#ui', $value) === 1;
+    }
 }

@@ -140,20 +140,13 @@ abstract class AbstractEntity
         }
     }
 
+    public function __isset($alias)
+    {
+        return array_key_exists($alias, static::$property_aliases);
+    }
+
     public function __toString()
     {
         return print_r($this->toArray(), true);
-    }
-
-    public static function createFromResponse(Response $response)
-    {
-        if ($response->getContent() === null) {
-            return null;
-        }
-
-        $module_class = Helper::getModuleClass($response->getQuery()->getModule());
-        $entity_class = $module_class::associatedEntity();
-
-        return new $entity_class($response->getContent());
     }
 }

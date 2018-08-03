@@ -3,108 +3,21 @@
 namespace Zoho\Crm\Api;
 
 use DateTime;
-use ArrayIterator;
-use ArrayAccess;
-use Countable;
-use IteratorAggregate;
 use Zoho\Crm\Support\Helper;
+use Zoho\Crm\Support\Collection;
 
-class UrlParameters implements ArrayAccess, IteratorAggregate, Countable
+class UrlParameters extends Collection
 {
-    private $parameters = [];
-
-    public function __construct(array $parameters = [])
-    {
-        $this->parameters = $parameters;
-    }
-
     public function extend($others)
     {
-        if ($others instanceof UrlParameters)
-            $others = $others->toArray();
-
-        return new UrlParameters(array_replace($this->parameters, $others));
+        return $this->replace($others);
     }
 
-    public function contains($key)
-    {
-        return isset($this->parameters[$key]);
-    }
-
-    public function set($key, $value)
-    {
-        $this->parameters[$key] = $value;
-    }
-
-    public function get($key)
-    {
-        return isset($this->parameters[$key]) ? $this->parameters[$key] : null;
-    }
-
-    public function pull($key)
-    {
-        if (isset($this->parameters[$key])) {
-            $value = $this->parameters[$key];
-            unset($this->parameters[$key]);
-            return $value;
-        }
-
-        return null;
-    }
-
-    public function remove($key)
-    {
-        unset($this->parameters[$key]);
-    }
-
-    public function reset()
-    {
-        $this->parameters = [];
-    }
-
-    public function offsetSet($key, $value)
-    {
-        if ($key === null)
-            $this->parameters[] = $value;
-        else
-            $this->parameters[$key] = $value;
-    }
-
-    public function offsetExists($key)
-    {
-        return $this->contains($key);
-    }
-
-    public function offsetUnset($key)
-    {
-        unset($this->parameters[$key]);
-    }
-
-    public function offsetGet($key)
-    {
-        return $this->get($key);
-    }
-
-    public function getIterator()
-    {
-        return new ArrayIterator($this->parameters);
-    }
-
-    public function count()
-    {
-        return count($this->parameters);
-    }
-
-    public function toArray()
-    {
-        return $this->parameters;
-    }
-
-    public function toString()
+    public function __toString()
     {
         $chunks = [];
 
-        foreach ($this->parameters as $key => $value) {
+        foreach ($this->items as $key => $value) {
             $chunk = "$key";
 
             // Support for parameters with a value
@@ -136,10 +49,5 @@ class UrlParameters implements ArrayAccess, IteratorAggregate, Countable
         }
 
         return implode('&', $chunks);
-    }
-
-    public function __toString()
-    {
-        return $this->toString();
     }
 }
