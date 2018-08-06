@@ -6,8 +6,16 @@ use Exception;
 
 class UnsupportedMethodException extends Exception
 {
-    public function __construct($module, $method)
+    public function __construct($method, $module = null)
     {
-        parent::__construct("Method $method is not supported by module $module.");
+        $message = "Method $method is not supported";
+
+        if (isset($module)) {
+            $message .= " by module $module.";
+        } else {
+            $message .= '.';
+        }
+
+        parent::__construct($message);
     }
 }

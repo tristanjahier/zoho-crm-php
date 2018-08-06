@@ -16,7 +16,7 @@ class Preferences extends Collection
     public function defaults()
     {
         return [
-            'validate_queries' => true,
+            // There are no preferences to set yet.
         ];
     }
 

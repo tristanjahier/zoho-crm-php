@@ -192,23 +192,19 @@ class Connection
         $query->validate();
 
         // Check if the requested module and method are both supported
-        if ($this->preferences->get('validate_queries')) {
-            $module = $query->getModule();
-            $method = $query->getMethod();
-
-            if (! $this->supports($module)) {
-                throw new Exceptions\UnsupportedModuleException($module);
-            } elseif (! $this->module($module)->supports($method)) {
-                throw new Exceptions\UnsupportedMethodException($module, $method);
-            }
+        if (! $this->supports($query->getModule())) {
+            throw new Exceptions\UnsupportedModuleException($query->getModule());
         }
 
-        // Add auth token after validation to avoid exposing it in the error log messages
-        $query->param('authtoken', $this->auth_token);
+        if (! class_exists($method_class = Helper::getMethodClass($query->getMethod()))) {
+            throw new Exceptions\UnsupportedMethodException($query->getMethod());
+        }
 
         // Determine the HTTP verb to use based on the API method
-        $method_class = Helper::getMethodClass($query->getMethod());
         $http_verb = $method_class::getHttpVerb();
+
+        // Add auth token at the last moment to avoid exposing it in the error log messages
+        $query->param('authtoken', $this->auth_token);
 
         // Perform the HTTP request
         $response = $this->http_client->request($http_verb, $query->buildUri());
