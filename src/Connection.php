@@ -226,7 +226,7 @@ class Connection
     {
         $response = $query->execute();
 
-        $module_class = Helper::getModuleClass($query->getModule());
+        $module_class = $this->moduleClass($query->getModule());
 
         if ($response->isConvertibleToEntity() && $module_class::hasAssociatedEntity()) {
             if ($response->hasMultipleRecords()) {

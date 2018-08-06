@@ -91,7 +91,7 @@ class Response
             return null;
         }
 
-        $module_class = Helper::getModuleClass($this->query->getModule());
+        $module_class = $this->query->getConnection()->moduleClass($this->query->getModule());
         $entity_class = $module_class::associatedEntity();
 
         return new $entity_class($this->content);
@@ -103,7 +103,7 @@ class Response
             return new Collection;
         }
 
-        $module_class = Helper::getModuleClass($this->query->getModule());
+        $module_class = $this->query->getConnection()->moduleClass($this->query->getModule());
         $entity_class = $module_class::associatedEntity();
         $entities = [];
 
