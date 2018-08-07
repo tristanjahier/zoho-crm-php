@@ -289,4 +289,9 @@ class Query
     {
         return clone $this;
     }
+
+    public function __clone()
+    {
+        $this->parameters = clone $this->parameters;
+    }
 }
