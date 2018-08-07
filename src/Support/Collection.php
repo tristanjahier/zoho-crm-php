@@ -203,6 +203,8 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate
                     return preg_match($value, $item_value) === 1;
                 case 'like':
                     return Helper::stringIsLike($item_value, $value);
+                case 'not like':
+                    return ! Helper::stringIsLike($item_value, $value);
             }
 
             throw new InvalidComparisonOperatorException($operator);
