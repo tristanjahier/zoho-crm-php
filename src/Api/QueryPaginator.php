@@ -134,7 +134,7 @@ class QueryPaginator
 
     private function exceedMaxModifiedTime(array $records)
     {
-        $last_record = $records[count($records) - 1];
+        $last_record = end($records);
         $modified_at = new DateTime($last_record['Modified Time']);
 
         return $modified_at >= $this->query->getMaxModificationDate();
