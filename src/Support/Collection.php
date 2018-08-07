@@ -243,13 +243,12 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate
         return new static(array_unique($this->items, $flags));
     }
 
-    public function uniqueBy($id)
+    public function uniqueBy($key)
     {
-        $to_keep = $this->pluck($id)->unique()->keys();
-
-        return $this->filter(function ($item, $key) use ($to_keep) {
-            return $to_keep->contains($key);
-        });
+        return new static(array_intersect_key(
+            $this->items,
+            $this->pluck($key)->unique()->getItems()
+        ));
     }
 
     public function sort(callable $callback = null)
@@ -280,6 +279,27 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate
         }
 
         return array_search($value, $this->items, $strict);
+    }
+
+    public function binarySearch($value)
+    {
+        $low = 0;
+        $high = $this->count() - 1;
+
+        while ($low < $high) {
+            $middle = (int) floor(($high + $low) / 2);
+            $current = $this->items[$middle];
+
+            if ($current < $value) {
+                $low = $middle + 1;
+            } elseif ($current > $value) {
+                $high = $middle - 1;
+            } else {
+                return $middle;
+            }
+        }
+
+        return false;
     }
 
     public function join($glue = '')
