@@ -9,6 +9,24 @@ It aims to cover the whole API (every module and method), while providing a grea
 - PHP : `5.5+`
 - PHP cURL extension enabled
 
+## Installation
+
+The recommended way to install this package is through [Composer](https://getcomposer.org).
+
+Edit your `composer.json` file:
+
+```json
+"require": {
+    "tristanjahier/zoho-crm-php": "^0.2"
+}
+```
+
+or simply run this command:
+
+```
+composer require tristanjahier/zoho-crm-php
+```
+
 ## Get started
 
 This package is currently at an early development stage. Full documentation will come when it is stable enough.
@@ -26,4 +44,5 @@ $admins = $zoho->users->getAdmins();
 
 // ...or build them manually
 $response = $zoho->newQuery('Module', 'method', ['a_parameter' => 'blablebloblu'])->execute();
+$records = $response->toEntityCollection();
 ```
