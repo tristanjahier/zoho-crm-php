@@ -18,7 +18,7 @@ class UrlParameters extends Collection
         $chunks = [];
 
         foreach ($this->items as $key => $value) {
-            $chunk = "$key";
+            $chunk = urlencode($key);
 
             // Support for parameters with a value
             if ($value !== null) {
@@ -42,7 +42,7 @@ class UrlParameters extends Collection
                     }
                 }
 
-                $chunk .= "=$value";
+                $chunk .= '=' . urlencode($value);
             }
 
             $chunks[] = $chunk;
