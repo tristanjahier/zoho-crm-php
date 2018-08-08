@@ -247,10 +247,23 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate
 
     public function uniqueBy($key)
     {
-        return new static(array_intersect_key(
-            $this->items,
-            $this->pluck($key)->unique()->getItems()
-        ));
+        // Combine to preserve original keys
+        $unique = $this->keys()->combine($this->pluck($key))->unique();
+
+        return new static(array_intersect_key($this->items, $unique->getItems()));
+    }
+
+    public function duplicates()
+    {
+        return new static(array_diff_key($this->items, $this->unique()->getItems()));
+    }
+
+    public function duplicatesBy($key)
+    {
+        // Combine to preserve original keys
+        $unique = $this->keys()->combine($this->pluck($key))->unique();
+
+        return new static(array_diff_key($this->items, $unique->getItems()));
     }
 
     public function sort(callable $callback = null)
