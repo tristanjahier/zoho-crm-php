@@ -10,28 +10,28 @@ class Users extends AbstractModule
         'getUsers'
     ];
 
-    public function getAll()
+    public function all()
     {
-        return $this->newQuery('getUsers', ['type' => 'AllUsers'])->get();
+        return $this->newQuery('getUsers', ['type' => 'AllUsers']);
     }
 
-    public function getActives()
+    public function active()
     {
-        return $this->newQuery('getUsers', ['type' => 'ActiveUsers'])->get();
+        return $this->newQuery('getUsers', ['type' => 'ActiveUsers']);
     }
 
-    public function getInactives()
+    public function inactive()
     {
-        return $this->newQuery('getUsers', ['type' => 'DeactiveUsers'])->get();
+        return $this->newQuery('getUsers', ['type' => 'DeactiveUsers']);
     }
 
-    public function getAdmins()
+    public function admins()
     {
-        return $this->newQuery('getUsers', ['type' => 'AdminUsers'])->get();
+        return $this->newQuery('getUsers', ['type' => 'AdminUsers']);
     }
 
-    public function getActiveConfirmedAdmins()
+    public function activeConfirmedAdmins()
     {
-        return $this->newQuery('getUsers', ['type' => 'ActiveConfirmedAdmins'])->get();
+        return $this->newQuery('getUsers', ['type' => 'ActiveConfirmedAdmins']);
     }
 }

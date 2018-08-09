@@ -14,55 +14,55 @@ abstract class AbstractRecordsModule extends AbstractModule
         return static::$primary_key;
     }
 
-    public function getAll()
+    public function all()
     {
-        return $this->newQuery('getRecords', [], true)->get();
+        return $this->newQuery('getRecords', [], true);
     }
 
-    public function getById($id)
+    public function find($id)
     {
         return $this->newQuery('getRecordById', ['id' => $id])->get();
     }
 
-    public function getByIds(array $ids)
+    public function findMany($ids)
     {
         return $this->newQuery('getRecordById', ['idlist' => new IdList($ids)])->get();
     }
 
-    public function getMine()
+    public function mine()
     {
-        return $this->newQuery('getMyRecords', [], true)->get();
+        return $this->newQuery('getMyRecords', [], true);
     }
 
     public function search($criteria)
     {
-        return $this->newQuery('searchRecords', ['criteria' => "($criteria)"], true)->get();
+        return $this->newQuery('searchRecords', ['criteria' => "($criteria)"], true);
     }
 
-    public function getBy($key, $value)
+    public function searchBy($key, $value)
     {
         return $this->search("$key:$value");
     }
 
-    public function getRelatedById($module, $id)
+    public function relatedTo($module, $id)
     {
         return $this->newQuery('getRelatedRecords', [
             'parentModule' => $module,
             'id' => $id
-        ], true)->get();
+        ], true);
     }
 
-    public function getByPredefinedColumn($column, $value)
+    public function searchByPredefinedColumn($column, $value)
     {
         return $this->newQuery('getSearchRecordsByPDC', [
             'searchColumn' => $column,
             'searchValue' => $value
-        ], true)->get();
+        ], true);
     }
 
     public function exists($id)
     {
-        return $this->getById($id) !== null;
+        return $this->find($id) !== null;
     }
 
     public function insert($data)
@@ -101,14 +101,14 @@ abstract class AbstractRecordsModule extends AbstractModule
         return $this->newQuery('deleteRecords', ['id' => $id])->get();
     }
 
-    public function deleteMany(array $ids)
+    public function deleteMany($ids)
     {
         return $this->newQuery('deleteRecords', ['idlist' => new IdList($ids)])->get();
     }
 
-    public function getDeletedIds()
+    public function deletedIds()
     {
-        return $this->newQuery('getDeletedRecordIds', [], true)->get();
+        return $this->newQuery('getDeletedRecordIds', [], true);
     }
 
     public function deleteAttachedFile($attachment_id)

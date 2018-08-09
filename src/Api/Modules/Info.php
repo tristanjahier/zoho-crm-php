@@ -8,8 +8,8 @@ class Info extends AbstractModule
         'getModules'
     ];
 
-    public function getModules()
+    public function modules()
     {
-        return $this->newQuery('getModules')->get();
+        return $this->newQuery('getModules');
     }
 }

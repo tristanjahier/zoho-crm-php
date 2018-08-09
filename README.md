@@ -38,9 +38,10 @@ This package is currently at an early development stage. Full documentation will
 $zoho = new Zoho\Crm\Connection('MY_ZOHO_AUTH_TOKEN');
 
 // Use its supported modules to make easy queries...
-$one_lead = $zoho->leads->getById('1212717324723478324');
-$many_leads = $zoho->leads->getByIds(['8734873457834574028', '3274736297894375750']);
-$admins = $zoho->users->getAdmins();
+$one_lead = $zoho->leads->find('1212717324723478324');
+$many_leads = $zoho->leads->findMany(['8734873457834574028', '3274736297894375750']);
+$all_potentials = $zoho->potentials->all()->get();
+$admins = $zoho->users->admins()->get();
 
 // ...or build them manually
 $response = $zoho->newQuery('Module', 'method', ['a_parameter' => 'blablebloblu'])->execute();
