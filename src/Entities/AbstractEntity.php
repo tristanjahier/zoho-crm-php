@@ -4,10 +4,11 @@ namespace Zoho\Crm\Entities;
 
 use Zoho\Crm\Support\Helper;
 use Zoho\Crm\Support\ClassShortNameTrait;
+use Zoho\Crm\Support\Arrayable;
 use Zoho\Crm\Exceptions\UnsupportedEntityPropertyException;
 use Zoho\Crm\Api\Response;
 
-abstract class AbstractEntity
+abstract class AbstractEntity implements Arrayable
 {
     use ClassShortNameTrait;
 

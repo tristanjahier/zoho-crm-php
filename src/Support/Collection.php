@@ -364,6 +364,13 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate
         return $copy;
     }
 
+    public function toArray()
+    {
+        return array_map(function ($value) {
+            return $value instanceof Arrayable ? $value->toArray() : $value;
+        }, $this->items);
+    }
+
     protected function getPlainArray($array)
     {
         return $array instanceof self ? $array->items() : $array;

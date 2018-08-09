@@ -13,13 +13,6 @@ class Collection extends BaseCollection
         })->items();
     }
 
-    public function toArray()
-    {
-        return $this->map(function ($entity) {
-            return $entity->toArray();
-        })->items();
-    }
-
     protected function getItemPropertyValue($item, $property)
     {
         return $item->get($property);
