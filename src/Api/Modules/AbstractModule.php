@@ -2,6 +2,8 @@
 
 namespace Zoho\Crm\Api\Modules;
 
+use BadMethodCallException;
+use InvalidArgumentException;
 use Zoho\Crm\Connection;
 use Zoho\Crm\Support\ClassShortNameTrait;
 use Zoho\Crm\Api\Modules\ModuleFields;
@@ -69,5 +71,26 @@ abstract class AbstractModule
     public function newQuery($method = null, $params = [], $paginated = false)
     {
         return $this->connection->newQuery(self::name(), $method, $params, $paginated);
+    }
+
+    public function __call($method, $arguments)
+    {
+        $className = static::class;
+
+        if ($this->supports($method)) {
+            $query = $this->newQuery($method);
+
+            if (count($arguments) > 0) {
+                $query->params($arguments[0]);
+            }
+
+            if (count($arguments) > 1) {
+                throw new InvalidArgumentException("Method {$className}::{$method}() takes only 1 optional argument.");
+            }
+
+            return $query;
+        }
+
+        throw new BadMethodCallException("Call to undefined method {$className}::{$method}()");
     }
 }
