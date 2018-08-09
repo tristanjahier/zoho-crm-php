@@ -151,6 +151,17 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate
         return $this->slice(0, $limit);
     }
 
+    public function chunk($size)
+    {
+        $chunks = [];
+
+        foreach (array_chunk($this->items, $size, true) as $chunk) {
+            $chunks[] = new static($chunk);
+        }
+
+        return new static($chunks);
+    }
+
     public function reduce(callable $callback, $initial = null)
     {
         return array_reduce($this->items, $callback, $initial);
@@ -227,11 +238,14 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate
     {
         $results = [];
 
-        foreach ($this->items as $item) {
+        foreach ($this->items as $i => $item) {
             $item_value = $this->getItemPropertyValue($item, $value);
 
             if (isset($key)) {
-                $results[$this->getItemPropertyValue($item, $key)] = $item_value;
+                // If key is strictly 'true' and not a valid array key,
+                // we will simply preserve the original keys.
+                $index = $key === true ? $i : $this->getItemPropertyValue($item, $key);
+                $results[$index] = $item_value;
             } else {
                 $results[] = $item_value;
             }
@@ -247,8 +261,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate
 
     public function uniqueBy($key)
     {
-        // Combine to preserve original keys
-        $unique = $this->keys()->combine($this->pluck($key))->unique();
+        $unique = $this->pluck($key, true)->unique();
 
         return new static(array_intersect_key($this->items, $unique->getItems()));
     }
@@ -260,8 +273,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate
 
     public function duplicatesBy($key)
     {
-        // Combine to preserve original keys
-        $unique = $this->keys()->combine($this->pluck($key))->unique();
+        $unique = $this->pluck($key, true)->unique();
 
         return new static(array_diff_key($this->items, $unique->getItems()));
     }
@@ -279,6 +291,25 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate
         });
 
         return new static($items);
+    }
+
+    public function sortBy($key, $options = SORT_REGULAR, $descending = false)
+    {
+        $results = $this->pluck($key, true)->getItems();
+
+        $descending ? arsort($results, $options)
+                    : asort($results, $options);
+
+        foreach (array_keys($results) as $key) {
+            $results[$key] = $this->items[$key];
+        }
+
+        return new static($results);
+    }
+
+    public function sortByDesc($key, $options = SORT_REGULAR)
+    {
+        return $this->sortBy($key, $options, true);
     }
 
     public function search($value, $strict = false)
