@@ -10,14 +10,14 @@ class Collection extends BaseCollection
     {
         return $this->map(function ($entity) {
             return $entity->rawData();
-        })->getItems();
+        })->items();
     }
 
     public function toArray()
     {
         return $this->map(function ($entity) {
             return $entity->toArray();
-        })->getItems();
+        })->items();
     }
 
     protected function getItemPropertyValue($item, $property)

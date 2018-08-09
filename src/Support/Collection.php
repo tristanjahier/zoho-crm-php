@@ -18,7 +18,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate
         $this->items = $this->getPlainArray($items);
     }
 
-    public function getItems()
+    public function items()
     {
         return $this->items;
     }
@@ -263,19 +263,19 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate
     {
         $unique = $this->pluck($key, true)->unique();
 
-        return new static(array_intersect_key($this->items, $unique->getItems()));
+        return new static(array_intersect_key($this->items, $unique->items()));
     }
 
     public function duplicates()
     {
-        return new static(array_diff_key($this->items, $this->unique()->getItems()));
+        return new static(array_diff_key($this->items, $this->unique()->items()));
     }
 
     public function duplicatesBy($key)
     {
         $unique = $this->pluck($key, true)->unique();
 
-        return new static(array_diff_key($this->items, $unique->getItems()));
+        return new static(array_diff_key($this->items, $unique->items()));
     }
 
     public function sort(callable $callback = null)
@@ -295,7 +295,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate
 
     public function sortBy($key, $options = SORT_REGULAR, $descending = false)
     {
-        $results = $this->pluck($key, true)->getItems();
+        $results = $this->pluck($key, true)->items();
 
         $descending ? arsort($results, $options)
                     : asort($results, $options);
@@ -366,7 +366,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate
 
     protected function getPlainArray($array)
     {
-        return $array instanceof self ? $array->getItems() : $array;
+        return $array instanceof self ? $array->items() : $array;
     }
 
     protected function getItemPropertyValue($item, $property)
