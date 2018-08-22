@@ -6,10 +6,10 @@ use Zoho\Crm\Support\Collection as BaseCollection;
 
 class Collection extends BaseCollection
 {
-    public function toRawArray()
+    public function toAliasArray()
     {
         return $this->map(function ($entity) {
-            return $entity->rawData();
+            return $entity->toAliasArray();
         })->items();
     }
 

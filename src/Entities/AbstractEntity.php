@@ -90,12 +90,12 @@ abstract class AbstractEntity implements Arrayable
         return array_combine($unaliased_keys, $properties);
     }
 
-    public function rawData()
+    public function toArray()
     {
         return $this->properties;
     }
 
-    public function toArray()
+    public function toAliasArray()
     {
         $hash = [];
 

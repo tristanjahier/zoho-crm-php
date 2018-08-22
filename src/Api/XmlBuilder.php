@@ -12,7 +12,7 @@ class XmlBuilder
     public static function buildRecords($module, $records)
     {
         if ($records instanceof Collection) {
-            $records = $records->toRawArray();
+            $records = $records->toArray();
         }
 
         $xml = new SimpleXMLElement("<$module/>");
@@ -24,7 +24,7 @@ class XmlBuilder
             $row->addAttribute('no', $row_count);
 
             if ($record instanceof AbstractEntity) {
-                $record = $record->rawData();
+                $record = $record->toArray();
             }
 
             foreach ($record as $attr_name => $attr_value) {
