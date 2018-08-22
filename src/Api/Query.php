@@ -124,8 +124,9 @@ class Query
         ]);
     }
 
-    public function select(array $columns)
+    public function select($columns)
     {
+        $columns = is_array($columns) ? $columns : func_get_args();
         $selection = $this->module . '(' . implode(',', $columns) . ')';
 
         return $this->param('selectColumns', $selection);
