@@ -186,6 +186,11 @@ class Query
         return isset($this->max_modification_date);
     }
 
+    public function modifiedBetween($from, $to)
+    {
+        return $this->modifiedAfter($from)->modifiedBefore($to);
+    }
+
     public function limit($limit)
     {
         $this->limit = $limit;
