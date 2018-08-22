@@ -234,6 +234,13 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate
         });
     }
 
+    public function only($keys)
+    {
+        $keys = is_array($keys) ? $keys : func_get_args();
+
+        return new static(array_intersect_key($this->items, array_flip($keys)));
+    }
+
     public function pluck($value, $key = null)
     {
         $results = [];
@@ -362,6 +369,11 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate
         }
 
         return $copy;
+    }
+
+    public function toBase()
+    {
+        return new self($this->items);
     }
 
     public function toArray()
