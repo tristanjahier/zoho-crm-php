@@ -7,6 +7,7 @@ use Zoho\Crm\Api\Modules\AbstractModule;
 use Zoho\Crm\Api\Query;
 use Doctrine\Common\Inflector\Inflector;
 use GuzzleHttp\Client as GuzzleClient;
+use GuzzleHttp\Exception\RequestException;
 
 class Connection
 {
@@ -207,8 +208,21 @@ class Connection
         $query->param('authtoken', $this->auth_token);
 
         // Perform the HTTP request
-        $response = $this->http_client->request($http_verb, $query->buildUri());
-        $this->request_count++;
+        try {
+            $response = $this->http_client->request($http_verb, $query->buildUri());
+            $this->request_count++;
+        } catch (RequestException $e) {
+            if ($this->preferences->isEnabled('exception_messages_obfuscation')) {
+                // Sometimes the auth token is included in the exception message by Guzzle.
+                // This exception message could end up in many "unsafe" places like server logs,
+                // error monitoring services, company internal communication etc.
+                // For this reason we must remove the auth token from the exception message.
+
+                throw $this->obfuscateExceptionMessage($e);
+            }
+
+            throw $e;
+        }
 
         // Clean the response
         $raw_content = $response->getBody()->getContents();
@@ -233,5 +247,24 @@ class Connection
         }
 
         return $response->getContent();
+    }
+
+    private function obfuscateExceptionMessage(RequestException $e)
+    {
+        // If the exception message does not contain sensible data, just let it through.
+        if (mb_strpos($e->getMessage(), 'authtoken='.$this->auth_token) === false) {
+            return $e;
+        }
+
+        $safe_message = str_replace('authtoken='.$this->auth_token, 'authtoken=***', $e->getMessage());
+        $class = get_class($e);
+
+        return new $class(
+            $safe_message,
+            $e->getRequest(),
+            $e->getResponse(),
+            $e->getPrevious(),
+            $e->getHandlerContext()
+        );
     }
 }

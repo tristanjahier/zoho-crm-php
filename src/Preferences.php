@@ -16,7 +16,7 @@ class Preferences extends Collection
     public function defaults()
     {
         return [
-            // There are no preferences to set yet.
+            'exception_messages_obfuscation' => false,
         ];
     }
 
