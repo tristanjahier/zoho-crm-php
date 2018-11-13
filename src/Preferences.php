@@ -51,4 +51,19 @@ class Preferences extends Collection
 
         return $this;
     }
+
+    public function enable($key)
+    {
+        return $this->set($key, true);
+    }
+
+    public function disable($key)
+    {
+        return $this->set($key, false);
+    }
+
+    public function isEnabled($key)
+    {
+        return $this->get($key) === true;
+    }
 }
