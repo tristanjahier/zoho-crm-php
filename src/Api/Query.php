@@ -116,6 +116,13 @@ class Query
         return $this;
     }
 
+    public function removeParam($key)
+    {
+        $this->parameters->unset($key);
+
+        return $this;
+    }
+
     public function orderBy($column, $order = 'asc')
     {
         return $this->params([
