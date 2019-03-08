@@ -34,8 +34,8 @@ This package is currently at an early development stage. Full documentation will
 ### A quick example
 
 ```php
-// Create a Zoho connection
-$zoho = new Zoho\Crm\Connection('MY_ZOHO_AUTH_TOKEN');
+// Create a Zoho client
+$zoho = new Zoho\Crm\Client('MY_ZOHO_AUTH_TOKEN');
 
 // Use its supported modules to make easy queries...
 $one_lead = $zoho->leads->find('1212717324723478324');

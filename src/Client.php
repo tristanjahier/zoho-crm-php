@@ -9,7 +9,7 @@ use Doctrine\Common\Inflector\Inflector;
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Exception\RequestException;
 
-class Connection
+class Client
 {
     const DEFAULT_ENDPOINT = 'https://crm.zoho.com/crm/private/';
 
@@ -58,7 +58,7 @@ class Connection
             'base_uri' => $this->endpoint
         ]);
 
-        // Allow to instanciate a connection without an auth token
+        // Allow to instanciate a client without an auth token
         if ($auth_token !== null) {
             $this->setAuthToken($auth_token);
         }

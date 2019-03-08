@@ -4,7 +4,7 @@ namespace Zoho\Crm\Api\Modules;
 
 use BadMethodCallException;
 use InvalidArgumentException;
-use Zoho\Crm\Connection;
+use Zoho\Crm\Client;
 use Zoho\Crm\Support\ClassShortNameTrait;
 use Zoho\Crm\Api\Modules\ModuleFields;
 use Doctrine\Common\Inflector\Inflector;
@@ -19,17 +19,17 @@ abstract class AbstractModule
 
     protected static $supported_methods = [];
 
-    private $connection;
+    private $client;
 
     private $fields;
 
-    public function __construct(Connection $connection)
+    public function __construct(Client $client)
     {
-        $this->connection = $connection;
+        $this->client = $client;
 
         // Add a meta module to retrieve this module's fields
         if ($this->supports('getFields') && ! ($this instanceof ModuleFields)) {
-            $this->fields = new ModuleFields($connection, self::name());
+            $this->fields = new ModuleFields($client, self::name());
         }
     }
 
@@ -58,9 +58,9 @@ abstract class AbstractModule
         return in_array($method, static::$supported_methods);
     }
 
-    public function connection()
+    public function client()
     {
-        return $this->connection;
+        return $this->client;
     }
 
     public function fields()
@@ -70,7 +70,7 @@ abstract class AbstractModule
 
     public function newQuery($method = null, $params = [], $paginated = false)
     {
-        return $this->connection->newQuery(self::name(), $method, $params, $paginated);
+        return $this->client->newQuery(self::name(), $method, $params, $paginated);
     }
 
     public function __call($method, $arguments)

@@ -3,7 +3,7 @@
 namespace Zoho\Crm\Api;
 
 use DateTime;
-use Zoho\Crm\Connection;
+use Zoho\Crm\Client;
 use Zoho\Crm\Api\UrlParameters;
 use Zoho\Crm\Exceptions\InvalidQueryException;
 use Zoho\Crm\Entities\AbstractEntity;
@@ -11,7 +11,7 @@ use Zoho\Crm\Entities\Collection;
 
 class Query
 {
-    protected $connection;
+    protected $client;
 
     protected $format;
 
@@ -27,15 +27,15 @@ class Query
 
     protected $max_modification_date;
 
-    public function __construct(Connection $connection)
+    public function __construct(Client $client)
     {
-        $this->connection = $connection;
+        $this->client = $client;
         $this->parameters = new UrlParameters;
     }
 
-    public function getConnection()
+    public function getClient()
     {
-        return $this->connection;
+        return $this->client;
     }
 
     public function getFormat()
@@ -279,12 +279,12 @@ class Query
 
     public function execute()
     {
-        return $this->connection->executeQuery($this);
+        return $this->client->executeQuery($this);
     }
 
     public function get()
     {
-        return $this->connection->getQueryResults($this);
+        return $this->client->getQueryResults($this);
     }
 
     public function first()
