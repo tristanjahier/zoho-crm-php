@@ -2,6 +2,8 @@
 
 namespace Zoho\Crm\Entities;
 
+use Doctrine\Common\Inflector\Inflector;
+use Zoho\Crm\Client;
 use Zoho\Crm\Support\Helper;
 use Zoho\Crm\Support\ClassShortNameTrait;
 use Zoho\Crm\Support\Arrayable;
@@ -14,18 +16,32 @@ abstract class AbstractEntity implements Arrayable
 
     protected static $name;
 
+    protected static $module_name;
+
     protected static $property_aliases = [];
+
+    protected $client;
 
     protected $properties = [];
 
-    public function __construct(array $data = [])
+    public function __construct(array $data = [], Client $client = null)
     {
         $this->properties = $this->unaliasProperties($data);
+        $this->client = $client;
     }
 
     public static function name()
     {
         return isset(static::$name) ? static::$name : self::getClassShortName();
+    }
+
+    public static function moduleName()
+    {
+        if (isset(static::$module_name)) {
+            return static::$module_name;
+        }
+
+        return Inflector::pluralize(static::name());
     }
 
     public static function supportedProperties()
@@ -111,6 +127,20 @@ abstract class AbstractEntity implements Arrayable
         }
 
         return $hash;
+    }
+
+    public function isDetached()
+    {
+        return is_null($this->client);
+    }
+
+    public function module()
+    {
+        if ($this->isDetached()) {
+            return null;
+        }
+
+        return $this->client->module(static::moduleName());
     }
 
     public function copy()

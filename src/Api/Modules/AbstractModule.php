@@ -77,7 +77,7 @@ abstract class AbstractModule
     {
         $class = static::$associated_entity;
 
-        return new $class($properties);
+        return new $class($properties, $this->client);
     }
 
     public function __call($method, $arguments)
