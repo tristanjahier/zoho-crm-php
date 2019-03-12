@@ -298,6 +298,11 @@ class Query
             ->first();
     }
 
+    public function getClientModule()
+    {
+        return $this->client->module($this->module);
+    }
+
     public function copy()
     {
         return clone $this;

@@ -91,10 +91,7 @@ class Response
             return null;
         }
 
-        $module_class = $this->query->getClient()->moduleClass($this->query->getModule());
-        $entity_class = $module_class::associatedEntity();
-
-        return new $entity_class($this->content);
+        return $this->query->getClientModule()->newEntity($this->content);
     }
 
     public function toEntityCollection()
@@ -103,12 +100,11 @@ class Response
             return new Collection;
         }
 
-        $module_class = $this->query->getClient()->moduleClass($this->query->getModule());
-        $entity_class = $module_class::associatedEntity();
+        $module = $this->query->getClientModule();
         $entities = [];
 
         foreach ($this->content as $item) {
-            $entities[] = new $entity_class($item);
+            $entities[] = $module->newEntity($item);
         }
 
         return new Collection($entities);

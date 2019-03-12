@@ -73,6 +73,13 @@ abstract class AbstractModule
         return $this->client->newQuery(self::name(), $method, $params, $paginated);
     }
 
+    public function newEntity($properties = [])
+    {
+        $class = static::$associated_entity;
+
+        return new $class($properties);
+    }
+
     public function __call($method, $arguments)
     {
         $className = static::class;
