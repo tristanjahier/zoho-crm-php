@@ -106,6 +106,11 @@ abstract class AbstractEntity implements Arrayable
         return array_combine($unaliased_keys, $properties);
     }
 
+    public function key()
+    {
+        return $this->get($this->module()->primaryKey());
+    }
+
     public function toArray()
     {
         return $this->properties;
