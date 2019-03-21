@@ -6,6 +6,24 @@ use Zoho\Crm\Api\Query;
 
 class GetRecords extends AbstractMethod
 {
+    public static function responseContainsData(array $response, Query $query)
+    {
+        if (isset($response['response']['nodata'])) {
+            return false;
+        }
+
+        // In "Events" module, when querying related records with "getRelatedRecords" or
+        // "getSearchRecordsByPDC", sometimes when there is no data the response format is different.
+        if (
+            isset($response['response']['result'][$query->getModule()]) &&
+            $response['response']['result'][$query->getModule()] === 'null'
+        ) {
+            return false;
+        }
+
+        return true;
+    }
+
     public static function tidyResponse(array $response, Query $query)
     {
         $records = [];
