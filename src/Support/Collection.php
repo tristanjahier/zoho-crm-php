@@ -68,6 +68,11 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate
         return empty($this->items);
     }
 
+    public function isNotEmpty()
+    {
+        return ! $this->isEmpty();
+    }
+
     public function contains($value)
     {
         return in_array($value, $this->items);
