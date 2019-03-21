@@ -37,7 +37,7 @@ abstract class AbstractMethod implements MethodInterface
         return static::$http_verb;
     }
 
-    public static function responseContainsData(array $response)
+    public static function responseContainsData(array $response, Query $query)
     {
         return ! isset($response['response']['nodata']);
     }

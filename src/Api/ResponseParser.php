@@ -22,7 +22,7 @@ class ResponseParser
             throw new MethodNotFoundException("Method handler $api_method_handler not found.");
         }
 
-        if ($api_method_handler::responseContainsData($parsed_data)) {
+        if ($api_method_handler::responseContainsData($parsed_data, $query)) {
             return $api_method_handler::tidyResponse($parsed_data, $query);
         } else {
             return null; // No data

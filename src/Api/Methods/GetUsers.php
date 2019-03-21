@@ -9,7 +9,7 @@ class GetUsers extends AbstractMethod
 {
     protected static $response_type = ResponseDataType::OTHER;
 
-    public static function responseContainsData(array $response)
+    public static function responseContainsData(array $response, Query $query)
     {
         return ! isset($response['users']['nodata']);
     }

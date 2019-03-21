@@ -9,7 +9,7 @@ class GetDeletedRecordIds extends AbstractMethod
 {
     protected static $response_type = ResponseDataType::OTHER;
 
-    public static function responseContainsData(array $response)
+    public static function responseContainsData(array $response, Query $query)
     {
         if (isset($response['response']['nodata'])) {
             return false;
