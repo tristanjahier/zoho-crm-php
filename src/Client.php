@@ -52,20 +52,29 @@ class Client
 
     private $modules = [];
 
-    public function __construct($auth_token = null)
+    public function __construct($auth_token = null, $endpoint = null)
     {
-        $this->http_client = new GuzzleClient([
-            'base_uri' => $this->endpoint
-        ]);
-
         // Allow to instanciate a client without an auth token
         if ($auth_token !== null) {
             $this->setAuthToken($auth_token);
         }
 
+        if (isset($endpoint)) {
+            $this->setEndpoint($endpoint);
+        }
+
+        $this->setupHttpClient();
+
         $this->preferences = new Preferences();
 
         $this->attachDefaultModules();
+    }
+
+    private function setupHttpClient()
+    {
+        $this->http_client = new GuzzleClient([
+            'base_uri' => $this->endpoint
+        ]);
     }
 
     public static function defaultModules()
@@ -130,6 +139,27 @@ class Client
     public function getRequestCount()
     {
         return $this->request_count;
+    }
+
+    public function getEndpoint()
+    {
+        return $this->endpoint;
+    }
+
+    public function setEndpoint($endpoint)
+    {
+        // Remove trailing slashes
+        $endpoint = rtrim($endpoint, '/');
+
+        if ($endpoint === null || $endpoint === '') {
+            throw new Exceptions\InvalidEndpointException();
+        }
+
+        // Make sure the endpoint ends with a single slash
+        $this->endpoint = $endpoint . '/';
+
+        // Re-create the HTTP client because the base URI has changed
+        $this->setupHttpClient();
     }
 
     public function preferences()
