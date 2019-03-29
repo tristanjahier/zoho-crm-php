@@ -13,7 +13,7 @@ final class Helper
         // Prevent instanciation.
     }
 
-    public static function getModuleClass($name)
+    public static function getDefaultModuleClass($name)
     {
         return self::BASE_NAMESPACE . '\\Api\\Modules\\' . ucfirst($name);
     }

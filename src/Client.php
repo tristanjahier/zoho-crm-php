@@ -82,6 +82,11 @@ class Client
         return self::$default_modules;
     }
 
+    public function modules()
+    {
+        return $this->modules;
+    }
+
     public function supportedModules()
     {
         return array_keys($this->modules);
@@ -102,9 +107,7 @@ class Client
             throw new Exceptions\InvalidModuleException('Zoho modules must extend ' . AbstractModule::class);
         }
 
-        $this->modules[$module::name()] = $module;
-        $parameterized_name = Inflector::tableize($module::name());
-        return $this->{$parameterized_name} = new $module($this);
+        $this->modules[$module::name()] = new $module($this);
     }
 
     public function attachModules(array $modules)
@@ -117,18 +120,17 @@ class Client
     private function attachDefaultModules()
     {
         foreach (self::$default_modules as $module) {
-            $this->attachModule(Helper::getModuleClass($module));
+            $this->attachModule(Helper::getDefaultModuleClass($module));
         }
     }
 
-    public function moduleClass($name)
+    public function module($name)
     {
-        return isset($this->modules[$name]) ? $this->modules[$name] : null;
-    }
+        if ($this->supports($name)) {
+            return $this->modules[$name];
+        }
 
-    public function module($module)
-    {
-        return $this->{Inflector::tableize($module)};
+        throw new Exceptions\UnsupportedModuleException($name);
     }
 
     public function resetRequestCount()
@@ -266,9 +268,9 @@ class Client
     {
         $response = $query->execute();
 
-        $module_class = $this->moduleClass($query->getModule());
+        $module = $this->module($query->getModule());
 
-        if ($response->isConvertibleToEntity() && $module_class::hasAssociatedEntity()) {
+        if ($response->isConvertibleToEntity() && $module->hasAssociatedEntity()) {
             if ($response->hasMultipleRecords()) {
                 return $response->toEntityCollection();
             } else {
@@ -296,5 +298,10 @@ class Client
             $e->getPrevious(),
             $e->getHandlerContext()
         );
+    }
+
+    public function __get($name)
+    {
+        return $this->module(Inflector::classify($name));
     }
 }
