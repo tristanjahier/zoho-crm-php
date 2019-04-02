@@ -132,6 +132,11 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate
         return new static(array_reverse($this->items, true));
     }
 
+    public function flip()
+    {
+        return new static(array_flip($this->items));
+    }
+
     public function map(callable $callback)
     {
         $keys = array_keys($this->items);
