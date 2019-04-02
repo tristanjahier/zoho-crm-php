@@ -31,7 +31,9 @@ class VarDumpCaster
             Caster::PREFIX_PROTECTED . 'request_count' => $client->getRequestCount(),
         ];
 
-        foreach ($client->modules() as $name => $instance) {
+        $modules = array_merge($client->modules(), $client->aliasedModules());
+
+        foreach ($modules as $name => $instance) {
             $result[Inflector::camelize($name)] = new CutStub($instance);
         }
 

@@ -52,6 +52,8 @@ class Client
 
     private $modules = [];
 
+    private $module_aliases = [];
+
     public function __construct($auth_token = null, $endpoint = null)
     {
         // Allow to instanciate a client without an auth token
@@ -97,7 +99,7 @@ class Client
         return in_array($module, $this->supportedModules());
     }
 
-    public function attachModule($module)
+    public function attachModule($module, $alias = null)
     {
         if (! class_exists($module)) {
             throw new Exceptions\ModuleNotFoundException($module);
@@ -108,6 +110,10 @@ class Client
         }
 
         $this->modules[$module::name()] = new $module($this);
+
+        if (isset($alias)) {
+            $this->module_aliases[$alias] = $module::name();
+        }
     }
 
     public function attachModules(array $modules)
@@ -128,9 +134,22 @@ class Client
     {
         if ($this->supports($name)) {
             return $this->modules[$name];
+        } elseif (isset($this->module_aliases[$name])) {
+            return $this->modules[$this->module_aliases[$name]];
         }
 
         throw new Exceptions\UnsupportedModuleException($name);
+    }
+
+    public function aliasedModules()
+    {
+        $modules = [];
+
+        foreach ($this->module_aliases as $alias => $module) {
+            $modules[$alias] = $this->modules[$module];
+        }
+
+        return $modules;
     }
 
     public function resetRequestCount()
