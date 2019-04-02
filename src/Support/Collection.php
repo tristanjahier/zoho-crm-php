@@ -78,13 +78,27 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate
         return in_array($value, $this->items);
     }
 
-    public function first($default = null)
+    public function first(callable $callback = null, $default = null)
     {
+        if (isset($callback)) {
+            foreach ($this->items as $key => $value) {
+                if ($callback($value, $key) === true) {
+                    return $value;
+                }
+            }
+
+            return $default;
+        }
+
         return $this->isEmpty() ? $default : reset($this->items);
     }
 
-    public function last($default = null)
+    public function last(callable $callback = null, $default = null)
     {
+        if (isset($callback)) {
+            return $this->reverse()->first($callback, $default);
+        }
+
         return $this->isEmpty() ? $default : end($this->items);
     }
 
