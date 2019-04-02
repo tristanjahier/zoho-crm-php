@@ -7,7 +7,7 @@ use Countable;
 use IteratorAggregate;
 use ArrayIterator;
 use Zoho\Crm\Support\Helper;
-use Zoho\Crm\Exception\InvalidComparisonOperatorException;
+use Zoho\Crm\Exceptions\InvalidComparisonOperatorException;
 
 class Collection implements ArrayAccess, Countable, IteratorAggregate
 {
