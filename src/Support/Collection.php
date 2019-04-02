@@ -93,6 +93,11 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate
         return $this->isEmpty() ? $default : reset($this->items);
     }
 
+    public function firstWhere($key, $operator, $value = null)
+    {
+        return $this->first($this->getWhereFilterCallback(...func_get_args()));
+    }
+
     public function last(callable $callback = null, $default = null)
     {
         if (isset($callback)) {
@@ -100,6 +105,11 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate
         }
 
         return $this->isEmpty() ? $default : end($this->items);
+    }
+
+    public function lastWhere($key, $operator, $value = null)
+    {
+        return $this->last($this->getWhereFilterCallback(...func_get_args()));
     }
 
     public function keys()
@@ -202,7 +212,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate
         }));
     }
 
-    public function where($key, $operator, $value = null)
+    protected function getWhereFilterCallback($key, $operator, $value = null)
     {
         // If only two arguments are passed, we will assume
         // that the operator is implicitely an equals sign
@@ -211,7 +221,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate
             $operator = '=';
         }
 
-        return $this->filter(function ($item) use ($key, $operator, $value) {
+        return function ($item) use ($key, $operator, $value) {
             $item_value = $this->getItemPropertyValue($item, $key);
 
             switch ($operator) {
@@ -238,7 +248,12 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate
             }
 
             throw new InvalidComparisonOperatorException($operator);
-        });
+        };
+    }
+
+    public function where($key, $operator, $value = null)
+    {
+        return $this->filter($this->getWhereFilterCallback(...func_get_args()));
     }
 
     public function whereIn($key, $values)
