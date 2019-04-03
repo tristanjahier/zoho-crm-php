@@ -3,6 +3,7 @@
 namespace Zoho\Crm\Api;
 
 use DateTime;
+use InvalidArgumentException;
 use Zoho\Crm\Client;
 use Zoho\Crm\Api\UrlParameters;
 use Zoho\Crm\Exceptions\InvalidQueryException;
@@ -201,6 +202,10 @@ class Query
 
     public function limit($limit)
     {
+        if (! is_int($limit) || $limit <= 0) {
+            throw new InvalidArgumentException('Query limit must be a positive non-zero integer.');
+        }
+
         $this->limit = $limit;
 
         return $this;
