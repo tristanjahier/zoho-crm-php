@@ -30,7 +30,7 @@ class Client
         'Attachments',
     ];
 
-    private $endpoint = self::DEFAULT_ENDPOINT;
+    private $endpoint = SELF::DEFAULT_ENDPOINT;
 
     private $auth_token;
 
@@ -81,7 +81,7 @@ class Client
 
     public static function defaultModules()
     {
-        return self::$default_modules;
+        return static::$default_modules;
     }
 
     public function modules()
@@ -125,7 +125,7 @@ class Client
 
     private function attachDefaultModules()
     {
-        foreach (self::$default_modules as $module) {
+        foreach (static::$default_modules as $module) {
             $this->attachModule(Helper::getDefaultModuleClass($module));
         }
     }
@@ -224,7 +224,7 @@ class Client
     public function newQuery($module = null, $method = null, $params = [], $paginated = false)
     {
         return (new Query($this))
-            ->format(self::DEFAULT_FORMAT)
+            ->format(static::DEFAULT_FORMAT)
             ->module($module)
             ->method($method)
             ->params($this->default_parameters)
