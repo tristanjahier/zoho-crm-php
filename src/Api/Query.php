@@ -132,6 +132,16 @@ class Query
         ]);
     }
 
+    public function orderAsc()
+    {
+        return $this->param('sortOrderString', 'asc');
+    }
+
+    public function orderDesc()
+    {
+        return $this->param('sortOrderString', 'desc');
+    }
+
     public function select($columns)
     {
         $columns = is_array($columns) ? $columns : func_get_args();
