@@ -185,4 +185,10 @@ abstract class AbstractEntity implements Arrayable
     {
         return print_r($this->toArray(), true);
     }
+
+    public function __sleep()
+    {
+        // $properties is the only member that need to be serialized
+        return ['properties'];
+    }
 }
