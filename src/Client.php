@@ -16,18 +16,18 @@ class Client
     const DEFAULT_FORMAT = Api\ResponseFormat::JSON;
 
     private static $default_modules = [
-        'Info',
-        'Users',
-        'Leads',
-        'Potentials',
-        'PotStageHistory',
-        'Calls',
-        'Contacts',
-        'Products',
-        'Events',
-        'Tasks',
-        'Notes',
-        'Attachments',
+        Api\Modules\Info::class,
+        Api\Modules\Users::class,
+        Api\Modules\Leads::class,
+        Api\Modules\Potentials::class,
+        Api\Modules\PotStageHistory::class,
+        Api\Modules\Calls::class,
+        Api\Modules\Contacts::class,
+        Api\Modules\Products::class,
+        Api\Modules\Events::class,
+        Api\Modules\Tasks::class,
+        Api\Modules\Notes::class,
+        Api\Modules\Attachments::class,
     ];
 
     private $endpoint = self::DEFAULT_ENDPOINT;
@@ -79,11 +79,6 @@ class Client
         ]);
     }
 
-    public static function defaultModules()
-    {
-        return self::$default_modules;
-    }
-
     public function modules()
     {
         return $this->modules;
@@ -125,9 +120,7 @@ class Client
 
     private function attachDefaultModules()
     {
-        foreach (self::$default_modules as $module) {
-            $this->attachModule(Helper::getDefaultModuleClass($module));
-        }
+        $this->attachModules(self::$default_modules);
     }
 
     public function module($name)
