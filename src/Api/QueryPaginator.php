@@ -163,7 +163,7 @@ class QueryPaginator
         $content = array_filter($content);
 
         // Merge it all
-        $content = count($content) > 0 ? call_user_func_array('array_merge', $content) : null;
+        $content = count($content) > 0 ? array_merge(...$content) : null;
 
         return new Response($this->query, $content, $raw_content);
     }
