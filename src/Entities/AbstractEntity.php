@@ -134,6 +134,16 @@ abstract class AbstractEntity implements Arrayable
         return $hash;
     }
 
+    public function getClient()
+    {
+        return $this->client;
+    }
+
+    public function setClient(?Client $client)
+    {
+        $this->client = $client;
+    }
+
     public function isDetached()
     {
         return is_null($this->client);
