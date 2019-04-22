@@ -6,7 +6,7 @@ It aims to cover the whole API (every module and method), while providing a grea
 
 ## Requirements
 
-- PHP : `5.5+`
+- PHP : `7.1+`
 - PHP cURL extension enabled
 
 ## Installation
@@ -17,7 +17,7 @@ Edit your `composer.json` file:
 
 ```json
 "require": {
-    "tristanjahier/zoho-crm-php": "^0.2"
+    "tristanjahier/zoho-crm-php": "^0.3"
 }
 ```
 

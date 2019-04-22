@@ -15,32 +15,32 @@ class Client
 
     const DEFAULT_FORMAT = Api\ResponseFormat::JSON;
 
-    private static $default_modules = [
-        'Info',
-        'Users',
-        'Leads',
-        'Potentials',
-        'PotStageHistory',
-        'Calls',
-        'Contacts',
-        'Products',
-        'Events',
-        'Tasks',
-        'Notes',
-        'Attachments',
+    protected static $default_modules = [
+        Api\Modules\Info::class,
+        Api\Modules\Users::class,
+        Api\Modules\Leads::class,
+        Api\Modules\Potentials::class,
+        Api\Modules\PotStageHistory::class,
+        Api\Modules\Calls::class,
+        Api\Modules\Contacts::class,
+        Api\Modules\Products::class,
+        Api\Modules\Events::class,
+        Api\Modules\Tasks::class,
+        Api\Modules\Notes::class,
+        Api\Modules\Attachments::class,
     ];
 
-    private $endpoint = self::DEFAULT_ENDPOINT;
+    protected $endpoint = self::DEFAULT_ENDPOINT;
 
-    private $auth_token;
+    protected $auth_token;
 
-    private $http_client;
+    protected $http_client;
 
-    private $request_count = 0;
+    protected $request_count = 0;
 
-    private $preferences;
+    protected $preferences;
 
-    private $default_parameters = [
+    protected $default_parameters = [
         'scope' => 'crmapi',
         'newFormat' => 1,
         'version' => 2,
@@ -50,9 +50,9 @@ class Client
         'sortOrderString' => 'asc'
     ];
 
-    private $modules = [];
+    protected $modules = [];
 
-    private $module_aliases = [];
+    protected $module_aliases = [];
 
     public function __construct($auth_token = null, $endpoint = null)
     {

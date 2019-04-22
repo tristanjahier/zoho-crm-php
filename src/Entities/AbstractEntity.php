@@ -134,6 +134,16 @@ abstract class AbstractEntity implements Arrayable
         return $hash;
     }
 
+    public function getClient()
+    {
+        return $this->client;
+    }
+
+    public function setClient(?Client $client)
+    {
+        $this->client = $client;
+    }
+
     public function isDetached()
     {
         return is_null($this->client);
@@ -184,5 +194,11 @@ abstract class AbstractEntity implements Arrayable
     public function __toString()
     {
         return print_r($this->toArray(), true);
+    }
+
+    public function __sleep()
+    {
+        // $properties is the only member that need to be serialized
+        return ['properties'];
     }
 }
