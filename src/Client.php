@@ -30,7 +30,7 @@ class Client
         'Attachments',
     ];
 
-    private $endpoint = SELF::DEFAULT_ENDPOINT;
+    private $endpoint = self::DEFAULT_ENDPOINT;
 
     private $auth_token;
 
