@@ -13,7 +13,7 @@ class Client
 {
     const DEFAULT_ENDPOINT = 'https://crm.zoho.com/crm/private/';
 
-    const DEFAULT_FORMAT = Api\ResponseFormat::JSON;
+    const DEFAULT_RESPONSE_FORMAT = Api\ResponseFormat::JSON;
 
     protected static $default_modules = [
         Api\Modules\Info::class,
@@ -217,7 +217,7 @@ class Client
     public function newQuery($module = null, $method = null, $params = [], $paginated = false)
     {
         return (new Query($this))
-            ->format(self::DEFAULT_FORMAT)
+            ->format(self::DEFAULT_RESPONSE_FORMAT)
             ->module($module)
             ->method($method)
             ->params($this->default_parameters)
