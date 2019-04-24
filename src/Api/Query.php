@@ -9,6 +9,7 @@ use Zoho\Crm\Api\UrlParameters;
 use Zoho\Crm\Exceptions\InvalidQueryException;
 use Zoho\Crm\Entities\AbstractEntity;
 use Zoho\Crm\Entities\Collection;
+use Zoho\Crm\Support\Helper;
 
 class Query
 {
@@ -208,6 +209,11 @@ class Query
     public function modifiedBetween($from, $to)
     {
         return $this->modifiedAfter($from)->modifiedBefore($to);
+    }
+
+    public function triggerWorkflowRules(bool $enabled = true)
+    {
+        return $this->param('wfTrigger', Helper::booleanToString($enabled));
     }
 
     public function limit($limit)
