@@ -2,8 +2,12 @@
 
 namespace Zoho\Crm\Entities;
 
+/**
+ * Task entity class.
+ */
 class Task extends AbstractEntity
 {
+    /** @inheritdoc */
     protected static $property_aliases = [
         'id'                 => 'ACTIVITYID',
         'owner'              => 'SMOWNERID',

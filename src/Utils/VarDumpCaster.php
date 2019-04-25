@@ -11,8 +11,23 @@ use Zoho\Crm\Api\Query;
 use Zoho\Crm\Entities\AbstractEntity;
 use Zoho\Crm\Support\Collection;
 
+/**
+ * Caster for Symfony's var-dumper.
+ *
+ * Useful in development to provide a nice and informative output while dumping
+ * the most complex and important objects of this library.
+ *
+ * @see https://symfony.com/doc/current/components/var_dumper/advanced.html#casters
+ */
 class VarDumpCaster
 {
+    /**
+     * Get an associative array of the custom casters.
+     *
+     * @see \Symfony\Component\VarDumper\Cloner\AbstractCloner::addCasters()
+     *
+     * @return array
+     */
     public static function getConfig()
     {
         return [
@@ -24,6 +39,12 @@ class VarDumpCaster
         ];
     }
 
+    /**
+     * Cast a client instance.
+     *
+     * @param \Zoho\Crm\Client $client The client instance
+     * @return array
+     */
     public static function castClient(Client $client)
     {
         $result = [
@@ -40,6 +61,12 @@ class VarDumpCaster
         return $result;
     }
 
+    /**
+     * Cast a module handler instance.
+     *
+     * @param \Zoho\Crm\Api\Modules\AbstractModule $module The module instance
+     * @return array
+     */
     public static function castModule(AbstractModule $module)
     {
         return [
@@ -49,6 +76,12 @@ class VarDumpCaster
         ];
     }
 
+    /**
+     * Cast a query instance.
+     *
+     * @param \Zoho\Crm\Api\Query $query The query instance
+     * @return array
+     */
     public static function castQuery(Query $query)
     {
         $result = (array) $query;
@@ -58,11 +91,23 @@ class VarDumpCaster
         return $result;
     }
 
+    /**
+     * Cast an entity instance.
+     *
+     * @param \Zoho\Crm\Entities\AbstractEntity $entity The entity instance
+     * @return array
+     */
     public static function castEntity(AbstractEntity $entity)
     {
         return self::prefixKeys($entity->toArray(), Caster::PREFIX_VIRTUAL);
     }
 
+    /**
+     * Cast a collection instance.
+     *
+     * @param \Zoho\Crm\Support\Collection $collection The collection instance
+     * @return array
+     */
     public static function castCollection(Collection $collection)
     {
         return [
@@ -70,6 +115,13 @@ class VarDumpCaster
         ];
     }
 
+    /**
+     * Prefix the keys of an array with a given string.
+     *
+     * @param array $array The array
+     * @param string $prefix The key prefix
+     * @return array
+     */
     private static function prefixKeys(array $array, string $prefix)
     {
         $result = [];

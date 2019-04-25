@@ -6,13 +6,34 @@ use DateTime;
 use Zoho\Crm\Support\Helper;
 use Zoho\Crm\Support\Collection;
 
+/**
+ * Container for URL query string bits.
+ */
 class UrlParameters extends Collection
 {
+    /**
+     * Override parameters values with those of another array.
+     *
+     * @param array|\Zoho\Crm\Support\Collection $others The other URL parameters
+     * @return static
+     */
     public function extend($others)
     {
         return $this->replace($others);
     }
 
+    /**
+     * Return a string representation of the URL parameters.
+     *
+     * Boolean are stringified as "true" or "false".
+     * Dates are output in the "Y-m-d H:i:s" format.
+     * Arrays are represented like this: "(el1,el2,el3,...)".
+     * Parameters with null values are represented by the key only.
+     *
+     * @example param1=value&param2=the+value&param3&param4=(23,1,8734)
+     *
+     * @return string
+     */
     public function __toString()
     {
         $chunks = [];

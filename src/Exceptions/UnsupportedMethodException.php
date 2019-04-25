@@ -6,6 +6,12 @@ use Exception;
 
 class UnsupportedMethodException extends Exception
 {
+    /**
+     * The constructor.
+     *
+     * @param string $method The name of the method
+     * @param string $module (optional) The name of the module
+     */
     public function __construct($method, $module = null)
     {
         $message = "Method $method is not supported";

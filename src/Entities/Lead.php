@@ -2,8 +2,12 @@
 
 namespace Zoho\Crm\Entities;
 
+/**
+ * Lead entity class.
+ */
 class Lead extends AbstractEntity
 {
+    /** @inheritdoc */
     protected static $property_aliases = [
         'id'                  => 'LEADID',
         'owner'               => 'SMOWNERID',

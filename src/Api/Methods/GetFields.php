@@ -5,10 +5,17 @@ namespace Zoho\Crm\Api\Methods;
 use Zoho\Crm\Api\ResponseDataType;
 use Zoho\Crm\Api\Query;
 
+/**
+ * @see https://www.zoho.com/crm/help/api/getfields.html
+ */
 class GetFields extends AbstractMethod
 {
+    /** @inheritdoc */
     protected static $response_type = ResponseDataType::OTHER;
 
+    /**
+     * @inheritdoc
+     */
     public static function tidyResponse(array $response, Query $query)
     {
         $sections = $response[$query->getModule()]['section'];

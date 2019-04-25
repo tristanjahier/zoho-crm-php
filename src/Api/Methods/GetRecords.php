@@ -4,8 +4,14 @@ namespace Zoho\Crm\Api\Methods;
 
 use Zoho\Crm\Api\Query;
 
+/**
+ * @see https://www.zoho.com/crm/help/api/getrecords.html
+ */
 class GetRecords extends AbstractMethod
 {
+    /**
+     * @inheritdoc
+     */
     public static function responseContainsData(array $response, Query $query)
     {
         if (isset($response['response']['nodata'])) {
@@ -24,6 +30,9 @@ class GetRecords extends AbstractMethod
         return true;
     }
 
+    /**
+     * @inheritdoc
+     */
     public static function tidyResponse(array $response, Query $query)
     {
         $records = [];

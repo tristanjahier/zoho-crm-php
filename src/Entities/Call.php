@@ -2,8 +2,12 @@
 
 namespace Zoho\Crm\Entities;
 
+/**
+ * Call entity class.
+ */
 class Call extends AbstractEntity
 {
+    /** @inheritdoc */
     protected static $property_aliases = [
         'id'               => 'ACTIVITYID',
         'owner'            => 'SMOWNERID',

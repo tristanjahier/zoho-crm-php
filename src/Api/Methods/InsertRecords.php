@@ -6,12 +6,20 @@ use Zoho\Crm\Api\ResponseDataType;
 use Zoho\Crm\Api\Query;
 use Zoho\Crm\Api\HttpVerb;
 
+/**
+ * @see https://www.zoho.com/crm/help/api/insertrecords.html
+ */
 class InsertRecords extends AbstractMethod
 {
+    /** @inheritdoc */
     protected static $response_type = ResponseDataType::OTHER;
 
+    /** @inheritdoc */
     protected static $http_verb = HttpVerb::POST;
 
+    /**
+     * @inheritdoc
+     */
     public static function tidyResponse(array $response, Query $query)
     {
         $record_ids = [];

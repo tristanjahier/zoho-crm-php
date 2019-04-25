@@ -7,8 +7,20 @@ use Zoho\Crm\Support\Helper;
 use Zoho\Crm\Entities\Collection;
 use Zoho\Crm\Entities\AbstractEntity;
 
+/**
+ * Static class to help build XML requests.
+ */
 class XmlBuilder
 {
+    /**
+     * Build an XML document representing Zoho records.
+     *
+     * Used for inserting and updating records.
+     *
+     * @param string $module The name of the module
+     * @param array|\Zoho\Crm\Entities\Collection $records The array/collection of records
+     * @return string
+     */
     public static function buildRecords($module, $records)
     {
         if ($records instanceof Collection) {

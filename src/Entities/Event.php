@@ -2,8 +2,12 @@
 
 namespace Zoho\Crm\Entities;
 
+/**
+ * Event entity class.
+ */
 class Event extends AbstractEntity
 {
+    /** @inheritdoc */
     protected static $property_aliases = [
         'id'                => 'ACTIVITYID',
         'uid'               => 'UID',

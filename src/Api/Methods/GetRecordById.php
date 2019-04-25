@@ -4,8 +4,14 @@ namespace Zoho\Crm\Api\Methods;
 
 use Zoho\Crm\Api\Query;
 
+/**
+ * @see https://www.zoho.com/crm/help/api/getrecordbyid.html
+ */
 class GetRecordById extends GetRecords
 {
+    /**
+     * @inheritdoc
+     */
     public static function tidyResponse(array $response, Query $query)
     {
         $result = parent::tidyResponse($response, $query);
@@ -13,6 +19,9 @@ class GetRecordById extends GetRecords
         return self::expectsMultipleRecords($query) ? $result : $result[0];
     }
 
+    /**
+     * @inheritdoc
+     */
     public static function expectsMultipleRecords(Query $query = null)
     {
         return isset($query) ? $query->hasParameter('idlist') : false;

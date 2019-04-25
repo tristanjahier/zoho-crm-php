@@ -2,10 +2,15 @@
 
 namespace Zoho\Crm\Entities;
 
+/**
+ * PotStageHistory entity class.
+ */
 class PotStageHistory extends AbstractEntity
 {
+    /** @inheritdoc */
     protected static $module_name = 'PotStageHistory';
 
+    /** @inheritdoc */
     protected static $property_aliases = [
         'id' => 'POTENTIALSTAGEHISTORYID',
         'amount' => 'Amount',
