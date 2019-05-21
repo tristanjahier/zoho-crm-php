@@ -840,7 +840,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate
     protected function getItemPropertyValue($item, $property)
     {
         if (is_array($item) || $item instanceof ArrayAccess) {
-            return isset($item) ? $item[$property] : null;
+            return $item[$property] ?? null;
         } elseif (is_object($item) && isset($item->{$property})) {
             return $item->{$property};
         }
