@@ -424,6 +424,28 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate
     }
 
     /**
+     * Compute the sum of the items.
+     *
+     * If a key or a property name is provided, its values will be summed.
+     * If a callback is provided, it will be called on each item to get the value to sum.
+     *
+     * @param mixed|null $property (optional) The property to sum
+     * @return mixed
+     */
+    public function sum($property = null)
+    {
+        if (is_null($property)) {
+            return array_sum($this->items);
+        }
+
+        $callback = $this->getItemPropertyRetriever($property);
+
+        return $this->reduce(function ($sum, $item) use ($callback) {
+            return $sum + $callback($item);
+        }, 0);
+    }
+
+    /**
      * Filter the collection items with a callback.
      *
      * If the provided callback returns true for a given item, it is kept
@@ -846,6 +868,25 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate
         }
 
         return null;
+    }
+
+    /**
+     * Get a callback to retrieve the value of a given property from an item.
+     *
+     * If the provided argument is already a callback, it is returned as is.
+     *
+     * @param mixed $property The key or the property to get, or a callback
+     * @return callable
+     */
+    protected function getItemPropertyRetriever($property)
+    {
+        if (! is_string($property) && is_callable($property)) {
+            return $property;
+        }
+
+        return function ($item) use ($property) {
+            return $this->getItemPropertyValue($item, $property);
+        };
     }
 
     /**
