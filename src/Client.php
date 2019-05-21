@@ -23,6 +23,7 @@ use GuzzleHttp\Exception\RequestException;
  * @property-read Api\Modules\PotStageHistory $potStageHistory
  * @property-read Api\Modules\Calls $calls
  * @property-read Api\Modules\Contacts $contacts
+ * @property-read Api\Modules\Vendors $vendors
  * @property-read Api\Modules\Products $products
  * @property-read Api\Modules\Events $events
  * @property-read Api\Modules\Tasks $tasks
@@ -49,6 +50,7 @@ class Client
         Api\Modules\PotStageHistory::class,
         Api\Modules\Calls::class,
         Api\Modules\Contacts::class,
+        Api\Modules\Vendors::class,
         Api\Modules\Products::class,
         Api\Modules\Events::class,
         Api\Modules\Tasks::class,
