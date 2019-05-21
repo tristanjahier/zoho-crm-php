@@ -741,14 +741,14 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate
      * If the value is not found, the method returns false.
      *
      * @param mixed $value The value to search
-     * @return mixed|false
+     * @return int|false
      */
     public function binarySearch($value)
     {
         $low = 0;
         $high = $this->count() - 1;
 
-        while ($low < $high) {
+        while ($low <= $high) {
             $middle = (int) floor(($high + $low) / 2);
             $current = $this->items[$middle];
 
