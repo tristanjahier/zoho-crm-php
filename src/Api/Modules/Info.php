@@ -23,4 +23,14 @@ class Info extends AbstractModule
     {
         return $this->newQuery('getModules');
     }
+
+    /**
+     * Create a query to get information about the modules accessible via API.
+     *
+     * @return \Zoho\Crm\Api\Query
+     */
+    public function apiModules()
+    {
+        return $this->modules()->param('type', 'api');
+    }
 }
