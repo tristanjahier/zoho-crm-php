@@ -132,7 +132,7 @@ class Response
      */
     public function hasSingleRecord()
     {
-        return !$this->has_multiple_records;
+        return ! $this->has_multiple_records;
     }
 
     /**

@@ -335,10 +335,11 @@ class Client
      */
     public function setAuthToken($auth_token)
     {
-        if ($auth_token === null || $auth_token === '')
+        if ($auth_token === null || $auth_token === '') {
             throw new Exceptions\NullAuthTokenException();
-        else
+        } else {
             $this->auth_token = $auth_token;
+        }
     }
 
     /**

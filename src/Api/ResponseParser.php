@@ -95,7 +95,7 @@ class ResponseParser
      */
     private static function validate($parsed)
     {
-        if ($parsed === null || !is_array($parsed)) {
+        if ($parsed === null || ! is_array($parsed)) {
             throw new UnreadableResponseException();
             return false;
         }
