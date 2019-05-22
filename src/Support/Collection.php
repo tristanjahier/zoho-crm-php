@@ -319,15 +319,15 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate
      *
      * @see https://www.php.net/manual/en/language.operators.array.php
      *
-     * @param array|self ...$items The collections to union
+     * @param array|self ...$collections The collections to union
      * @return static
      */
-    public function union()
+    public function union(...$collections)
     {
         $union = $this->items;
 
-        foreach (func_get_args() as $items) {
-            $union = $union + $this->getPlainArray($items);
+        foreach ($collections as $collection) {
+            $union += $this->getPlainArray($collection);
         }
 
         return new static($union);
