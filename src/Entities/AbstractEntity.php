@@ -325,14 +325,15 @@ abstract class AbstractEntity implements Arrayable
     }
 
     /**
-     * Determine if an alias exists.
+     * Determine if a property is present by its alias.
      *
      * @param string $alias The property alias name
      * @return bool
      */
     public function __isset($alias)
     {
-        return array_key_exists($alias, static::$property_aliases);
+        return $this->isAlias($alias)
+            && array_key_exists($this->unalias($alias), $this->properties);
     }
 
     /**
