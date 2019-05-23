@@ -343,7 +343,10 @@ abstract class AbstractEntity implements Arrayable
      */
     public function __toString()
     {
-        return print_r($this->toArray(), true);
+        return json_encode([
+            'type' => static::name(),
+            'properties' => $this->toArray(),
+        ], JSON_PRETTY_PRINT);
     }
 
     /**
