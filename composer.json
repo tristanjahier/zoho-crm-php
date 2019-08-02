@@ -30,7 +30,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Zoho\\Crm\\DevMaterial\\": "dev_material/src/"
+            "Zoho\\Crm\\Dev\\": "dev/src/"
         }
     }
 }
