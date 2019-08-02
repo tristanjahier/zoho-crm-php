@@ -5,7 +5,7 @@ namespace Zoho\Crm\Api\Modules;
 /**
  * Contacts module handler.
  *
- * @see https://www.zoho.com/crm/help/api/modules-fields.html#Contacts
+ * @see https://www.zoho.com/crm/developer/docs/api/modules-fields.html#Contacts
  */
 class Contacts extends AbstractRecordsModule
 {

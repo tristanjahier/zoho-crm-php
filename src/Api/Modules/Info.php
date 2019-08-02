@@ -15,7 +15,7 @@ class Info extends AbstractModule
     /**
      * Create a query to get information about the modules.
      *
-     * @see https://www.zoho.com/crm/help/api/getmodules.html
+     * @see https://www.zoho.com/crm/developer/docs/api/getmodules.html
      *
      * @return \Zoho\Crm\Api\Query
      */

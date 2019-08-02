@@ -5,7 +5,7 @@ namespace Zoho\Crm\Api\Methods;
 use Zoho\Crm\Api\Query;
 
 /**
- * @see https://www.zoho.com/crm/help/api/getrecordbyid.html
+ * @see https://www.zoho.com/crm/developer/docs/api/getrecordbyid.html
  */
 class GetRecordById extends GetRecords
 {

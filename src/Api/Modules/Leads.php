@@ -5,7 +5,7 @@ namespace Zoho\Crm\Api\Modules;
 /**
  * Leads module handler.
  *
- * @see https://www.zoho.com/crm/help/api/modules-fields.html#Leads
+ * @see https://www.zoho.com/crm/developer/docs/api/modules-fields.html#Leads
  */
 class Leads extends AbstractRecordsModule
 {

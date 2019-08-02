@@ -7,7 +7,7 @@ use Zoho\Crm\Api\Query;
 use Zoho\Crm\Api\HttpVerb;
 
 /**
- * @see https://www.zoho.com/crm/help/api/insertrecords.html
+ * @see https://www.zoho.com/crm/developer/docs/api/insertrecords.html
  */
 class InsertRecords extends AbstractMethod
 {

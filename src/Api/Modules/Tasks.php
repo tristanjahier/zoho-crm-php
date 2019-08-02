@@ -5,7 +5,7 @@ namespace Zoho\Crm\Api\Modules;
 /**
  * Tasks module handler.
  *
- * @see https://www.zoho.com/crm/help/api/modules-fields.html#Tasks
+ * @see https://www.zoho.com/crm/developer/docs/api/modules-fields.html#Tasks
  */
 class Tasks extends AbstractRecordsModule
 {

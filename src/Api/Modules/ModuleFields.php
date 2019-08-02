@@ -5,7 +5,7 @@ namespace Zoho\Crm\Api\Modules;
 /**
  * Metamodule to query the fields of a given module.
  *
- * @see https://www.zoho.com/crm/help/api/getfields.html
+ * @see https://www.zoho.com/crm/developer/docs/api/getfields.html
  */
 class ModuleFields extends AbstractProxyModule
 {

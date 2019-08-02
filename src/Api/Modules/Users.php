@@ -5,7 +5,7 @@ namespace Zoho\Crm\Api\Modules;
 /**
  * Users module handler.
  *
- * @see https://www.zoho.com/crm/help/api/getusers.html
+ * @see https://www.zoho.com/crm/developer/docs/api/getusers.html
  */
 class Users extends AbstractModule
 {

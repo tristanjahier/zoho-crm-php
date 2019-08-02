@@ -5,7 +5,7 @@ namespace Zoho\Crm\Api\Modules;
 /**
  * Calls module handler.
  *
- * @see https://www.zoho.com/crm/help/api/modules-fields.html#Calls
+ * @see https://www.zoho.com/crm/developer/docs/api/modules-fields.html#Calls
  */
 class Calls extends AbstractRecordsModule
 {

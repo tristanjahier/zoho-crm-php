@@ -5,7 +5,7 @@ namespace Zoho\Crm\Api\Modules;
 /**
  * Events module handler.
  *
- * @see https://www.zoho.com/crm/help/api/modules-fields.html#Events
+ * @see https://www.zoho.com/crm/developer/docs/api/modules-fields.html#Events
  */
 class Events extends AbstractRecordsModule
 {

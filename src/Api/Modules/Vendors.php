@@ -5,7 +5,7 @@ namespace Zoho\Crm\Api\Modules;
 /**
  * Vendors module handler.
  *
- * @see https://www.zoho.com/crm/help/api/modules-fields.html#Vendors
+ * @see https://www.zoho.com/crm/developer/docs/api/modules-fields.html#Vendors
  */
 class Vendors extends AbstractRecordsModule
 {

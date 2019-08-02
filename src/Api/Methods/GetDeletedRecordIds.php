@@ -6,7 +6,7 @@ use Zoho\Crm\Api\Query;
 use Zoho\Crm\Api\ResponseDataType;
 
 /**
- * @see https://www.zoho.com/crm/help/api/getdeletedrecordids.html
+ * @see https://www.zoho.com/crm/developer/docs/api/getdeletedrecordids.html
  */
 class GetDeletedRecordIds extends AbstractMethod
 {

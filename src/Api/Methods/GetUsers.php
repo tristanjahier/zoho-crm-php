@@ -6,7 +6,7 @@ use Zoho\Crm\Api\ResponseDataType;
 use Zoho\Crm\Api\Query;
 
 /**
- * @see https://www.zoho.com/crm/help/api/getusers.html
+ * @see https://www.zoho.com/crm/developer/docs/api/getusers.html
  */
 class GetUsers extends AbstractMethod
 {

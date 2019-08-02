@@ -449,7 +449,7 @@ $client->myCustomThings;
 
 ### Use a different API endpoint
 
-By default, the endpoint is: `https://crm.zoho.com/crm/private/`. You may want to use another one: https://www.zoho.com/crm/help/api/using-api-url.html
+By default, the endpoint is: `https://crm.zoho.com/crm/private/`. You may want to use another one: https://www.zoho.com/crm/developer/docs/api/using-api-url.html
 
 For that, you can pass a second argument to the `Client` constructor:
 

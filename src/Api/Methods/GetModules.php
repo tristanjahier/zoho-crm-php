@@ -6,7 +6,7 @@ use Zoho\Crm\Api\ResponseDataType;
 use Zoho\Crm\Api\Query;
 
 /**
- * @see https://www.zoho.com/crm/help/api/getmodules.html
+ * @see https://www.zoho.com/crm/developer/docs/api/getmodules.html
  */
 class GetModules extends AbstractMethod
 {

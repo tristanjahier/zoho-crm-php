@@ -26,7 +26,7 @@ abstract class AbstractRecordsModule extends AbstractModule
     /**
      * Create a query to get records.
      *
-     * @see https://www.zoho.com/crm/help/api/getrecords.html
+     * @see https://www.zoho.com/crm/developer/docs/api/getrecords.html
      *
      * @return \Zoho\Crm\Api\Query
      */
@@ -38,7 +38,7 @@ abstract class AbstractRecordsModule extends AbstractModule
     /**
      * Retrieve a record by its ID.
      *
-     * @see https://www.zoho.com/crm/help/api/getrecordbyid.html
+     * @see https://www.zoho.com/crm/developer/docs/api/getrecordbyid.html
      *
      * @param string $id The record ID
      * @return \Zoho\Crm\Entities\AbstractEntity|array
@@ -51,7 +51,7 @@ abstract class AbstractRecordsModule extends AbstractModule
     /**
      * Retrieve multiple records by their IDs.
      *
-     * @see https://www.zoho.com/crm/help/api/getrecordbyid.html
+     * @see https://www.zoho.com/crm/developer/docs/api/getrecordbyid.html
      *
      * @param string[] $ids An array of record IDs
      * @return \Zoho\Crm\Entities\Collection|array[]
@@ -64,7 +64,7 @@ abstract class AbstractRecordsModule extends AbstractModule
     /**
      * Create a query to get records owned by the auth token owner.
      *
-     * @see https://www.zoho.com/crm/help/api/getmyrecords.html
+     * @see https://www.zoho.com/crm/developer/docs/api/getmyrecords.html
      *
      * @return \Zoho\Crm\Api\Query
      */
@@ -76,7 +76,7 @@ abstract class AbstractRecordsModule extends AbstractModule
     /**
      * Create a query to search records based on given criteria.
      *
-     * @see https://www.zoho.com/crm/help/api/searchrecords.html
+     * @see https://www.zoho.com/crm/developer/docs/api/searchrecords.html
      *
      * @param string $criteria The criteria string representation
      * @return \Zoho\Crm\Api\Query
@@ -89,7 +89,7 @@ abstract class AbstractRecordsModule extends AbstractModule
     /**
      * Create a query to search records by a given field.
      *
-     * @see https://www.zoho.com/crm/help/api/searchrecords.html
+     * @see https://www.zoho.com/crm/developer/docs/api/searchrecords.html
      *
      * @param string $key The name of the field
      * @param string $value The value to search
@@ -103,7 +103,7 @@ abstract class AbstractRecordsModule extends AbstractModule
     /**
      * Create a query to get records related to another given record.
      *
-     * @see https://www.zoho.com/crm/help/api/getrelatedrecords.html
+     * @see https://www.zoho.com/crm/developer/docs/api/getrelatedrecords.html
      *
      * @param string $module The name of the parent module
      * @param string $id The ID of the related record
@@ -120,7 +120,7 @@ abstract class AbstractRecordsModule extends AbstractModule
     /**
      * Create a query to search records by a predefined column.
      *
-     * @see https://www.zoho.com/crm/help/api/getsearchrecordsbypdc.html
+     * @see https://www.zoho.com/crm/developer/docs/api/getsearchrecordsbypdc.html
      *
      * @param string $column The predefined column
      * @param string $value The value to search
@@ -148,7 +148,7 @@ abstract class AbstractRecordsModule extends AbstractModule
     /**
      * Insert a new record.
      *
-     * @see https://www.zoho.com/crm/help/api/insertrecords.html
+     * @see https://www.zoho.com/crm/developer/docs/api/insertrecords.html
      *
      * @param array $data The data of the record
      * @return (string|false)[] The inserted record ID or false if failed
@@ -161,7 +161,7 @@ abstract class AbstractRecordsModule extends AbstractModule
     /**
      * Insert multiple new records.
      *
-     * @see https://www.zoho.com/crm/help/api/insertrecords.html
+     * @see https://www.zoho.com/crm/developer/docs/api/insertrecords.html
      *
      * @param array[] $data The data of the records
      * @return (string|false)[] The inserted records IDs or false if failed
@@ -178,7 +178,7 @@ abstract class AbstractRecordsModule extends AbstractModule
     /**
      * Update an existing record.
      *
-     * @see https://www.zoho.com/crm/help/api/updaterecords.html
+     * @see https://www.zoho.com/crm/developer/docs/api/updaterecords.html
      *
      * @param string $id The record ID
      * @param array $data The new data
@@ -196,7 +196,7 @@ abstract class AbstractRecordsModule extends AbstractModule
     /**
      * Update multiple existing records.
      *
-     * @see https://www.zoho.com/crm/help/api/updaterecords.html
+     * @see https://www.zoho.com/crm/developer/docs/api/updaterecords.html
      *
      * @param array[] $data The new data
      * @return (string|false)[] The updated records IDs or false if failed
@@ -212,7 +212,7 @@ abstract class AbstractRecordsModule extends AbstractModule
     /**
      * Delete a record.
      *
-     * @see https://www.zoho.com/crm/help/api/deleterecords.html
+     * @see https://www.zoho.com/crm/developer/docs/api/deleterecords.html
      *
      * @param string $id The record ID
      * @return null
@@ -225,7 +225,7 @@ abstract class AbstractRecordsModule extends AbstractModule
     /**
      * Delete multiple records.
      *
-     * @see https://www.zoho.com/crm/help/api/deleterecords.html
+     * @see https://www.zoho.com/crm/developer/docs/api/deleterecords.html
      *
      * @param string[] $ids The records IDs
      * @return null
@@ -238,7 +238,7 @@ abstract class AbstractRecordsModule extends AbstractModule
     /**
      * Create a query to get the deleted records IDs.
      *
-     * @see https://www.zoho.com/crm/help/api/getdeletedrecordids.html
+     * @see https://www.zoho.com/crm/developer/docs/api/getdeletedrecordids.html
      *
      * @return \Zoho\Crm\Api\Query
      */
@@ -250,7 +250,7 @@ abstract class AbstractRecordsModule extends AbstractModule
     /**
      * Delete a file attached to a record.
      *
-     * @see https://www.zoho.com/crm/help/api/deletefile.html
+     * @see https://www.zoho.com/crm/developer/docs/api/deletefile.html
      *
      * @param string $attachment_id The attachment ID
      * @return bool

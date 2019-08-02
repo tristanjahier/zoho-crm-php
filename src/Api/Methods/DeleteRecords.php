@@ -6,7 +6,7 @@ use Zoho\Crm\Api\Query;
 use Zoho\Crm\Api\ResponseDataType;
 
 /**
- * @see https://www.zoho.com/crm/help/api/deleterecords.html
+ * @see https://www.zoho.com/crm/developer/docs/api/deleterecords.html
  */
 class DeleteRecords extends AbstractMethod
 {
