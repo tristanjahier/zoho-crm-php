@@ -21,10 +21,10 @@ abstract class AbstractEntity implements Arrayable
     protected static $name;
 
     /** @var string|null The name of the related module */
-    protected static $module_name;
+    protected static $moduleName;
 
     /** @var string[] An associative array of aliases pointing to real property names */
-    protected static $property_aliases = [];
+    protected static $propertyAliases = [];
 
     /** @var \Zoho\Crm\Client|null The client to which the entity is bound */
     protected $client;
@@ -61,8 +61,8 @@ abstract class AbstractEntity implements Arrayable
      */
     public static function moduleName()
     {
-        if (isset(static::$module_name)) {
-            return static::$module_name;
+        if (isset(static::$moduleName)) {
+            return static::$moduleName;
         }
 
         return Inflector::pluralize(static::name());
@@ -75,7 +75,7 @@ abstract class AbstractEntity implements Arrayable
      */
     public static function supportedProperties()
     {
-        return array_values(static::$property_aliases);
+        return array_values(static::$propertyAliases);
     }
 
     /**
@@ -97,8 +97,8 @@ abstract class AbstractEntity implements Arrayable
      */
     public function has($property)
     {
-        $clean = array_key_exists($property, static::$property_aliases) &&
-                 isset($this->properties[static::$property_aliases[$property]]);
+        $clean = array_key_exists($property, static::$propertyAliases) &&
+                 isset($this->properties[static::$propertyAliases[$property]]);
         $raw   = isset($this->properties[$property]);
         return $clean || $raw;
     }
@@ -112,8 +112,8 @@ abstract class AbstractEntity implements Arrayable
     public function get($property)
     {
         // Permissive mode: allows raw and clean property names
-        if (array_key_exists($property, static::$property_aliases)) {
-            $property = static::$property_aliases[$property];
+        if (array_key_exists($property, static::$propertyAliases)) {
+            $property = static::$propertyAliases[$property];
         }
 
         return isset($this->properties[$property]) ? $this->properties[$property] : null;
@@ -129,8 +129,8 @@ abstract class AbstractEntity implements Arrayable
     public function set($property, $value)
     {
         // Permissive mode: allows raw and clean property names
-        if (array_key_exists($property, static::$property_aliases)) {
-            $property = static::$property_aliases[$property];
+        if (array_key_exists($property, static::$propertyAliases)) {
+            $property = static::$propertyAliases[$property];
         }
 
         $this->properties[$property] = $value;
@@ -144,7 +144,7 @@ abstract class AbstractEntity implements Arrayable
      */
     public function hasAlias($property)
     {
-        return in_array($property, static::$property_aliases);
+        return in_array($property, static::$propertyAliases);
     }
 
     /**
@@ -155,7 +155,7 @@ abstract class AbstractEntity implements Arrayable
      */
     public function isAlias($alias)
     {
-        return array_key_exists($alias, static::$property_aliases);
+        return array_key_exists($alias, static::$propertyAliases);
     }
 
     /**
@@ -166,7 +166,7 @@ abstract class AbstractEntity implements Arrayable
      */
     public function unalias($alias)
     {
-        return static::$property_aliases[$alias];
+        return static::$propertyAliases[$alias];
     }
 
     /**
@@ -177,11 +177,11 @@ abstract class AbstractEntity implements Arrayable
      */
     private function unaliasProperties(array $properties)
     {
-        $unaliased_keys = array_map(function ($prop) {
+        $unaliasedKeys = array_map(function ($prop) {
             return $this->isAlias($prop) ? $this->unalias($prop) : $prop;
         }, array_keys($properties));
 
-        return array_combine($unaliased_keys, $properties);
+        return array_combine($unaliasedKeys, $properties);
     }
 
     /**
@@ -217,10 +217,10 @@ abstract class AbstractEntity implements Arrayable
 
         // Reverse the property aliases mapping,
         // from ['clean_name' => 'ZOHO NAME'] to ['ZOHO NAME' => 'clean_name']
-        $reversed_property_aliases = array_flip(static::$property_aliases);
+        $reversedPropertyAliases = array_flip(static::$propertyAliases);
 
         // Generate a new hashmap with the entity's property aliases as keys
-        foreach ($reversed_property_aliases as $prop => $alias) {
+        foreach ($reversedPropertyAliases as $prop => $alias) {
             if (array_key_exists($prop, $this->properties)) {
                 $hash[$alias] = $this->properties[$prop];
             }
@@ -295,9 +295,9 @@ abstract class AbstractEntity implements Arrayable
      */
     public function __get($alias)
     {
-        if (array_key_exists($alias, static::$property_aliases)) {
-            if (isset($this->properties[static::$property_aliases[$alias]])) {
-                return $this->properties[static::$property_aliases[$alias]];
+        if (array_key_exists($alias, static::$propertyAliases)) {
+            if (isset($this->properties[static::$propertyAliases[$alias]])) {
+                return $this->properties[static::$propertyAliases[$alias]];
             } else {
                 return null;
             }
@@ -317,8 +317,8 @@ abstract class AbstractEntity implements Arrayable
      */
     public function __set($alias, $value)
     {
-        if (array_key_exists($alias, static::$property_aliases)) {
-            $this->properties[static::$property_aliases[$alias]] = $value;
+        if (array_key_exists($alias, static::$propertyAliases)) {
+            $this->properties[static::$propertyAliases[$alias]] = $value;
         } else {
             throw new UnsupportedEntityPropertyException($this->name(), $alias);
         }

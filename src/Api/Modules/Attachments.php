@@ -8,13 +8,13 @@ namespace Zoho\Crm\Api\Modules;
 class Attachments extends AbstractRecordsModule
 {
     /** @inheritdoc */
-    protected static $primary_key = 'id';
+    protected static $primaryKey = 'id';
 
     /** @inheritdoc */
-    protected static $associated_entity = \Zoho\Crm\Entities\Attachment::class;
+    protected static $associatedEntity = \Zoho\Crm\Entities\Attachment::class;
 
     /** @inheritdoc */
-    protected static $supported_methods = [
+    protected static $supportedMethods = [
         'getRelatedRecords',
     ];
 }

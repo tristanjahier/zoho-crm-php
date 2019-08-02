@@ -17,29 +17,29 @@ class Response
     private $query;
 
     /** @var string The raw HTTP response body */
-    private $raw_content;
+    private $rawContent;
 
     /** @var mixed The parsed, cleaned up response content */
     private $content;
 
     /** @var bool Whether the response should contain multiple records */
-    private $has_multiple_records;
+    private $hasMultipleRecords;
 
     /**
      * The constructor.
      *
      * @param Query $query The origin query
      * @param mixed $content The parsed response content
-     * @param string $raw_content The raw response body
+     * @param string $rawContent The raw response body
      */
-    public function __construct(Query $query, $content, $raw_content)
+    public function __construct(Query $query, $content, $rawContent)
     {
         $this->query = $query;
-        $this->raw_content = $raw_content;
+        $this->rawContent = $rawContent;
         $this->content = $content;
-        $method_class = Helper::getMethodClass($this->query->getMethod());
-        $this->type = $method_class::getResponseDataType();
-        $this->has_multiple_records = $method_class::expectsMultipleRecords($this->query);
+        $methodClass = Helper::getMethodClass($this->query->getMethod());
+        $this->type = $methodClass::getResponseDataType();
+        $this->hasMultipleRecords = $methodClass::expectsMultipleRecords($this->query);
     }
 
     /**
@@ -69,7 +69,7 @@ class Response
      */
     public function getRawContent()
     {
-        return $this->raw_content;
+        return $this->rawContent;
     }
 
     /**
@@ -132,7 +132,7 @@ class Response
      */
     public function hasSingleRecord()
     {
-        return ! $this->has_multiple_records;
+        return ! $this->hasMultipleRecords;
     }
 
     /**
@@ -142,7 +142,7 @@ class Response
      */
     public function hasMultipleRecords()
     {
-        return $this->has_multiple_records;
+        return $this->hasMultipleRecords;
     }
 
     /**

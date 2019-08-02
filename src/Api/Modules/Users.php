@@ -10,13 +10,13 @@ namespace Zoho\Crm\Api\Modules;
 class Users extends AbstractModule
 {
     /** @var string The name of the identifier field */
-    protected static $primary_key = 'id';
+    protected static $primaryKey = 'id';
 
     /** @inheritdoc */
-    protected static $associated_entity = \Zoho\Crm\Entities\User::class;
+    protected static $associatedEntity = \Zoho\Crm\Entities\User::class;
 
     /** @inheritdoc */
-    protected static $supported_methods = [
+    protected static $supportedMethods = [
         'getUsers'
     ];
 
@@ -27,7 +27,7 @@ class Users extends AbstractModule
      */
     public static function primaryKey()
     {
-        return static::$primary_key;
+        return static::$primaryKey;
     }
 
     /**

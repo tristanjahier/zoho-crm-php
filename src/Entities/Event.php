@@ -8,7 +8,7 @@ namespace Zoho\Crm\Entities;
 class Event extends AbstractEntity
 {
     /** @inheritdoc */
-    protected static $property_aliases = [
+    protected static $propertyAliases = [
         'id'                => 'ACTIVITYID',
         'uid'               => 'UID',
         'owner'             => 'SMOWNERID',

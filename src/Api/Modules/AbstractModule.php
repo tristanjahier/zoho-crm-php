@@ -20,10 +20,10 @@ abstract class AbstractModule
     protected static $name;
 
     /** @var string The associated entity class name */
-    protected static $associated_entity;
+    protected static $associatedEntity;
 
     /** @var string[] The list of API methods supported by this module */
-    protected static $supported_methods = [];
+    protected static $supportedMethods = [];
 
     /** @var \Zoho\Crm\Client The client to which the module is attached */
     private $client;
@@ -63,7 +63,7 @@ abstract class AbstractModule
      */
     public static function associatedEntity()
     {
-        return static::$associated_entity;
+        return static::$associatedEntity;
     }
 
     /**
@@ -73,7 +73,7 @@ abstract class AbstractModule
      */
     public static function hasAssociatedEntity()
     {
-        return static::$associated_entity !== null;
+        return static::$associatedEntity !== null;
     }
 
     /**
@@ -83,7 +83,7 @@ abstract class AbstractModule
      */
     public static function supportedMethods()
     {
-        return static::$supported_methods;
+        return static::$supportedMethods;
     }
 
     /**
@@ -94,7 +94,7 @@ abstract class AbstractModule
      */
     public static function supports($method)
     {
-        return in_array($method, static::$supported_methods);
+        return in_array($method, static::$supportedMethods);
     }
 
     /**
@@ -138,7 +138,7 @@ abstract class AbstractModule
      */
     public function newEntity($properties = [])
     {
-        $class = static::$associated_entity;
+        $class = static::$associatedEntity;
 
         return new $class($properties, $this->client);
     }

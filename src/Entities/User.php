@@ -8,7 +8,7 @@ namespace Zoho\Crm\Entities;
 class User extends AbstractEntity
 {
     /** @inheritdoc */
-    protected static $property_aliases = [
+    protected static $propertyAliases = [
         'id'           => 'id',
         'zuid'         => 'zuid',
         'full_name'    => 'content',

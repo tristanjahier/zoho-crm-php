@@ -11,7 +11,7 @@ use Zoho\Crm\Api\XmlBuilder;
 abstract class AbstractRecordsModule extends AbstractModule
 {
     /** @var string The name of the identifier field */
-    protected static $primary_key;
+    protected static $primaryKey;
 
     /**
      * Get the primary key / the identifier field of the module.
@@ -20,7 +20,7 @@ abstract class AbstractRecordsModule extends AbstractModule
      */
     public static function primaryKey()
     {
-        return static::$primary_key;
+        return static::$primaryKey;
     }
 
     /**
@@ -252,11 +252,11 @@ abstract class AbstractRecordsModule extends AbstractModule
      *
      * @see https://www.zoho.com/crm/developer/docs/api/deletefile.html
      *
-     * @param string $attachment_id The attachment ID
+     * @param string $attachmentId The attachment ID
      * @return bool
      */
-    public function deleteAttachedFile($attachment_id)
+    public function deleteAttachedFile($attachmentId)
     {
-        return $this->newQuery('deleteFile', ['id' => $attachment_id])->get();
+        return $this->newQuery('deleteFile', ['id' => $attachmentId])->get();
     }
 }

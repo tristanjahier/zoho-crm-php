@@ -10,13 +10,13 @@ namespace Zoho\Crm\Api\Modules;
 class Contacts extends AbstractRecordsModule
 {
     /** @inheritdoc */
-    protected static $primary_key = 'CONTACTID';
+    protected static $primaryKey = 'CONTACTID';
 
     /** @inheritdoc */
-    protected static $associated_entity = \Zoho\Crm\Entities\Contact::class;
+    protected static $associatedEntity = \Zoho\Crm\Entities\Contact::class;
 
     /** @inheritdoc */
-    protected static $supported_methods = [
+    protected static $supportedMethods = [
         'getFields',
         'getRecordById',
         'getRecords',

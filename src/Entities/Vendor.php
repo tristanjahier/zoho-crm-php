@@ -8,7 +8,7 @@ namespace Zoho\Crm\Entities;
 class Vendor extends AbstractEntity
 {
     /** @inheritdoc */
-    protected static $property_aliases = [
+    protected static $propertyAliases = [
         'id'               => 'VENDORID',
         'owner'            => 'SMOWNERID',
         'owner_name'       => 'Vendor Owner',

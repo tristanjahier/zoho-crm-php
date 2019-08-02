@@ -8,7 +8,7 @@ namespace Zoho\Crm\Entities;
 class Potential extends AbstractEntity
 {
     /** @inheritdoc */
-    protected static $property_aliases = [
+    protected static $propertyAliases = [
         'id'               => 'POTENTIALID',
         'owner'            => 'SMOWNERID',
         'owner_name'       => 'Potential Owner',

@@ -12,17 +12,17 @@ use Zoho\Crm\Api\HttpVerb;
 class InsertRecords extends AbstractMethod
 {
     /** @inheritdoc */
-    protected static $response_type = ResponseDataType::OTHER;
+    protected static $responseType = ResponseDataType::OTHER;
 
     /** @inheritdoc */
-    protected static $http_verb = HttpVerb::POST;
+    protected static $httpVerb = HttpVerb::POST;
 
     /**
      * @inheritdoc
      */
     public static function tidyResponse(array $response, Query $query)
     {
-        $record_ids = [];
+        $recordIds = [];
         $version = $query->getParameter('version');
 
         if ($version === 2) {
@@ -48,7 +48,7 @@ class InsertRecords extends AbstractMethod
                     $attributes = $record['FL'];
                     foreach ($attributes as $attribute) {
                         if ($attribute['val'] === 'Id') {
-                            $record_ids[] = $attribute['content'];
+                            $recordIds[] = $attribute['content'];
                             break;
                         }
                     }
@@ -69,7 +69,7 @@ class InsertRecords extends AbstractMethod
             foreach ($records as $record) {
                 // Check for failure or duplicate notice
                 if (isset($record['error']) || $record['success']['code'] === '2002') {
-                    $record_ids[] = false;
+                    $recordIds[] = false;
                     continue;
                 }
 
@@ -83,7 +83,7 @@ class InsertRecords extends AbstractMethod
 
                 foreach ($attributes as $attribute) {
                     if ($attribute['val'] === 'Id') {
-                        $record_ids[] = $attribute['content'];
+                        $recordIds[] = $attribute['content'];
                         break;
                     }
                 }
@@ -91,6 +91,6 @@ class InsertRecords extends AbstractMethod
 
         }
 
-        return $record_ids;
+        return $recordIds;
     }
 }

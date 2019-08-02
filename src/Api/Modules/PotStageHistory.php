@@ -8,24 +8,24 @@ namespace Zoho\Crm\Api\Modules;
 class PotStageHistory extends AbstractRecordsModule
 {
     /** @inheritdoc */
-    protected static $primary_key = 'POTENTIALSTAGEHISTORYID';
+    protected static $primaryKey = 'POTENTIALSTAGEHISTORYID';
 
     /** @inheritdoc */
-    protected static $associated_entity = \Zoho\Crm\Entities\PotStageHistory::class;
+    protected static $associatedEntity = \Zoho\Crm\Entities\PotStageHistory::class;
 
     /** @inheritdoc */
-    protected static $supported_methods = [
+    protected static $supportedMethods = [
         'getRelatedRecords',
     ];
 
     /**
      * Get the stage history of a potential.
      *
-     * @param string $potential_id The potential ID
+     * @param string $potentialId The potential ID
      * @return \Zoho\Crm\Entities\Collection
      */
-    public function getPotentialStageHistory($potential_id)
+    public function getPotentialStageHistory($potentialId)
     {
-        return $this->relatedTo('Potentials', $potential_id)->get();
+        return $this->relatedTo('Potentials', $potentialId)->get();
     }
 }

@@ -8,7 +8,7 @@ namespace Zoho\Crm\Entities;
 class Product extends AbstractEntity
 {
     /** @inheritdoc */
-    protected static $property_aliases = [
+    protected static $propertyAliases = [
         'id'               => 'PRODUCTID',
         'owner'            => 'SMOWNERID',
         'owner_name'       => 'Product Owner',

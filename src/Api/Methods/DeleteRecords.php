@@ -11,7 +11,7 @@ use Zoho\Crm\Api\ResponseDataType;
 class DeleteRecords extends AbstractMethod
 {
     /** @inheritdoc */
-    protected static $response_type = ResponseDataType::OTHER;
+    protected static $responseType = ResponseDataType::OTHER;
 
     /**
      * @inheritdoc

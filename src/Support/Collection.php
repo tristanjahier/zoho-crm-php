@@ -500,29 +500,29 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate
         }
 
         return function ($item) use ($key, $operator, $value) {
-            $item_value = $this->getItemPropertyValue($item, $key);
+            $itemValue = $this->getItemPropertyValue($item, $key);
 
             switch ($operator) {
                 case '=':
-                    return $item_value === $value;
+                    return $itemValue === $value;
                 case '!=':
-                    return $item_value !== $value;
+                    return $itemValue !== $value;
                 case '>':
-                    return $item_value > $value;
+                    return $itemValue > $value;
                 case '<':
-                    return $item_value < $value;
+                    return $itemValue < $value;
                 case '>=':
-                    return $item_value >= $value;
+                    return $itemValue >= $value;
                 case '<=':
-                    return $item_value <= $value;
+                    return $itemValue <= $value;
                 case 'in':
-                    return in_array($item_value, $this->getPlainArray($value));
+                    return in_array($itemValue, $this->getPlainArray($value));
                 case '=~':
-                    return preg_match($value, $item_value) === 1;
+                    return preg_match($value, $itemValue) === 1;
                 case 'like':
-                    return Helper::stringIsLike($item_value, $value);
+                    return Helper::stringIsLike($itemValue, $value);
                 case 'not like':
-                    return ! Helper::stringIsLike($item_value, $value);
+                    return ! Helper::stringIsLike($itemValue, $value);
             }
 
             throw new InvalidComparisonOperatorException($operator);
@@ -605,15 +605,15 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate
         $results = [];
 
         foreach ($this->items as $i => $item) {
-            $item_value = $this->getItemPropertyValue($item, $value);
+            $itemValue = $this->getItemPropertyValue($item, $value);
 
             if (isset($key)) {
                 // If key is strictly 'true' and not a valid array key,
                 // we will simply preserve the original keys.
                 $index = $key === true ? $i : $this->getItemPropertyValue($item, $key);
-                $results[$index] = $item_value;
+                $results[$index] = $itemValue;
             } else {
-                $results[] = $item_value;
+                $results[] = $itemValue;
             }
         }
 

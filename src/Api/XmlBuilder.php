@@ -29,27 +29,27 @@ class XmlBuilder
 
         $xml = new SimpleXMLElement("<$module/>");
 
-        $row_count = 1;
+        $rowCount = 1;
 
         foreach ($records as $record) {
             $row = $xml->addChild('row');
-            $row->addAttribute('no', $row_count);
+            $row->addAttribute('no', $rowCount);
 
             if ($record instanceof AbstractEntity) {
                 $record = $record->toArray();
             }
 
-            foreach ($record as $attr_name => $attr_value) {
+            foreach ($record as $attrName => $attrValue) {
                 // Stringify boolean values
-                if (is_bool($attr_value)) {
-                    $attr_value = Helper::booleanToString($attr_value);
+                if (is_bool($attrValue)) {
+                    $attrValue = Helper::booleanToString($attrValue);
                 }
 
-                $attr = $row->addChild('FL', $attr_value);
-                $attr->addAttribute('val', $attr_name);
+                $attr = $row->addChild('FL', $attrValue);
+                $attr->addAttribute('val', $attrName);
             }
 
-            $row_count++;
+            $rowCount++;
         }
 
         // We need to return the XML as a string,

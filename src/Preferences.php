@@ -79,14 +79,14 @@ class Preferences extends Collection
     /**
      * Override a set of preferences with new values.
      *
-     * @param array $new_prefs The set of new values
+     * @param array $newPrefs The set of new values
      * @return $this
      *
      * @throws Exceptions\UnsupportedPreferenceException
      */
-    public function override($new_prefs)
+    public function override($newPrefs)
     {
-        foreach ($new_prefs as $key => $value) {
+        foreach ($newPrefs as $key => $value) {
             $this->set($key, $value);
         }
 

@@ -8,7 +8,7 @@ namespace Zoho\Crm\Entities;
 class Note extends AbstractEntity
 {
     /** @inheritdoc */
-    protected static $property_aliases = [
+    protected static $propertyAliases = [
         'id'               => 'ACTIVITYID',
         'owner'            => 'SMOWNERID',
         'owner_name'       => 'Owner Name',

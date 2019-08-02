@@ -8,7 +8,7 @@ namespace Zoho\Crm\Api\Modules;
 class Info extends AbstractModule
 {
     /** @inheritdoc */
-    protected static $supported_methods = [
+    protected static $supportedMethods = [
         'getModules'
     ];
 

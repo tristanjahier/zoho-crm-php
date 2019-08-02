@@ -49,7 +49,7 @@ class VarDumpCaster
     {
         $result = [
             Caster::PREFIX_PROTECTED . 'endpoint' => $client->getEndpoint(),
-            Caster::PREFIX_PROTECTED . 'request_count' => $client->getRequestCount(),
+            Caster::PREFIX_PROTECTED . 'requestCount' => $client->getRequestCount(),
         ];
 
         $modules = array_merge($client->modules(), $client->aliasedModules());
@@ -72,7 +72,7 @@ class VarDumpCaster
         return [
             Caster::PREFIX_PROTECTED . 'client' => new CutStub($module->client()),
             Caster::PREFIX_PROTECTED . 'name' => $module->name(),
-            Caster::PREFIX_PROTECTED . 'supported_methods' => $module->supportedMethods(),
+            Caster::PREFIX_PROTECTED . 'supportedMethods' => $module->supportedMethods(),
         ];
     }
 

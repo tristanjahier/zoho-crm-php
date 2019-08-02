@@ -27,8 +27,8 @@ class ErrorHandler
     public static function handle(array $error)
     {
         if (isset(self::$exceptions[$error['code']])) {
-            $exception_type = self::$exceptions[$error['code']];
-            throw new $exception_type($error['message']);
+            $type = self::$exceptions[$error['code']];
+            throw new $type($error['message']);
         } else {
             throw new Exceptions\GenericException($error['message'], $error['code']);
         }

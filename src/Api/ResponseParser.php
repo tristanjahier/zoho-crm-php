@@ -22,20 +22,20 @@ class ResponseParser
      */
     public static function clean(Query $query, $data)
     {
-        $parsed_data = self::parse($data, $query->getFormat());
+        $parsedData = self::parse($data, $query->getFormat());
 
         // Detect errors in the response
-        if (! self::validate($parsed_data)) {
+        if (! self::validate($parsedData)) {
             return null;
         }
 
-        $api_method_handler = Helper::getMethodClass($query->getMethod());
-        if (! class_exists($api_method_handler)) {
-            throw new MethodNotFoundException("Method handler $api_method_handler not found.");
+        $apiMethodHandler = Helper::getMethodClass($query->getMethod());
+        if (! class_exists($apiMethodHandler)) {
+            throw new MethodNotFoundException("Method handler $apiMethodHandler not found.");
         }
 
-        if ($api_method_handler::responseContainsData($parsed_data, $query)) {
-            return $api_method_handler::tidyResponse($parsed_data, $query);
+        if ($apiMethodHandler::responseContainsData($parsedData, $query)) {
+            return $apiMethodHandler::tidyResponse($parsedData, $query);
         } else {
             return null; // No data
         }

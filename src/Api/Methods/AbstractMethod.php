@@ -15,13 +15,13 @@ abstract class AbstractMethod implements MethodInterface
     use ClassShortNameTrait;
 
     /** @var string The type of data that the method should return */
-    protected static $response_type = ResponseDataType::RECORDS;
+    protected static $responseType = ResponseDataType::RECORDS;
 
     /** @var bool Whether the method should return multiple records */
-    protected static $multiple_records = true;
+    protected static $multipleRecords = true;
 
     /** @var string The HTTP verb to use to make a request to the API method */
-    protected static $http_verb = HttpVerb::GET;
+    protected static $httpVerb = HttpVerb::GET;
 
     /**
      * Get the name of the API method handled by this class.
@@ -42,7 +42,7 @@ abstract class AbstractMethod implements MethodInterface
      */
     public static function getResponseDataType()
     {
-        return static::$response_type;
+        return static::$responseType;
     }
 
     /**
@@ -53,7 +53,7 @@ abstract class AbstractMethod implements MethodInterface
      */
     public static function expectsMultipleRecords(Query $query = null)
     {
-        return static::$multiple_records;
+        return static::$multipleRecords;
     }
 
     /**
@@ -65,7 +65,7 @@ abstract class AbstractMethod implements MethodInterface
      */
     public static function getHttpVerb()
     {
-        return static::$http_verb;
+        return static::$httpVerb;
     }
 
     /**

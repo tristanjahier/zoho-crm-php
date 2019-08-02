@@ -8,7 +8,7 @@ namespace Zoho\Crm\Entities;
 class Contact extends AbstractEntity
 {
     /** @inheritdoc */
-    protected static $property_aliases = [
+    protected static $propertyAliases = [
         'id'                  => 'CONTACTID',
         'owner'               => 'SMOWNERID',
         'owner_name'          => 'Contact Owner',

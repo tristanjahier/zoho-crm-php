@@ -42,7 +42,7 @@ class Client
     const DEFAULT_RESPONSE_FORMAT = Api\ResponseFormat::JSON;
 
     /** @var string[] The default modules class names */
-    protected static $default_modules = [
+    protected static $defaultModules = [
         Api\Modules\Info::class,
         Api\Modules\Users::class,
         Api\Modules\Leads::class,
@@ -62,19 +62,19 @@ class Client
     protected $endpoint = self::DEFAULT_ENDPOINT;
 
     /** @var string The API authentication token */
-    protected $auth_token;
+    protected $authToken;
 
     /** @var \GuzzleHttp\Client The Guzzle client instance to make HTTP requests */
-    protected $http_client;
+    protected $httpClient;
 
     /** @var int The number of API requests made by the client */
-    protected $request_count = 0;
+    protected $requestCount = 0;
 
     /** @var Preferences The client preferences container */
     protected $preferences;
 
     /** @var array The parameters to be added to every API request by default */
-    protected $default_parameters = [
+    protected $defaultParameters = [
         'scope' => 'crmapi',
         'newFormat' => 1,
         'version' => 2,
@@ -88,19 +88,19 @@ class Client
     protected $modules = [];
 
     /** @var string[] An associative array of aliases pointing to real module names */
-    protected $module_aliases = [];
+    protected $moduleAliases = [];
 
     /**
      * The constructor.
      *
-     * @param string|null $auth_token (optional) The auth token
+     * @param string|null $authToken (optional) The auth token
      * @param string|null $endpoint (optional) The endpoint URI
      */
-    public function __construct($auth_token = null, $endpoint = null)
+    public function __construct($authToken = null, $endpoint = null)
     {
         // Allow to instanciate a client without an auth token
-        if ($auth_token !== null) {
-            $this->setAuthToken($auth_token);
+        if ($authToken !== null) {
+            $this->setAuthToken($authToken);
         }
 
         if (isset($endpoint)) {
@@ -121,7 +121,7 @@ class Client
      */
     private function setupHttpClient()
     {
-        $this->http_client = new GuzzleClient([
+        $this->httpClient = new GuzzleClient([
             'base_uri' => $this->endpoint
         ]);
     }
@@ -184,7 +184,7 @@ class Client
         $this->modules[$module::name()] = new $module($this);
 
         if (isset($alias)) {
-            $this->module_aliases[$alias] = $module::name();
+            $this->moduleAliases[$alias] = $module::name();
         }
     }
 
@@ -211,7 +211,7 @@ class Client
      */
     private function attachDefaultModules()
     {
-        $this->attachModules(static::$default_modules);
+        $this->attachModules(static::$defaultModules);
     }
 
     /**
@@ -226,8 +226,8 @@ class Client
     {
         if ($this->supports($name)) {
             return $this->modules[$name];
-        } elseif (isset($this->module_aliases[$name])) {
-            return $this->modules[$this->module_aliases[$name]];
+        } elseif (isset($this->moduleAliases[$name])) {
+            return $this->modules[$this->moduleAliases[$name]];
         }
 
         throw new Exceptions\UnsupportedModuleException($name);
@@ -242,7 +242,7 @@ class Client
     {
         $modules = [];
 
-        foreach ($this->module_aliases as $alias => $module) {
+        foreach ($this->moduleAliases as $alias => $module) {
             $modules[$alias] = $this->modules[$module];
         }
 
@@ -256,7 +256,7 @@ class Client
      */
     public function resetRequestCount()
     {
-        $this->request_count = 0;
+        $this->requestCount = 0;
     }
 
     /**
@@ -266,7 +266,7 @@ class Client
      */
     public function getRequestCount()
     {
-        return $this->request_count;
+        return $this->requestCount;
     }
 
     /**
@@ -322,7 +322,7 @@ class Client
      */
     public function getAuthToken()
     {
-        return $this->auth_token;
+        return $this->authToken;
     }
 
     /**
@@ -333,12 +333,12 @@ class Client
      *
      * @throws Exceptions\NullAuthTokenException
      */
-    public function setAuthToken($auth_token)
+    public function setAuthToken($authToken)
     {
-        if ($auth_token === null || $auth_token === '') {
+        if ($authToken === null || $authToken === '') {
             throw new Exceptions\NullAuthTokenException();
         } else {
-            $this->auth_token = $auth_token;
+            $this->authToken = $authToken;
         }
     }
 
@@ -349,7 +349,7 @@ class Client
      */
     public function getDefaultParameters()
     {
-        return $this->default_parameters;
+        return $this->defaultParameters;
     }
 
     /**
@@ -362,7 +362,7 @@ class Client
      */
     public function setDefaultParameters(array $params)
     {
-        $this->default_parameters = $params;
+        $this->defaultParameters = $params;
     }
 
     /**
@@ -376,7 +376,7 @@ class Client
      */
     public function setDefaultParameter($key, $value)
     {
-        $this->default_parameters[$key] = $value;
+        $this->defaultParameters[$key] = $value;
     }
 
     /**
@@ -387,7 +387,7 @@ class Client
      */
     public function unsetDefaultParameter($key)
     {
-        unset($this->default_parameters[$key]);
+        unset($this->defaultParameters[$key]);
     }
 
     /**
@@ -405,7 +405,7 @@ class Client
             ->format(self::DEFAULT_RESPONSE_FORMAT)
             ->module($module)
             ->method($method)
-            ->params($this->default_parameters)
+            ->params($this->defaultParameters)
             ->params($params)
             ->param('authtoken', '_HIDDEN_')
             ->paginated($paginated);
@@ -436,20 +436,20 @@ class Client
             throw new Exceptions\UnsupportedModuleException($query->getModule());
         }
 
-        if (! class_exists($method_class = Helper::getMethodClass($query->getMethod()))) {
+        if (! class_exists($methodClass = Helper::getMethodClass($query->getMethod()))) {
             throw new Exceptions\UnsupportedMethodException($query->getMethod());
         }
 
         // Determine the HTTP verb to use based on the API method
-        $http_verb = $method_class::getHttpVerb();
+        $httpVerb = $methodClass::getHttpVerb();
 
         // Add auth token at the last moment to avoid exposing it in the error log messages
-        $query->param('authtoken', $this->auth_token);
+        $query->param('authtoken', $this->authToken);
 
         // Perform the HTTP request
         try {
-            $response = $this->http_client->request($http_verb, $query->buildUri());
-            $this->request_count++;
+            $response = $this->httpClient->request($httpVerb, $query->buildUri());
+            $this->requestCount++;
         } catch (RequestException $e) {
             if ($this->preferences->isEnabled('exception_messages_obfuscation')) {
                 // Sometimes the auth token is included in the exception message by Guzzle.
@@ -464,9 +464,9 @@ class Client
         }
 
         // Clean the response
-        $raw_content = $response->getBody()->getContents();
-        $content = Api\ResponseParser::clean($query, $raw_content);
-        $response = new Api\Response($query, $content, $raw_content);
+        $rawContent = $response->getBody()->getContents();
+        $content = Api\ResponseParser::clean($query, $rawContent);
+        $response = new Api\Response($query, $content, $rawContent);
 
         return $response;
     }
@@ -514,15 +514,15 @@ class Client
     private function obfuscateExceptionMessage(RequestException $e)
     {
         // If the exception message does not contain sensible data, just let it through.
-        if (mb_strpos($e->getMessage(), 'authtoken='.$this->auth_token) === false) {
+        if (mb_strpos($e->getMessage(), 'authtoken='.$this->authToken) === false) {
             return $e;
         }
 
-        $safe_message = str_replace('authtoken='.$this->auth_token, 'authtoken=***', $e->getMessage());
+        $safeMessage = str_replace('authtoken='.$this->authToken, 'authtoken=***', $e->getMessage());
         $class = get_class($e);
 
         return new $class(
-            $safe_message,
+            $safeMessage,
             $e->getRequest(),
             $e->getResponse(),
             $e->getPrevious(),

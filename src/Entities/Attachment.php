@@ -8,7 +8,7 @@ namespace Zoho\Crm\Entities;
 class Attachment extends AbstractEntity
 {
     /** @inheritdoc */
-    protected static $property_aliases = [
+    protected static $propertyAliases = [
         'id'          => 'id',
         'owner'       => 'SMOWNERID',
         'owner_name'  => 'Attached By',

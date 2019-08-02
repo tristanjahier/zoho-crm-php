@@ -10,13 +10,13 @@ namespace Zoho\Crm\Api\Modules;
 class Vendors extends AbstractRecordsModule
 {
     /** @inheritdoc */
-    protected static $primary_key = 'VENDORID';
+    protected static $primaryKey = 'VENDORID';
 
     /** @inheritdoc */
-    protected static $associated_entity = \Zoho\Crm\Entities\Vendor::class;
+    protected static $associatedEntity = \Zoho\Crm\Entities\Vendor::class;
 
     /** @inheritdoc */
-    protected static $supported_methods = [
+    protected static $supportedMethods = [
         'getFields',
         'getRecordById',
         'getRecords',

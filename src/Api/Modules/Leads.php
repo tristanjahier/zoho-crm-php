@@ -10,13 +10,13 @@ namespace Zoho\Crm\Api\Modules;
 class Leads extends AbstractRecordsModule
 {
     /** @inheritdoc */
-    protected static $primary_key = 'LEADID';
+    protected static $primaryKey = 'LEADID';
 
     /** @inheritdoc */
-    protected static $associated_entity = \Zoho\Crm\Entities\Lead::class;
+    protected static $associatedEntity = \Zoho\Crm\Entities\Lead::class;
 
     /** @inheritdoc */
-    protected static $supported_methods = [
+    protected static $supportedMethods = [
         'getFields',
         'getRecordById',
         'getRecords',

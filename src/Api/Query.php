@@ -41,7 +41,7 @@ class Query
     protected $limit;
 
     /** @var \DateTime The maximum modification date to fetch records */
-    protected $max_modification_date;
+    protected $maxModificationDate;
 
     /**
      * The constructor.
@@ -340,7 +340,7 @@ class Query
             $date = new DateTime($date);
         }
 
-        $this->max_modification_date = $date;
+        $this->maxModificationDate = $date;
 
         return $this;
     }
@@ -352,7 +352,7 @@ class Query
      */
     public function getMaxModificationDate()
     {
-        return $this->max_modification_date;
+        return $this->maxModificationDate;
     }
 
     /**
@@ -362,7 +362,7 @@ class Query
      */
     public function hasMaxModificationDate()
     {
-        return isset($this->max_modification_date);
+        return isset($this->maxModificationDate);
     }
 
     /**
@@ -512,10 +512,10 @@ class Query
 
         // "Modified Time" column has to be be present in the results
         // for "modifiedBefore()" constraint to work properly.
-        $selected_columns = $this->getSelectedColumns();
-        $modified_date_is_missing = ! empty($selected_columns) && ! in_array('Modified Time', $selected_columns);
+        $selectedColumns = $this->getSelectedColumns();
+        $modifiedDateIsMissing = ! empty($selectedColumns) && ! in_array('Modified Time', $selectedColumns);
 
-        if ($this->hasMaxModificationDate() && $modified_date_is_missing) {
+        if ($this->hasMaxModificationDate() && $modifiedDateIsMissing) {
             $message = '"Modified Time" column is required with "modifiedBefore()" constraint.';
             throw new InvalidQueryException($this, $message);
         }

@@ -365,7 +365,7 @@ Delete multiple records.
 $client->calls->deleteMany(['Record 1 ID', 'Record 2 ID']);
 ```
 
-#### `deleteAttachedFile($attachment_id)`
+#### `deleteAttachedFile($attachmentId)`
 
 Delete a file attached to a record.
 
@@ -381,10 +381,10 @@ If you have custom modules in your Zoho organization, you may want to request th
 
 To support your own custom module, you need to create a dedicated class which extends `Zoho\Crm\Api\Modules\AbstractRecordsModule`. In this class, you need to re-define 3 properties:
 1. `$name`: the name of the module (not the "display name"!)
-2. `$primary_key`: the name of the ID field
-3. `$supported_methods`: the list of API methods that you can use on the module
+2. `$primaryKey`: the name of the ID field
+3. `$supportedMethods`: the list of API methods that you can use on the module
 
-And an optional one: `$associated_entity`, which is the class of the entity object.
+And an optional one: `$associatedEntity`, which is the class of the entity object.
 
 Example:
 
@@ -395,11 +395,11 @@ class MyCustomModule extends AbstractRecordsModule
 {
     protected static $name = 'CustomModule1';
 
-    protected static $primary_key = 'CUSTOMMODULE1_ID';
+    protected static $primaryKey = 'CUSTOMMODULE1_ID';
 
-    protected static $associated_entity = MyCustomThing::class;
+    protected static $associatedEntity = MyCustomThing::class;
 
-    protected static $supported_methods = [
+    protected static $supportedMethods = [
         'getFields',
         'getRecordById',
         'getRecords',

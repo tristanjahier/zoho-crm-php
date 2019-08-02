@@ -10,13 +10,13 @@ namespace Zoho\Crm\Api\Modules;
 class Events extends AbstractRecordsModule
 {
     /** @inheritdoc */
-    protected static $primary_key = 'ACTIVITYID';
+    protected static $primaryKey = 'ACTIVITYID';
 
     /** @inheritdoc */
-    protected static $associated_entity = \Zoho\Crm\Entities\Event::class;
+    protected static $associatedEntity = \Zoho\Crm\Entities\Event::class;
 
     /** @inheritdoc */
-    protected static $supported_methods = [
+    protected static $supportedMethods = [
         'getFields',
         'getRecordById',
         'getRecords',
