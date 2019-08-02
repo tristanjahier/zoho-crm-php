@@ -38,6 +38,6 @@ class GetDeletedRecordIds extends AbstractMethod
         // The result is a big string which contains IDs separated by comas
         $ids = array_filter(explode(',', $response['response']['result']['DeletedIDs']));
 
-        return count($ids) > 0 ? $ids : null;
+        return count($ids) > 0 ? $ids : [];
     }
 }
