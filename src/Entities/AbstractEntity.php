@@ -7,7 +7,6 @@ use Zoho\Crm\Client;
 use Zoho\Crm\Support\Helper;
 use Zoho\Crm\Support\ClassShortNameTrait;
 use Zoho\Crm\Support\Arrayable;
-use Zoho\Crm\Exceptions\UnsupportedEntityPropertyException;
 use Zoho\Crm\Api\Response;
 
 /**
@@ -23,9 +22,6 @@ abstract class AbstractEntity implements Arrayable
     /** @var string|null The name of the related module */
     protected static $moduleName;
 
-    /** @var string[] An associative array of aliases pointing to real property names */
-    protected static $propertyAliases = [];
-
     /** @var \Zoho\Crm\Client|null The client to which the entity is bound */
     protected $client;
 
@@ -40,7 +36,7 @@ abstract class AbstractEntity implements Arrayable
      */
     public function __construct(array $data = [], Client $client = null)
     {
-        $this->properties = $this->unaliasProperties($data);
+        $this->properties = $data;
         $this->client = $client;
     }
 
@@ -69,27 +65,6 @@ abstract class AbstractEntity implements Arrayable
     }
 
     /**
-     * Get the list of properties supported by default.
-     *
-     * @return string[]
-     */
-    public static function supportedProperties()
-    {
-        return array_values(static::$propertyAliases);
-    }
-
-    /**
-     * Check if a property is supported by default.
-     *
-     * @param string $property The name of the property
-     * @return bool
-     */
-    public static function supports($property)
-    {
-        return in_array($property, static::supportedProperties());
-    }
-
-    /**
      * Check if a property is defined.
      *
      * @param string $property The name of the property
@@ -97,10 +72,7 @@ abstract class AbstractEntity implements Arrayable
      */
     public function has($property)
     {
-        $clean = array_key_exists($property, static::$propertyAliases) &&
-                 isset($this->properties[static::$propertyAliases[$property]]);
-        $raw   = isset($this->properties[$property]);
-        return $clean || $raw;
+        return isset($this->properties[$property]);
     }
 
     /**
@@ -111,12 +83,7 @@ abstract class AbstractEntity implements Arrayable
      */
     public function get($property)
     {
-        // Permissive mode: allows raw and clean property names
-        if (array_key_exists($property, static::$propertyAliases)) {
-            $property = static::$propertyAliases[$property];
-        }
-
-        return isset($this->properties[$property]) ? $this->properties[$property] : null;
+        return $this->properties[$property] ?? null;
     }
 
     /**
@@ -128,60 +95,7 @@ abstract class AbstractEntity implements Arrayable
      */
     public function set($property, $value)
     {
-        // Permissive mode: allows raw and clean property names
-        if (array_key_exists($property, static::$propertyAliases)) {
-            $property = static::$propertyAliases[$property];
-        }
-
         $this->properties[$property] = $value;
-    }
-
-    /**
-     * Check if an alias exists for a given property.
-     *
-     * @param string $property The name of the property
-     * @return bool
-     */
-    public function hasAlias($property)
-    {
-        return in_array($property, static::$propertyAliases);
-    }
-
-    /**
-     * Check if a given alias exists.
-     *
-     * @param string $alias The alias name
-     * @return bool
-     */
-    public function isAlias($alias)
-    {
-        return array_key_exists($alias, static::$propertyAliases);
-    }
-
-    /**
-     * Get the actual name of a property behind a given alias.
-     *
-     * @param string $alias The alias name
-     * @return string
-     */
-    public function unalias($alias)
-    {
-        return static::$propertyAliases[$alias];
-    }
-
-    /**
-     * Unalias the keys of a given properties array.
-     *
-     * @param string[] $properties The properties array
-     * @return string[]
-     */
-    private function unaliasProperties(array $properties)
-    {
-        $unaliasedKeys = array_map(function ($prop) {
-            return $this->isAlias($prop) ? $this->unalias($prop) : $prop;
-        }, array_keys($properties));
-
-        return array_combine($unaliasedKeys, $properties);
     }
 
     /**
@@ -202,31 +116,6 @@ abstract class AbstractEntity implements Arrayable
     public function toArray()
     {
         return $this->properties;
-    }
-
-    /**
-     * Get an aliased properties array.
-     *
-     * If an existing property has no alias then it will not be present in the array.
-     *
-     * @return string[]
-     */
-    public function toAliasArray()
-    {
-        $hash = [];
-
-        // Reverse the property aliases mapping,
-        // from ['clean_name' => 'ZOHO NAME'] to ['ZOHO NAME' => 'clean_name']
-        $reversedPropertyAliases = array_flip(static::$propertyAliases);
-
-        // Generate a new hashmap with the entity's property aliases as keys
-        foreach ($reversedPropertyAliases as $prop => $alias) {
-            if (array_key_exists($prop, $this->properties)) {
-                $hash[$alias] = $this->properties[$prop];
-            }
-        }
-
-        return $hash;
     }
 
     /**
@@ -286,54 +175,37 @@ abstract class AbstractEntity implements Arrayable
     }
 
     /**
-     * Dynamically retrieve a property by its alias.
+     * Dynamically retrieve a property as if it was a public property.
      *
-     * @param string $alias The property alias name
+     * @param string $property The name of the property
      * @return string|null
-     *
-     * @throws \Zoho\Crm\Exceptions\UnsupportedEntityPropertyException
      */
-    public function __get($alias)
+    public function __get($property)
     {
-        if (array_key_exists($alias, static::$propertyAliases)) {
-            if (isset($this->properties[static::$propertyAliases[$alias]])) {
-                return $this->properties[static::$propertyAliases[$alias]];
-            } else {
-                return null;
-            }
-        } else {
-            throw new UnsupportedEntityPropertyException($this->name(), $alias);
-        }
+        return $this->get($property);
     }
 
     /**
-     * Dynamically set a property value by its alias.
+     * Dynamically set a property value as if it was a public property.
      *
-     * @param string $alias The property alias name
+     * @param string $property The name of the property
      * @param string $value The value of the property
      * @return void
-     *
-     * @throws \Zoho\Crm\Exceptions\UnsupportedEntityPropertyException
      */
-    public function __set($alias, $value)
+    public function __set($property, $value)
     {
-        if (array_key_exists($alias, static::$propertyAliases)) {
-            $this->properties[static::$propertyAliases[$alias]] = $value;
-        } else {
-            throw new UnsupportedEntityPropertyException($this->name(), $alias);
-        }
+        $this->set($property, $value);
     }
 
     /**
-     * Determine if a property is present by its alias.
+     * Determine if a property is present as if it was a public property.
      *
-     * @param string $alias The property alias name
+     * @param string $property The name of the property
      * @return bool
      */
-    public function __isset($alias)
+    public function __isset($property)
     {
-        return $this->isAlias($alias)
-            && array_key_exists($this->unalias($alias), $this->properties);
+        return $this->has($property);
     }
 
     /**

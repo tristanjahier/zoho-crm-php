@@ -35,18 +35,6 @@ class Collection extends BaseCollection
     }
 
     /**
-     * Get the collection as a plain array with aliased properties.
-     *
-     * @return array[]
-     */
-    public function toAliasArray()
-    {
-        return $this->map(function ($entity) {
-            return $entity->toAliasArray();
-        })->items();
-    }
-
-    /**
      * Get the value of a property from a given entity.
      *
      * @param AbstractEntity $item The entity
