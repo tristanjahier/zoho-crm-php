@@ -35,14 +35,14 @@ class Collection extends BaseCollection
     }
 
     /**
-     * Get the value of a property from a given entity.
+     * Get the value of an attribute from a given entity.
      *
      * @param AbstractEntity $item The entity
-     * @param string $property The name of the property
+     * @param string $attribute The name of the attribute
      * @return string|null
      */
-    protected function getItemPropertyValue($item, $property)
+    protected function getItemPropertyValue($item, $attribute)
     {
-        return $item->get($property);
+        return $item->get($attribute);
     }
 }

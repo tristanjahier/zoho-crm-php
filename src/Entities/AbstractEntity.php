@@ -22,21 +22,21 @@ abstract class AbstractEntity implements Arrayable
     /** @var string|null The name of the related module */
     protected static $moduleName;
 
+    /** @var string[] The entity attributes */
+    protected $attributes = [];
+
     /** @var \Zoho\Crm\Client|null The client to which the entity is bound */
     protected $client;
-
-    /** @var string[] The entity properties (the data) */
-    protected $properties = [];
 
     /**
      * The constructor.
      *
-     * @param string[] $data (optional) The entity data
+     * @param string[] $attributes (optional) The entity attributes
      * @param \Zoho\Crm\Client $client (optional) The client to which the entity must be bound
      */
-    public function __construct(array $data = [], Client $client = null)
+    public function __construct(array $attributes = [], Client $client = null)
     {
-        $this->properties = $data;
+        $this->attributes = $attributes;
         $this->client = $client;
     }
 
@@ -65,41 +65,41 @@ abstract class AbstractEntity implements Arrayable
     }
 
     /**
-     * Check if a property is defined.
+     * Check if an attribute is defined.
      *
-     * @param string $property The name of the property
+     * @param string $attribute The name of the attribute
      * @return bool
      */
-    public function has($property)
+    public function has($attribute)
     {
-        return isset($this->properties[$property]);
+        return isset($this->attributes[$attribute]);
     }
 
     /**
-     * Get the value of a property.
+     * Get the value of an attribute.
      *
-     * @param string $property The name of the property
+     * @param string $attribute The name of the attribute
      * @return string|null
      */
-    public function get($property)
+    public function get($attribute)
     {
-        return $this->properties[$property] ?? null;
+        return $this->attributes[$attribute] ?? null;
     }
 
     /**
-     * Set the value of a property.
+     * Set the value of an attribute.
      *
-     * @param string $property The name of the property
-     * @param string $value The value of the property
+     * @param string $attribute The name of the attribute
+     * @param string $value The value of the attribute
      * @return void
      */
-    public function set($property, $value)
+    public function set($attribute, $value)
     {
-        $this->properties[$property] = $value;
+        $this->attributes[$attribute] = $value;
     }
 
     /**
-     * Get the value of the primary key / identifier property.
+     * Get the value of the primary key / identifier attribute.
      *
      * @return string
      */
@@ -109,13 +109,13 @@ abstract class AbstractEntity implements Arrayable
     }
 
     /**
-     * Get the raw properties array.
+     * Get the raw attributes array.
      *
      * @return string[]
      */
     public function toArray()
     {
-        return $this->properties;
+        return $this->attributes;
     }
 
     /**
@@ -175,37 +175,37 @@ abstract class AbstractEntity implements Arrayable
     }
 
     /**
-     * Dynamically retrieve a property as if it was a public property.
+     * Get the value of an attribute as if it was a public property.
      *
-     * @param string $property The name of the property
+     * @param string $attribute The name of the attribute
      * @return string|null
      */
-    public function __get($property)
+    public function __get($attribute)
     {
-        return $this->get($property);
+        return $this->get($attribute);
     }
 
     /**
-     * Dynamically set a property value as if it was a public property.
+     * Set the value of an attribute as if it was a public property.
      *
-     * @param string $property The name of the property
-     * @param string $value The value of the property
+     * @param string $attribute The name of the attribute
+     * @param string $value The value of the attribute
      * @return void
      */
-    public function __set($property, $value)
+    public function __set($attribute, $value)
     {
-        $this->set($property, $value);
+        $this->set($attribute, $value);
     }
 
     /**
-     * Determine if a property is present as if it was a public property.
+     * Check if an attribute is defined as if it was a public property.
      *
-     * @param string $property The name of the property
+     * @param string $attribute The name of the attribute
      * @return bool
      */
-    public function __isset($property)
+    public function __isset($attribute)
     {
-        return $this->has($property);
+        return $this->has($attribute);
     }
 
     /**
@@ -217,7 +217,7 @@ abstract class AbstractEntity implements Arrayable
     {
         return json_encode([
             'type' => static::name(),
-            'properties' => $this->toArray(),
+            'attributes' => $this->toArray(),
         ], JSON_PRETTY_PRINT);
     }
 
@@ -228,7 +228,7 @@ abstract class AbstractEntity implements Arrayable
      */
     public function __sleep()
     {
-        // $properties is the only member that need to be serialized
-        return ['properties'];
+        // $attributes is the only property that needs to be serialized
+        return ['attributes'];
     }
 }
