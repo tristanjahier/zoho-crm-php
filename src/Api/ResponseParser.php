@@ -24,10 +24,7 @@ class ResponseParser
     {
         $parsedData = self::parse($data, $query->getFormat());
 
-        // Detect errors in the response
-        if (! self::validate($parsedData)) {
-            return null;
-        }
+        self::validate($parsedData);
 
         $apiMethodHandler = Helper::getMethodClass($query->getMethod());
         if (! class_exists($apiMethodHandler)) {
@@ -88,7 +85,7 @@ class ResponseParser
      * Validate the readability and integrity of the response.
      *
      * @param array $parsed The parsed response content
-     * @return bool
+     * @return void
      *
      * @throws \Zoho\Crm\Exceptions\UnreadableResponseException
      * @throws Exceptions\AbstractException
@@ -97,14 +94,10 @@ class ResponseParser
     {
         if ($parsed === null || ! is_array($parsed)) {
             throw new UnreadableResponseException();
-            return false;
         }
 
         if (isset($parsed['response']['error'])) {
             ErrorHandler::handle($parsed['response']['error']);
-            return false;
         }
-
-        return true;
     }
 }

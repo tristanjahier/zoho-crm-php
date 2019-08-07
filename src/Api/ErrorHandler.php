@@ -29,8 +29,8 @@ class ErrorHandler
         if (isset(self::$exceptions[$error['code']])) {
             $type = self::$exceptions[$error['code']];
             throw new $type($error['message']);
-        } else {
-            throw new Exceptions\GenericException($error['message'], $error['code']);
         }
+
+        throw new Exceptions\GenericException($error['message'], $error['code']);
     }
 }
