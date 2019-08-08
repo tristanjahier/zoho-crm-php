@@ -3,9 +3,9 @@
 namespace Zoho\Crm\Entities;
 
 /**
- * PotStageHistory entity class.
+ * Potential stage history entry entity class.
  */
-class PotStageHistory extends AbstractEntity
+class PotentialStageHistoryEntry extends AbstractEntity
 {
     /** @inheritdoc */
     protected static $moduleName = 'PotStageHistory';
