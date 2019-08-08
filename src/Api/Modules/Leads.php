@@ -10,9 +10,6 @@ namespace Zoho\Crm\Api\Modules;
 class Leads extends AbstractRecordsModule
 {
     /** @inheritdoc */
-    protected static $primaryKey = 'LEADID';
-
-    /** @inheritdoc */
     protected static $associatedEntity = \Zoho\Crm\Entities\Lead::class;
 
     /** @inheritdoc */

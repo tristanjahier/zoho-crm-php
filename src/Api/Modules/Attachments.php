@@ -8,9 +8,6 @@ namespace Zoho\Crm\Api\Modules;
 class Attachments extends AbstractRecordsModule
 {
     /** @inheritdoc */
-    protected static $primaryKey = 'id';
-
-    /** @inheritdoc */
     protected static $associatedEntity = \Zoho\Crm\Entities\Attachment::class;
 
     /** @inheritdoc */

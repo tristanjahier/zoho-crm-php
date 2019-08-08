@@ -9,9 +9,6 @@ namespace Zoho\Crm\Api\Modules;
  */
 class Users extends AbstractModule
 {
-    /** @var string The name of the identifier field */
-    protected static $primaryKey = 'id';
-
     /** @inheritdoc */
     protected static $associatedEntity = \Zoho\Crm\Entities\User::class;
 
@@ -19,16 +16,6 @@ class Users extends AbstractModule
     protected static $supportedMethods = [
         'getUsers'
     ];
-
-    /**
-     * Get the primary key / the identifier field of the module.
-     *
-     * @return string
-     */
-    public static function primaryKey()
-    {
-        return static::$primaryKey;
-    }
 
     /**
      * Create a query to get all users.

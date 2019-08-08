@@ -10,27 +10,27 @@ use Zoho\Crm\Support\Collection as BaseCollection;
 class Collection extends BaseCollection
 {
     /**
-     * Find an entity by primary key.
+     * Find an entity by ID.
      *
-     * @param string $key The entity key
+     * @param string $id The entity ID
      * @return AbstractEntity|null
      */
-    public function find($key)
+    public function find($id)
     {
-        return $this->first(function ($entity) use ($key) {
-            return $entity->key() === $key;
+        return $this->first(function ($entity) use ($id) {
+            return $entity->getId() === $id;
         });
     }
 
     /**
-     * Get the primary keys of the entities.
+     * Get the IDs of the entities.
      *
      * @return \Zoho\Crm\Support\Collection
      */
-    public function entityKeys()
+    public function entityIds()
     {
         return $this->map(function ($entity) {
-            return $entity->key();
+            return $entity->getId();
         })->toBase();
     }
 

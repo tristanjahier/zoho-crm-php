@@ -8,9 +8,6 @@ namespace Zoho\Crm\Api\Modules;
 class Potentials extends AbstractRecordsModule
 {
     /** @inheritdoc */
-    protected static $primaryKey = 'POTENTIALID';
-
-    /** @inheritdoc */
     protected static $associatedEntity = \Zoho\Crm\Entities\Potential::class;
 
     /** @inheritdoc */

@@ -7,5 +7,6 @@ namespace Zoho\Crm\Entities;
  */
 class Task extends AbstractEntity
 {
-    //
+    /** @inheritdoc */
+    protected static $idName = 'ACTIVITYID';
 }

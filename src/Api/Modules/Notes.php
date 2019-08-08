@@ -8,9 +8,6 @@ namespace Zoho\Crm\Api\Modules;
 class Notes extends AbstractRecordsModule
 {
     /** @inheritdoc */
-    protected static $primaryKey = 'ACTIVITYID';
-
-    /** @inheritdoc */
     protected static $associatedEntity = \Zoho\Crm\Entities\Note::class;
 
     /** @inheritdoc */

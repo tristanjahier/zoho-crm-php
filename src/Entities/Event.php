@@ -7,5 +7,6 @@ namespace Zoho\Crm\Entities;
  */
 class Event extends AbstractEntity
 {
-    //
+    /** @inheritdoc */
+    protected static $idName = 'ACTIVITYID';
 }

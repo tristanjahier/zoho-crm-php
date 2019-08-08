@@ -8,9 +8,6 @@ namespace Zoho\Crm\Api\Modules;
 class PotStageHistory extends AbstractRecordsModule
 {
     /** @inheritdoc */
-    protected static $primaryKey = 'POTENTIALSTAGEHISTORYID';
-
-    /** @inheritdoc */
     protected static $associatedEntity = \Zoho\Crm\Entities\PotStageHistory::class;
 
     /** @inheritdoc */

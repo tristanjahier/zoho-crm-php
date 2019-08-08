@@ -9,4 +9,7 @@ class PotStageHistory extends AbstractEntity
 {
     /** @inheritdoc */
     protected static $moduleName = 'PotStageHistory';
+
+    /** @inheritdoc */
+    protected static $idName = 'POTENTIALSTAGEHISTORYID';
 }

@@ -22,6 +22,9 @@ abstract class AbstractEntity implements Arrayable
     /** @var string|null The name of the related module */
     protected static $moduleName;
 
+    /** @var string|null The name of the identifier attribute */
+    protected static $idName;
+
     /** @var string[] The entity attributes */
     protected $attributes = [];
 
@@ -65,6 +68,20 @@ abstract class AbstractEntity implements Arrayable
     }
 
     /**
+     * Get the name of the identifier attribute.
+     *
+     * @return string
+     */
+    public static function idName()
+    {
+        if (isset(static::$idName)) {
+            return static::$idName;
+        }
+
+        return strtoupper(static::name()) . 'ID';
+    }
+
+    /**
      * Check if an attribute is defined.
      *
      * @param string $attribute The name of the attribute
@@ -99,13 +116,13 @@ abstract class AbstractEntity implements Arrayable
     }
 
     /**
-     * Get the value of the primary key / identifier attribute.
+     * Get the entity ID.
      *
-     * @return string
+     * @return string|null
      */
-    public function key()
+    public function getId()
     {
-        return $this->get($this->module()->primaryKey());
+        return $this->get(static::idName());
     }
 
     /**

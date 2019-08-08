@@ -7,5 +7,6 @@ namespace Zoho\Crm\Entities;
  */
 class User extends AbstractEntity
 {
-    //
+    /** @inheritdoc */
+    protected static $idName = 'id';
 }

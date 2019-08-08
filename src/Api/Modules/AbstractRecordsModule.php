@@ -10,19 +10,6 @@ use Zoho\Crm\Api\XmlBuilder;
  */
 abstract class AbstractRecordsModule extends AbstractModule
 {
-    /** @var string The name of the identifier field */
-    protected static $primaryKey;
-
-    /**
-     * Get the primary key / the identifier field of the module.
-     *
-     * @return string
-     */
-    public static function primaryKey()
-    {
-        return static::$primaryKey;
-    }
-
     /**
      * Create a query to get records.
      *

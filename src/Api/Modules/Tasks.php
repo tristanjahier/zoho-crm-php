@@ -10,9 +10,6 @@ namespace Zoho\Crm\Api\Modules;
 class Tasks extends AbstractRecordsModule
 {
     /** @inheritdoc */
-    protected static $primaryKey = 'ACTIVITYID';
-
-    /** @inheritdoc */
     protected static $associatedEntity = \Zoho\Crm\Entities\Task::class;
 
     /** @inheritdoc */

@@ -379,10 +379,9 @@ $client->calls->deleteAttachedFile('Attachment ID');
 
 If you have custom modules in your Zoho organization, you may want to request them through the API too.
 
-To support your own custom module, you need to create a dedicated class which extends `Zoho\Crm\Api\Modules\AbstractRecordsModule`. In this class, you need to re-define 3 properties:
+To support your own custom module, you need to create a dedicated class which extends `Zoho\Crm\Api\Modules\AbstractRecordsModule`. In this class, you need to re-define 2 properties:
 1. `$name`: the name of the module (not the "display name"!)
-2. `$primaryKey`: the name of the ID field
-3. `$supportedMethods`: the list of API methods that you can use on the module
+2. `$supportedMethods`: the list of API methods that you can use on the module
 
 And an optional one: `$associatedEntity`, which is the class of the entity object.
 
@@ -394,8 +393,6 @@ use Zoho\Crm\Api\Modules\AbstractRecordsModule;
 class MyCustomModule extends AbstractRecordsModule
 {
     protected static $name = 'CustomModule1';
-
-    protected static $primaryKey = 'CUSTOMMODULE1_ID';
 
     protected static $associatedEntity = MyCustomThing::class;
 

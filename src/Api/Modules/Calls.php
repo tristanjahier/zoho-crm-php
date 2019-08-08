@@ -10,9 +10,6 @@ namespace Zoho\Crm\Api\Modules;
 class Calls extends AbstractRecordsModule
 {
     /** @inheritdoc */
-    protected static $primaryKey = 'ACTIVITYID';
-
-    /** @inheritdoc */
     protected static $associatedEntity = \Zoho\Crm\Entities\Call::class;
 
     /** @inheritdoc */

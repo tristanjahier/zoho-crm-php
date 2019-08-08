@@ -10,9 +10,6 @@ namespace Zoho\Crm\Api\Modules;
 class Products extends AbstractRecordsModule
 {
     /** @inheritdoc */
-    protected static $primaryKey = 'PRODUCTID';
-
-    /** @inheritdoc */
     protected static $associatedEntity = \Zoho\Crm\Entities\Product::class;
 
     /** @inheritdoc */
