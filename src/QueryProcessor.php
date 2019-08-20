@@ -5,10 +5,7 @@ namespace Zoho\Crm;
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7\Request as HttpRequest;
-use GuzzleHttp\Psr7\Response as HttpResponse;
 use Zoho\Crm\Api\Query;
-use Zoho\Crm\Api\ResponseParser;
-use Zoho\Crm\Api\Response;
 use Zoho\Crm\Exceptions\UnsupportedModuleException;
 use Zoho\Crm\Exceptions\UnsupportedMethodException;
 use Zoho\Crm\Support\Helper;
@@ -27,6 +24,9 @@ class QueryProcessor
     /** @var int The number of API requests made */
     protected $requestCount = 0;
 
+    /** @var ResponseTransformer The response transformer */
+    protected $responseTransformer;
+
     /**
      * The constructor.
      *
@@ -37,6 +37,8 @@ class QueryProcessor
         $this->client = $client;
 
         $this->setupHttpClient();
+
+        $this->responseTransformer = new ResponseTransformer();
     }
 
     /**
@@ -106,7 +108,7 @@ class QueryProcessor
             throw $e;
         }
 
-        return $this->parseResponse($response, $query);
+        return $this->responseTransformer->transform($response, $query);
     }
 
     /**
@@ -149,21 +151,6 @@ class QueryProcessor
         $query->param('authtoken', $this->client->getAuthToken());
 
         return new HttpRequest($httpVerb, $query->buildUri());
-    }
-
-    /**
-     * Parse an API response and transform its content into a relevant data object.
-     *
-     * @param \GuzzleHttp\Psr7\Response $httpResponse The API response to read
-     * @param Api\Query $query The origin query
-     * @return Api\Response
-     */
-    private function parseResponse(HttpResponse $httpResponse, Query $query)
-    {
-        $rawContent = $httpResponse->getBody()->getContents();
-        $content = ResponseParser::clean($query, $rawContent);
-
-        return new Response($query, $content, $rawContent);
     }
 
     /**
