@@ -101,9 +101,9 @@ class Client
             $this->setEndpoint($endpoint);
         }
 
-        $this->queryProcessor = new QueryProcessor($this);
-
         $this->preferences = new Preferences();
+
+        $this->queryProcessor = new QueryProcessor($this);
 
         $this->attachDefaultModules();
     }
@@ -274,7 +274,7 @@ class Client
         $this->endpoint = $endpoint . '/';
 
         // Re-create the HTTP client because the base URI has changed
-        $this->queryProcessor->setupHttpClient();
+        $this->queryProcessor->setEndpoint($this->endpoint);
     }
 
     /**
