@@ -79,15 +79,23 @@ class RequestSender
         }
 
         $safeMessage = preg_replace($pattern, 'authtoken=***', $e->getMessage());
-        $class = get_class($e);
+        $this->modifyExceptionMessage($e, $safeMessage);
 
-        return new $class(
-            $safeMessage,
-            $e->getRequest(),
-            $e->getResponse(),
-            $e->getPrevious(),
-            $e->getHandlerContext()
-        );
+        return $e;
+    }
+
+    /**
+     * Modify the message property of an exception using reflection.
+     *
+     * @param \Exception $exception The exception to modify
+     * @param string $newMessage The new message
+     * @return void
+     */
+    private function modifyExceptionMessage(\Exception $exception, string $newMessage)
+    {
+        $property = (new \ReflectionObject($exception))->getProperty('message');
+        $property->setAccessible(true);
+        $property->setValue($exception, $newMessage);
     }
 
     /**
