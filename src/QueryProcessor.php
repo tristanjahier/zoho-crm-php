@@ -30,12 +30,7 @@ class QueryProcessor
     public function __construct(Client $client)
     {
         $this->client = $client;
-
-        $this->requestSender = new RequestSender(
-            $this->client->getAuthToken(),
-            $this->client->preferences()
-        );
-
+        $this->requestSender = new RequestSender($this->client->preferences());
         $this->responseTransformer = new ResponseTransformer();
     }
 

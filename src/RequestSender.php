@@ -17,21 +17,16 @@ class RequestSender
     /** @var int The number of API requests sent so far */
     protected $requestCount = 0;
 
-    /** @var string The API authentication token, to be able to remove it from exception messages */
-    protected $authToken;
-
     /** @var Preferences The client preferences container */
     protected $preferences;
 
     /**
      * The constructor.
      *
-     * @param string $authToken The auth token
      * @param Preferences The client preferences container
      */
-    public function __construct(string $authToken, Preferences $preferences)
+    public function __construct(Preferences $preferences)
     {
-        $this->authToken = $authToken;
         $this->preferences = $preferences;
         $this->httpClient = new GuzzleClient();
     }
@@ -76,12 +71,14 @@ class RequestSender
      */
     private function obfuscateExceptionMessage(RequestException $e)
     {
+        $pattern = '/authtoken=((?:[a-z]|\d)*)/i';
+
         // If the exception message does not contain sensible data, just let it through.
-        if (mb_strpos($e->getMessage(), 'authtoken='.$this->authToken) === false) {
+        if (! preg_match($pattern, $e->getMessage())) {
             return $e;
         }
 
-        $safeMessage = str_replace('authtoken='.$this->authToken, 'authtoken=***', $e->getMessage());
+        $safeMessage = preg_replace($pattern, 'authtoken=***', $e->getMessage());
         $class = get_class($e);
 
         return new $class(
