@@ -272,9 +272,6 @@ class Client
 
         // Make sure the endpoint ends with a single slash
         $this->endpoint = $endpoint . '/';
-
-        // Re-create the HTTP client because the base URI has changed
-        $this->queryProcessor->setEndpoint($this->endpoint);
     }
 
     /**

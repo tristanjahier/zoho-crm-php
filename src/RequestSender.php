@@ -27,29 +27,13 @@ class RequestSender
      * The constructor.
      *
      * @param string $authToken The auth token
-     * @param string $endpoint The base URI for all requests
      * @param Preferences The client preferences container
      */
-    public function __construct(string $authToken, string $endpoint, Preferences $preferences)
+    public function __construct(string $authToken, Preferences $preferences)
     {
         $this->authToken = $authToken;
-
-        $this->setupHttpClient($endpoint);
-
         $this->preferences = $preferences;
-    }
-
-    /**
-     * Create and configure the Guzzle client.
-     *
-     * @param string $endpoint The API endpoint
-     * @return void
-     */
-    public function setupHttpClient(string $endpoint)
-    {
-        $this->httpClient = new GuzzleClient([
-            'base_uri' => $endpoint
-        ]);
+        $this->httpClient = new GuzzleClient();
     }
 
     /**

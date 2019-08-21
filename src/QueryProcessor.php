@@ -33,7 +33,6 @@ class QueryProcessor
 
         $this->requestSender = new RequestSender(
             $this->client->getAuthToken(),
-            $this->client->getEndpoint(),
             $this->client->preferences()
         );
 
@@ -100,7 +99,9 @@ class QueryProcessor
         // Add auth token at the last moment to avoid exposing it in the error log messages
         $query->param('authtoken', $this->client->getAuthToken());
 
-        return new Request($httpVerb, $query->buildUri());
+        $fullUrl = $this->client->getEndpoint() . $query->buildUri();
+
+        return new Request($httpVerb, $fullUrl);
     }
 
     /**
@@ -125,16 +126,5 @@ class QueryProcessor
     public function getRequestCount()
     {
         return $this->requestSender->getRequestCount();
-    }
-
-    /**
-     * Change the request endpoint.
-     *
-     * @param string $endpoint The new endpoint
-     * @return void
-     */
-    public function setEndpoint(string $endpoint)
-    {
-        $this->requestSender->setupHttpClient($endpoint);
     }
 }
