@@ -2,9 +2,10 @@
 
 namespace Zoho\Crm;
 
-use Zoho\Crm\Api\Modules\AbstractModule;
-use Zoho\Crm\Api\Query;
 use Doctrine\Common\Inflector\Inflector;
+use Zoho\Crm\Api\Modules\AbstractModule;
+use Zoho\Crm\Api\Methods\AbstractMethod;
+use Zoho\Crm\Api\Query;
 
 /**
  * Zoho CRM API client. Main class of the library.
@@ -55,6 +56,23 @@ class Client
         Api\Modules\Attachments::class,
     ];
 
+    protected static $defaultMethodHandlers = [
+        Api\Methods\DeleteFile::class,
+        Api\Methods\DeleteRecords::class,
+        Api\Methods\GetDeletedRecordIds::class,
+        Api\Methods\GetFields::class,
+        Api\Methods\GetModules::class,
+        Api\Methods\GetMyRecords::class,
+        Api\Methods\GetRecordById::class,
+        Api\Methods\GetRecords::class,
+        Api\Methods\GetRelatedRecords::class,
+        Api\Methods\GetSearchRecordsByPDC::class,
+        Api\Methods\GetUsers::class,
+        Api\Methods\InsertRecords::class,
+        Api\Methods\SearchRecords::class,
+        Api\Methods\UpdateRecords::class,
+    ];
+
     /** @var string The API endpoint (base URI with trailing slash) */
     protected $endpoint = self::DEFAULT_ENDPOINT;
 
@@ -84,6 +102,9 @@ class Client
     /** @var string[] An associative array of aliases pointing to real module names */
     protected $moduleAliases = [];
 
+    /** @var Api\Methods\AbstractMethod[] The list of API method handlers */
+    protected $methodHandlers = [];
+
     /**
      * The constructor.
      *
@@ -106,6 +127,8 @@ class Client
         $this->queryProcessor = new QueryProcessor($this);
 
         $this->attachDefaultModules();
+
+        $this->registerDefaultMethodHandlers();
     }
 
     /**
@@ -229,6 +252,86 @@ class Client
         }
 
         return $modules;
+    }
+
+    /**
+     * Register a new API method handler.
+     *
+     * @param string The method handler class name
+     * @return void
+     *
+     * @throws Exceptions\InvalidMethodHandlerException
+     */
+    public function registerMethodHandler(string $handler)
+    {
+        if (! class_exists($handler) || ! in_array(AbstractMethod::class, class_parents($handler))) {
+            throw new Exceptions\InvalidMethodHandlerException($handler);
+        }
+
+        $this->methodHandlers[$handler::name()] = new $handler();
+    }
+
+    /**
+     * Register multiple API method handlers.
+     *
+     * @param string[] $handlers The method handlers class names
+     * @return void
+     *
+     * @throws Exceptions\InvalidMethodHandlerException
+     */
+    public function registerMethodHandlers(array $handlers)
+    {
+        foreach ($handlers as $handler) {
+            $this->registerMethodHandler($handler);
+        }
+    }
+
+    /**
+     * Register all API method handlers supported by default.
+     *
+     * @return void
+     */
+    private function registerDefaultMethodHandlers()
+    {
+        $this->registerMethodHandlers(static::$defaultMethodHandlers);
+    }
+
+    /**
+     * Get the list of supported API methods.
+     *
+     * @return string[]
+     */
+    public function supportedMethods()
+    {
+        return array_keys($this->methodHandlers);
+    }
+
+    /**
+     * Check if an API method is supported by the client.
+     *
+     * @param string $method The name of the method
+     * @return bool
+     */
+    public function supportsMethod(string $method)
+    {
+        return array_key_exists($method, $this->methodHandlers);
+    }
+
+    /**
+     * Get an API method handler by name.
+     *
+     * @param string The name of the method
+     * @return Api\Methods\AbstractMethod
+     *
+     * @throws Exceptions\UnsupportedMethodException
+     */
+    public function getMethodHandler(string $method)
+    {
+        if (! $this->supportsMethod($method)) {
+            throw new Exceptions\UnsupportedMethodException($method);
+        }
+
+        return $this->methodHandlers[$method];
     }
 
     /**

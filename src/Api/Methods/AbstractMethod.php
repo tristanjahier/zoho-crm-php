@@ -40,7 +40,7 @@ abstract class AbstractMethod implements MethodInterface
      *
      * @see \Zoho\Crm\Api\ResponseDataType for a list of possible values
      */
-    public static function getResponseDataType()
+    public function getResponseDataType()
     {
         return static::$responseType;
     }
@@ -51,7 +51,7 @@ abstract class AbstractMethod implements MethodInterface
      * @param \Zoho\Crm\Api\Query $query (optional) The query that has been executed
      * @return bool
      */
-    public static function expectsMultipleRecords(Query $query = null)
+    public function expectsMultipleRecords(Query $query = null)
     {
         return static::$multipleRecords;
     }
@@ -63,7 +63,7 @@ abstract class AbstractMethod implements MethodInterface
      *
      * @see \Zoho\Crm\Api\HttpVerb for a list of possible values
      */
-    public static function getHttpVerb()
+    public function getHttpVerb()
     {
         return static::$httpVerb;
     }
@@ -75,7 +75,7 @@ abstract class AbstractMethod implements MethodInterface
      * @param \Zoho\Crm\Api\Query $query The query that has been executed
      * @return bool
      */
-    public static function responseContainsData(array $response, Query $query)
+    public function responseContainsData(array $response, Query $query)
     {
         return ! isset($response['response']['nodata']);
     }

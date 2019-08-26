@@ -37,9 +37,9 @@ class Response
         $this->query = $query;
         $this->rawContent = $rawContent;
         $this->content = $content;
-        $methodClass = Helper::getMethodClass($this->query->getMethod());
-        $this->type = $methodClass::getResponseDataType();
-        $this->hasMultipleRecords = $methodClass::expectsMultipleRecords($this->query);
+        $apiMethodHandler = $query->getClientMethod();
+        $this->type = $apiMethodHandler->getResponseDataType();
+        $this->hasMultipleRecords = $apiMethodHandler->expectsMultipleRecords($this->query);
     }
 
     /**

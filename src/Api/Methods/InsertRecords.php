@@ -20,7 +20,7 @@ class InsertRecords extends AbstractMethod
     /**
      * @inheritdoc
      */
-    public static function tidyResponse(array $response, Query $query)
+    public function tidyResponse(array $response, Query $query)
     {
         $recordIds = [];
         $version = $query->getParameter('version');

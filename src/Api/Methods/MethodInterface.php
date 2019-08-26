@@ -13,7 +13,7 @@ interface MethodInterface
      * @param \Zoho\Crm\Api\Query $query The query that has been executed
      * @return bool
      */
-    public static function responseContainsData(array $response, Query $query);
+    public function responseContainsData(array $response, Query $query);
 
     /**
      * Clean the response content to keep only the worthy data.
@@ -22,7 +22,7 @@ interface MethodInterface
      * @param \Zoho\Crm\Api\Query $query The query that has been executed
      * @return mixed
      */
-    public static function tidyResponse(array $response, Query $query);
+    public function tidyResponse(array $response, Query $query);
 
     /**
      * Determine if this API method should return multiple records.
@@ -30,5 +30,5 @@ interface MethodInterface
      * @param \Zoho\Crm\Api\Query $query The query that has been executed
      * @return bool
      */
-    public static function expectsMultipleRecords(Query $query);
+    public function expectsMultipleRecords(Query $query);
 }

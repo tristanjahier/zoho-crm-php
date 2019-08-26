@@ -84,14 +84,10 @@ class ResponseTransformer
      */
     private function clean($content, Query $query)
     {
-        $apiMethodHandler = Helper::getMethodClass($query->getMethod());
+        $apiMethodHandler = $query->getClientMethod();
 
-        if (! class_exists($apiMethodHandler)) {
-            throw new Exceptions\MethodNotFoundException("Method handler $apiMethodHandler not found.");
-        }
-
-        if ($apiMethodHandler::responseContainsData($content, $query)) {
-            return $apiMethodHandler::tidyResponse($content, $query);
+        if ($apiMethodHandler->responseContainsData($content, $query)) {
+            return $apiMethodHandler->tidyResponse($content, $query);
         } else {
             return null; // No data
         }

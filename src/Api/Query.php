@@ -586,6 +586,16 @@ class Query
     }
 
     /**
+     * Get the method handler attached to the bound client.
+     *
+     * @return Methods\AbstractMethod
+     */
+    public function getClientMethod()
+    {
+        return $this->client->getMethodHandler($this->method);
+    }
+
+    /**
      * Create a deep copy of the query.
      *
      * @return static

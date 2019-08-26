@@ -16,7 +16,7 @@ class GetFields extends AbstractMethod
     /**
      * @inheritdoc
      */
-    public static function tidyResponse(array $response, Query $query)
+    public function tidyResponse(array $response, Query $query)
     {
         $sections = $response[$query->getModule()]['section'];
 

@@ -16,7 +16,7 @@ class DeleteFile extends AbstractMethod
     /**
      * @inheritdoc
      */
-    public static function tidyResponse(array $response, Query $query)
+    public function tidyResponse(array $response, Query $query)
     {
         return isset($response['response']['success']);
     }

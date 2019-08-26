@@ -74,7 +74,7 @@ class QueryProcessor
             throw new UnsupportedModuleException($query->getModule());
         }
 
-        if (! class_exists(Helper::getMethodClass($query->getMethod()))) {
+        if (! $this->client->supportsMethod($query->getMethod())) {
             throw new UnsupportedMethodException($query->getMethod());
         }
     }
@@ -88,8 +88,7 @@ class QueryProcessor
     private function createHttpRequest(Query $query)
     {
         // Determine the HTTP verb to use from the API method handler
-        $methodClass = Helper::getMethodClass($query->getMethod());
-        $httpVerb = $methodClass::getHttpVerb();
+        $httpVerb = $this->client->getMethodHandler($query->getMethod())->getHttpVerb();
 
         // Add auth token at the last moment to avoid exposing it in the error log messages
         $query->param('authtoken', $this->client->getAuthToken());

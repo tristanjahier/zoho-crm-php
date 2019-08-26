@@ -12,7 +12,7 @@ class GetRecordById extends GetRecords
     /**
      * @inheritdoc
      */
-    public static function tidyResponse(array $response, Query $query)
+    public function tidyResponse(array $response, Query $query)
     {
         $result = parent::tidyResponse($response, $query);
         // Unwrap in case of single element
@@ -22,7 +22,7 @@ class GetRecordById extends GetRecords
     /**
      * @inheritdoc
      */
-    public static function expectsMultipleRecords(Query $query = null)
+    public function expectsMultipleRecords(Query $query = null)
     {
         return isset($query) ? $query->hasParameter('idlist') : false;
     }

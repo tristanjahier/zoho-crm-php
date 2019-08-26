@@ -16,7 +16,7 @@ class DeleteRecords extends AbstractMethod
     /**
      * @inheritdoc
      */
-    public static function tidyResponse(array $response, Query $query)
+    public function tidyResponse(array $response, Query $query)
     {
         // There is nothing to do with the response because it is ALWAYS the same:
         // "result": {
