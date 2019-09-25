@@ -3,6 +3,7 @@
 namespace Zoho\Crm\Api\Methods;
 
 use Zoho\Crm\Api\Query;
+use Zoho\Crm\Entities\Collection;
 
 /**
  * @see https://www.zoho.com/crm/developer/docs/api/getrecordbyid.html
@@ -12,18 +13,30 @@ class GetRecordById extends GetRecords
     /**
      * @inheritdoc
      */
-    public function tidyResponse(array $response, Query $query)
+    public function cleanResponse(array $response, Query $query)
     {
-        $result = parent::tidyResponse($response, $query);
-        // Unwrap in case of single element
-        return self::expectsMultipleRecords($query) ? $result : $result[0];
+        $result = parent::cleanResponse($response, $query);
+
+        return $query->hasParameter('idlist') ? $result : $result[0];
     }
 
     /**
      * @inheritdoc
      */
-    public function expectsMultipleRecords(Query $query = null)
+    public function convertResponse($response, Query $query)
     {
-        return isset($query) ? $query->hasParameter('idlist') : false;
+        $module = $query->getClientModule();
+
+        if ($query->hasParameter('idlist')) {
+            $collection = new Collection();
+
+            foreach ($response as $record) {
+                $collection->push($module->newEntity($record));
+            }
+
+            return $collection;
+        }
+
+        return $module->newEntity($response);
     }
 }

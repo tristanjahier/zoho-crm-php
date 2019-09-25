@@ -2,7 +2,6 @@
 
 namespace Zoho\Crm\Api\Methods;
 
-use Zoho\Crm\Api\ResponseDataType;
 use Zoho\Crm\Api\Query;
 use Zoho\Crm\Api\HttpVerb;
 
@@ -12,15 +11,20 @@ use Zoho\Crm\Api\HttpVerb;
 class InsertRecords extends AbstractMethod
 {
     /** @inheritdoc */
-    protected static $responseType = ResponseDataType::OTHER;
-
-    /** @inheritdoc */
     protected static $httpVerb = HttpVerb::POST;
 
     /**
      * @inheritdoc
      */
-    public function tidyResponse(array $response, Query $query)
+    public function isResponseEmpty(array $response, Query $query)
+    {
+        return false;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function cleanResponse(array $response, Query $query)
     {
         $recordIds = [];
         $version = $query->getParameter('version');

@@ -3,19 +3,20 @@
 namespace Zoho\Crm\Api\Methods;
 
 use Zoho\Crm\Api\Query;
+use Zoho\Crm\Entities\Collection;
 
 /**
  * @see https://www.zoho.com/crm/developer/docs/api/getrecords.html
  */
-class GetRecords extends AbstractMethod
+class GetRecords extends AbstractMethod implements MethodWithPaginationInterface
 {
     /**
      * @inheritdoc
      */
-    public function responseContainsData(array $response, Query $query)
+    public function isResponseEmpty(array $response, Query $query)
     {
         if (isset($response['response']['nodata'])) {
-            return false;
+            return true;
         }
 
         // In "Events" module, when querying related records with "getRelatedRecords" or
@@ -24,16 +25,16 @@ class GetRecords extends AbstractMethod
             isset($response['response']['result'][$query->getModule()]) &&
             $response['response']['result'][$query->getModule()] === 'null'
         ) {
-            return false;
+            return true;
         }
 
-        return true;
+        return false;
     }
 
     /**
      * @inheritdoc
      */
-    public function tidyResponse(array $response, Query $query)
+    public function cleanResponse(array $response, Query $query)
     {
         $records = [];
 
@@ -64,5 +65,34 @@ class GetRecords extends AbstractMethod
         }
 
         return $records;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function convertResponse($response, Query $query)
+    {
+        $entities = new Collection();
+        $module = $query->getClientModule();
+
+        foreach ($response as $record) {
+            $entities->push($module->newEntity($record));
+        }
+
+        return $entities;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function mergePaginatedContents(...$pages)
+    {
+        $entities = new Collection();
+
+        foreach ($pages as $page) {
+            $entities = $entities->merge($page);
+        }
+
+        return $entities;
     }
 }

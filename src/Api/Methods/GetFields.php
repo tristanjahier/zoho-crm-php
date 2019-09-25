@@ -2,7 +2,6 @@
 
 namespace Zoho\Crm\Api\Methods;
 
-use Zoho\Crm\Api\ResponseDataType;
 use Zoho\Crm\Api\Query;
 
 /**
@@ -10,13 +9,18 @@ use Zoho\Crm\Api\Query;
  */
 class GetFields extends AbstractMethod
 {
-    /** @inheritdoc */
-    protected static $responseType = ResponseDataType::OTHER;
+    /**
+     * @inheritdoc
+     */
+    public function isResponseEmpty(array $response, Query $query)
+    {
+        return false;
+    }
 
     /**
      * @inheritdoc
      */
-    public function tidyResponse(array $response, Query $query)
+    public function cleanResponse(array $response, Query $query)
     {
         $sections = $response[$query->getModule()]['section'];
 

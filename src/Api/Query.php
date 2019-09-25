@@ -554,7 +554,7 @@ class Query
      */
     public function get()
     {
-        return $this->client->getQueryResults($this);
+        return $this->execute()->getContent();
     }
 
     /**

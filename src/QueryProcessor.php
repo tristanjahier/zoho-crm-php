@@ -4,6 +4,7 @@ namespace Zoho\Crm;
 
 use GuzzleHttp\Psr7\Request;
 use Zoho\Crm\Api\Query;
+use Zoho\Crm\Api\Response;
 use Zoho\Crm\Exceptions\UnsupportedModuleException;
 use Zoho\Crm\Exceptions\UnsupportedMethodException;
 use Zoho\Crm\Support\Helper;
@@ -109,7 +110,25 @@ class QueryProcessor
         $paginator = $query->getPaginator();
         $paginator->fetchAll();
 
-        return $paginator->getAggregatedResponse();
+        // Once all pages have been fetched, we will merge them into a single response
+        $contents = [];
+        $rawContents = [];
+
+        // Extract data from each response
+        foreach ($paginator->getResponses() as $page) {
+            $contents[] = $page->getContent();
+            $rawContents[] = $page->getRawContent();
+        }
+
+        // Get rid of potential empty pages
+        $contents = array_filter($contents);
+
+        // Delegate merging logic to the method handler
+        $mergedContent = $this->client
+            ->getMethodHandler($query->getMethod())
+            ->mergePaginatedContents(...$contents);
+
+        return new Response($query, $mergedContent, $rawContents);
     }
 
     /**

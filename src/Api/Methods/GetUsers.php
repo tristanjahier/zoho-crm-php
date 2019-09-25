@@ -2,29 +2,34 @@
 
 namespace Zoho\Crm\Api\Methods;
 
-use Zoho\Crm\Api\ResponseDataType;
 use Zoho\Crm\Api\Query;
+use Zoho\Crm\Entities\Collection;
 
 /**
  * @see https://www.zoho.com/crm/developer/docs/api/getusers.html
  */
 class GetUsers extends AbstractMethod
 {
-    /** @inheritdoc */
-    protected static $responseType = ResponseDataType::OTHER;
-
     /**
      * @inheritdoc
      */
-    public function responseContainsData(array $response, Query $query)
+    public function isResponseEmpty(array $response, Query $query)
     {
-        return ! isset($response['users']['nodata']);
+        return isset($response['users']['nodata']);
     }
 
     /**
      * @inheritdoc
      */
-    public function tidyResponse(array $response, Query $query)
+    public function getEmptyResponse(Query $query)
+    {
+        return new Collection();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function cleanResponse(array $response, Query $query)
     {
         $entries = [];
 
@@ -41,5 +46,20 @@ class GetUsers extends AbstractMethod
         }
 
         return $entries;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function convertResponse($response, Query $query)
+    {
+        $entities = new Collection();
+        $module = $query->getClientModule();
+
+        foreach ($response as $record) {
+            $entities->push($module->newEntity($record));
+        }
+
+        return $entities;
     }
 }

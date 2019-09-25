@@ -86,10 +86,12 @@ class ResponseTransformer
     {
         $apiMethodHandler = $query->getClientMethod();
 
-        if ($apiMethodHandler->responseContainsData($content, $query)) {
-            return $apiMethodHandler->tidyResponse($content, $query);
-        } else {
-            return null; // No data
+        if ($apiMethodHandler->isResponseEmpty($content, $query)) {
+            return $apiMethodHandler->getEmptyResponse($query);
         }
+
+        $clean = $apiMethodHandler->cleanResponse($content, $query);
+
+        return $apiMethodHandler->convertResponse($clean, $query);
     }
 }

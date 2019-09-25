@@ -3,6 +3,7 @@
 namespace Zoho\Crm\Api;
 
 use DateTime;
+use Zoho\Crm\Entities\Collection;
 
 /**
  * A helper class to handle paginated queries.
@@ -186,15 +187,15 @@ class QueryPaginator
                 $diff = $recordsFetched - $limit;
                 $count = count($latestResponse->getContent());
 
-                // Get rid of the extra records
+                // Get rid of the extra items
                 $latestResponse->setContent(
-                    array_slice($latestResponse->getContent(), 0, $count - $diff)
+                    $this->limitPageContents($latestResponse->getContent(), $count - $diff)
                 );
             }
         }
 
         // Apply the limit of the modification date
-        if ($this->query->hasMaxModificationDate() && $latestResponse->containsRecords()) {
+        if ($this->query->hasMaxModificationDate()) {
             $records = $latestResponse->getContent();
 
             if ($this->exceedMaxModifiedTime($records)) {
@@ -205,56 +206,46 @@ class QueryPaginator
     }
 
     /**
-     * Check if the last record of an array exceeds the maximum modification date.
+     * Take only the first given number of items from a page of results.
      *
-     * @param array $records The array of records to check
+     * @param mixed $contents The page of results
+     * @param int $limit The number of items to keep
+     * @return mixed
+     */
+    private function limitPageContents($contents, int $limit)
+    {
+        if ($this->query->getMethod() == 'getDeletedRecordIds') {
+            return array_slice($contents, 0, $limit);
+        }
+
+        return $contents->slice(0, $limit);
+    }
+
+    /**
+     * Check if the last record of a page exceeds the maximum modification date.
+     *
+     * @param \Zoho\Crm\Entities\Collection $records The page of records to check
      * @return bool
      */
-    private function exceedMaxModifiedTime(array $records)
+    private function exceedMaxModifiedTime(Collection $records)
     {
-        $lastRecord = end($records);
-        $modifiedAt = new DateTime($lastRecord['Modified Time']);
+        $modifiedAt = new DateTime($records->last()->get('Modified Time'));
 
         return $modifiedAt >= $this->query->getMaxModificationDate();
     }
 
     /**
-     * Remove all records from an array whose last modification date exceeds
-     * the maximum date set on the parent query.
+     * Remove all records from a page whose last modification date exceeds
+     * the maximum date set on the query.
      *
-     * @param array $records The array of records to filter
-     * @return array
+     * @param \Zoho\Crm\Entities\Collection $records The page of records to filter
+     * @return \Zoho\Crm\Entities\Collection
      */
-    private function purgeRecordsExceedingMaxModifiedTime(array $records)
+    private function purgeRecordsExceedingMaxModifiedTime(Collection $records)
     {
-        return array_filter($records, function ($record) {
-            $modifiedAt = new DateTime($record['Modified Time']);
+        return $records->filter(function ($record) {
+            $modifiedAt = new DateTime($record->get('Modified Time'));
             return $modifiedAt < $this->query->getMaxModificationDate();
         });
-    }
-
-    /**
-     * Aggregate all the fetched contents in one response.
-     *
-     * @return Response
-     */
-    public function getAggregatedResponse()
-    {
-        $content = [];
-        $rawContent = [];
-
-        // Extract data from each response
-        foreach ($this->responses as $resp) {
-            $content[] = $resp->getContent();
-            $rawContent[] = $resp->getRawContent();
-        }
-
-        // Get rid of potential null data
-        $content = array_filter($content);
-
-        // Merge it all
-        $content = count($content) > 0 ? array_merge(...$content) : null;
-
-        return new Response($this->query, $content, $rawContent);
     }
 }

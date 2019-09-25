@@ -2,17 +2,11 @@
 
 namespace Zoho\Crm\Api;
 
-use Zoho\Crm\Support\Helper;
-use Zoho\Crm\Entities\Collection;
-
 /**
  * A container for the content of an API response.
  */
 class Response
 {
-    /** @var string The type of data contained */
-    private $type;
-
     /** @var Query The origin query */
     private $query;
 
@@ -21,9 +15,6 @@ class Response
 
     /** @var mixed The parsed, cleaned up response content */
     private $content;
-
-    /** @var bool Whether the response should contain multiple records */
-    private $hasMultipleRecords;
 
     /**
      * The constructor.
@@ -37,19 +28,6 @@ class Response
         $this->query = $query;
         $this->rawContent = $rawContent;
         $this->content = $content;
-        $apiMethodHandler = $query->getClientMethod();
-        $this->type = $apiMethodHandler->getResponseDataType();
-        $this->hasMultipleRecords = $apiMethodHandler->expectsMultipleRecords($this->query);
-    }
-
-    /**
-     * Get the data type of the response content.
-     *
-     * @return string
-     */
-    public function getType()
-    {
-        return $this->type;
     }
 
     /**
@@ -102,7 +80,8 @@ class Response
      */
     public function isEmpty()
     {
-        return $this->content === null || empty($this->content);
+        return is_null($this->content)
+            || (is_countable($this->content) && count($this->content) === 0);
     }
 
     /**
@@ -113,82 +92,5 @@ class Response
     public function hasContent()
     {
         return ! $this->isEmpty();
-    }
-
-    /**
-     * Check whether the response should contain records.
-     *
-     * @return bool
-     */
-    public function containsRecords()
-    {
-        return $this->type === ResponseDataType::RECORDS;
-    }
-
-    /**
-     * Check whether the response should contain a single record.
-     *
-     * @return bool
-     */
-    public function hasSingleRecord()
-    {
-        return ! $this->hasMultipleRecords;
-    }
-
-    /**
-     * Check whether the response should contain multiple records.
-     *
-     * @return bool
-     */
-    public function hasMultipleRecords()
-    {
-        return $this->hasMultipleRecords;
-    }
-
-    /**
-     * Determine if the content is convertible to an entity object
-     * or a collection of entities.
-     *
-     * @return bool
-     */
-    public function isConvertibleToEntity()
-    {
-        return $this->containsRecords()
-            || $this->query->getMethod() === 'getUsers';
-    }
-
-    /**
-     * Convert the response content to an entity object.
-     *
-     * @return \Zoho\Crm\Entities\AbstractEntity
-     */
-    public function toEntity()
-    {
-        if ($this->isEmpty()) {
-            return null;
-        }
-
-        return $this->query->getClientModule()->newEntity($this->content);
-    }
-
-    /**
-     * Convert the response content to an entity collection.
-     *
-     * @return \Zoho\Crm\Entities\Collection
-     */
-    public function toEntityCollection()
-    {
-        if ($this->isEmpty()) {
-            return new Collection;
-        }
-
-        $module = $this->query->getClientModule();
-        $entities = [];
-
-        foreach ($this->content as $item) {
-            $entities[] = $module->newEntity($item);
-        }
-
-        return new Collection($entities);
     }
 }

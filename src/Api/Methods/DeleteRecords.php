@@ -3,20 +3,16 @@
 namespace Zoho\Crm\Api\Methods;
 
 use Zoho\Crm\Api\Query;
-use Zoho\Crm\Api\ResponseDataType;
 
 /**
  * @see https://www.zoho.com/crm/developer/docs/api/deleterecords.html
  */
 class DeleteRecords extends AbstractMethod
 {
-    /** @inheritdoc */
-    protected static $responseType = ResponseDataType::OTHER;
-
     /**
      * @inheritdoc
      */
-    public function tidyResponse(array $response, Query $query)
+    public function cleanResponse(array $response, Query $query)
     {
         // There is nothing to do with the response because it is ALWAYS the same:
         // "result": {

@@ -509,37 +509,6 @@ class Client
     }
 
     /**
-     * Execute a given query and get a result adapted to the nature of the query.
-     *
-     * For example, a query which expects a single record will return an entity object,
-     * or null if there is no data. A query which expects multiple records will return
-     * a collection.
-     *
-     * @param Api\Query $query The query to execute
-     * @return mixed
-     *
-     * @throws Exceptions\UnsupportedModuleException
-     * @throws Exceptions\UnsupportedMethodException
-     * @throws \GuzzleHttp\Exception\RequestException
-     */
-    public function getQueryResults(Query $query)
-    {
-        $response = $query->execute();
-
-        $module = $this->module($query->getModule());
-
-        if ($response->isConvertibleToEntity() && $module->hasAssociatedEntity()) {
-            if ($response->hasMultipleRecords()) {
-                return $response->toEntityCollection();
-            } else {
-                return $response->toEntity();
-            }
-        }
-
-        return $response->getContent();
-    }
-
-    /**
      * Dynamically retrieve modules as client public properties.
      *
      * The module name needs to be written in camel case.
