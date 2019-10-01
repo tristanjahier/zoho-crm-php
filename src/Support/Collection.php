@@ -168,7 +168,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate
             return $default;
         }
 
-        return $this->isEmpty() ? $default : reset($this->items);
+        return $this->isEmpty() ? $default : $this->items[array_key_first($this->items)];
     }
 
     /**
@@ -201,7 +201,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate
             return $this->reverse()->first($callback, $default);
         }
 
-        return $this->isEmpty() ? $default : end($this->items);
+        return $this->isEmpty() ? $default : $this->items[array_key_last($this->items)];
     }
 
     /**
