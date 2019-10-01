@@ -133,14 +133,14 @@ abstract class AbstractModule
     /**
      * Create a new entity.
      *
-     * @param array $properties (optional) The properties of the entity
+     * @param array $attributes (optional) The entity attributes
      * @return \Zoho\Crm\Entities\AbstractEntity
      */
-    public function newEntity($properties = [])
+    public function newEntity($attributes = [])
     {
         $class = static::$associatedEntity;
 
-        return new $class($properties, $this->client);
+        return new $class($attributes, $this->client);
     }
 
     /**
