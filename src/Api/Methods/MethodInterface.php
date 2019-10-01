@@ -7,6 +7,15 @@ use Zoho\Crm\Api\Query;
 interface MethodInterface
 {
     /**
+     * Get the HTTP verb to use to make a request to the API method.
+     *
+     * @return string
+     *
+     * @see \Zoho\Crm\Api\HttpVerb for a list of possible values
+     */
+    public function getHttpVerb();
+
+    /**
      * Determine if a raw API response is empty or null (no data).
      *
      * @param array $response The parsed response

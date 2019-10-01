@@ -27,11 +27,7 @@ abstract class AbstractMethod implements MethodInterface
     }
 
     /**
-     * Get the HTTP verb to use to make a request to the API method.
-     *
-     * @return string
-     *
-     * @see \Zoho\Crm\Api\HttpVerb for a list of possible values
+     * @inheritdoc
      */
     public function getHttpVerb()
     {
