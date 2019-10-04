@@ -10,7 +10,7 @@ namespace Zoho\Crm\Api\Modules;
 class Products extends AbstractRecordsModule
 {
     /** @inheritdoc */
-    protected static $associatedEntity = \Zoho\Crm\Entities\Product::class;
+    protected static $associatedEntity = \Zoho\Crm\Entities\Records\Product::class;
 
     /** @inheritdoc */
     protected static $supportedMethods = [

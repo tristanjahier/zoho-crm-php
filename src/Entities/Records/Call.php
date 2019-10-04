@@ -1,11 +1,11 @@
 <?php
 
-namespace Zoho\Crm\Entities;
+namespace Zoho\Crm\Entities\Records;
 
 /**
- * Task entity class.
+ * Call entity class.
  */
-class Task extends Entity
+class Call extends Record
 {
     /** @inheritdoc */
     protected static $idName = 'ACTIVITYID';

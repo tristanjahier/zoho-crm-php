@@ -4,12 +4,16 @@ namespace Zoho\Crm\Api\Modules;
 
 use Zoho\Crm\Api\IdList;
 use Zoho\Crm\Api\XmlBuilder;
+use Zoho\Crm\Entities\Records\Record;
 
 /**
  * Base class of the modules which handle Zoho records.
  */
 abstract class AbstractRecordsModule extends AbstractModule
 {
+    /** @inheritdoc */
+    protected static $associatedEntity = Record::class;
+
     /**
      * Create a query to get records.
      *

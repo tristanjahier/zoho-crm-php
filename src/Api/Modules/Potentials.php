@@ -8,7 +8,7 @@ namespace Zoho\Crm\Api\Modules;
 class Potentials extends AbstractRecordsModule
 {
     /** @inheritdoc */
-    protected static $associatedEntity = \Zoho\Crm\Entities\Potential::class;
+    protected static $associatedEntity = \Zoho\Crm\Entities\Records\Potential::class;
 
     /** @inheritdoc */
     protected static $supportedMethods = [
