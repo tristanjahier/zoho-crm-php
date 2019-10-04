@@ -9,9 +9,6 @@ use Exception;
  */
 final class Helper
 {
-    /** @var string The base namespace of the package */
-    const BASE_NAMESPACE = 'Zoho\\Crm';
-
     /**
      * The constructor.
      *
@@ -20,28 +17,6 @@ final class Helper
     private function __construct()
     {
         //
-    }
-
-    /**
-     * Get the handler class name for a given API method.
-     *
-     * @param string $name The name of the API method
-     * @return string
-     */
-    public static function getMethodClass($name)
-    {
-        return self::BASE_NAMESPACE . '\\Api\\Methods\\' . ucfirst($name);
-    }
-
-    /**
-     * Get the entity class name for a given entity.
-     *
-     * @param string $name The name of the entity
-     * @return string
-     */
-    public static function getEntityClass($name)
-    {
-        return self::BASE_NAMESPACE . '\\Entities\\' . ucfirst($name);
     }
 
     /**
