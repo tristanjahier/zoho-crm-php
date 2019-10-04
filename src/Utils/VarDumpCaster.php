@@ -8,7 +8,7 @@ use Doctrine\Common\Inflector\Inflector;
 use Zoho\Crm\Client;
 use Zoho\Crm\Api\Modules\AbstractModule;
 use Zoho\Crm\Api\Query;
-use Zoho\Crm\Entities\AbstractEntity;
+use Zoho\Crm\Entities\Entity;
 use Zoho\Crm\Support\Collection;
 
 /**
@@ -34,7 +34,7 @@ class VarDumpCaster
             Client::class => self::class.'::castClient',
             AbstractModule::class => self::class.'::castModule',
             Query::class => self::class.'::castQuery',
-            AbstractEntity::class => self::class.'::castEntity',
+            Entity::class => self::class.'::castEntity',
             Collection::class => self::class.'::castCollection',
         ];
     }
@@ -94,10 +94,10 @@ class VarDumpCaster
     /**
      * Cast an entity instance.
      *
-     * @param \Zoho\Crm\Entities\AbstractEntity $entity The entity instance
+     * @param \Zoho\Crm\Entities\Entity $entity The entity instance
      * @return array
      */
-    public static function castEntity(AbstractEntity $entity)
+    public static function castEntity(Entity $entity)
     {
         return self::prefixKeys($entity->toArray(), Caster::PREFIX_VIRTUAL);
     }

@@ -4,15 +4,13 @@ namespace Zoho\Crm\Entities;
 
 use Doctrine\Common\Inflector\Inflector;
 use Zoho\Crm\Client;
-use Zoho\Crm\Support\Helper;
 use Zoho\Crm\Support\ClassShortNameTrait;
 use Zoho\Crm\Support\Arrayable;
-use Zoho\Crm\Api\Response;
 
 /**
- * Base class of entities.
+ * Default minimal implementation of an API entity.
  */
-abstract class AbstractEntity implements Arrayable
+class Entity implements Arrayable
 {
     use ClassShortNameTrait;
 

@@ -158,7 +158,7 @@ $client->newQuery('Calls', 'getRecords')->modifiedAfter('2019-04-01')->get();
 $client->newQuery('Calls', 'getRecordById', ['id' => 'record ID'])->get();
 ```
 
-Each entity class extends `Zoho\Crm\Entities\AbstractEntity`.
+Each entity class extends `Zoho\Crm\Entities\Entity`.
 
 An entity collection is an instance of `Zoho\Crm\Entities\Collection`.
 

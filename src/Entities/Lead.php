@@ -5,7 +5,7 @@ namespace Zoho\Crm\Entities;
 /**
  * Lead entity class.
  */
-class Lead extends AbstractEntity
+class Lead extends Entity
 {
     //
 }

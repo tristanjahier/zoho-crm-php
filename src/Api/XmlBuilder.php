@@ -5,7 +5,7 @@ namespace Zoho\Crm\Api;
 use SimpleXMLElement;
 use Zoho\Crm\Support\Helper;
 use Zoho\Crm\Entities\Collection;
-use Zoho\Crm\Entities\AbstractEntity;
+use Zoho\Crm\Entities\Entity;
 
 /**
  * Static class to help build XML requests.
@@ -35,7 +35,7 @@ class XmlBuilder
             $row = $xml->addChild('row');
             $row->addAttribute('no', $rowCount);
 
-            if ($record instanceof AbstractEntity) {
+            if ($record instanceof Entity) {
                 $record = $record->toArray();
             }
 

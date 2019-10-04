@@ -5,7 +5,7 @@ namespace Zoho\Crm\Entities;
 /**
  * Call entity class.
  */
-class Call extends AbstractEntity
+class Call extends Entity
 {
     /** @inheritdoc */
     protected static $idName = 'ACTIVITYID';

@@ -5,7 +5,7 @@ namespace Zoho\Crm\Entities;
 /**
  * Attachment entity class.
  */
-class Attachment extends AbstractEntity
+class Attachment extends Entity
 {
     /** @inheritdoc */
     protected static $idName = 'id';

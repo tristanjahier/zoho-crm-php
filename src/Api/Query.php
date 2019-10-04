@@ -7,7 +7,7 @@ use InvalidArgumentException;
 use Zoho\Crm\Client;
 use Zoho\Crm\Api\UrlParameters;
 use Zoho\Crm\Exceptions\InvalidQueryException;
-use Zoho\Crm\Entities\AbstractEntity;
+use Zoho\Crm\Entities\Entity;
 use Zoho\Crm\Entities\Collection;
 use Zoho\Crm\Support\Helper;
 
@@ -562,7 +562,7 @@ class Query
      *
      * It will fail if called on a query which is not supposed to retrieve records.
      *
-     * @return \Zoho\Crm\Entities\AbstractEntity
+     * @return \Zoho\Crm\Entities\Entity
      */
     public function first()
     {

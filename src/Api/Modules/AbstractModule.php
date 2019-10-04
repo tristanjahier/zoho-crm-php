@@ -7,6 +7,7 @@ use InvalidArgumentException;
 use Zoho\Crm\Client;
 use Zoho\Crm\Support\ClassShortNameTrait;
 use Zoho\Crm\Api\Modules\ModuleFields;
+use Zoho\Crm\Entities\Entity;
 use Doctrine\Common\Inflector\Inflector;
 
 /**
@@ -20,7 +21,7 @@ abstract class AbstractModule
     protected static $name;
 
     /** @var string The associated entity class name */
-    protected static $associatedEntity;
+    protected static $associatedEntity = Entity::class;
 
     /** @var string[] The list of API methods supported by this module */
     protected static $supportedMethods = [];
@@ -134,7 +135,7 @@ abstract class AbstractModule
      * Create a new entity.
      *
      * @param array $attributes (optional) The entity attributes
-     * @return \Zoho\Crm\Entities\AbstractEntity
+     * @return \Zoho\Crm\Entities\Entity
      */
     public function newEntity($attributes = [])
     {

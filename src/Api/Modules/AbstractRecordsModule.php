@@ -28,7 +28,7 @@ abstract class AbstractRecordsModule extends AbstractModule
      * @see https://www.zoho.com/crm/developer/docs/api/getrecordbyid.html
      *
      * @param string $id The record ID
-     * @return \Zoho\Crm\Entities\AbstractEntity|array
+     * @return \Zoho\Crm\Entities\Entity|array
      */
     public function find($id)
     {

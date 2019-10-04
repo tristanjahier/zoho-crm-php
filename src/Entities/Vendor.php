@@ -5,7 +5,7 @@ namespace Zoho\Crm\Entities;
 /**
  * Vendor entity class.
  */
-class Vendor extends AbstractEntity
+class Vendor extends Entity
 {
     //
 }

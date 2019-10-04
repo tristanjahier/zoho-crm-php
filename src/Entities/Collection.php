@@ -13,7 +13,7 @@ class Collection extends BaseCollection
      * Find an entity by ID.
      *
      * @param string $id The entity ID
-     * @return AbstractEntity|null
+     * @return Entity|null
      */
     public function find($id)
     {
@@ -37,7 +37,7 @@ class Collection extends BaseCollection
     /**
      * Get the value of an attribute from a given entity.
      *
-     * @param AbstractEntity $item The entity
+     * @param Entity $item The entity
      * @param string $attribute The name of the attribute
      * @return string|null
      */
