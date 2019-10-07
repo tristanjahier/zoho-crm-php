@@ -302,6 +302,17 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate
     }
 
     /**
+     * Map over the collection then collapse the results.
+     *
+     * @param callable $callback The callback
+     * @return static
+     */
+    public function flatMap(callable $callback)
+    {
+        return $this->map($callback)->collapse();
+    }
+
+    /**
      * Merge the items with those of another collection.
      *
      * @see array_merge()
@@ -312,6 +323,29 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate
     public function merge($items)
     {
         return new static(array_merge($this->items, $this->getPlainArray($items)));
+    }
+
+    /**
+     * Collapse all array/collection items into a single collection.
+     *
+     * Only arrays or collections will be merged, the rest will be
+     * ignored. Only one depth level will be collapsed.
+     *
+     * @return static
+     */
+    public function collapse()
+    {
+        $results = [];
+
+        foreach ($this->items as $item) {
+            if (! is_array($item) && ! ($item instanceof self)) {
+                continue;
+            }
+
+            $results = array_merge($results, $this->getPlainArray($item));
+        }
+
+        return new static($results);
     }
 
     /**
