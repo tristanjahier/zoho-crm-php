@@ -3,7 +3,7 @@
 namespace Zoho\Crm\Exceptions;
 
 use Exception;
-use Zoho\Crm\Api\Methods\AbstractMethod;
+use Zoho\Crm\Api\Methods\MethodInterface;
 
 class InvalidMethodHandlerException extends Exception
 {
@@ -14,6 +14,6 @@ class InvalidMethodHandlerException extends Exception
      */
     public function __construct($handler)
     {
-        parent::__construct("Class $handler does not exist or does not extend " . AbstractMethod::class . '.');
+        parent::__construct("Class $handler does not exist or does not implement " . MethodInterface::class . '.');
     }
 }

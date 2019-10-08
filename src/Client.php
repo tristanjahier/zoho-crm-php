@@ -4,7 +4,7 @@ namespace Zoho\Crm;
 
 use Doctrine\Common\Inflector\Inflector;
 use Zoho\Crm\Api\Modules\AbstractModule;
-use Zoho\Crm\Api\Methods\AbstractMethod;
+use Zoho\Crm\Api\Methods\MethodInterface;
 use Zoho\Crm\Api\Query;
 
 /**
@@ -264,7 +264,7 @@ class Client
      */
     public function registerMethodHandler(string $handler)
     {
-        if (! class_exists($handler) || ! in_array(AbstractMethod::class, class_parents($handler))) {
+        if (! class_exists($handler) || ! in_array(MethodInterface::class, class_implements($handler))) {
             throw new Exceptions\InvalidMethodHandlerException($handler);
         }
 
