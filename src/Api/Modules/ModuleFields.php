@@ -10,53 +10,47 @@ namespace Zoho\Crm\Api\Modules;
 class ModuleFields extends AbstractProxyModule
 {
     /**
-     * Get all the module's fields.
+     * Create a query to get the module's field sections.
      *
-     * The fields are grouped by section.
+     * Each section has its field collection.
      *
      * @param array $params (optional) The URL parameters
-     * @param callable $filter (optional) A callback function to filter the fields
-     * @return array
+     * @return \Zoho\Crm\Api\Query
      */
-    public function getAll(array $params = [], callable $filter = null)
+    public function sections(array $params = [])
     {
-        $sections = $this->newQuery('getFields', $params)->get();
+        return $this->newQuery('getFields', $params);
+    }
 
-        if (isset($filter)) {
-            foreach($sections as &$section) {
-                $section['FL'] = array_filter($section['FL'], $filter);
-
-                if (empty($section['FL'])) {
-                    unset($section['FL']);
-                }
-            }
-        }
-
-        return $sections;
+    /**
+     * Get the module's fields.
+     *
+     * @param array $params (optional) The URL parameters
+     * @return \Zoho\Crm\Entities\Collection
+     */
+    public function getAll(array $params = [])
+    {
+        return $this->sections($params)->get()->pluck('FL')->collapse();
     }
 
     /**
      * Get the module's native fields.
      *
-     * @return array
+     * @return \Zoho\Crm\Entities\Collection
      */
     public function getNative()
     {
-        return $this->getAll([], function($field) {
-            return $field['customfield'] === 'false';
-        });
+        return $this->getAll()->where('customfield', 'false');
     }
 
     /**
      * Get the module's custom fields.
      *
-     * @return array
+     * @return \Zoho\Crm\Entities\Collection
      */
     public function getCustom()
     {
-        return $this->getAll([], function($field) {
-            return $field['customfield'] === 'true';
-        });
+        return $this->getAll()->where('customfield', 'true');
     }
 
     /**
@@ -64,7 +58,7 @@ class ModuleFields extends AbstractProxyModule
      *
      * The summary is the section at the top of a Zoho record page.
      *
-     * @return array
+     * @return \Zoho\Crm\Entities\Collection
      */
     public function getSummary()
     {
@@ -74,7 +68,7 @@ class ModuleFields extends AbstractProxyModule
     /**
      * Get the module's mandatory fields.
      *
-     * @return array
+     * @return \Zoho\Crm\Entities\Collection
      */
     public function getMandatory()
     {

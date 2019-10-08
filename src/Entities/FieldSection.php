@@ -1,0 +1,27 @@
+<?php
+
+namespace Zoho\Crm\Entities;
+
+/**
+ * Module field section entity.
+ */
+class FieldSection extends Entity
+{
+    /**
+     * @inheritdoc
+     */
+    public function __construct(array $attributes = [], Client $client = null)
+    {
+        parent::__construct($attributes, $client);
+
+        $fields = new Collection();
+
+        if (isset($attributes['FL'])) {
+            foreach ($attributes['FL'] as $fieldAttributes) {
+                $fields->push(new Field($fieldAttributes));
+            }
+        }
+
+        $this->set('FL', $fields);
+    }
+}

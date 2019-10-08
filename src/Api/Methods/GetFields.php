@@ -3,6 +3,8 @@
 namespace Zoho\Crm\Api\Methods;
 
 use Zoho\Crm\Api\Query;
+use Zoho\Crm\Entities\Collection;
+use Zoho\Crm\Entities\FieldSection;
 
 /**
  * @see https://www.zoho.com/crm/developer/docs/api/getfields.html
@@ -42,6 +44,20 @@ class GetFields extends AbstractMethod
             if (isset($fields['dv'])) {
                 $section['FL'] = [$fields];
             }
+        }
+
+        return $sections;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function convertResponse($response, Query $query)
+    {
+        $sections = new Collection();
+
+        foreach ($response as $section) {
+            $sections->push(new FieldSection($section));
         }
 
         return $sections;
