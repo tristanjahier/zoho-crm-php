@@ -2,6 +2,8 @@
 
 namespace Zoho\Crm\Api\Modules;
 
+use Zoho\Crm\Client;
+
 /**
  * Base class of the proxy modules.
  *
@@ -15,12 +17,12 @@ abstract class AbstractProxyModule extends AbstractModule
     /**
      * The constructor.
      *
-     * @param \Zoho\Crm\Client $owner The client to which the module is attached
+     * @param \Zoho\Crm\Client $client The client to which the module is attached
      * @param string $module The name of the mandator module
      */
-    public function __construct($owner, $module)
+    public function __construct(Client $client, string $module)
     {
-        parent::__construct($owner);
+        parent::__construct($client);
         $this->mandator = $module;
     }
 
