@@ -126,7 +126,7 @@ $query->module('Contacts')
     ->paginated();
 ```
 
-The `Query` class has many methods that provide a great abstraction and help you to write concise and readable code. For example, the above query could be rewritten like this:
+The `Query` class has many methods that provide a great abstraction and help you write concise and readable code. For example, the above query could be rewritten like this:
 
 ```php
 $query = $client->newQuery('Contacts', 'getRecords')
@@ -137,20 +137,23 @@ $query = $client->newQuery('Contacts', 'getRecords')
 
 Look at the code to find out all possibilities.
 
-### Response types and entities
-
-By default, the content of a response is a scalar type or an array of scalars. In most cases, strings, arrays, booleans and null. This is what you get when you execute a query and you get the content from the response object: `$query->execute()->getContent()`.
-
-But there is another method that you can use to execute and get the result at the same time: `Query::get()`.
-
-If you call this method with modules which have an *associated entity class*, the data will be served as *entities*. Entities are objects containing a set of coherent data. For example, a Zoho record is an entity.
-
-When the response contains (or should contain) multiple entities, you get an *entity collection*. A collection is an array wrapper which provide a fluent interface to manipulate its items.
+If you do not want to bother with the formal `Response` object, you can simply call `Query::get()`. It will execute the query and return the response content:
 
 ```php
-// Returns an array of arrays:
-$client->newQuery('Calls', 'getRecords')->modifiedAfter('2019-04-01')->execute()->getContent();
+$data = $query->get();
+// is strictly equivalent to
+$data = $query->execute()->getContent();
+```
 
+### Response types
+
+The data type of a response depends on the method you call. It can be a scalar like a string, an array, a boolean or null. But in most cases, you will get either an entity or a collection of entities.
+
+Entities are objects containing a set of coherent data. For example, a Zoho record (contact, call, lead etc.) is an entity.
+
+When the response contains (or should contain) multiple entities, you get an *entity collection*.
+
+```php
 // Returns a collection of entities:
 $client->newQuery('Calls', 'getRecords')->modifiedAfter('2019-04-01')->get();
 
@@ -158,9 +161,63 @@ $client->newQuery('Calls', 'getRecords')->modifiedAfter('2019-04-01')->get();
 $client->newQuery('Calls', 'getRecordById', ['id' => 'record ID'])->get();
 ```
 
-Each entity class extends `Zoho\Crm\Entities\Entity`.
+#### Entities
+
+An entity is an instance of `Zoho\Crm\Entities\Entity` (or any subclass).
+
+It encapsulates the attributes of common API objects like records or users for example.
+
+It provides a few useful methods:
+- `has($attribute)`: check if an attribute is defined
+- `get($attribute)`: get the value of an attribute
+- `set($attribute, $value)`: set the value of an attribute
+- `getId()`: get the entity ID
+- `toArray()`: get the raw attributes array
+
+It implements magic methods `__get()` and `__set()` which lets you manipulate its attributes like public properties:
+
+```php
+$id = $contact->CONTACTID;
+$contact->Phone = '+1234567890';
+```
+
+#### Entity collections
 
 An entity collection is an instance of `Zoho\Crm\Entities\Collection`.
+
+A collection is an array wrapper which provide a fluent interface to manipulate its items. In the case of an entity collection, these items are entities.
+
+It provides a bunch of useful methods. To name a few:
+- `has($key)`: determine if an item exists at a given index
+- `get($key, $default = null)`: get the item at a given index
+- `count()`: get the number of items in the collection
+- `isEmpty()`: determine if the collection is empty
+- `first(callable $callback = null, $default = null)`: get the first item in the collection
+- `firstWhere($key, $operator, $value = null)`: get the first item matching the given (key, [operator,] value) tuple
+- `last(callable $callback = null, $default = null)`: get the last item in the collection
+- `lastWhere($key, $operator, $value = null)`: get the last item matching the given (key, [operator,] value) tuple
+- `map(callable $callback)`: apply a callback over each item and return a new collection with the results
+- `sum($property = null)`: compute the sum of the items
+- `filter(callable $callback = null)`: filter the collection items with a callback
+- `where($key, $operator, $value = null)`: filter items based on a comparison tuple: (key, [operator,] value)
+- `pluck($value, $key = null)`: get the values of a given item property by key
+
+Look at the code of `Zoho\Crm\Support\Collection` for more details.
+
+It implements `ArrayAccess` and `IteratorAggregate` which lets you manipulate it like an array:
+
+```php
+// If $records is an instance of Zoho\Crm\Entities\Collection...
+
+// You can access items with square brackets:
+$aRecord = $records[2];
+$records[] = new Zoho\Crm\Entities\Entity();
+
+// And you can loop through it:
+foreach ($records as $record) {
+    ...
+}
+```
 
 ### The module handlers
 
@@ -183,7 +240,20 @@ $client->potentials->newQuery('getMyRecords')
     ->paginated();
 ```
 
-Moreover, for most of the modules (extending `Zoho\Crm\Api\Modules\AbstractRecordsModule`), you have a bunch of methods to help you to write even more cleaner queries:
+In addition, most of the modules have methods to help you write even more shorter and cleaner queries. They will be referenced in the next part of this guide.
+
+## Modules helpers reference
+
+### Records modules
+
+- Calls
+- Contacts
+- Events
+- Leads
+- Potentials
+- Products
+- Tasks
+- Vendors
 
 #### `all()`
 
@@ -233,8 +303,8 @@ Paginated query on method `getRelatedRecords`.
 $client->potentials->relatedTo('Contacts', 'Contact ID');
 // is equivalent to
 $client->potentials->newQuery('getRelatedRecords', [
-    'parentModule' => $module,
-    'id' => $id
+    'parentModule' => 'Contacts',
+    'id' => 'Contact ID'
 ], true);
 ```
 
@@ -246,8 +316,8 @@ Paginated query on method `getSearchRecordsByPDC`.
 $client->potentials->searchByPredefinedColumn('Column', 'Value');
 // is equivalent to
 $client->potentials->newQuery('getSearchRecordsByPDC', [
-    'searchColumn' => $column,
-    'searchValue' => $value
+    'searchColumn' => 'Column',
+    'searchValue' => 'Value'
 ], true);
 ```
 
@@ -371,6 +441,64 @@ Delete a file attached to a record.
 
 ```php
 $client->calls->deleteAttachedFile('Attachment ID');
+```
+
+### Fields meta-module
+
+It is a meta-module that is attached to each records module to retrieve information about its fields.
+
+You access it through the `fields()` method of a module: `$client->contacts->fields()`.
+
+#### `sections(array $params = [])`
+
+Query on method `getFields`.
+
+```php
+$client->contacts->fields()->sections($params);
+// is equivalent to
+$client->contacts->newQuery('getFields', $params);
+```
+
+In the raw API response, fields are grouped by sections (labeled groups of fields), that is why this helper method is named like this.
+
+#### `getAll(array $params = [])`
+
+Retrieve all fields of the module. Return a collection of `Zoho\Crm\Entities\Field` entities.
+
+```php
+$fields = $client->contacts->getAll();
+```
+
+#### `getNative()`
+
+Retrieve the native fields of the module.
+
+```php
+$fields = $client->contacts->getNative();
+```
+
+#### `getCustom()`
+
+Retrieve the custom fields of the module.
+
+```php
+$fields = $client->contacts->getCustom();
+```
+
+#### `getSummary()`
+
+Retrieve the summary fields of the module. The summary is the section at the top of a Zoho record page.
+
+```php
+$fields = $client->contacts->getSummary();
+```
+
+#### `getMandatory()`
+
+Retrieve the mandatory fields of the module.
+
+```php
+$fields = $client->contacts->getMandatory();
 ```
 
 ## Advanced topics
