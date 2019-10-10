@@ -5,7 +5,7 @@ namespace Zoho\Crm\Entities;
 /**
  * Module field section entity.
  */
-class FieldSection extends Entity
+class FieldSection extends ImmutableEntity
 {
     /**
      * @inheritdoc
@@ -22,6 +22,6 @@ class FieldSection extends Entity
             }
         }
 
-        $this->set('FL', $fields);
+        $this->attributes['FL'] = $fields;
     }
 }

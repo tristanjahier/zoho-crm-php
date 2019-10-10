@@ -5,7 +5,7 @@ namespace Zoho\Crm\Entities;
 /**
  * Module field entity.
  */
-class Field extends Entity
+class Field extends ImmutableEntity
 {
     //
 }
