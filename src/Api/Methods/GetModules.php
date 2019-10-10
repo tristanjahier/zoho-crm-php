@@ -3,6 +3,8 @@
 namespace Zoho\Crm\Api\Methods;
 
 use Zoho\Crm\Api\Query;
+use Zoho\Crm\Entities\Collection;
+use Zoho\Crm\Entities\Module;
 
 /**
  * @see https://www.zoho.com/crm/developer/docs/api/getmodules.html
@@ -29,5 +31,19 @@ class GetModules extends AbstractMethod
         }
 
         return $entries;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function convertResponse($response, Query $query)
+    {
+        $modules = new Collection();
+
+        foreach ($response as $module) {
+            $modules->push(new Module($module));
+        }
+
+        return $modules;
     }
 }
