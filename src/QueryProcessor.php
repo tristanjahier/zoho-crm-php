@@ -3,6 +3,7 @@
 namespace Zoho\Crm;
 
 use GuzzleHttp\Psr7\Request;
+use Zoho\Crm\Api\HttpVerb;
 use Zoho\Crm\Api\Query;
 use Zoho\Crm\Api\Response;
 use Zoho\Crm\Exceptions\UnsupportedModuleException;
@@ -88,15 +89,27 @@ class QueryProcessor
      */
     private function createHttpRequest(Query $query)
     {
+        $headers = [];
+        $body = null;
+        $queryCopy = $query->copy();
+
         // Determine the HTTP verb to use from the API method handler
-        $httpVerb = $this->client->getMethodHandler($query->getMethod())->getHttpVerb();
+        $httpVerb = $this->client->getMethodHandler($queryCopy->getMethod())->getHttpVerb();
 
         // Add auth token at the last moment to avoid exposing it in the error log messages
-        $query->param('authtoken', $this->client->getAuthToken());
+        $queryCopy->param('authtoken', $this->client->getAuthToken());
 
-        $fullUrl = $this->client->getEndpoint() . $query->buildUri();
+        // For POST requests, because of the XML data, the parameters size might be very large.
+        // For that reason we won't include them in the URL query string, but in the body instead.
+        if ($httpVerb === HttpVerb::POST) {
+            $headers['Content-Type'] = 'application/x-www-form-urlencoded';
+            $body = (string) $queryCopy->getParameters();
+            $queryCopy->resetParameters();
+        }
 
-        return new Request($httpVerb, $fullUrl);
+        $fullUrl = $this->client->getEndpoint() . $queryCopy->buildUri();
+
+        return new Request($httpVerb, $fullUrl, $headers, $body);
     }
 
     /**
