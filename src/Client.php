@@ -30,6 +30,7 @@ use Zoho\Crm\Api\Query;
  * @property-read Api\Modules\Accounts $accounts
  * @property-read Api\Modules\Deals $deals
  * @property-read Api\Modules\Campaigns $campaigns
+ * @property-read Api\Modules\Quotes $quotes
  */
 class Client
 {
@@ -60,6 +61,7 @@ class Client
         Api\Modules\Accounts::class,
         Api\Modules\Deals::class,
         Api\Modules\Campaigns::class,
+        Api\Modules\Quotes::class,
     ];
 
     protected static $defaultMethodHandlers = [
