@@ -3,15 +3,14 @@
 namespace Zoho\Crm\Api\Modules;
 
 /**
- * Potentials module handler.
+ * Deals module handler.
  *
- * "Potentials" was the former name of the "Deals" module before June 2016.
- * Both modules refer to the same data, their usage is up to personal preference.
+ * @see https://www.zoho.com/crm/developer/docs/api/modules-fields.html#Deals
  */
-class Potentials extends AbstractRecordsModule
+class Deals extends AbstractRecordsModule
 {
     /** @inheritdoc */
-    protected static $associatedEntity = \Zoho\Crm\Entities\Records\Potential::class;
+    protected static $associatedEntity = \Zoho\Crm\Entities\Records\Deal::class;
 
     /** @inheritdoc */
     protected static $supportedMethods = [

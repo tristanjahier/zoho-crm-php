@@ -28,6 +28,7 @@ use Zoho\Crm\Api\Query;
  * @property-read Api\Modules\Notes $notes
  * @property-read Api\Modules\Attachments $attachments
  * @property-read Api\Modules\Accounts $accounts
+ * @property-read Api\Modules\Deals $deals
  */
 class Client
 {
@@ -56,6 +57,7 @@ class Client
         Api\Modules\Notes::class,
         Api\Modules\Attachments::class,
         Api\Modules\Accounts::class,
+        Api\Modules\Deals::class,
     ];
 
     protected static $defaultMethodHandlers = [
