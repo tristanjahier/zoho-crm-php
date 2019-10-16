@@ -37,6 +37,7 @@ use Zoho\Crm\Api\Query;
  * @property-read Api\Modules\PriceBooks $priceBooks
  * @property-read Api\Modules\SalesOrders $salesOrders
  * @property-read Api\Modules\PurchaseOrders $purchaseOrders
+ * @property-read Api\Modules\ContactRoles $contactRoles
  */
 class Client
 {
@@ -74,6 +75,7 @@ class Client
         Api\Modules\PriceBooks::class,
         Api\Modules\SalesOrders::class,
         Api\Modules\PurchaseOrders::class,
+        Api\Modules\ContactRoles::class,
     ];
 
     protected static $defaultMethodHandlers = [
