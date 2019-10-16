@@ -80,7 +80,7 @@ class Query
      * @param string $format The desired response format
      * @return $this
      */
-    public function format($format)
+    public function format(string $format)
     {
         $this->format = $format;
 
@@ -103,7 +103,7 @@ class Query
      * @param string $module The module name
      * @return $this
      */
-    public function module($module)
+    public function module(string $module)
     {
         $this->module = $module;
 
@@ -126,7 +126,7 @@ class Query
      * @param string $method The method name
      * @return $this
      */
-    public function method($method)
+    public function method(string $method)
     {
         $this->method = $method;
 
@@ -149,7 +149,7 @@ class Query
      * @param string $key The parameter key
      * @return mixed
      */
-    public function getParameter($key)
+    public function getParameter(string $key)
     {
         return $this->parameters[$key];
     }
@@ -160,7 +160,7 @@ class Query
      * @param string $key The parameter key
      * @return bool
      */
-    public function hasParameter($key)
+    public function hasParameter(string $key)
     {
         return $this->parameters->has($key);
     }
@@ -170,7 +170,7 @@ class Query
      *
      * If an argument is passed, they will be replaced by a new set.
      *
-     * @param array $parameters (optional) The new set of parameters
+     * @param array|UrlParameters $parameters (optional) The new set of parameters
      * @return $this
      */
     public function resetParameters($parameters = [])
@@ -191,7 +191,7 @@ class Query
      * @param mixed $value (optional) The value
      * @return $this
      */
-    public function param($key, $value = null)
+    public function param(string $key, $value = null)
     {
         $this->parameters->set($key, $value);
 
@@ -204,7 +204,7 @@ class Query
      * @param array $parameters The parameters
      * @return $this
      */
-    public function params($parameters)
+    public function params(array $parameters)
     {
         foreach ($parameters as $key => $value) {
             $this->param($key, $value);
@@ -219,7 +219,7 @@ class Query
      * @param string $key The parameter key
      * @return $this
      */
-    public function removeParam($key)
+    public function removeParam(string $key)
     {
         $this->parameters->unset($key);
 
@@ -235,7 +235,7 @@ class Query
      * @param string $order (optional) The ordering direction
      * @return $this
      */
-    public function orderBy($column, $order = 'asc')
+    public function orderBy(string $column, string $order = 'asc')
     {
         return $this->params([
             'sortColumnString' => $column,
@@ -303,7 +303,7 @@ class Query
      * @param string $column The column to check
      * @return bool
      */
-    public function hasSelect($column)
+    public function hasSelect(string $column)
     {
         return in_array($column, $this->getSelectedColumns());
     }
@@ -396,7 +396,7 @@ class Query
      *
      * @throws \InvalidArgumentException
      */
-    public function limit($limit)
+    public function limit(int $limit)
     {
         if (! is_int($limit) || $limit <= 0) {
             throw new InvalidArgumentException('Query limit must be a positive non-zero integer.');
@@ -445,7 +445,7 @@ class Query
      * @param bool $paginated (optional) Whether the query is paginated
      * @return $this
      */
-    public function paginated($paginated = true)
+    public function paginated(bool $paginated = true)
     {
         $this->paginator = $paginated ? $this->paginate() : null;
 
