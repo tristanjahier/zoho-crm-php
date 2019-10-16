@@ -391,14 +391,14 @@ class Query
     /**
      * Limit the number of records to retrieve.
      *
-     * @param int $limit The number of records
+     * @param int|null $limit The number of records
      * @return $this
      *
      * @throws \InvalidArgumentException
      */
-    public function limit(int $limit)
+    public function limit(?int $limit)
     {
-        if (! is_int($limit) || $limit <= 0) {
+        if (! is_null($limit) && (! is_int($limit) || $limit <= 0)) {
             throw new InvalidArgumentException('Query limit must be a positive non-zero integer.');
         }
 
