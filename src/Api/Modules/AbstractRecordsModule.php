@@ -156,11 +156,11 @@ abstract class AbstractRecordsModule extends AbstractModule
      * @see https://www.zoho.com/crm/developer/docs/api/insertrecords.html
      *
      * @param array $data The data of the record
-     * @return (string|false)[] The inserted record ID or false if failed
+     * @return string|false The inserted record ID or false if failed
      */
     public function insert($data)
     {
-        return $this->insertMany([$data]);
+        return $this->insertMany([$data])[0];
     }
 
     /**
