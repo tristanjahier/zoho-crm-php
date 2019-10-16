@@ -187,15 +187,21 @@ abstract class AbstractRecordsModule extends AbstractModule
      *
      * @param string $id The record ID
      * @param array $data The new data
-     * @return string[]|false The updated record ID or false if failed
+     * @return string|false The updated record ID or false if failed
      */
     public function update($id, $data)
     {
-        return $this->newQuery('updateRecords', [
+        $result = $this->newQuery('updateRecords', [
             'version' => 2, // Required for single record support
             'id' => $id,
             'xmlData' => XmlBuilder::buildRecords(self::name(), [$data])
         ])->get();
+
+        if (is_array($result)) {
+            return $result[0];
+        }
+
+        return $result;
     }
 
     /**
