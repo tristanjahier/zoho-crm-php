@@ -34,7 +34,7 @@ abstract class AbstractRecordsModule extends AbstractModule
      * @param string $id The record ID
      * @return \Zoho\Crm\Entities\Entity|array
      */
-    public function find($id)
+    public function find(string $id)
     {
         return $this->newQuery('getRecordById', ['id' => $id])->get();
     }
@@ -47,7 +47,7 @@ abstract class AbstractRecordsModule extends AbstractModule
      * @param string[] $ids An array of record IDs
      * @return \Zoho\Crm\Entities\Collection|array[]
      */
-    public function findMany($ids)
+    public function findMany(array $ids)
     {
         return $this->newQuery('getRecordById', ['idlist' => new IdList($ids)])->get();
     }
@@ -72,7 +72,7 @@ abstract class AbstractRecordsModule extends AbstractModule
      * @param string $criteria The criteria string representation
      * @return \Zoho\Crm\Api\Query
      */
-    public function search($criteria)
+    public function search(string $criteria)
     {
         return $this->newQuery('searchRecords', ['criteria' => "($criteria)"], true);
     }
@@ -86,7 +86,7 @@ abstract class AbstractRecordsModule extends AbstractModule
      * @param string $value The value to search
      * @return \Zoho\Crm\Api\Query
      */
-    public function searchBy($key, $value)
+    public function searchBy(string $key, string $value)
     {
         return $this->search("$key:$value");
     }
@@ -100,7 +100,7 @@ abstract class AbstractRecordsModule extends AbstractModule
      * @param string $id The related record ID
      * @return \Zoho\Crm\Api\Query
      */
-    public function relatedTo($module, $id)
+    public function relatedTo(string $module, string $id)
     {
         return $this->newQuery('getRelatedRecords', [
             'parentModule' => $module,
@@ -117,7 +117,7 @@ abstract class AbstractRecordsModule extends AbstractModule
      * @param string $module The name of the related module
      * @return \Zoho\Crm\Api\Query
      */
-    public function relationsOf($id, $module)
+    public function relationsOf(string $id, string $module)
     {
         return $this->relatedTo(static::name(), $id)->module($module);
     }
@@ -131,7 +131,7 @@ abstract class AbstractRecordsModule extends AbstractModule
      * @param string $value The value to search
      * @return \Zoho\Crm\Api\Query
      */
-    public function searchByPredefinedColumn($column, $value)
+    public function searchByPredefinedColumn(string $column, string $value)
     {
         return $this->newQuery('getSearchRecordsByPDC', [
             'searchColumn' => $column,
@@ -145,7 +145,7 @@ abstract class AbstractRecordsModule extends AbstractModule
      * @param string $id The record ID
      * @return bool
      */
-    public function exists($id)
+    public function exists(string $id)
     {
         return $this->find($id) !== null;
     }
@@ -155,7 +155,7 @@ abstract class AbstractRecordsModule extends AbstractModule
      *
      * @see https://www.zoho.com/crm/developer/docs/api/insertrecords.html
      *
-     * @param array $data The data of the record
+     * @param array|Record $data The data of the record
      * @return string|false The inserted record ID or false if failed
      */
     public function insert($data)
@@ -168,7 +168,7 @@ abstract class AbstractRecordsModule extends AbstractModule
      *
      * @see https://www.zoho.com/crm/developer/docs/api/insertrecords.html
      *
-     * @param array[] $data The data of the records
+     * @param array[]|Record[]|\Zoho\Crm\Entities\Collection $data The data of the records
      * @return (string|false)[] The inserted records IDs or false if failed
      */
     public function insertMany($data)
@@ -186,10 +186,10 @@ abstract class AbstractRecordsModule extends AbstractModule
      * @see https://www.zoho.com/crm/developer/docs/api/updaterecords.html
      *
      * @param string $id The record ID
-     * @param array $data The new data
+     * @param array|Record $data The new data
      * @return string|false The updated record ID or false if failed
      */
-    public function update($id, $data)
+    public function update(string $id, $data)
     {
         $result = $this->newQuery('updateRecords', [
             'version' => 2, // Required for single record support
@@ -209,7 +209,7 @@ abstract class AbstractRecordsModule extends AbstractModule
      *
      * @see https://www.zoho.com/crm/developer/docs/api/updaterecords.html
      *
-     * @param array[] $data The new data
+     * @param array[]|Record[]|\Zoho\Crm\Entities\Collection $data The new data
      * @return (string|false)[] The updated records IDs or false if failed
      */
     public function updateMany($data)
@@ -228,7 +228,7 @@ abstract class AbstractRecordsModule extends AbstractModule
      * @param string $id The record ID
      * @return null
      */
-    public function delete($id)
+    public function delete(string $id)
     {
         return $this->newQuery('deleteRecords', ['id' => $id])->get();
     }
@@ -241,7 +241,7 @@ abstract class AbstractRecordsModule extends AbstractModule
      * @param string[] $ids The records IDs
      * @return null
      */
-    public function deleteMany($ids)
+    public function deleteMany(array $ids)
     {
         return $this->newQuery('deleteRecords', ['idlist' => new IdList($ids)])->get();
     }
@@ -266,7 +266,7 @@ abstract class AbstractRecordsModule extends AbstractModule
      * @param string $attachmentId The attachment ID
      * @return bool
      */
-    public function deleteAttachedFile($attachmentId)
+    public function deleteAttachedFile(string $attachmentId)
     {
         return $this->newQuery('deleteFile', ['id' => $attachmentId])->get();
     }
