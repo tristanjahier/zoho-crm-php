@@ -246,12 +246,22 @@ In addition, most of the modules have methods to help you write even more shorte
 
 ### Records modules
 
+- Accounts
 - Calls
+- Campaigns
+- Cases
 - Contacts
+- Deals
 - Events
+- Invoices
 - Leads
 - Potentials
+- PriceBooks
 - Products
+- PurchaseOrders
+- Quotes
+- SalesOrders
+- Solutions
 - Tasks
 - Vendors
 
