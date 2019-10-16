@@ -92,12 +92,12 @@ abstract class AbstractRecordsModule extends AbstractModule
     }
 
     /**
-     * Create a query to get records related to another given record.
+     * Create a query to get records related to a given record from another module.
      *
      * @see https://www.zoho.com/crm/developer/docs/api/getrelatedrecords.html
      *
-     * @param string $module The name of the parent module
-     * @param string $id The ID of the related record
+     * @param string $module The name of the related module
+     * @param string $id The related record ID
      * @return \Zoho\Crm\Api\Query
      */
     public function relatedTo($module, $id)
@@ -106,6 +106,20 @@ abstract class AbstractRecordsModule extends AbstractModule
             'parentModule' => $module,
             'id' => $id
         ], true);
+    }
+
+    /**
+     * Create a query to get records from another module related to a given record.
+     *
+     * Inverse of {@see self::relatedTo()}.
+     *
+     * @param string $id The record ID
+     * @param string $module The name of the related module
+     * @return \Zoho\Crm\Api\Query
+     */
+    public function relationsOf($id, $module)
+    {
+        return $this->relatedTo(static::name(), $id)->module($module);
     }
 
     /**
