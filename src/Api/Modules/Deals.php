@@ -27,4 +27,26 @@ class Deals extends AbstractRecordsModule
         'getSearchRecordsByPDC',
         'deleteFile',
     ];
+
+    /**
+     * Create a query to get the stage history of a deal.
+     *
+     * @param string $id The deal ID
+     * @return \Zoho\Crm\Api\Query
+     */
+    public function stageHistoryOf(string $id)
+    {
+        return $this->relationsOf($id, PotStageHistory::name());
+    }
+
+    /**
+     * Create a query to get the contact roles related to a deal.
+     *
+     * @param string $id The deal ID
+     * @return \Zoho\Crm\Api\Query
+     */
+    public function contactRolesOf(string $id)
+    {
+        return $this->relationsOf($id, ContactRoles::name());
+    }
 }
