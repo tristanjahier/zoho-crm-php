@@ -14,30 +14,30 @@ use Zoho\Crm\Api\Query;
  *
  * @author Tristan Jahier <tristan.jahier@gmail.com>
  *
+ * @property-read Api\Modules\Accounts $accounts
+ * @property-read Api\Modules\Attachments $attachments
+ * @property-read Api\Modules\Calls $calls
+ * @property-read Api\Modules\Campaigns $campaigns
+ * @property-read Api\Modules\Cases $cases
+ * @property-read Api\Modules\ContactRoles $contactRoles
+ * @property-read Api\Modules\Contacts $contacts
+ * @property-read Api\Modules\Deals $deals
+ * @property-read Api\Modules\Events $events
  * @property-read Api\Modules\Info $info
- * @property-read Api\Modules\Users $users
+ * @property-read Api\Modules\Invoices $invoices
  * @property-read Api\Modules\Leads $leads
+ * @property-read Api\Modules\Notes $notes
  * @property-read Api\Modules\Potentials $potentials
  * @property-read Api\Modules\PotStageHistory $potStageHistory
- * @property-read Api\Modules\Calls $calls
- * @property-read Api\Modules\Contacts $contacts
- * @property-read Api\Modules\Vendors $vendors
- * @property-read Api\Modules\Products $products
- * @property-read Api\Modules\Events $events
- * @property-read Api\Modules\Tasks $tasks
- * @property-read Api\Modules\Notes $notes
- * @property-read Api\Modules\Attachments $attachments
- * @property-read Api\Modules\Accounts $accounts
- * @property-read Api\Modules\Deals $deals
- * @property-read Api\Modules\Campaigns $campaigns
- * @property-read Api\Modules\Quotes $quotes
- * @property-read Api\Modules\Cases $cases
- * @property-read Api\Modules\Invoices $invoices
- * @property-read Api\Modules\Solutions $solutions
  * @property-read Api\Modules\PriceBooks $priceBooks
- * @property-read Api\Modules\SalesOrders $salesOrders
+ * @property-read Api\Modules\Products $products
  * @property-read Api\Modules\PurchaseOrders $purchaseOrders
- * @property-read Api\Modules\ContactRoles $contactRoles
+ * @property-read Api\Modules\Quotes $quotes
+ * @property-read Api\Modules\SalesOrders $salesOrders
+ * @property-read Api\Modules\Solutions $solutions
+ * @property-read Api\Modules\Tasks $tasks
+ * @property-read Api\Modules\Users $users
+ * @property-read Api\Modules\Vendors $vendors
  */
 class Client
 {
@@ -52,30 +52,30 @@ class Client
 
     /** @var string[] The default modules class names */
     protected static $defaultModules = [
+        Api\Modules\Accounts::class,
+        Api\Modules\Attachments::class,
+        Api\Modules\Calls::class,
+        Api\Modules\Campaigns::class,
+        Api\Modules\Cases::class,
+        Api\Modules\ContactRoles::class,
+        Api\Modules\Contacts::class,
+        Api\Modules\Deals::class,
+        Api\Modules\Events::class,
         Api\Modules\Info::class,
-        Api\Modules\Users::class,
+        Api\Modules\Invoices::class,
         Api\Modules\Leads::class,
+        Api\Modules\Notes::class,
         Api\Modules\Potentials::class,
         Api\Modules\PotStageHistory::class,
-        Api\Modules\Calls::class,
-        Api\Modules\Contacts::class,
-        Api\Modules\Vendors::class,
-        Api\Modules\Products::class,
-        Api\Modules\Events::class,
-        Api\Modules\Tasks::class,
-        Api\Modules\Notes::class,
-        Api\Modules\Attachments::class,
-        Api\Modules\Accounts::class,
-        Api\Modules\Deals::class,
-        Api\Modules\Campaigns::class,
-        Api\Modules\Quotes::class,
-        Api\Modules\Cases::class,
-        Api\Modules\Invoices::class,
-        Api\Modules\Solutions::class,
         Api\Modules\PriceBooks::class,
-        Api\Modules\SalesOrders::class,
+        Api\Modules\Products::class,
         Api\Modules\PurchaseOrders::class,
-        Api\Modules\ContactRoles::class,
+        Api\Modules\Quotes::class,
+        Api\Modules\SalesOrders::class,
+        Api\Modules\Solutions::class,
+        Api\Modules\Tasks::class,
+        Api\Modules\Users::class,
+        Api\Modules\Vendors::class,
     ];
 
     protected static $defaultMethodHandlers = [
