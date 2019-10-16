@@ -34,8 +34,8 @@ class Query
     /** @var UrlParameters The URL parameters collection */
     protected $parameters;
 
-    /** @var QueryPaginator The query pagination handler */
-    protected $paginator;
+    /** @var bool Whether the query must be paginated or not */
+    protected $paginated = false;
 
     /** @var int The maximum number of records to fetch */
     protected $limit;
@@ -428,16 +428,6 @@ class Query
     }
 
     /**
-     * Create a paginator object for the query.
-     *
-     * @return QueryPaginator
-     */
-    public function paginate()
-    {
-        return new QueryPaginator($this);
-    }
-
-    /**
      * Turn pagination on/off for the query.
      *
      * If enabled, the pages will be automatically fetched on query execution.
@@ -447,7 +437,7 @@ class Query
      */
     public function paginated(bool $paginated = true)
     {
-        $this->paginator = $paginated ? $this->paginate() : null;
+        $this->paginated = $paginated;
 
         return $this;
     }
@@ -459,17 +449,17 @@ class Query
      */
     public function isPaginated()
     {
-        return isset($this->paginator);
+        return $this->paginated;
     }
 
     /**
-     * Get the query paginator if existing.
+     * Create a paginator for the query.
      *
-     * @return QueryPaginator|null
+     * @return QueryPaginator
      */
     public function getPaginator()
     {
-        return $this->paginator;
+        return new QueryPaginator($this);
     }
 
     /**
