@@ -625,6 +625,21 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate
     }
 
     /**
+     * Create a collection without the items indexed by the given keys.
+     *
+     * You can either pass one array of keys, or multiple arguments.
+     *
+     * @param mixed|mixed[] ...$keys The keys of the items to remove
+     * @return static
+     */
+    public function except($keys)
+    {
+        $keys = is_array($keys) ? $keys : func_get_args();
+
+        return new static(array_diff_key($this->items, array_flip($keys)));
+    }
+
+    /**
      * Get the values of a given item property by key.
      *
      * The collection items must be arrays or objects.
