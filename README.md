@@ -607,7 +607,7 @@ This exception message could end up in many "unsafe" places like server logs, er
 Just set the `"exception_messages_obfuscation"` preference to `true`:
 
 ```php
-$zoho->preferences()->enable('exception_messages_obfuscation');
+$client->preferences()->enable('exception_messages_obfuscation');
 ```
 
 ### Before and after query execution hooks
