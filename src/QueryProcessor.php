@@ -2,6 +2,7 @@
 
 namespace Zoho\Crm;
 
+use Closure;
 use GuzzleHttp\Psr7\Request;
 use Zoho\Crm\Api\HttpVerb;
 use Zoho\Crm\Api\Query;
@@ -23,6 +24,12 @@ class QueryProcessor
 
     /** @var ResponseTransformer The response transformer */
     protected $responseTransformer;
+
+    /** @var \Closure[] The callbacks to execute before each query execution */
+    protected $preExecutionHooks = [];
+
+    /** @var \Closure[] The callbacks to execute after each query execution */
+    protected $postExecutionHooks = [];
 
     /**
      * The constructor.
@@ -50,9 +57,16 @@ class QueryProcessor
 
         $this->validateQuery($query);
 
+        // Generate a random "unique" 16 chars ID for the query execution
+        $execId = bin2hex(random_bytes(8));
+
+        $this->firePreExecutionHooks($query->copy(), $execId);
+
         $request = $this->createHttpRequest($query);
 
         $response = $this->requestSender->send($request);
+
+        $this->firePostExecutionHooks($query->copy(), $execId);
 
         return $this->responseTransformer->transform($response, $query);
     }
@@ -152,5 +166,53 @@ class QueryProcessor
     public function getRequestCount()
     {
         return $this->requestSender->getRequestCount();
+    }
+
+    /**
+     * Register a callback to execute before each query execution.
+     *
+     * @param \Closure $callback The callback to execute
+     * @return void
+     */
+    public function registerPreExecutionHook(Closure $callback)
+    {
+        $this->preExecutionHooks[] = $callback;
+    }
+
+    /**
+     * Register a callback to execute after each query execution.
+     *
+     * @param \Closure $callback The callback to execute
+     * @return void
+     */
+    public function registerPostExecutionHook(Closure $callback)
+    {
+        $this->postExecutionHooks[] = $callback;
+    }
+
+    /**
+     * Execute all registered "pre-execution" callbacks.
+     *
+     * @param mixed[] ...$args The arguments to pass to the callbacks
+     * @return void
+     */
+    protected function firePreExecutionHooks(...$args)
+    {
+        foreach ($this->preExecutionHooks as $callback) {
+            $callback(...$args);
+        }
+    }
+
+    /**
+     * Execute all registered "post-execution" callbacks.
+     *
+     * @param mixed[] ...$args The arguments to pass to the callbacks
+     * @return void
+     */
+    protected function firePostExecutionHooks(...$args)
+    {
+        foreach ($this->postExecutionHooks as $callback) {
+            $callback(...$args);
+        }
     }
 }

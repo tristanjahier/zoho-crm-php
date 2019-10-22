@@ -609,3 +609,31 @@ Just set the `"exception_messages_obfuscation"` preference to `true`:
 ```php
 $zoho->preferences()->enable('exception_messages_obfuscation');
 ```
+
+### Before and after query execution hooks
+
+If you need to, you can register a closure that will be executed **before** or **after** the execution of each query.
+
+In both cases, the closure is an anonymous function which takes 2 arguments:
+1. a copy of the `Query` instance ;
+2. a unique ID of the execution (random 16 chars string), in case you need to match the "before" and "after" hooks.
+
+Use the `beforeQueryExecution()` method to register a closure that will be invoked just before each query is executed, *but only after a successful query validation*.
+
+Use the `afterQueryExecution()` method to register a closure that will be invoked just after each query is executed and the API has returned a response. *If an error or an exception is thrown from the HTTP request layer, the closure will not be invoked.*
+
+Example:
+```php
+use Zoho\Crm\Api\Query;
+
+$client->beforeQueryExecution(function (Query $query, string $execId) {
+    // do something...
+});
+
+$client->afterQueryExecution(function (Query $query, string $execId) {
+    // do something...
+});
+```
+
+**Important note:** paginated queries will not trigger these hooks directly, but their subsequent queries (per page) will.
+In other words, only the queries that directly lead to an API HTTP request will trigger the hooks.

@@ -2,6 +2,7 @@
 
 namespace Zoho\Crm;
 
+use Closure;
 use Doctrine\Common\Inflector\Inflector;
 use Zoho\Crm\Api\Modules\AbstractModule;
 use Zoho\Crm\Api\Methods\MethodInterface;
@@ -528,6 +529,32 @@ class Client
     public function executeQuery(Query $query)
     {
         return $this->queryProcessor->executeQuery($query);
+    }
+
+    /**
+     * Register a callback to execute before each query execution.
+     *
+     * @param \Closure $callback The callback to execute
+     * @return $this
+     */
+    public function beforeQueryExecution(Closure $callback)
+    {
+        $this->queryProcessor->registerPreExecutionHook($callback);
+
+        return $this;
+    }
+
+    /**
+     * Register a callback to execute after each query execution.
+     *
+     * @param \Closure $callback The callback to execute
+     * @return $this
+     */
+    public function afterQueryExecution(Closure $callback)
+    {
+        $this->queryProcessor->registerPostExecutionHook($callback);
+
+        return $this;
     }
 
     /**
