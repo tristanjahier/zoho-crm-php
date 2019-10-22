@@ -114,6 +114,19 @@ class Entity implements Arrayable
     }
 
     /**
+     * Remove an attribute.
+     *
+     * The attribute will be completely unset, not just set to null.
+     *
+     * @param string $attribute The name of the attribute
+     * @return void
+     */
+    public function unset($attribute)
+    {
+        unset($this->attributes[$attribute]);
+    }
+
+    /**
      * Get the entity ID.
      *
      * @return string|null
@@ -221,6 +234,17 @@ class Entity implements Arrayable
     public function __isset($attribute)
     {
         return $this->has($attribute);
+    }
+
+    /**
+     * Unset an attribute as if it was a public property.
+     *
+     * @param string $attribute The name of the attribute
+     * @return void
+     */
+    public function __unset($attribute)
+    {
+        $this->unset($attribute);
     }
 
     /**
