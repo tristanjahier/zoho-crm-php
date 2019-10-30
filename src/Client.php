@@ -517,7 +517,7 @@ class Client
     }
 
     /**
-     * Execute a given query and get a formal and generic response object.
+     * Execute a query and get a formal and generic response object.
      *
      * @param Api\Query $query The query to execute
      * @return Api\Response
@@ -529,6 +529,22 @@ class Client
     public function executeQuery(Query $query)
     {
         return $this->queryProcessor->executeQuery($query);
+    }
+
+    /**
+     * Execute a batch of queries concurrently and get the responses when all received.
+     *
+     * @param Api\Query[] $queries The batch of queries to execute
+     * @return Api\Response[]
+     *
+     * @throws Exceptions\UnsupportedModuleException
+     * @throws Exceptions\UnsupportedMethodException
+     * @throws Exceptions\PaginatedQueryInBatchExecutionException
+     * @throws \GuzzleHttp\Exception\RequestException
+     */
+    public function executeAsyncBatch(array $queries)
+    {
+        return $this->queryProcessor->executeAsyncBatch($queries);
     }
 
     /**

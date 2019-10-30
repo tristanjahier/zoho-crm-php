@@ -2,6 +2,7 @@
 
 namespace Zoho\Crm;
 
+use Closure;
 use GuzzleHttp\Client as GuzzleClient;
 use Psr\Http\Message\RequestInterface;
 use GuzzleHttp\Exception\RequestException;
@@ -45,19 +46,69 @@ class RequestSender
             $response = $this->httpClient->send($request);
             $this->requestCount++;
         } catch (RequestException $e) {
-            if ($this->preferences->isEnabled('exception_messages_obfuscation')) {
-                // Sometimes the auth token is included in the exception message by Guzzle.
-                // This exception message could end up in many "unsafe" places like server logs,
-                // error monitoring services, company internal communication etc.
-                // For this reason we must remove the auth token from the exception message.
-
-                throw $this->obfuscateExceptionMessage($e);
-            }
-
-            throw $e;
+            $this->handleException($e);
         }
 
         return $response;
+    }
+
+    /**
+     * Prepare an asynchronous HTTP request to the API, and return a promise.
+     *
+     * @param \Psr\Http\Message\RequestInterface $request The request to send
+     * @param \Closure $onFulfilled The closure to handle request success
+     * @param \Closure|null $onRejected (optional) The closure to handle request failure
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function sendAsync(RequestInterface $request, Closure $onFulfilled, Closure $onRejected = null)
+    {
+        return $this->httpClient->sendAsync($request)->then($onFulfilled, $onRejected);
+    }
+
+    /**
+     * Settle a batch of HTTP promises, then return all responses.
+     *
+     * @param \GuzzleHttp\Promise\PromiseInterface[] $promises The promises to settle
+     * @return \Psr\Http\Message\ResponseInterface[]
+     *
+     * @throws \GuzzleHttp\Exception\RequestException
+     */
+    public function fetchAsyncResponses(array $promises)
+    {
+        $responses = [];
+
+        foreach ($promises as $i => $promise) {
+            try {
+                $responses[$i] = $promise->wait();
+                $this->requestCount++;
+            } catch (RequestException $e) {
+                $this->handleException($e);
+            }
+        }
+
+        return $responses;
+    }
+
+    /**
+     * Handle an exception thrown by the HTTP client.
+     *
+     * @param \GuzzleHttp\Exception\RequestException $exception
+     * @return void
+     *
+     * @throws \GuzzleHttp\Exception\RequestException
+     */
+    private function handleException(RequestException $exception)
+    {
+        if ($this->preferences->isEnabled('exception_messages_obfuscation')) {
+            // Sometimes the auth token is included in the exception message by Guzzle.
+            // This exception message could end up in many "unsafe" places like server logs,
+            // error monitoring services, company internal communication etc.
+            // For this reason we must remove the auth token from the exception message.
+
+            throw $this->obfuscateExceptionMessage($exception);
+        }
+
+        throw $exception;
     }
 
     /**

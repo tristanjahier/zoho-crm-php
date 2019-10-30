@@ -9,6 +9,7 @@ use Zoho\Crm\Api\Query;
 use Zoho\Crm\Api\Response;
 use Zoho\Crm\Exceptions\UnsupportedModuleException;
 use Zoho\Crm\Exceptions\UnsupportedMethodException;
+use Zoho\Crm\Exceptions\PaginatedQueryInBatchExecutionException;
 use Zoho\Crm\Support\Helper;
 
 /**
@@ -44,7 +45,7 @@ class QueryProcessor
     }
 
     /**
-     * Execute a given query and get a formal and generic response object.
+     * Execute a query and get a formal and generic response object.
      *
      * @param Api\Query $query The query to execute
      * @return Api\Response
@@ -55,20 +56,48 @@ class QueryProcessor
             return $this->executePaginatedQuery($query);
         }
 
+        $response = $this->sendQuery($query);
+
+        return $this->responseTransformer->transform($response, $query);
+    }
+
+    /**
+     * Process a query and send it, synchronously or asynchronously.
+     *
+     * If synchronous, the returned value is the response of the API.
+     * If asynchronous, the returned value is a promise that needs to be settled afterwards.
+     *
+     * @param Query $query The query to process
+     * @param bool $async (optional) Whether the resulting request must be asynchronous or not
+     * @return \Psr\Http\Message\ResponseInterface|\GuzzleHttp\Promise\PromiseInterface
+     */
+    protected function sendQuery(Query $query, bool $async = false)
+    {
         $this->validateQuery($query);
 
-        // Generate a random "unique" 16 chars ID for the query execution
-        $execId = bin2hex(random_bytes(8));
+        // Generate a "unique" ID for the query execution
+        $execId = $this->generateRandomId();
+
+        $request = $this->createHttpRequest($query);
 
         $this->firePreExecutionHooks($query->copy(), $execId);
 
-        $request = $this->createHttpRequest($query);
+        if ($async) {
+            return $this->requestSender->sendAsync(
+                $request,
+                function ($response) use ($query, $execId) {
+                    $this->firePostExecutionHooks($query->copy(), $execId);
+
+                    return $response;
+                }
+            );
+        }
 
         $response = $this->requestSender->send($request);
 
         $this->firePostExecutionHooks($query->copy(), $execId);
 
-        return $this->responseTransformer->transform($response, $query);
+        return $response;
     }
 
     /**
@@ -93,6 +122,16 @@ class QueryProcessor
         if (! $this->client->supportsMethod($query->getMethod())) {
             throw new UnsupportedMethodException($query->getMethod());
         }
+    }
+
+    /**
+     * Generate a random alpha-numeric string of 16 characters.
+     *
+     * @return string
+     */
+    protected function generateRandomId()
+    {
+        return bin2hex(random_bytes(8));
     }
 
     /**
@@ -156,6 +195,38 @@ class QueryProcessor
             ->mergePaginatedContents(...$contents);
 
         return new Response($query, $mergedContent, $rawContents);
+    }
+
+    /**
+     * Execute a batch of queries concurrently and get the responses when all received.
+     *
+     * The response objects are returned in the same order their queries were provided.
+     *
+     * @param Api\Query[] $queries The batch of queries to execute
+     * @return Api\Response[]
+     *
+     * @throws Exceptions\PaginatedQueryInBatchExecutionException
+     */
+    public function executeAsyncBatch(array $queries)
+    {
+        $responses = [];
+        $promises = [];
+
+        foreach ($queries as $i => $query) {
+            if ($query->isPaginated()) {
+                throw new PaginatedQueryInBatchExecutionException();
+            }
+
+            $promises[$i] = $this->sendQuery($query, true);
+        }
+
+        $rawResponses = $this->requestSender->fetchAsyncResponses($promises);
+
+        foreach ($rawResponses as $i => $rawResponse) {
+            $responses[$i] = $this->responseTransformer->transform($rawResponse, $queries[$i]);
+        }
+
+        return $responses;
     }
 
     /**

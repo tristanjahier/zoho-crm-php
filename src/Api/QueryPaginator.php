@@ -111,30 +111,49 @@ class QueryPaginator
             return;
         }
 
-        // Create a temporary query object with pagination parameters
-        $pageQuery = $this->query->copy()
+        $pageResponse = $this->getNextPageQuery()->execute();
+        $this->handlePageResponse($pageResponse);
+        $this->fetchCount++;
+
+        return $pageResponse;
+    }
+
+    /**
+     * Get a query for the next page to fetch, and move forward the page cursor.
+     *
+     * @return Query
+     */
+    private function getNextPageQuery()
+    {
+        $query = $this->query->copy()
             ->paginated(false)
             ->param('fromIndex', $this->lastFetchedIndex + 1)
             ->param('toIndex', $this->lastFetchedIndex + self::PAGE_MAX_SIZE);
 
-        $pageResponse = $pageQuery->execute();
-
-        $this->responses[] = $pageResponse;
-
-        // Determine if there is more data to fetch
-        if ($pageResponse->isEmpty()) {
-            $this->hasMoreData = false;
-        } else {
-            // The query can carry additional constraints that we need to process
-            $this->applyQueryConstraints($pageResponse);
-        }
-
         // Move the record index pointer forward
         $this->lastFetchedIndex += self::PAGE_MAX_SIZE;
 
-        $this->fetchCount++;
+        return $query;
+    }
 
-        return $pageResponse;
+    /**
+     * Handle a freshly retrieved page, perform checks, alter contents if needed.
+     *
+     * @param Response $pageResponse The page response
+     * @return void
+     */
+    private function handlePageResponse(Response $pageResponse)
+    {
+        // If this page is empty, then the following ones will be too
+        if ($pageResponse->isEmpty()) {
+            $this->hasMoreData = false;
+            return;
+        }
+
+        $this->responses[] = $pageResponse;
+
+        // The query can carry additional constraints that we need to process
+        $this->applyQueryConstraints($pageResponse);
     }
 
     /**
@@ -144,8 +163,37 @@ class QueryPaginator
      */
     public function fetchAll()
     {
+        if ($this->query->mustFetchPagesAsynchronously()) {
+            return $this->fetchAllAsync();
+        }
+
+        return $this->fetchAllSync();
+    }
+
+    /**
+     * Fetch pages synchronously until there is no more data to fetch.
+     *
+     * @return Response[]
+     */
+    public function fetchAllSync()
+    {
         while ($this->hasMoreData) {
             $this->fetch();
+        }
+
+        return $this->responses;
+    }
+
+    /**
+     * Fetch pages asynchronously by batches until there is no more data to fetch.
+     *
+     * @param int|null $concurrency (optional) The concurrency limit override value
+     * @return Response[]
+     */
+    public function fetchAllAsync(int $concurrency = null)
+    {
+        while ($this->hasMoreData) {
+            $this->fetchConcurrently($concurrency ?? $this->query->getConcurrency());
         }
 
         return $this->responses;
@@ -165,6 +213,39 @@ class QueryPaginator
         while ($this->hasMoreData && $this->fetchCount < $limit) {
             $this->fetch();
         }
+
+        return $this->responses;
+    }
+
+    /**
+     * Fetch a given number of pages concurrently.
+     *
+     * @param int $concurrentQueries The number of pages to fetch
+     * @return Response[]
+     */
+    public function fetchConcurrently(int $concurrentQueries)
+    {
+        if (! $this->hasMoreData) {
+            return;
+        }
+
+        $queries = [];
+
+        for ($i = 0; $i < $concurrentQueries; $i++) {
+            $queries[] = $this->getNextPageQuery();
+        }
+
+        $responses = $this->query->getClient()->executeAsyncBatch($queries);
+
+        foreach ($responses as $pageResponse) {
+            if (! $this->hasMoreData) {
+                break;
+            }
+
+            $this->handlePageResponse($pageResponse);
+        }
+
+        $this->fetchCount += $concurrentQueries;
 
         return $this->responses;
     }
