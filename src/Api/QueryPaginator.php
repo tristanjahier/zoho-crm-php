@@ -276,7 +276,7 @@ class QueryPaginator
         }
 
         // Apply the limit of the modification date
-        if ($this->query->hasMaxModificationDate()) {
+        if ($this->query->hasMaxModificationDate() && ! $latestResponse->isEmpty()) {
             $records = $latestResponse->getContent();
 
             if ($this->exceedMaxModifiedTime($records)) {
