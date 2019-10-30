@@ -2,7 +2,7 @@
 
 namespace Zoho\Crm\Api\Methods;
 
-interface MethodWithPaginationInterface
+interface MethodWithPaginationInterface extends MethodInterface
 {
     /**
      * Merge multiple API pages into a single response content.
