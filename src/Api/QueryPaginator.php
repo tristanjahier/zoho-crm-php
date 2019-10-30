@@ -263,7 +263,7 @@ class QueryPaginator
             $limit = $this->query->getLimit();
             $recordsFetched = $this->getNumberOfRecordsFetched();
 
-            if ($recordsFetched > $limit) {
+            if ($recordsFetched >= $limit) {
                 $this->hasMoreData = false;
                 $diff = $recordsFetched - $limit;
                 $count = count($latestResponse->getContent());
