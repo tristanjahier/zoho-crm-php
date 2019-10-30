@@ -293,11 +293,11 @@ class Query
             return [];
         }
 
-        // Remove the surrounding characters
-        $selection = rtrim(ltrim($selection, $this->module.'('), ')');
+        // Unwrap the column names
+        $selection = substr($selection, strlen($this->module.'('), -1);
 
         // Split the string on coma and trim the column names
-        return array_map('trim', explode(',', $selection));
+        return array_map('trim', array_filter(explode(',', $selection)));
     }
 
     /**
