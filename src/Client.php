@@ -513,7 +513,12 @@ class Client
             ->params($this->defaultParameters)
             ->params($params)
             ->param('authtoken', '_HIDDEN_')
-            ->paginated($paginated);
+            ->paginated($paginated)
+            ->concurrency(
+                $paginated && $this->preferences->isEnabled('concurrent_pagination_by_default')
+                    ? $this->preferences->get('default_concurrency')
+                    : null
+            );
     }
 
     /**

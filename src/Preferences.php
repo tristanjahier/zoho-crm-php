@@ -27,6 +27,8 @@ class Preferences extends Collection
     {
         return [
             'exception_messages_obfuscation' => false,
+            'concurrent_pagination_by_default' => false,
+            'default_concurrency' => 5,
         ];
     }
 
