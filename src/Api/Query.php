@@ -267,21 +267,50 @@ class Query
     }
 
     /**
-     * Select the module columns to retrieve.
+     * Select one or more fields/columns to retrieve.
      *
-     * @param array $columns An array of column names
+     * @param string[] $columns An array of column names
      * @return $this
      */
     public function select($columns)
     {
         $columns = is_array($columns) ? $columns : func_get_args();
-        $selection = $this->module . '(' . implode(',', $columns) . ')';
 
-        return $this->param('selectColumns', $selection);
+        $currentSelection = $this->getSelectedColumns();
+        $newSelection = array_unique(array_merge($currentSelection, $columns));
+
+        return $this->param('selectColumns', $this->wrapSelectedColumns($newSelection));
     }
 
     /**
-     * Get the selected module columns.
+     * Unselect one or more fields/columns.
+     *
+     * @param string[] $columns An array of column names
+     * @return $this
+     */
+    public function unselect($columns)
+    {
+        $columns = is_array($columns) ? $columns : func_get_args();
+
+        $currentSelection = $this->getSelectedColumns();
+        $newSelection = array_diff($currentSelection, $columns);
+
+        return $this->param('selectColumns', $this->wrapSelectedColumns($newSelection));
+    }
+
+    /**
+     * Wrap an array of field/column names into a valid "selectColumns" parameter value.
+     *
+     * @param string[] $columns An array of column names
+     * @return string
+     */
+    protected function wrapSelectedColumns(array $columns)
+    {
+        return $this->module . '(' . implode(',', $columns) . ')';
+    }
+
+    /**
+     * Get the selected fields/columns.
      *
      * @return string[]
      */
@@ -301,7 +330,7 @@ class Query
     }
 
     /**
-     * Check if a column is selected.
+     * Check if a field/column is selected.
      *
      * @param string $column The column to check
      * @return bool
@@ -309,6 +338,16 @@ class Query
     public function hasSelect(string $column)
     {
         return in_array($column, $this->getSelectedColumns());
+    }
+
+    /**
+     * Remove selection of fields/columns.
+     *
+     * @return $this
+     */
+    public function selectAll()
+    {
+        return $this->removeParam('selectColumns');
     }
 
     /**
