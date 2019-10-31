@@ -351,6 +351,28 @@ class Query
     }
 
     /**
+     * Select the creation and last modification timestamps.
+     *
+     * @return $this
+     */
+    public function selectTimestamps()
+    {
+        return $this->select('Created Time', 'Modified Time');
+    }
+
+    /**
+     * Select a set of default fields which are present on all records.
+     *
+     * @return $this
+     */
+    public function selectDefaultColumns()
+    {
+        $entityName = $this->getClientModule()->newEntity()::name();
+
+        return $this->select("$entityName Owner", 'Created By', 'Modified By')->selectTimestamps();
+    }
+
+    /**
      * Set the minimum date for records' last modification.
      *
      * @param \DateTime|string $date A date object or a valid string
