@@ -23,52 +23,68 @@ class UrlParameters extends Collection
     }
 
     /**
-     * Return a string representation of the URL parameters.
+     * Transform a given value into its string representation.
      *
      * Boolean are stringified as "true" or "false".
      * Dates are output in the "Y-m-d H:i:s" format.
      * Arrays are represented like this: "(el1,el2,el3,...)".
-     * Parameters with null values are represented by the key only.
+     * Other types are simply casted to string.
      *
-     * @example param1=value&param2=the+value&param3&param4=(23,1,8734)
+     * @param mixed $value The value to cast
+     * @return string
+     */
+    protected function castValueToString($value)
+    {
+        if (is_bool($value)) {
+            return Helper::booleanToString($value);
+        } elseif ($value instanceof DateTime) {
+            return $value->format('Y-m-d H:i:s');
+        } elseif (is_array($value)) {
+            $values = array_map(function ($val) {
+                return $this->castValueToString($val);
+            }, $value);
+
+            // Join elements with comas i.e.: (el1,el2,el3,el4)
+            return '(' . implode(',', $values) . ')';
+        }
+
+        return (string) $value;
+    }
+
+    /**
+     * Get the string representation of a parameter.
+     *
+     * @param string $key The key of the parameter
+     * @return string
+     */
+    public function castItemToString(string $key)
+    {
+        return $this->castValueToString($this->get($key));
+    }
+
+    /**
+     * Return an array of the parameters casted into strings.
+     *
+     * @return string[]
+     */
+    public function toStringArray()
+    {
+        return $this->map(function ($value) {
+            return $this->castValueToString($value);
+        })->items();
+    }
+
+    /**
+     * Return a string representation of the URL parameters (also called query string).
+     *
+     * @see self::castValueToString()
+     * @see http_build_query()
+     * @example p1=value&p2=the%20value&p3=&p4=%2823%2C1%2C8734%29&p5=2019-11-04%2020%3A13%3A47
      *
      * @return string
      */
     public function __toString()
     {
-        $chunks = [];
-
-        foreach ($this->items as $key => $value) {
-            $chunk = urlencode($key);
-
-            // Support for parameters with a value
-            if ($value !== null) {
-
-                // Support for arrays
-                if (is_array($value)) {
-                    // Stringify boolean values
-                    $value = array_map(function($el) {
-                        return is_bool($el) ? Helper::booleanToString($el) : $el;
-                    }, $value);
-
-                    // Join elements with comas i.e.: (el1,el2,el3,el4)
-                    $value = '(' . implode(',', $value) . ')';
-
-                } else {
-                    // Stringify boolean values
-                    if (is_bool($value)) {
-                        $value = Helper::booleanToString($value);
-                    } elseif ($value instanceof DateTime) {
-                        $value = $value->format('Y-m-d H:i:s');
-                    }
-                }
-
-                $chunk .= '=' . urlencode($value);
-            }
-
-            $chunks[] = $chunk;
-        }
-
-        return implode('&', $chunks);
+        return http_build_query($this->toStringArray(), null, '&', PHP_QUERY_RFC3986);
     }
 }
