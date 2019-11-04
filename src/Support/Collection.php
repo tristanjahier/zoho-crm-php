@@ -326,6 +326,19 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate
     }
 
     /**
+     * Compute the intersection with another array or collection.
+     *
+     * @see array_intersect()
+     *
+     * @param array|self $items Another collection
+     * @return static
+     */
+    public function intersect($items)
+    {
+        return new static(array_intersect($this->items, $this->getPlainArray($items)));
+    }
+
+    /**
      * Collapse all array/collection items into a single collection.
      *
      * Only arrays or collections will be merged, the rest will be
