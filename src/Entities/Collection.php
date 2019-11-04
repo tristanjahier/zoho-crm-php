@@ -35,6 +35,20 @@ class Collection extends BaseCollection
     }
 
     /**
+     * Return a collection of unique entities, based on their IDs.
+     *
+     * @return static
+     */
+    public function uniqueById()
+    {
+        if ($this->isEmpty()) {
+            return $this;
+        }
+
+        return $this->uniqueBy($this->first()::idName());
+    }
+
+    /**
      * Get the value of an attribute from a given entity.
      *
      * @param Entity $item The entity
