@@ -6,6 +6,7 @@ use ArrayAccess;
 use Countable;
 use IteratorAggregate;
 use ArrayIterator;
+use InvalidArgumentException;
 use Zoho\Crm\Support\Helper;
 use Zoho\Crm\Exceptions\InvalidComparisonOperatorException;
 
@@ -857,6 +858,43 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate
     public function join($glue = '')
     {
         return implode($glue, $this->items);
+    }
+
+    /**
+     * Get one or a specified number of items randomly.
+     *
+     * If you don't pass any argument, you will get a single item.
+     * If you pass 1, you will get a collection containing one item.
+     *
+     * @param int|null $number (optional) The number of items to return
+     * @return mixed|static
+     *
+     * @throws \InvalidArgumentException
+     */
+    public function random(int $number = null)
+    {
+        $requested = is_null($number) ? 1 : $number;
+        $count = count($this->items);
+
+        if ($requested > $count) {
+            throw new InvalidArgumentException(
+                "You are trying to get $requested items but the collection only contains $count."
+            );
+        }
+
+        if (is_null($number)) {
+            return $this->items[array_rand($this->items)];
+        }
+
+        if ($requested === 0) {
+            return new static();
+        }
+
+        if ($requested < 0) {
+            throw new InvalidArgumentException('You cannot request a negative number of items.');
+        }
+
+        return $this->only(array_rand($this->items, $requested));
     }
 
     /**
