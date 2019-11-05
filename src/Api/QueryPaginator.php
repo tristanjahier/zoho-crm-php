@@ -152,6 +152,11 @@ class QueryPaginator
 
         $this->responses[] = $pageResponse;
 
+        // If the page is not fully filled, it means we reached the end
+        if (count($pageResponse->getContent()) < self::PAGE_MAX_SIZE) {
+            $this->hasMoreData = false;
+        }
+
         // The query can carry additional constraints that we need to process
         $this->applyQueryConstraints($pageResponse);
     }
