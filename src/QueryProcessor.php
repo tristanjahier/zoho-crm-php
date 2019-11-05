@@ -109,7 +109,7 @@ class QueryProcessor
      * @throws \Zoho\Crm\Exceptions\UnsupportedModuleException
      * @throws \Zoho\Crm\Exceptions\UnsupportedMethodException
      */
-    private function validateQuery(Query $query)
+    protected function validateQuery(Query $query)
     {
         // Internal validation logic
         $query->validate();
@@ -140,7 +140,7 @@ class QueryProcessor
      * @param Api\Query $query The query
      * @return \GuzzleHttp\Psr7\Request
      */
-    private function createHttpRequest(Query $query)
+    protected function createHttpRequest(Query $query)
     {
         $headers = [];
         $body = null;
@@ -171,7 +171,7 @@ class QueryProcessor
      * @param Api\Query $query The query to execute
      * @return Api\Response
      */
-    private function executePaginatedQuery(Query $query)
+    protected function executePaginatedQuery(Query $query)
     {
         $paginator = $query->getPaginator();
         $paginator->fetchAll();
