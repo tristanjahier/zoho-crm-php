@@ -24,7 +24,7 @@ class ResponseTransformer
      */
     public function transform(HttpResponseInterface $httpResponse, Query $query)
     {
-        $rawContent = $httpResponse->getBody()->getContents();
+        $rawContent = (string) $httpResponse->getBody();
 
         $parsedContent = $this->parse($rawContent, $query->getFormat());
 
