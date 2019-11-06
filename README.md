@@ -122,8 +122,7 @@ $query->module('Contacts')
     ->method('getRecords')
     ->param('lastModifiedTime', '2019-04-01')
     ->param('sortColumnString', 'Modified Time')
-    ->param('sortOrderString', 'desc')
-    ->paginated();
+    ->param('sortOrderString', 'desc');
 ```
 
 The `Query` class has many methods that provide a great abstraction and help you write concise and readable code. For example, the above query could be rewritten like this:
@@ -131,8 +130,7 @@ The `Query` class has many methods that provide a great abstraction and help you
 ```php
 $query = $client->newQuery('Contacts', 'getRecords')
     ->modifiedAfter('2019-04-01')
-    ->orderBy('Modified Time', 'desc')
-    ->paginated();
+    ->orderBy('Modified Time', 'desc');
 ```
 
 Look at the code to find out all possibilities.
@@ -144,6 +142,30 @@ $data = $query->get();
 // is strictly equivalent to
 $data = $query->execute()->getContent();
 ```
+
+#### Query pagination
+
+When querying records from Zoho, you will get a maximum of 200 records per request. Thus, if you want to get more than 200 records, you need to make multiple requests. This is done with the "fromIndex" and "toIndex" request parameters. Iterating on these parameters is called **pagination**.
+
+In this library, pagination is made simple thanks to a query method called `paginated()`. All you have to do is to call this method on a query and the library will fetch every page of records until there is no more data (or before if you set a limit). Example:
+
+```php
+$client->newQuery('Contacts', 'getRecords')->paginated()->get();
+```
+
+**Important note:** do not use pagination on API methods that do not support the "fromIndex" and "toIndex" parameters.
+
+By default, query pagination is synchronous. It simply means that every new page is only fetched once the previous one has been executed and returned a response. **This library also supports asynchronous query execution, and it makes pagination faster.** Once again, this is really simple to use. All you have to do is to call the `concurrency()` method on the query:
+
+```php
+$client->newQuery('Calls', 'getRecords')->paginated()->concurrency(5)->get();
+```
+
+This method takes a single argument: a positive non-zero integer (> 0). It is the number of concurrent API requests. If you pass `1`, pagination will be synchronous. You can also pass `null` to disable asynchronous pagination.
+
+Asynchronous pagination can speed up your paginated queries a lot, depending on the concurrency setting. If you need to retrieve thousands of records, it will save you a lot of execution time.
+
+**Important note:** with X concurrent requests, you can waste up to X-1 API requests. Use it wisely.
 
 ### Response types
 
