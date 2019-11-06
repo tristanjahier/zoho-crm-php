@@ -4,7 +4,10 @@ namespace Zoho\Crm\Api;
 
 use DateTime;
 use InvalidArgumentException;
-use Zoho\Crm\Client;
+use Zoho\Crm\Contracts\QueryInterface;
+use Zoho\Crm\Contracts\PaginatedQueryInterface;
+use Zoho\Crm\Contracts\ClientInterface;
+use Zoho\Crm\Contracts\ResponseInterface;
 use Zoho\Crm\Api\UrlParameters;
 use Zoho\Crm\Exceptions\InvalidQueryException;
 use Zoho\Crm\Entities\Entity;
@@ -17,7 +20,7 @@ use Zoho\Crm\Support\Helper;
  * It contains the format, the module, the method and the URL parameters.
  * It provides a fluent interface to set the different attributes of an API request.
  */
-class Query
+class Query implements PaginatedQueryInterface
 {
     /** @var \Zoho\Crm\Client The API client that originated this query */
     protected $client;
@@ -51,7 +54,7 @@ class Query
      *
      * @param \Zoho\Crm\Client $client The client to use to make the request
      */
-    public function __construct(Client $client)
+    public function __construct(ClientInterface $client)
     {
         $this->client = $client;
         $this->parameters = new UrlParameters;
@@ -492,14 +495,11 @@ class Query
     }
 
     /**
-     * Turn pagination on/off for the query.
+     * @inheritdoc
      *
-     * If enabled, the pages will be automatically fetched on query execution.
-     *
-     * @param bool $paginated (optional) Whether the query is paginated
      * @return $this
      */
-    public function paginated(bool $paginated = true)
+    public function paginated(bool $paginated = true): PaginatedQueryInterface
     {
         $this->paginated = $paginated;
 
@@ -511,21 +511,17 @@ class Query
     }
 
     /**
-     * Check if the query is paginated.
-     *
-     * @return bool
+     * @inheritdoc
      */
-    public function isPaginated()
+    public function isPaginated(): bool
     {
         return $this->paginated;
     }
 
     /**
-     * Create a paginator for the query.
-     *
-     * @return QueryPaginator
+     * @inheritdoc
      */
-    public function getPaginator()
+    public function getPaginator(): QueryPaginator
     {
         return new QueryPaginator($this);
     }
@@ -568,11 +564,9 @@ class Query
     }
 
     /**
-     * Build the query URI.
-     *
-     * @return string
+     * @inheritdoc
      */
-    public function buildUri()
+    public function buildUri(): string
     {
         return "{$this->format}/{$this->module}/{$this->method}?{$this->parameters}";
     }
@@ -588,17 +582,9 @@ class Query
     }
 
     /**
-     * Validate the query.
-     *
-     * Check attributes consistency and the presence of the required ones.
-     * If the validation passes, nothing will happen.
-     * If it fails, an exception will be thrown.
-     *
-     * @return void
-     *
-     * @throws \Zoho\Crm\Exceptions\InvalidQueryException
+     * @inheritdoc
      */
-    public function validate()
+    public function validate(): void
     {
         // Very basic validation: just check that required parts are present.
         if ($this->isMalformed()) {
@@ -637,19 +623,15 @@ class Query
     }
 
     /**
-     * Execute the query with the bound client.
-     *
-     * @return Response
+     * @inheritdoc
      */
-    public function execute()
+    public function execute(): ResponseInterface
     {
         return $this->client->executeQuery($this);
     }
 
     /**
-     * Execute the query and get a result adapted to its nature.
-     *
-     * @return mixed
+     * @inheritdoc
      */
     public function get()
     {
@@ -695,11 +677,9 @@ class Query
     }
 
     /**
-     * Create a deep copy of the query.
-     *
-     * @return static
+     * @inheritdoc
      */
-    public function copy()
+    public function copy(): QueryInterface
     {
         return clone $this;
     }

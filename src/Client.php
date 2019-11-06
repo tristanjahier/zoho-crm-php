@@ -4,6 +4,9 @@ namespace Zoho\Crm;
 
 use Closure;
 use Doctrine\Common\Inflector\Inflector;
+use Zoho\Crm\Contracts\ClientInterface;
+use Zoho\Crm\Contracts\QueryInterface;
+use Zoho\Crm\Contracts\ResponseInterface;
 use Zoho\Crm\Api\Modules\AbstractModule;
 use Zoho\Crm\Api\Methods\MethodInterface;
 use Zoho\Crm\Api\Query;
@@ -40,7 +43,7 @@ use Zoho\Crm\Api\Query;
  * @property-read Api\Modules\Users $users
  * @property-read Api\Modules\Vendors $vendors
  */
-class Client
+class Client implements ClientInterface
 {
     /** @var string The API endpoint used by default */
     const DEFAULT_ENDPOINT = 'https://crm.zoho.com/crm/private/';
@@ -358,36 +361,25 @@ class Client
     }
 
     /**
-     * Get the number of API requests made by the client.
-     *
-     * @return int
+     * @inheritdoc
      */
-    public function getRequestCount()
+    public function getRequestCount(): int
     {
         return $this->queryProcessor->getRequestCount();
     }
 
     /**
-     * Get the API endpoint.
-     *
-     * @return string
+     * @inheritdoc
      */
-    public function getEndpoint()
+    public function getEndpoint(): string
     {
         return $this->endpoint;
     }
 
     /**
-     * Set the API endpoint.
-     *
-     * It will ensure that there is one slash at the end.
-     *
-     * @param string $endpoint The endpoint URI
-     * @return void
-     *
-     * @throws Exceptions\InvalidEndpointException
+     * @inheritdoc
      */
-    public function setEndpoint($endpoint)
+    public function setEndpoint(string $endpoint): void
     {
         // Remove trailing slashes
         $endpoint = rtrim($endpoint, '/');
@@ -522,43 +514,36 @@ class Client
     }
 
     /**
-     * Execute a query and get a formal and generic response object.
-     *
-     * @param Api\Query $query The query to execute
-     * @return Api\Response
+     * @inheritdoc
      *
      * @throws Exceptions\UnsupportedModuleException
      * @throws Exceptions\UnsupportedMethodException
      * @throws \GuzzleHttp\Exception\RequestException
      */
-    public function executeQuery(Query $query)
+    public function executeQuery(QueryInterface $query): ResponseInterface
     {
         return $this->queryProcessor->executeQuery($query);
     }
 
     /**
-     * Execute a batch of queries concurrently and get the responses when all received.
-     *
-     * @param Api\Query[] $queries The batch of queries to execute
-     * @return Api\Response[]
+     * @inheritdoc
      *
      * @throws Exceptions\UnsupportedModuleException
      * @throws Exceptions\UnsupportedMethodException
      * @throws Exceptions\PaginatedQueryInBatchExecutionException
      * @throws \GuzzleHttp\Exception\RequestException
      */
-    public function executeAsyncBatch(array $queries)
+    public function executeAsyncBatch(array $queries): array
     {
         return $this->queryProcessor->executeAsyncBatch($queries);
     }
 
     /**
-     * Register a callback to execute before each query execution.
+     * @inheritdoc
      *
-     * @param \Closure $callback The callback to execute
      * @return $this
      */
-    public function beforeQueryExecution(Closure $callback)
+    public function beforeQueryExecution(Closure $callback): ClientInterface
     {
         $this->queryProcessor->registerPreExecutionHook($callback);
 
@@ -566,12 +551,11 @@ class Client
     }
 
     /**
-     * Register a callback to execute after each query execution.
+     * @inheritdoc
      *
-     * @param \Closure $callback The callback to execute
      * @return $this
      */
-    public function afterQueryExecution(Closure $callback)
+    public function afterQueryExecution(Closure $callback): ClientInterface
     {
         $this->queryProcessor->registerPostExecutionHook($callback);
 

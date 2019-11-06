@@ -2,10 +2,12 @@
 
 namespace Zoho\Crm\Api;
 
+use Zoho\Crm\Contracts\ResponseInterface;
+
 /**
  * A container for the content of an API response.
  */
-class Response
+class Response implements ResponseInterface
 {
     /** @var Query The origin query */
     private $query;
@@ -41,19 +43,15 @@ class Response
     }
 
     /**
-     * Get the raw HTTP response body.
-     *
-     * @return string
+     * @inheritdoc
      */
-    public function getRawContent()
+    public function getRawContent(): string
     {
         return $this->rawContent;
     }
 
     /**
-     * Get the parsed, cleaned up content.
-     *
-     * @return mixed
+     * @inheritdoc
      */
     public function getContent()
     {
@@ -61,9 +59,8 @@ class Response
     }
 
     /**
-     * Set the parsed, cleaned up content.
+     * @inheritdoc
      *
-     * @param mixed $content The response content
      * @return $this
      */
     public function setContent($content)
@@ -74,11 +71,9 @@ class Response
     }
 
     /**
-     * Check that the response is empty.
-     *
-     * @return bool
+     * @inheritdoc
      */
-    public function isEmpty()
+    public function isEmpty(): bool
     {
         return is_null($this->content)
             || (is_countable($this->content) && count($this->content) === 0);
