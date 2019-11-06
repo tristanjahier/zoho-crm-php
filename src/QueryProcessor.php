@@ -5,6 +5,9 @@ namespace Zoho\Crm;
 use Closure;
 use GuzzleHttp\Psr7\Request;
 use Zoho\Crm\Api\HttpVerb;
+use Zoho\Crm\Contracts\ClientInterface;
+use Zoho\Crm\Contracts\QueryInterface;
+use Zoho\Crm\Contracts\PaginatedQueryInterface;
 use Zoho\Crm\Api\Query;
 use Zoho\Crm\Api\Response;
 use Zoho\Crm\Exceptions\UnsupportedModuleException;
@@ -17,7 +20,7 @@ use Zoho\Crm\Support\Helper;
  */
 class QueryProcessor
 {
-    /** @var Client The client to which this processor is attached */
+    /** @var \Zoho\Crm\Contracts\ClientInterface The client to which this processor is attached */
     protected $client;
 
     /** @var RequestSender The request sender */
@@ -35,9 +38,9 @@ class QueryProcessor
     /**
      * The constructor.
      *
-     * @param Client $client The client to which it is attached
+     * @param \Zoho\Crm\Contracts\ClientInterface $client The client to which it is attached
      */
-    public function __construct(Client $client)
+    public function __construct(ClientInterface $client)
     {
         $this->client = $client;
         $this->requestSender = new RequestSender($this->client->preferences());
@@ -47,12 +50,12 @@ class QueryProcessor
     /**
      * Execute a query and get a formal and generic response object.
      *
-     * @param Api\Query $query The query to execute
+     * @param \Zoho\Crm\Contracts\QueryInterface $query The query to execute
      * @return Api\Response
      */
-    public function executeQuery(Query $query)
+    public function executeQuery(QueryInterface $query)
     {
-        if ($query->isPaginated()) {
+        if ($query instanceof PaginatedQueryInterface && $query->isPaginated()) {
             return $this->executePaginatedQuery($query);
         }
 
@@ -67,11 +70,11 @@ class QueryProcessor
      * If synchronous, the returned value is the response of the API.
      * If asynchronous, the returned value is a promise that needs to be settled afterwards.
      *
-     * @param Query $query The query to process
+     * @param \Zoho\Crm\Contracts\QueryInterface $query The query to process
      * @param bool $async (optional) Whether the resulting request must be asynchronous or not
      * @return \Psr\Http\Message\ResponseInterface|\GuzzleHttp\Promise\PromiseInterface
      */
-    protected function sendQuery(Query $query, bool $async = false)
+    protected function sendQuery(QueryInterface $query, bool $async = false)
     {
         $this->validateQuery($query);
 
@@ -103,13 +106,13 @@ class QueryProcessor
     /**
      * Validate that a query is valid before sending the request to the API.
      *
-     * @param Api\Query $query The query to validate
+     * @param \Zoho\Crm\Contracts\QueryInterface $query The query to validate
      * @return void
      *
      * @throws \Zoho\Crm\Exceptions\UnsupportedModuleException
      * @throws \Zoho\Crm\Exceptions\UnsupportedMethodException
      */
-    protected function validateQuery(Query $query)
+    protected function validateQuery(QueryInterface $query)
     {
         // Internal validation logic
         $query->validate();
@@ -137,10 +140,10 @@ class QueryProcessor
     /**
      * Transform a query into an HTTP request.
      *
-     * @param Api\Query $query The query
+     * @param \Zoho\Crm\Contracts\QueryInterface $query The query
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function createHttpRequest(Query $query)
+    protected function createHttpRequest(QueryInterface $query)
     {
         $headers = [];
         $body = null;
@@ -168,10 +171,10 @@ class QueryProcessor
     /**
      * Execute a paginated query.
      *
-     * @param Api\Query $query The query to execute
+     * @param \Zoho\Crm\Contracts\PaginatedQueryInterface $query The query to execute
      * @return Api\Response
      */
-    protected function executePaginatedQuery(Query $query)
+    protected function executePaginatedQuery(PaginatedQueryInterface $query)
     {
         $paginator = $query->getPaginator();
         $paginator->fetchAll();
