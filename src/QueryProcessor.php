@@ -10,8 +10,6 @@ use Zoho\Crm\Contracts\QueryInterface;
 use Zoho\Crm\Contracts\PaginatedQueryInterface;
 use Zoho\Crm\Api\Query;
 use Zoho\Crm\Api\Response;
-use Zoho\Crm\Exceptions\UnsupportedModuleException;
-use Zoho\Crm\Exceptions\UnsupportedMethodException;
 use Zoho\Crm\Exceptions\PaginatedQueryInBatchExecutionException;
 use Zoho\Crm\Support\Helper;
 
@@ -22,6 +20,9 @@ class QueryProcessor
 {
     /** @var \Zoho\Crm\Contracts\ClientInterface The client to which this processor is attached */
     protected $client;
+
+    /** @var QueryValidator The query validator */
+    protected $queryValidator;
 
     /** @var RequestSender The request sender */
     protected $requestSender;
@@ -43,6 +44,7 @@ class QueryProcessor
     public function __construct(ClientInterface $client)
     {
         $this->client = $client;
+        $this->queryValidator = new QueryValidator($this->client);
         $this->requestSender = new RequestSender($this->client->preferences());
         $this->responseTransformer = new ResponseTransformer();
     }
@@ -76,7 +78,7 @@ class QueryProcessor
      */
     protected function sendQuery(QueryInterface $query, bool $async = false)
     {
-        $this->validateQuery($query);
+        $this->queryValidator->validate($query);
 
         // Generate a "unique" ID for the query execution
         $execId = $this->generateRandomId();
@@ -101,30 +103,6 @@ class QueryProcessor
         $this->firePostExecutionHooks($query->copy(), $execId);
 
         return $response;
-    }
-
-    /**
-     * Validate that a query is valid before sending the request to the API.
-     *
-     * @param \Zoho\Crm\Contracts\QueryInterface $query The query to validate
-     * @return void
-     *
-     * @throws \Zoho\Crm\Exceptions\UnsupportedModuleException
-     * @throws \Zoho\Crm\Exceptions\UnsupportedMethodException
-     */
-    protected function validateQuery(QueryInterface $query)
-    {
-        // Internal validation logic
-        $query->validate();
-
-        // Check if the requested module and method are both supported
-        if (! $this->client->supports($query->getModule())) {
-            throw new UnsupportedModuleException($query->getModule());
-        }
-
-        if (! $this->client->supportsMethod($query->getMethod())) {
-            throw new UnsupportedMethodException($query->getMethod());
-        }
     }
 
     /**
