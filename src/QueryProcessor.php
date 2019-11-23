@@ -36,6 +36,9 @@ class QueryProcessor
     /** @var \Closure[] The callbacks to execute after each query execution */
     protected $postExecutionHooks = [];
 
+    /** @var callable[] The middlewares to apply to each query before execution */
+    protected $middlewares = [];
+
     /**
      * The constructor.
      *
@@ -79,6 +82,8 @@ class QueryProcessor
     protected function sendQuery(QueryInterface $query, bool $async = false)
     {
         $this->queryValidator->validate($query);
+
+        $this->applyMiddlewaresToQuery($query);
 
         // Generate a "unique" ID for the query execution
         $execId = $this->generateRandomId();
@@ -265,6 +270,30 @@ class QueryProcessor
     {
         foreach ($this->postExecutionHooks as $callback) {
             $callback(...$args);
+        }
+    }
+
+    /**
+     * Register a middleware that will be applied to each query before execution.
+     *
+     * @param callable $middleware The middleware to register
+     * @return void
+     */
+    public function registerMiddleware(callable $middleware)
+    {
+        $this->middlewares[] = $middleware;
+    }
+
+    /**
+     * Apply the registered middlewares to a query.
+     *
+     * @param \Zoho\Crm\Contracts\QueryInterface $query The query being executed
+     * @return void
+     */
+    protected function applyMiddlewaresToQuery(QueryInterface $query)
+    {
+        foreach ($this->middlewares as $middleware) {
+            $middleware($query);
         }
     }
 }

@@ -563,6 +563,14 @@ class Client implements ClientInterface
     }
 
     /**
+     * @inheritdoc
+     */
+    public function registerMiddleware(callable $middleware): void
+    {
+        $this->queryProcessor->registerMiddleware($middleware);
+    }
+
+    /**
      * Dynamically retrieve modules as client public properties.
      *
      * The module name needs to be written in camel case.

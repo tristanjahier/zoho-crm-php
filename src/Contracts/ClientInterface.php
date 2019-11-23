@@ -63,4 +63,14 @@ interface ClientInterface
      * @return int
      */
     public function getRequestCount(): int;
+
+    /**
+     * Register a middleware that will be applied to each query before execution.
+     *
+     * The query may be altered by the middleware.
+     *
+     * @param callable $middleware The middleware to register
+     * @return void
+     */
+    public function registerMiddleware(callable $middleware): void;
 }
