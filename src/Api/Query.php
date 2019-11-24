@@ -86,7 +86,7 @@ class Query implements PaginatedQueryInterface
      * @param string $format The desired response format
      * @return $this
      */
-    public function format(string $format)
+    public function format(?string $format)
     {
         $this->format = $format;
 
@@ -109,7 +109,7 @@ class Query implements PaginatedQueryInterface
      * @param string $module The module name
      * @return $this
      */
-    public function module(string $module)
+    public function module(?string $module)
     {
         $this->module = $module;
 
@@ -132,7 +132,7 @@ class Query implements PaginatedQueryInterface
      * @param string $method The method name
      * @return $this
      */
-    public function method(string $method)
+    public function method(?string $method)
     {
         $this->method = $method;
 
