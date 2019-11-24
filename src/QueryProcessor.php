@@ -129,9 +129,6 @@ class QueryProcessor
         // Determine the HTTP verb to use from the API method handler
         $httpVerb = $this->client->getMethodHandler($queryCopy->getMethod())->getHttpVerb();
 
-        // Add auth token at the last moment to avoid exposing it in the error log messages
-        $queryCopy->param('authtoken', $this->client->getAuthToken());
-
         // For POST requests, because of the XML data, the parameters size might be very large.
         // For that reason we won't include them in the URL query string, but in the body instead.
         if ($httpVerb === HttpVerb::POST) {
