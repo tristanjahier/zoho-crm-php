@@ -1,40 +1,39 @@
 <?php
 
-namespace Zoho\Crm;
+namespace Zoho\Crm\Middleware;
 
-use Zoho\Crm\Contracts\ClientInterface;
+use Zoho\Crm\Client;
+use Zoho\Crm\Contracts\MiddlewareInterface;
 use Zoho\Crm\Contracts\QueryInterface;
 use Zoho\Crm\Exceptions\UnsupportedModuleException;
 use Zoho\Crm\Exceptions\UnsupportedMethodException;
 
 /**
- * The query validator.
+ * Middleware that validates queries.
  */
-class QueryValidator
+class Validation implements MiddlewareInterface
 {
-    /** @var \Zoho\Crm\Contracts\ClientInterface The client to which this validator is attached */
+    /** @var \Zoho\Crm\Client The client to which the middleware is attached */
     protected $client;
 
     /**
      * The constructor.
      *
-     * @param \Zoho\Crm\Contracts\ClientInterface $client The client to which it is attached
+     * @param \Zoho\Crm\Client $client The client to which the middleware is attached
      */
-    public function __construct(ClientInterface $client)
+    public function __construct(Client $client)
     {
         $this->client = $client;
     }
 
     /**
-     * Validate that a query is valid before sending the request to the API.
+     * @inheritdoc
      *
-     * @param \Zoho\Crm\Contracts\QueryInterface $query The query to validate
-     * @return void
-     *
+     * @throws \Zoho\Crm\Exceptions\InvalidQueryException
      * @throws \Zoho\Crm\Exceptions\UnsupportedModuleException
      * @throws \Zoho\Crm\Exceptions\UnsupportedMethodException
      */
-    public function validate(QueryInterface $query): void
+    public function __invoke(QueryInterface $query): void
     {
         // Internal validation logic
         $query->validate();
@@ -46,6 +45,11 @@ class QueryValidator
 
         if (! $this->client->supportsMethod($query->getMethod())) {
             throw new UnsupportedMethodException($query->getMethod());
+        }
+
+        // Check that the method can be used on the module
+        if (! $this->client->module($query->getModule())->supports($query->getMethod())) {
+            throw new UnsupportedMethodException($query->getMethod(), $query->getModule());
         }
     }
 }

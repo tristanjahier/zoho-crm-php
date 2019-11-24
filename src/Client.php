@@ -151,6 +151,7 @@ class Client implements ClientInterface
         $this->preferences = new Preferences();
 
         $this->queryProcessor = new QueryProcessor($this);
+        $this->queryProcessor->registerMiddleware(new Middleware\Validation($this));
 
         $this->attachDefaultModules();
 

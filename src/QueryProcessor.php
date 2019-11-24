@@ -21,9 +21,6 @@ class QueryProcessor
     /** @var \Zoho\Crm\Contracts\ClientInterface The client to which this processor is attached */
     protected $client;
 
-    /** @var QueryValidator The query validator */
-    protected $queryValidator;
-
     /** @var RequestSender The request sender */
     protected $requestSender;
 
@@ -47,7 +44,6 @@ class QueryProcessor
     public function __construct(ClientInterface $client)
     {
         $this->client = $client;
-        $this->queryValidator = new QueryValidator($this->client);
         $this->requestSender = new RequestSender($this->client->preferences());
         $this->responseTransformer = new ResponseTransformer();
     }
@@ -81,8 +77,6 @@ class QueryProcessor
      */
     protected function sendQuery(QueryInterface $query, bool $async = false)
     {
-        $this->queryValidator->validate($query);
-
         $this->applyMiddlewaresToQuery($query);
 
         // Generate a "unique" ID for the query execution
