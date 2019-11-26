@@ -71,4 +71,31 @@ final class Helper
 
         return preg_match('#^'.$pattern.'\z#ui', $value) === 1;
     }
+
+    /**
+     * Get all segments of a URL path.
+     *
+     * @param string $url The URL to parse
+     * @return string[]
+     */
+    public static function getUrlPathSegments(string $url)
+    {
+        $path = trim(parse_url($url, PHP_URL_PATH), '/');
+
+        return explode('/', $path);
+    }
+
+    /**
+     * Get a segment of a URL path by index.
+     *
+     * @param string $url The URL to parse
+     * @param int $index The segment index
+     * @return string
+     */
+    public static function getUrlPathSegmentByIndex(string $url, int $index)
+    {
+        $segments = self::getUrlPathSegments($url);
+
+        return $segments[$index] ?? null;
+    }
 }

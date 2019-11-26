@@ -87,4 +87,18 @@ class UrlParameters extends Collection
     {
         return http_build_query($this->toStringArray(), null, '&', PHP_QUERY_RFC3986);
     }
+
+    /**
+     * Create an instance from a URL.
+     *
+     * @param string $url The URL to parse
+     * @return static
+     */
+    public static function createFromUrl(string $url)
+    {
+        $parameters = [];
+        parse_str(parse_url($url, PHP_URL_QUERY), $parameters);
+
+        return new static($parameters);
+    }
 }
