@@ -77,6 +77,10 @@ class QueryProcessor
      */
     protected function sendQuery(QueryInterface $query, bool $async = false)
     {
+        // Use a copy of the query, so that all modifications potentially
+        // brought by middleware are not affecting the original query.
+        $query = $query->copy();
+
         $this->applyMiddlewaresToQuery($query);
 
         // Generate a "unique" ID for the query execution
