@@ -5,6 +5,8 @@ namespace Zoho\Crm\Middleware;
 use Zoho\Crm\Client;
 use Zoho\Crm\Contracts\MiddlewareInterface;
 use Zoho\Crm\Contracts\QueryInterface;
+use Zoho\Crm\Support\Helper;
+use Zoho\Crm\Exceptions\InvalidQueryException;
 use Zoho\Crm\Exceptions\UnsupportedModuleException;
 use Zoho\Crm\Exceptions\UnsupportedMethodException;
 
@@ -35,21 +37,30 @@ class Validation implements MiddlewareInterface
      */
     public function __invoke(QueryInterface $query): void
     {
-        // Internal validation logic
-        $query->validate();
+        // Analyze the URI path and check that it is correctly formed
+        $uriPathSegments = Helper::getUrlPathSegments($query->getUri());
 
-        // Check if the requested module and method are both supported
-        if (! $this->client->supports($query->getModule())) {
-            throw new UnsupportedModuleException($query->getModule());
+        if (count($uriPathSegments) != 3) {
+            throw new InvalidQueryException($query, 'malformed URI.');
         }
 
-        if (! $this->client->supportsMethod($query->getMethod())) {
-            throw new UnsupportedMethodException($query->getMethod());
+        [$format, $module, $method] = $uriPathSegments;
+
+        // Check if the requested module and method are both supported
+        if (! $this->client->supports($module)) {
+            throw new UnsupportedModuleException($module);
+        }
+
+        if (! $this->client->supportsMethod($method)) {
+            throw new UnsupportedMethodException($method);
         }
 
         // Check that the method can be used on the module
-        if (! $this->client->module($query->getModule())->supports($query->getMethod())) {
-            throw new UnsupportedMethodException($query->getMethod(), $query->getModule());
+        if (! $this->client->module($module)->supports($method)) {
+            throw new UnsupportedMethodException($method, $module);
         }
+
+        // Additional internal validation logic
+        $query->validate();
     }
 }

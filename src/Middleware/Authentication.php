@@ -31,6 +31,6 @@ class Authentication implements MiddlewareInterface
      */
     public function __invoke(QueryInterface $query): void
     {
-        $query->param('authtoken', $this->client->getAuthToken());
+        $query->setUriParameter('authtoken', $this->client->getAuthToken());
     }
 }

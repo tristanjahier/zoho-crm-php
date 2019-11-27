@@ -682,11 +682,6 @@ class Query implements PaginatedQueryInterface
      */
     public function validate(): void
     {
-        // Very basic validation: just check that required parts are present.
-        if ($this->isMalformed()) {
-            throw new InvalidQueryException($this, 'malformed URI.');
-        }
-
         // "Modified Time" column has to be be present in the results
         // for "modifiedBefore()" constraint to work properly.
         $selectedColumns = $this->getSelectedColumns();
