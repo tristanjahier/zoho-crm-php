@@ -3,12 +3,13 @@
 namespace Zoho\Crm\Api;
 
 use DateTime;
+use Zoho\Crm\Contracts\QueryPaginatorInterface;
 use Zoho\Crm\Entities\Collection;
 
 /**
  * A helper class to handle paginated queries.
  */
-class QueryPaginator
+class QueryPaginator implements QueryPaginatorInterface
 {
     /** @var int The index of the first item */
     const MIN_INDEX = 1;
@@ -52,11 +53,9 @@ class QueryPaginator
     }
 
     /**
-     * Get all page responses.
-     *
-     * @return Response[]
+     * @inheritdoc
      */
-    public function getResponses()
+    public function getResponses(): array
     {
         return $this->responses;
     }
@@ -162,7 +161,7 @@ class QueryPaginator
     }
 
     /**
-     * Fetch pages until there is no more data to fetch.
+     * @inheritdoc
      *
      * @return Response[]
      */

@@ -8,6 +8,7 @@ use Zoho\Crm\Contracts\QueryInterface;
 use Zoho\Crm\Contracts\PaginatedQueryInterface;
 use Zoho\Crm\Contracts\ClientInterface;
 use Zoho\Crm\Contracts\ResponseInterface;
+use Zoho\Crm\Contracts\QueryPaginatorInterface;
 use Zoho\Crm\Api\UrlParameters;
 use Zoho\Crm\Exceptions\InvalidQueryException;
 use Zoho\Crm\Entities\Entity;
@@ -625,7 +626,7 @@ class Query implements PaginatedQueryInterface
     /**
      * @inheritdoc
      */
-    public function getPaginator(): QueryPaginator
+    public function getPaginator(): QueryPaginatorInterface
     {
         return new QueryPaginator($this);
     }

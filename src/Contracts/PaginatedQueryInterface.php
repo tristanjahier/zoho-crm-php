@@ -2,8 +2,6 @@
 
 namespace Zoho\Crm\Contracts;
 
-use Zoho\Crm\Api\QueryPaginator;
-
 interface PaginatedQueryInterface extends QueryInterface
 {
     /**
@@ -26,7 +24,7 @@ interface PaginatedQueryInterface extends QueryInterface
     /**
      * Create a paginator for the query.
      *
-     * @return \Zoho\Crm\Api\QueryPaginator
+     * @return QueryPaginatorInterface
      */
-    public function getPaginator(): QueryPaginator;
+    public function getPaginator(): QueryPaginatorInterface;
 }
