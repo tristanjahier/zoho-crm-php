@@ -22,7 +22,6 @@ interface ResponseInterface
      * Set the parsed, cleaned up content.
      *
      * @param mixed $content The response content
-     * @return void
      */
     public function setContent($content);
 
