@@ -115,31 +115,29 @@ class QueryProcessor
     }
 
     /**
-     * Transform a query into an HTTP request.
+     * Create an HTTP request out of a query.
      *
      * @param \Zoho\Crm\Contracts\QueryInterface $query The query
      * @return \GuzzleHttp\Psr7\Request
      */
     protected function createHttpRequest(QueryInterface $query)
     {
-        $headers = [];
-        $body = null;
-        $queryCopy = $query->copy();
-
-        // Determine the HTTP verb to use from the API method handler
-        $httpVerb = $this->client->getMethodHandler($queryCopy->getMethod())->getHttpVerb();
+        $httpVerb = $query->getHttpVerb();
+        $uri = $query->getUri();
+        $headers = $query->getHeaders();
+        $body = $query->getBody();
 
         // For POST requests, because of the XML data, the parameters size might be very large.
         // For that reason we won't include them in the URL query string, but in the body instead.
         if ($httpVerb === HttpVerb::POST) {
+            $uri = parse_url($uri, PHP_URL_PATH);
             $headers['Content-Type'] = 'application/x-www-form-urlencoded';
-            $body = (string) $queryCopy->getParameters();
-            $queryCopy->resetParameters();
+            $body = parse_url($query->getUri(), PHP_URL_QUERY);
         }
 
-        $fullUrl = $this->client->getEndpoint() . $queryCopy->buildUri();
+        $fullUri = $this->client->getEndpoint() . $uri;
 
-        return new Request($httpVerb, $fullUrl, $headers, $body);
+        return new Request($httpVerb, $fullUri, $headers, $body);
     }
 
     /**

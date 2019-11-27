@@ -37,6 +37,12 @@ class Query implements PaginatedQueryInterface
     /** @var UrlParameters The URL parameters collection */
     protected $parameters;
 
+    /** @var string[] The array of HTTP request headers */
+    protected $headers = [];
+
+    /** @var mixed The HTTP request body */
+    protected $body;
+
     /** @var bool Whether the query must be paginated or not */
     protected $paginated = false;
 
@@ -57,7 +63,105 @@ class Query implements PaginatedQueryInterface
     public function __construct(ClientInterface $client)
     {
         $this->client = $client;
-        $this->parameters = new UrlParameters;
+        $this->parameters = new UrlParameters();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getHttpVerb(): string
+    {
+        return $this->getClientMethod()->getHttpVerb();
+    }
+
+    /**
+     * @inheritdoc
+     *
+     * @return $this
+     */
+    public function setUri(?string $uri)
+    {
+        $segments = Helper::getUrlPathSegments($uri);
+
+        $this->format = $segments[0] ?? null;
+        $this->module = $segments[1] ?? null;
+        $this->method = $segments[2] ?? null;
+
+        $this->parameters = UrlParameters::createFromUrl($uri);
+
+        return $this;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getUri(): string
+    {
+        return "{$this->format}/{$this->module}/{$this->method}?{$this->parameters}";
+    }
+
+    /**
+     * @inheritdoc
+     *
+     * @return $this
+     */
+    public function setUriParameter(string $key, $value)
+    {
+        $this->param($key, $value);
+
+        return $this;
+    }
+
+    /**
+     * @inheritdoc
+     *
+     * @return $this
+     */
+    public function setHeader(string $name, $value)
+    {
+        $this->headers[$name] = $value;
+
+        return $this;
+    }
+
+    /**
+     * @inheritdoc
+     *
+     * @return $this
+     */
+    public function removeHeader(string $name)
+    {
+        unset($this->headers[$name]);
+
+        return $this;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getHeaders(): array
+    {
+        return $this->headers;
+    }
+
+    /**
+     * @inheritdoc
+     *
+     * @return $this
+     */
+    public function setBody($content)
+    {
+        $this->body = $content;
+
+        return $this;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getBody()
+    {
+        return $this->body;
     }
 
     /**
@@ -561,14 +665,6 @@ class Query implements PaginatedQueryInterface
     public function mustFetchPagesAsynchronously()
     {
         return isset($this->concurrency) && $this->concurrency > 1;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function buildUri(): string
-    {
-        return "{$this->format}/{$this->module}/{$this->method}?{$this->parameters}";
     }
 
     /**

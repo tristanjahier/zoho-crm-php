@@ -2,7 +2,7 @@
 
 namespace Zoho\Crm\Contracts;
 
-interface QueryInterface
+interface QueryInterface extends RequestableInterface
 {
     /**
      * Validate the query.
@@ -16,13 +16,6 @@ interface QueryInterface
      * @throws \Zoho\Crm\Exceptions\InvalidQueryException
      */
     public function validate(): void;
-
-    /**
-     * Build the query URI.
-     *
-     * @return string
-     */
-    public function buildUri(): string;
 
     /**
      * Create a deep copy of the query.
