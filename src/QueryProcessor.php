@@ -126,22 +126,12 @@ class QueryProcessor
      */
     protected function createHttpRequest(QueryInterface $query)
     {
-        $httpVerb = $query->getHttpVerb();
-        $uri = $query->getUri();
-        $headers = $query->getHeaders();
-        $body = $query->getBody();
-
-        // For POST requests, because of the XML data, the parameters size might be very large.
-        // For that reason we won't include them in the URL query string, but in the body instead.
-        if ($httpVerb === HttpVerb::POST) {
-            $uri = parse_url($uri, PHP_URL_PATH);
-            $headers['Content-Type'] = 'application/x-www-form-urlencoded';
-            $body = parse_url($query->getUri(), PHP_URL_QUERY);
-        }
-
-        $fullUri = $this->client->getEndpoint() . $uri;
-
-        return new Request($httpVerb, $fullUri, $headers, $body);
+        return new Request(
+            $query->getHttpVerb(),
+            $this->client->getEndpoint() . $query->getUri(),
+            $query->getHeaders(),
+            $query->getBody()
+        );
     }
 
     /**
