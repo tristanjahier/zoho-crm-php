@@ -158,10 +158,9 @@ class QueryProcessor
         // Get rid of potential empty pages
         $contents = array_filter($contents);
 
-        // Delegate merging logic to the method handler
-        $mergedContent = $this->client
-            ->getMethodHandler($query->getMethod())
-            ->mergePaginatedContents(...$contents);
+        // We need to merge the pages, but because we cannot assume the nature
+        // of the content, we need to defer this operation to a dedicated object.
+        $mergedContent = $query->getResponsePageMerger()->mergePaginatedContents(...$contents);
 
         return new Response($query, $mergedContent, $rawContents);
     }

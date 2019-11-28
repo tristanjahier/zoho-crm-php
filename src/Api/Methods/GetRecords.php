@@ -2,13 +2,14 @@
 
 namespace Zoho\Crm\Api\Methods;
 
+use Zoho\Crm\Contracts\ResponsePageMergerInterface;
 use Zoho\Crm\Api\Query;
 use Zoho\Crm\Entities\Collection;
 
 /**
  * @see https://www.zoho.com/crm/developer/docs/api/getrecords.html
  */
-class GetRecords extends AbstractMethod implements MethodWithPaginationInterface
+class GetRecords extends AbstractMethod implements ResponsePageMergerInterface
 {
     /**
      * @inheritdoc

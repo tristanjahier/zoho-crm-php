@@ -27,4 +27,11 @@ interface PaginatedQueryInterface extends QueryInterface
      * @return QueryPaginatorInterface
      */
     public function getPaginator(): QueryPaginatorInterface;
+
+    /**
+     * Get a page content merger for paginated queries.
+     *
+     * @return ResponsePageMergerInterface
+     */
+    public function getResponsePageMerger(): ResponsePageMergerInterface;
 }

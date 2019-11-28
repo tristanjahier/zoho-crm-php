@@ -2,12 +2,13 @@
 
 namespace Zoho\Crm\Api\Methods;
 
+use Zoho\Crm\Contracts\ResponsePageMergerInterface;
 use Zoho\Crm\Api\Query;
 
 /**
  * @see https://www.zoho.com/crm/developer/docs/api/getdeletedrecordids.html
  */
-class GetDeletedRecordIds extends AbstractMethod implements MethodWithPaginationInterface
+class GetDeletedRecordIds extends AbstractMethod implements ResponsePageMergerInterface
 {
     /**
      * @inheritdoc

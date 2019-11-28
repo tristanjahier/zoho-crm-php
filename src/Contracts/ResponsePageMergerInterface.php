@@ -1,8 +1,8 @@
 <?php
 
-namespace Zoho\Crm\Api\Methods;
+namespace Zoho\Crm\Contracts;
 
-interface MethodWithPaginationInterface extends MethodInterface
+interface ResponsePageMergerInterface
 {
     /**
      * Merge multiple API pages into a single response content.
