@@ -8,6 +8,7 @@ use Zoho\Crm\Contracts\QueryInterface;
 use Zoho\Crm\Contracts\PaginatedQueryInterface;
 use Zoho\Crm\Contracts\ClientInterface;
 use Zoho\Crm\Contracts\ResponseInterface;
+use Zoho\Crm\Contracts\ResponseTransformerInterface;
 use Zoho\Crm\Contracts\QueryPaginatorInterface;
 use Zoho\Crm\Contracts\ResponsePageMergerInterface;
 use Zoho\Crm\Api\UrlParameters;
@@ -773,6 +774,14 @@ class Query implements PaginatedQueryInterface
      * @inheritdoc
      */
     public function getResponsePageMerger(): ResponsePageMergerInterface
+    {
+        return $this->getClientMethod();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getResponseTransformer(): ?ResponseTransformerInterface
     {
         return $this->getClientMethod();
     }

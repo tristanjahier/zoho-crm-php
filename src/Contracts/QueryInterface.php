@@ -37,4 +37,13 @@ interface QueryInterface extends RequestableInterface
      * @return mixed
      */
     public function get();
+
+    /**
+     * Get an instance of a response transformer.
+     *
+     * It may return null if there is no need of additional response transformation.
+     *
+     * @return ResponseTransformerInterface|null
+     */
+    public function getResponseTransformer(): ?ResponseTransformerInterface;
 }

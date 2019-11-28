@@ -24,8 +24,8 @@ class QueryProcessor
     /** @var RequestSender The request sender */
     protected $requestSender;
 
-    /** @var ResponseTransformer The response transformer */
-    protected $responseTransformer;
+    /** @var ResponseParser The response parser */
+    protected $responseParser;
 
     /** @var \Closure[] The callbacks to execute before each query execution */
     protected $preExecutionHooks = [];
@@ -45,7 +45,7 @@ class QueryProcessor
     {
         $this->client = $client;
         $this->requestSender = new RequestSender($this->client->preferences());
-        $this->responseTransformer = new ResponseTransformer();
+        $this->responseParser = new ResponseParser();
     }
 
     /**
@@ -62,7 +62,7 @@ class QueryProcessor
 
         $response = $this->sendQuery($query);
 
-        return $this->responseTransformer->transform($response, $query);
+        return $this->responseParser->parse($response, $query);
     }
 
     /**
@@ -191,7 +191,7 @@ class QueryProcessor
         $rawResponses = $this->requestSender->fetchAsyncResponses($promises);
 
         foreach ($rawResponses as $i => $rawResponse) {
-            $responses[$i] = $this->responseTransformer->transform($rawResponse, $queries[$i]);
+            $responses[$i] = $this->responseParser->parse($rawResponse, $queries[$i]);
         }
 
         return $responses;

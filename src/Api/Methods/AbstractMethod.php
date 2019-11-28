@@ -2,6 +2,8 @@
 
 namespace Zoho\Crm\Api\Methods;
 
+use Zoho\Crm\Contracts\ResponseTransformerInterface;
+use Zoho\Crm\Contracts\QueryInterface;
 use Zoho\Crm\Api\HttpVerb;
 use Zoho\Crm\Api\Query;
 use Zoho\Crm\Support\ClassShortNameTrait;
@@ -9,7 +11,7 @@ use Zoho\Crm\Support\ClassShortNameTrait;
 /**
  * Default API method handler implementation.
  */
-abstract class AbstractMethod implements MethodInterface
+abstract class AbstractMethod implements MethodInterface, ResponseTransformerInterface
 {
     use ClassShortNameTrait;
 
@@ -56,5 +58,19 @@ abstract class AbstractMethod implements MethodInterface
     public function convertResponse($response, Query $query)
     {
         return $response;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function transformResponse($content, QueryInterface $query)
+    {
+        if ($this->isResponseEmpty($content, $query)) {
+            return $this->getEmptyResponse($query);
+        }
+
+        $clean = $this->cleanResponse($content, $query);
+
+        return $this->convertResponse($clean, $query);
     }
 }

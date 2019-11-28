@@ -3,34 +3,37 @@
 namespace Zoho\Crm;
 
 use Psr\Http\Message\ResponseInterface as HttpResponseInterface;
-use Zoho\Crm\Api\Query;
+use Zoho\Crm\Contracts\QueryInterface;
 use Zoho\Crm\Api\Response;
 use Zoho\Crm\Api\ResponseFormat;
 use Zoho\Crm\Api\ErrorHandler;
 use Zoho\Crm\Support\Helper;
 
 /**
- * A class to transform a raw HTTP response into an API response object
+ * A class to parse and transform a raw HTTP response into an API response object
  * with a clean and exploitable content.
  */
-class ResponseTransformer
+class ResponseParser
 {
     /**
      * Parse an API response and transform its content into a relevant data object.
      *
      * @param \Psr\Http\Message\ResponseInterface $httpResponse The API response to read
-     * @param Api\Query $query The origin query
+     * @param Contracts\QueryInterface $query The origin query
      * @return Api\Response
      */
-    public function transform(HttpResponseInterface $httpResponse, Query $query)
+    public function parse(HttpResponseInterface $httpResponse, QueryInterface $query)
     {
         $rawContent = (string) $httpResponse->getBody();
 
-        $parsedContent = $this->parse($rawContent, $query->getFormat());
+        $format = Helper::getUrlPathSegmentByIndex($query->getUri(), 0);
+        $content = $this->parseFormattedString($rawContent, $format);
 
-        $this->validate($parsedContent);
+        $this->validate($content);
 
-        $content = $this->clean($parsedContent, $query);
+        if ($transformer = $query->getResponseTransformer()) {
+            $content = $transformer->transformResponse($content, $query);
+        }
 
         return new Response($query, $content, $rawContent);
     }
@@ -44,7 +47,7 @@ class ResponseTransformer
      *
      * @throws Exceptions\UnsupportedResponseFormatException
      */
-    private function parse(string $content, string $format)
+    protected function parseFormattedString(string $content, string $format)
     {
         if ($format === ResponseFormat::JSON) {
             return json_decode($content, true);
@@ -62,7 +65,7 @@ class ResponseTransformer
      * @throws Exceptions\UnreadableResponseException
      * @throws Api\Exceptions\AbstractException
      */
-    private function validate($content)
+    protected function validate($content)
     {
         if (is_null($content) || ! is_array($content)) {
             throw new Exceptions\UnreadableResponseException();
@@ -71,27 +74,5 @@ class ResponseTransformer
         if (isset($content['response']['error'])) {
             ErrorHandler::handle($content['response']['error']);
         }
-    }
-
-    /**
-     * Clean up the raw response, get rid of metadata, simplify the data structure.
-     *
-     * @param array $content The raw parsed response content
-     * @param Api\Query $query The origin query
-     * @return mixed
-     *
-     * @throws Exceptions\MethodNotFoundException
-     */
-    private function clean($content, Query $query)
-    {
-        $apiMethodHandler = $query->getClientMethod();
-
-        if ($apiMethodHandler->isResponseEmpty($content, $query)) {
-            return $apiMethodHandler->getEmptyResponse($query);
-        }
-
-        $clean = $apiMethodHandler->cleanResponse($content, $query);
-
-        return $apiMethodHandler->convertResponse($clean, $query);
     }
 }
