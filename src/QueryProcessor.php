@@ -4,7 +4,6 @@ namespace Zoho\Crm;
 
 use Closure;
 use GuzzleHttp\Psr7\Request;
-use Zoho\Crm\HttpVerb;
 use Zoho\Crm\Contracts\ClientInterface;
 use Zoho\Crm\Contracts\QueryInterface;
 use Zoho\Crm\Contracts\PaginatedQueryInterface;

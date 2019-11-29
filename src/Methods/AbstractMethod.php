@@ -4,7 +4,7 @@ namespace Zoho\Crm\Methods;
 
 use Zoho\Crm\Contracts\ResponseTransformerInterface;
 use Zoho\Crm\Contracts\QueryInterface;
-use Zoho\Crm\HttpVerb;
+use Zoho\Crm\Support\HttpVerb;
 use Zoho\Crm\Query;
 use Zoho\Crm\Support\ClassShortNameTrait;
 

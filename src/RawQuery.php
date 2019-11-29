@@ -6,6 +6,7 @@ use Zoho\Crm\Contracts\QueryInterface;
 use Zoho\Crm\Contracts\ClientInterface;
 use Zoho\Crm\Contracts\ResponseInterface;
 use Zoho\Crm\Contracts\ResponseTransformerInterface;
+use Zoho\Crm\Support\HttpVerb;
 use Zoho\Crm\Support\UrlParameters;
 
 /**

@@ -11,7 +11,7 @@ interface MethodInterface
      *
      * @return string
      *
-     * @see \Zoho\Crm\HttpVerb for a list of possible values
+     * @see \Zoho\Crm\Support\HttpVerb for a list of possible values
      */
     public function getHttpVerb();
 

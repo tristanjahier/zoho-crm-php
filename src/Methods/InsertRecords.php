@@ -3,7 +3,7 @@
 namespace Zoho\Crm\Methods;
 
 use Zoho\Crm\Query;
-use Zoho\Crm\HttpVerb;
+use Zoho\Crm\Support\HttpVerb;
 
 /**
  * @see https://www.zoho.com/crm/developer/docs/api/insertrecords.html
