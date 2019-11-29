@@ -4,9 +4,9 @@ namespace Zoho\Crm;
 
 use Psr\Http\Message\ResponseInterface as HttpResponseInterface;
 use Zoho\Crm\Contracts\QueryInterface;
-use Zoho\Crm\Api\Response;
-use Zoho\Crm\Api\ResponseFormat;
-use Zoho\Crm\Api\ErrorHandler;
+use Zoho\Crm\Response;
+use Zoho\Crm\ResponseFormat;
+use Zoho\Crm\ErrorHandler;
 use Zoho\Crm\Support\Helper;
 
 /**
@@ -20,7 +20,7 @@ class ResponseParser
      *
      * @param \Psr\Http\Message\ResponseInterface $httpResponse The API response to read
      * @param Contracts\QueryInterface $query The origin query
-     * @return Api\Response
+     * @return Response
      */
     public function parse(HttpResponseInterface $httpResponse, QueryInterface $query)
     {
@@ -63,7 +63,7 @@ class ResponseParser
      * @return void
      *
      * @throws Exceptions\UnreadableResponseException
-     * @throws Api\Exceptions\AbstractException
+     * @throws Exceptions\AbstractException
      */
     protected function validate($content)
     {

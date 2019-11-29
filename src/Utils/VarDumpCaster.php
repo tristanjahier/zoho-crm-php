@@ -6,9 +6,9 @@ use Symfony\Component\VarDumper\Caster\Caster;
 use Symfony\Component\VarDumper\Caster\CutStub;
 use Doctrine\Common\Inflector\Inflector;
 use Zoho\Crm\Client;
-use Zoho\Crm\Api\Modules\AbstractModule;
-use Zoho\Crm\Api\Query;
-use Zoho\Crm\Api\RawQuery;
+use Zoho\Crm\Modules\AbstractModule;
+use Zoho\Crm\Query;
+use Zoho\Crm\RawQuery;
 use Zoho\Crm\Entities\Entity;
 use Zoho\Crm\Support\Collection;
 
@@ -66,7 +66,7 @@ class VarDumpCaster
     /**
      * Cast a module handler instance.
      *
-     * @param \Zoho\Crm\Api\Modules\AbstractModule $module The module instance
+     * @param \Zoho\Crm\Modules\AbstractModule $module The module instance
      * @return array
      */
     public static function castModule(AbstractModule $module)
@@ -81,7 +81,7 @@ class VarDumpCaster
     /**
      * Cast a query instance.
      *
-     * @param \Zoho\Crm\Api\Query $query The query instance
+     * @param \Zoho\Crm\Query $query The query instance
      * @return array
      */
     public static function castQuery(Query $query)
@@ -96,7 +96,7 @@ class VarDumpCaster
     /**
      * Cast a raw query instance.
      *
-     * @param \Zoho\Crm\Api\RawQuery $query The query instance
+     * @param \Zoho\Crm\RawQuery $query The query instance
      * @return array
      */
     public static function castRawQuery(RawQuery $query)

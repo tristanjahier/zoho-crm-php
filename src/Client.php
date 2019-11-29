@@ -7,10 +7,10 @@ use Doctrine\Common\Inflector\Inflector;
 use Zoho\Crm\Contracts\ClientInterface;
 use Zoho\Crm\Contracts\QueryInterface;
 use Zoho\Crm\Contracts\ResponseInterface;
-use Zoho\Crm\Api\Modules\AbstractModule;
-use Zoho\Crm\Api\Methods\MethodInterface;
-use Zoho\Crm\Api\Query;
-use Zoho\Crm\Api\RawQuery;
+use Zoho\Crm\Modules\AbstractModule;
+use Zoho\Crm\Methods\MethodInterface;
+use Zoho\Crm\Query;
+use Zoho\Crm\RawQuery;
 
 /**
  * Zoho CRM API client. Main class of the library.
@@ -19,30 +19,30 @@ use Zoho\Crm\Api\RawQuery;
  *
  * @author Tristan Jahier <tristan.jahier@gmail.com>
  *
- * @property-read Api\Modules\Accounts $accounts
- * @property-read Api\Modules\Attachments $attachments
- * @property-read Api\Modules\Calls $calls
- * @property-read Api\Modules\Campaigns $campaigns
- * @property-read Api\Modules\Cases $cases
- * @property-read Api\Modules\ContactRoles $contactRoles
- * @property-read Api\Modules\Contacts $contacts
- * @property-read Api\Modules\Deals $deals
- * @property-read Api\Modules\Events $events
- * @property-read Api\Modules\Info $info
- * @property-read Api\Modules\Invoices $invoices
- * @property-read Api\Modules\Leads $leads
- * @property-read Api\Modules\Notes $notes
- * @property-read Api\Modules\Potentials $potentials
- * @property-read Api\Modules\PotStageHistory $potStageHistory
- * @property-read Api\Modules\PriceBooks $priceBooks
- * @property-read Api\Modules\Products $products
- * @property-read Api\Modules\PurchaseOrders $purchaseOrders
- * @property-read Api\Modules\Quotes $quotes
- * @property-read Api\Modules\SalesOrders $salesOrders
- * @property-read Api\Modules\Solutions $solutions
- * @property-read Api\Modules\Tasks $tasks
- * @property-read Api\Modules\Users $users
- * @property-read Api\Modules\Vendors $vendors
+ * @property-read Modules\Accounts $accounts
+ * @property-read Modules\Attachments $attachments
+ * @property-read Modules\Calls $calls
+ * @property-read Modules\Campaigns $campaigns
+ * @property-read Modules\Cases $cases
+ * @property-read Modules\ContactRoles $contactRoles
+ * @property-read Modules\Contacts $contacts
+ * @property-read Modules\Deals $deals
+ * @property-read Modules\Events $events
+ * @property-read Modules\Info $info
+ * @property-read Modules\Invoices $invoices
+ * @property-read Modules\Leads $leads
+ * @property-read Modules\Notes $notes
+ * @property-read Modules\Potentials $potentials
+ * @property-read Modules\PotStageHistory $potStageHistory
+ * @property-read Modules\PriceBooks $priceBooks
+ * @property-read Modules\Products $products
+ * @property-read Modules\PurchaseOrders $purchaseOrders
+ * @property-read Modules\Quotes $quotes
+ * @property-read Modules\SalesOrders $salesOrders
+ * @property-read Modules\Solutions $solutions
+ * @property-read Modules\Tasks $tasks
+ * @property-read Modules\Users $users
+ * @property-read Modules\Vendors $vendors
  */
 class Client implements ClientInterface
 {
@@ -51,53 +51,53 @@ class Client implements ClientInterface
 
     /**
      * @var string The API response format used by default
-     * @see Api\ResponseFormat for a list of available values
+     * @see ResponseFormat for a list of available values
      */
-    const DEFAULT_RESPONSE_FORMAT = Api\ResponseFormat::JSON;
+    const DEFAULT_RESPONSE_FORMAT = ResponseFormat::JSON;
 
     /** @var string[] The default modules class names */
     protected static $defaultModules = [
-        Api\Modules\Accounts::class,
-        Api\Modules\Attachments::class,
-        Api\Modules\Calls::class,
-        Api\Modules\Campaigns::class,
-        Api\Modules\Cases::class,
-        Api\Modules\ContactRoles::class,
-        Api\Modules\Contacts::class,
-        Api\Modules\Deals::class,
-        Api\Modules\Events::class,
-        Api\Modules\Info::class,
-        Api\Modules\Invoices::class,
-        Api\Modules\Leads::class,
-        Api\Modules\Notes::class,
-        Api\Modules\Potentials::class,
-        Api\Modules\PotStageHistory::class,
-        Api\Modules\PriceBooks::class,
-        Api\Modules\Products::class,
-        Api\Modules\PurchaseOrders::class,
-        Api\Modules\Quotes::class,
-        Api\Modules\SalesOrders::class,
-        Api\Modules\Solutions::class,
-        Api\Modules\Tasks::class,
-        Api\Modules\Users::class,
-        Api\Modules\Vendors::class,
+        Modules\Accounts::class,
+        Modules\Attachments::class,
+        Modules\Calls::class,
+        Modules\Campaigns::class,
+        Modules\Cases::class,
+        Modules\ContactRoles::class,
+        Modules\Contacts::class,
+        Modules\Deals::class,
+        Modules\Events::class,
+        Modules\Info::class,
+        Modules\Invoices::class,
+        Modules\Leads::class,
+        Modules\Notes::class,
+        Modules\Potentials::class,
+        Modules\PotStageHistory::class,
+        Modules\PriceBooks::class,
+        Modules\Products::class,
+        Modules\PurchaseOrders::class,
+        Modules\Quotes::class,
+        Modules\SalesOrders::class,
+        Modules\Solutions::class,
+        Modules\Tasks::class,
+        Modules\Users::class,
+        Modules\Vendors::class,
     ];
 
     protected static $defaultMethodHandlers = [
-        Api\Methods\DeleteFile::class,
-        Api\Methods\DeleteRecords::class,
-        Api\Methods\GetDeletedRecordIds::class,
-        Api\Methods\GetFields::class,
-        Api\Methods\GetModules::class,
-        Api\Methods\GetMyRecords::class,
-        Api\Methods\GetRecordById::class,
-        Api\Methods\GetRecords::class,
-        Api\Methods\GetRelatedRecords::class,
-        Api\Methods\GetSearchRecordsByPDC::class,
-        Api\Methods\GetUsers::class,
-        Api\Methods\InsertRecords::class,
-        Api\Methods\SearchRecords::class,
-        Api\Methods\UpdateRecords::class,
+        Methods\DeleteFile::class,
+        Methods\DeleteRecords::class,
+        Methods\GetDeletedRecordIds::class,
+        Methods\GetFields::class,
+        Methods\GetModules::class,
+        Methods\GetMyRecords::class,
+        Methods\GetRecordById::class,
+        Methods\GetRecords::class,
+        Methods\GetRelatedRecords::class,
+        Methods\GetSearchRecordsByPDC::class,
+        Methods\GetUsers::class,
+        Methods\InsertRecords::class,
+        Methods\SearchRecords::class,
+        Methods\UpdateRecords::class,
     ];
 
     /** @var string The API endpoint (base URI with trailing slash) */
@@ -117,19 +117,19 @@ class Client implements ClientInterface
         'scope' => 'crmapi',
         'newFormat' => 1,
         'version' => 2,
-        'fromIndex' => Api\QueryPaginator::MIN_INDEX,
-        'toIndex' => Api\QueryPaginator::PAGE_MAX_SIZE,
+        'fromIndex' => QueryPaginator::MIN_INDEX,
+        'toIndex' => QueryPaginator::PAGE_MAX_SIZE,
         'sortColumnString' => 'Modified Time',
         'sortOrderString' => 'asc'
     ];
 
-    /** @var Api\Modules\AbstractModule[] The list of Zoho modules available through the API */
+    /** @var Modules\AbstractModule[] The list of Zoho modules available through the API */
     protected $modules = [];
 
     /** @var string[] An associative array of aliases pointing to real module names */
     protected $moduleAliases = [];
 
-    /** @var Api\Methods\AbstractMethod[] The list of API method handlers */
+    /** @var Methods\AbstractMethod[] The list of API method handlers */
     protected $methodHandlers = [];
 
     /**
@@ -164,7 +164,7 @@ class Client implements ClientInterface
     /**
      * Get the module handlers.
      *
-     * @return Api\Modules\AbstractModule[]
+     * @return Modules\AbstractModule[]
      */
     public function modules()
     {
@@ -253,7 +253,7 @@ class Client implements ClientInterface
      * Get a module handler by API name or by alias.
      *
      * @param string The name of the module
-     * @return Api\Modules\AbstractModule
+     * @return Modules\AbstractModule
      *
      * @throws Exceptions\UnsupportedModuleException
      */
@@ -271,7 +271,7 @@ class Client implements ClientInterface
     /**
      * Get the modules which have an alias, indexed by these aliases.
      *
-     * @return Api\Modules\AbstractModule[]
+     * @return Modules\AbstractModule[]
      */
     public function aliasedModules()
     {
@@ -351,7 +351,7 @@ class Client implements ClientInterface
      * Get an API method handler by name.
      *
      * @param string The name of the method
-     * @return Api\Methods\AbstractMethod
+     * @return Methods\AbstractMethod
      *
      * @throws Exceptions\UnsupportedMethodException
      */
@@ -498,7 +498,7 @@ class Client implements ClientInterface
      * @param string|null $method (optional) The name of the API method
      * @param array $params (optional) An array of URL parameters
      * @param bool $paginated (optional) Whether to fetch multiple pages or not
-     * @return Api\Query
+     * @return Query
      */
     public function newQuery($module = null, $method = null, $params = [], $paginated = false)
     {
@@ -521,7 +521,7 @@ class Client implements ClientInterface
      * Create a new raw query object.
      *
      * @param string|null $path (optional) The URI path
-     * @return Api\RawQuery
+     * @return RawQuery
      */
     public function newRawQuery(string $path = null)
     {
@@ -593,7 +593,7 @@ class Client implements ClientInterface
      * It also works with aliases.
      *
      * @param string $name The name of the module in camel case
-     * @return Api\Modules\AbstractModule
+     * @return Modules\AbstractModule
      *
      * @throws Exceptions\UnsupportedModuleException
      */

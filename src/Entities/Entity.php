@@ -180,7 +180,7 @@ class Entity implements Arrayable
     /**
      * Get the related module handler.
      *
-     * @return \Zoho\Crm\Api\Modules\AbstractModule|null
+     * @return \Zoho\Crm\Modules\AbstractModule|null
      */
     public function module()
     {

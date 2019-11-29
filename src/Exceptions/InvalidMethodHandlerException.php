@@ -3,7 +3,7 @@
 namespace Zoho\Crm\Exceptions;
 
 use Exception;
-use Zoho\Crm\Api\Methods\MethodInterface;
+use Zoho\Crm\Methods\MethodInterface;
 
 class InvalidMethodHandlerException extends Exception
 {

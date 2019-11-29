@@ -4,12 +4,12 @@ namespace Zoho\Crm;
 
 use Closure;
 use GuzzleHttp\Psr7\Request;
-use Zoho\Crm\Api\HttpVerb;
+use Zoho\Crm\HttpVerb;
 use Zoho\Crm\Contracts\ClientInterface;
 use Zoho\Crm\Contracts\QueryInterface;
 use Zoho\Crm\Contracts\PaginatedQueryInterface;
-use Zoho\Crm\Api\Query;
-use Zoho\Crm\Api\Response;
+use Zoho\Crm\Query;
+use Zoho\Crm\Response;
 use Zoho\Crm\Exceptions\PaginatedQueryInBatchExecutionException;
 use Zoho\Crm\Support\Helper;
 
@@ -52,7 +52,7 @@ class QueryProcessor
      * Execute a query and get a formal and generic response object.
      *
      * @param \Zoho\Crm\Contracts\QueryInterface $query The query to execute
-     * @return Api\Response
+     * @return Response
      */
     public function executeQuery(QueryInterface $query)
     {
@@ -138,7 +138,7 @@ class QueryProcessor
      * Execute a paginated query.
      *
      * @param \Zoho\Crm\Contracts\PaginatedQueryInterface $query The query to execute
-     * @return Api\Response
+     * @return Response
      */
     protected function executePaginatedQuery(PaginatedQueryInterface $query)
     {
@@ -170,8 +170,8 @@ class QueryProcessor
      *
      * The response objects are returned in the same order their queries were provided.
      *
-     * @param Api\Query[] $queries The batch of queries to execute
-     * @return Api\Response[]
+     * @param Query[] $queries The batch of queries to execute
+     * @return Response[]
      *
      * @throws Exceptions\PaginatedQueryInBatchExecutionException
      */

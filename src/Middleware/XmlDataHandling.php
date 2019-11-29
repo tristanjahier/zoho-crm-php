@@ -4,8 +4,8 @@ namespace Zoho\Crm\Middleware;
 
 use Zoho\Crm\Contracts\MiddlewareInterface;
 use Zoho\Crm\Contracts\QueryInterface;
-use Zoho\Crm\Api\UrlParameters;
-use Zoho\Crm\Api\HttpVerb;
+use Zoho\Crm\Support\UrlParameters;
+use Zoho\Crm\HttpVerb;
 
 /**
  * Middleware that moves 'xmlData' parameter to body in POST requests.

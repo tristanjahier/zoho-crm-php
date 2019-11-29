@@ -108,7 +108,7 @@ $records = $response->getContent();
 
 ### The query object
 
-A query is an instance of the class `Zoho\Crm\Api\Query`. It is simply a container for all the parameters that define a Zoho API request.
+A query is an instance of the class `Zoho\Crm\Query`. It is simply a container for all the parameters that define a Zoho API request.
 
 Remember that all the arguments of the `Client::newQuery()` method are optional. You can create an empty query:
 ```php
@@ -243,7 +243,7 @@ foreach ($records as $record) {
 
 ### The module handlers
 
-The client comes with module handlers attached to it, which extend `Zoho\Crm\Api\Modules\AbstractModule`.
+The client comes with module handlers attached to it, which extend `Zoho\Crm\Modules\AbstractModule`.
 
 They are accessible either with the `Client::module()` method or by calling the name of the module as a public property (in camel case).
 
@@ -539,7 +539,7 @@ $fields = $client->contacts->getMandatory();
 
 If you have custom modules in your Zoho organization, you may want to request them through the API too.
 
-To support your own custom module, you need to create a dedicated class which extends `Zoho\Crm\Api\Modules\AbstractRecordsModule`. In this class, you need to re-define 2 properties:
+To support your own custom module, you need to create a dedicated class which extends `Zoho\Crm\Modules\AbstractRecordsModule`. In this class, you need to re-define 2 properties:
 1. `$name`: the name of the module (not the "display name"!)
 2. `$supportedMethods`: the list of API methods that you can use on the module
 
@@ -548,7 +548,7 @@ And an optional one: `$associatedEntity`, which is the class of the entity objec
 Example:
 
 ```php
-use Zoho\Crm\Api\Modules\AbstractRecordsModule;
+use Zoho\Crm\Modules\AbstractRecordsModule;
 
 class MyCustomModule extends AbstractRecordsModule
 {
@@ -646,7 +646,7 @@ Use the `afterQueryExecution()` method to register a closure that will be invoke
 
 Example:
 ```php
-use Zoho\Crm\Api\Query;
+use Zoho\Crm\Query;
 
 $client->beforeQueryExecution(function (Query $query, string $execId) {
     // do something...
