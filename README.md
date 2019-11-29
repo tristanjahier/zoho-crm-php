@@ -659,3 +659,23 @@ $client->afterQueryExecution(function (Query $query, string $execId) {
 
 **Important note:** paginated queries will not trigger these hooks directly, but their subsequent queries (per page) will.
 In other words, only the queries that directly lead to an API HTTP request will trigger the hooks.
+
+
+### Query middleware
+
+If you need to, you can register custom middleware that will be applied to each query before it is converted into an HTTP request. Unlike execution hooks, middleware can modify the query object. Actually, this is exactly the point of middleware.
+
+Use the `registerMiddleware()` method, which only takes a `callable`. So, you can pass a closure or an object implementing `Zoho\Crm\Contracts\MiddlewareInterface`.
+
+Example:
+```php
+use Zoho\Crm\Query;
+
+$client->registerMiddleware(function (Query $query) {
+    $query->param('toto', 'tutu');
+});
+```
+
+Notice that you don't need to return the query object. In fact, the return value will simply be ignored.
+
+**Important note:** as with execution hooks, paginated queries will not pass through the middleware directly, but their subsequent queries (per page) will.
