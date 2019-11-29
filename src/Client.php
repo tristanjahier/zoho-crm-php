@@ -10,6 +10,7 @@ use Zoho\Crm\Contracts\ResponseInterface;
 use Zoho\Crm\Api\Modules\AbstractModule;
 use Zoho\Crm\Api\Methods\MethodInterface;
 use Zoho\Crm\Api\Query;
+use Zoho\Crm\Api\RawQuery;
 
 /**
  * Zoho CRM API client. Main class of the library.
@@ -514,6 +515,17 @@ class Client implements ClientInterface
                     ? $this->preferences->get('default_concurrency')
                     : null
             );
+    }
+
+    /**
+     * Create a new raw query object.
+     *
+     * @param string|null $path (optional) The URI path
+     * @return Api\RawQuery
+     */
+    public function newRawQuery(string $path = null)
+    {
+        return (new RawQuery($this))->setUri($path);
     }
 
     /**

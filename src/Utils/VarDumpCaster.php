@@ -8,6 +8,7 @@ use Doctrine\Common\Inflector\Inflector;
 use Zoho\Crm\Client;
 use Zoho\Crm\Api\Modules\AbstractModule;
 use Zoho\Crm\Api\Query;
+use Zoho\Crm\Api\RawQuery;
 use Zoho\Crm\Entities\Entity;
 use Zoho\Crm\Support\Collection;
 
@@ -34,6 +35,7 @@ class VarDumpCaster
             Client::class => self::class.'::castClient',
             AbstractModule::class => self::class.'::castModule',
             Query::class => self::class.'::castQuery',
+            RawQuery::class => self::class.'::castRawQuery',
             Entity::class => self::class.'::castEntity',
             Collection::class => self::class.'::castCollection',
         ];
@@ -89,6 +91,22 @@ class VarDumpCaster
         $result[Caster::PREFIX_PROTECTED . 'client'] = new CutStub($query->getClient());
 
         return $result;
+    }
+
+    /**
+     * Cast a raw query instance.
+     *
+     * @param \Zoho\Crm\Api\RawQuery $query The query instance
+     * @return array
+     */
+    public static function castRawQuery(RawQuery $query)
+    {
+        return self::prefixKeys([
+            'httpVerb' => $query->getHttpVerb(),
+            'uri' => $query->getUri(),
+            'headers' => $query->getHeaders(),
+            'body' => $query->getBody()
+        ], Caster::PREFIX_PROTECTED);
     }
 
     /**
