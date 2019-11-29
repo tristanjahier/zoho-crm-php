@@ -201,7 +201,7 @@ class QueryProcessor
      *
      * @return int
      */
-    public function getRequestCount()
+    public function getRequestCount(): int
     {
         return $this->requestSender->getRequestCount();
     }
