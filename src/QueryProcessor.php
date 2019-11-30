@@ -9,8 +9,6 @@ use Zoho\Crm\Contracts\RequestSenderInterface;
 use Zoho\Crm\Contracts\ResponseParserInterface;
 use Zoho\Crm\Contracts\QueryInterface;
 use Zoho\Crm\Contracts\PaginatedQueryInterface;
-use Zoho\Crm\Query;
-use Zoho\Crm\Response;
 use Zoho\Crm\Exceptions\PaginatedQueryInBatchExecutionException;
 use Zoho\Crm\Support\Helper;
 

@@ -9,8 +9,6 @@ use Zoho\Crm\Contracts\QueryInterface;
 use Zoho\Crm\Contracts\ResponseInterface;
 use Zoho\Crm\Modules\AbstractModule;
 use Zoho\Crm\Methods\MethodInterface;
-use Zoho\Crm\Query;
-use Zoho\Crm\RawQuery;
 
 /**
  * Zoho CRM API client. Main class of the library.

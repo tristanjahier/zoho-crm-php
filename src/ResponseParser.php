@@ -6,9 +6,6 @@ use Psr\Http\Message\ResponseInterface as HttpResponseInterface;
 use Zoho\Crm\Contracts\ResponseParserInterface;
 use Zoho\Crm\Contracts\QueryInterface;
 use Zoho\Crm\Contracts\ResponseInterface;
-use Zoho\Crm\Response;
-use Zoho\Crm\ResponseFormat;
-use Zoho\Crm\ErrorHandler;
 use Zoho\Crm\Support\Helper;
 
 /**
