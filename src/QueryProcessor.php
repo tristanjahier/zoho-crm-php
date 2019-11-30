@@ -5,6 +5,8 @@ namespace Zoho\Crm;
 use Closure;
 use GuzzleHttp\Psr7\Request;
 use Zoho\Crm\Contracts\ClientInterface;
+use Zoho\Crm\Contracts\RequestSenderInterface;
+use Zoho\Crm\Contracts\ResponseParserInterface;
 use Zoho\Crm\Contracts\QueryInterface;
 use Zoho\Crm\Contracts\PaginatedQueryInterface;
 use Zoho\Crm\Query;
@@ -20,10 +22,10 @@ class QueryProcessor
     /** @var \Zoho\Crm\Contracts\ClientInterface The client to which this processor is attached */
     protected $client;
 
-    /** @var RequestSender The request sender */
+    /** @var \Zoho\Crm\Contracts\RequestSenderInterface The request sender */
     protected $requestSender;
 
-    /** @var ResponseParser The response parser */
+    /** @var \Zoho\Crm\Contracts\ResponseParserInterface The response parser */
     protected $responseParser;
 
     /** @var \Closure[] The callbacks to execute before each query execution */
@@ -40,11 +42,23 @@ class QueryProcessor
      *
      * @param \Zoho\Crm\Contracts\ClientInterface $client The client to which it is attached
      */
-    public function __construct(ClientInterface $client)
-    {
+    public function __construct(
+        ClientInterface $client,
+        RequestSenderInterface $requestSender = null,
+        ResponseParserInterface $responseParser = null
+    ) {
         $this->client = $client;
-        $this->requestSender = new RequestSender($this->client->preferences());
-        $this->responseParser = new ResponseParser();
+
+        if (is_null($requestSender)) {
+            $requestSender = new RequestSender($this->client->preferences());
+        }
+
+        if (is_null($responseParser)) {
+            $responseParser = new ResponseParser();
+        }
+
+        $this->requestSender = $requestSender;
+        $this->responseParser = $responseParser;
     }
 
     /**
