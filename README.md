@@ -35,7 +35,7 @@ Here are just a few examples of what is possible to do with this library:
 
 ```php
 // Create an API client
-$client = new Zoho\Crm\Client('MY_ZOHO_AUTH_TOKEN');
+$client = new Zoho\Crm\V1\Client('MY_ZOHO_AUTH_TOKEN');
 
 // Create a query and execute it
 $response = $client->newQuery('Calls', 'getRecords', ['fromIndex' => 201, 'toIndex' => 400])->execute();
@@ -67,7 +67,7 @@ The main component of this library is the `Client` class. This is the **starting
 
 To create an API client you simply need a Zoho auth token:
 ```php
-$client = new Zoho\Crm\Client('MY_ZOHO_AUTH_TOKEN');
+$client = new Zoho\Crm\V1\Client('MY_ZOHO_AUTH_TOKEN');
 ```
 
 You are now ready to make API requests! First, you need to create a query. This is done through the `newQuery()` method. It takes up to 4 arguments (all optional):
@@ -108,7 +108,7 @@ $records = $response->getContent();
 
 ### The query object
 
-A query is an instance of the class `Zoho\Crm\Query`. It is simply a container for all the parameters that define a Zoho API request.
+A query is an instance of the class `Zoho\Crm\V1\Query`. It is simply a container for all the parameters that define a Zoho API request.
 
 Remember that all the arguments of the `Client::newQuery()` method are optional. You can create an empty query:
 ```php
@@ -243,7 +243,7 @@ foreach ($records as $record) {
 
 ### The module handlers
 
-The client comes with module handlers attached to it, which extend `Zoho\Crm\Modules\AbstractModule`.
+The client comes with module handlers attached to it, which extend `Zoho\Crm\V1\Modules\AbstractModule`.
 
 They are accessible either with the `Client::module()` method or by calling the name of the module as a public property (in camel case).
 
@@ -539,7 +539,7 @@ $fields = $client->contacts->getMandatory();
 
 If you have custom modules in your Zoho organization, you may want to request them through the API too.
 
-To support your own custom module, you need to create a dedicated class which extends `Zoho\Crm\Modules\AbstractRecordsModule`. In this class, you need to re-define 2 properties:
+To support your own custom module, you need to create a dedicated class which extends `Zoho\Crm\V1\Modules\AbstractRecordsModule`. In this class, you need to re-define 2 properties:
 1. `$name`: the name of the module (not the "display name"!)
 2. `$supportedMethods`: the list of API methods that you can use on the module
 
@@ -548,7 +548,7 @@ And an optional one: `$associatedEntity`, which is the class of the entity objec
 Example:
 
 ```php
-use Zoho\Crm\Modules\AbstractRecordsModule;
+use Zoho\Crm\V1\Modules\AbstractRecordsModule;
 
 class MyCustomModule extends AbstractRecordsModule
 {
@@ -611,7 +611,7 @@ By default, the endpoint is: `https://crm.zoho.com/crm/private/`. You may want t
 For that, you can pass a second argument to the `Client` constructor:
 
 ```php
-$client = new Zoho\Crm\Client('MY_ZOHO_AUTH_TOKEN', 'https://crm.zoho.eu/crm/private/');
+$client = new Zoho\Crm\V1\Client('MY_ZOHO_AUTH_TOKEN', 'https://crm.zoho.eu/crm/private/');
 ```
 
 Or use the `setEndpoint()` method:
@@ -646,7 +646,7 @@ Use the `afterQueryExecution()` method to register a closure that will be invoke
 
 Example:
 ```php
-use Zoho\Crm\Query;
+use Zoho\Crm\V1\Query;
 
 $client->beforeQueryExecution(function (Query $query, string $execId) {
     // do something...
@@ -669,7 +669,7 @@ Use the `registerMiddleware()` method, which only takes a `callable`. So, you ca
 
 Example:
 ```php
-use Zoho\Crm\Query;
+use Zoho\Crm\V1\Query;
 
 $client->registerMiddleware(function (Query $query) {
     $query->param('toto', 'tutu');

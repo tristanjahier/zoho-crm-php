@@ -42,19 +42,10 @@ class QueryProcessor
      */
     public function __construct(
         ClientInterface $client,
-        RequestSenderInterface $requestSender = null,
-        ResponseParserInterface $responseParser = null
+        RequestSenderInterface $requestSender,
+        ResponseParserInterface $responseParser
     ) {
         $this->client = $client;
-
-        if (is_null($requestSender)) {
-            $requestSender = new RequestSender($this->client->preferences());
-        }
-
-        if (is_null($responseParser)) {
-            $responseParser = new ResponseParser();
-        }
-
         $this->requestSender = $requestSender;
         $this->responseParser = $responseParser;
     }

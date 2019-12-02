@@ -14,7 +14,7 @@ use Zoho\Crm\Support\UrlParameters;
  */
 class RawQuery implements QueryInterface
 {
-    /** @var \Zoho\Crm\Client The API client that originated this query */
+    /** @var \Zoho\Crm\Contracts\ClientInterface The API client that originated this query */
     protected $client;
 
     /** @var string The HTTP verb/method */
@@ -32,7 +32,7 @@ class RawQuery implements QueryInterface
     /**
      * The constructor.
      *
-     * @param \Zoho\Crm\Client $client The client to use to make the request
+     * @param \Zoho\Crm\Contracts\ClientInterface $client The client to use to make the request
      */
     public function __construct(ClientInterface $client)
     {

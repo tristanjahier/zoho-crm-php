@@ -3,7 +3,7 @@
 namespace Zoho\Crm\Entities;
 
 use Doctrine\Common\Inflector\Inflector;
-use Zoho\Crm\Client;
+use Zoho\Crm\V1\Client;
 use Zoho\Crm\Support\ClassShortNameTrait;
 use Zoho\Crm\Support\Arrayable;
 
@@ -26,14 +26,14 @@ class Entity implements Arrayable
     /** @var string[] The entity attributes */
     protected $attributes = [];
 
-    /** @var \Zoho\Crm\Client|null The client to which the entity is bound */
+    /** @var \Zoho\Crm\V1\Client|null The client to which the entity is bound */
     protected $client;
 
     /**
      * The constructor.
      *
      * @param string[] $attributes (optional) The entity attributes
-     * @param \Zoho\Crm\Client $client (optional) The client to which the entity must be bound
+     * @param \Zoho\Crm\V1\Client $client (optional) The client to which the entity must be bound
      */
     public function __construct(array $attributes = [], Client $client = null)
     {
@@ -149,7 +149,7 @@ class Entity implements Arrayable
     /**
      * Get the client to which the entity is bound.
      *
-     * @return \Zoho\Crm\Client|null
+     * @return \Zoho\Crm\V1\Client|null
      */
     public function getClient()
     {
@@ -159,7 +159,7 @@ class Entity implements Arrayable
     /**
      * Set the client to which the entity is bound.
      *
-     * @param \Zoho\Crm\Client|null $client The client to which the entity must be bound
+     * @param \Zoho\Crm\V1\Client|null $client The client to which the entity must be bound
      * @return void
      */
     public function setClient(?Client $client)
@@ -180,7 +180,7 @@ class Entity implements Arrayable
     /**
      * Get the related module handler.
      *
-     * @return \Zoho\Crm\Modules\AbstractModule|null
+     * @return \Zoho\Crm\V1\Modules\AbstractModule|null
      */
     public function module()
     {
