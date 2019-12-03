@@ -1,0 +1,255 @@
+<?php
+
+namespace Zoho\Crm\V2;
+
+use Closure;
+use GuzzleHttp\Psr7\Request;
+use Zoho\Crm\Contracts\ClientInterface;
+use Zoho\Crm\Contracts\QueryInterface;
+use Zoho\Crm\Contracts\ResponseInterface;
+use Zoho\Crm\Exceptions\InvalidEndpointException;
+use Zoho\Crm\Support\UrlParameters;
+use Zoho\Crm\QueryProcessor;
+use Zoho\Crm\RequestSender;
+use Zoho\Crm\RawQuery;
+
+/**
+ * Zoho CRM APIv2 client. Main class of the library.
+ *
+ * It is the central point for each request to the API of Zoho CRM.
+ *
+ * @author Tristan Jahier <tristan.jahier@gmail.com>
+ */
+class Client implements ClientInterface
+{
+    /** @var string The API endpoint used by default */
+    const DEFAULT_ENDPOINT = 'https://www.zohoapis.com/crm/v2/';
+
+    /** @var string The API OAuth 2.0 authorization endpoint used by default */
+    const DEFAULT_OAUTH_ENDPOINT = 'https://accounts.zoho.com/oauth/v2/';
+
+    /** @var string The OAuth 2.0 client ID */
+    protected $oAuthClientId;
+
+    /** @var string The OAuth 2.0 client secret */
+    protected $oAuthClientSecret;
+
+    /** @var string The OAuth 2.0 refresh token */
+    protected $oAuthRefreshToken;
+
+    /** @var string|null The OAuth 2.0 access token */
+    protected $oAuthAccessToken;
+
+    /** @var string The API endpoint (base URI with trailing slash) */
+    protected $endpoint = self::DEFAULT_ENDPOINT;
+
+    /** @var string The API OAuth 2.0 authorization endpoint */
+    protected $oAuthEndpoint = self::DEFAULT_OAUTH_ENDPOINT;
+
+    /** @var \Zoho\Crm\QueryProcessor The query processor */
+    protected $queryProcessor;
+
+    /**
+     * The constructor.
+     *
+     * @param string $oAuthClientId The client ID
+     * @param string $oAuthClientSecret The client secret
+     * @param string $oAuthRefreshToken The refresh token
+     * @param string|null $oAuthAccessToken (optional) The access token
+     * @param string|null $endpoint (optional) The endpoint URI
+     */
+    public function __construct(
+        string $oAuthClientId,
+        string $oAuthClientSecret,
+        string $oAuthRefreshToken,
+        string $oAuthAccessToken = null,
+        string $endpoint = null)
+    {
+        $this->oAuthClientId = $oAuthClientId;
+        $this->oAuthClientSecret = $oAuthClientSecret;
+        $this->oAuthRefreshToken = $oAuthRefreshToken;
+        $this->oAuthAccessToken = $oAuthAccessToken;
+
+        if (isset($endpoint)) {
+            $this->setEndpoint($endpoint);
+        }
+
+        $this->queryProcessor = new QueryProcessor($this, new RequestSender(), new ResponseParser());
+
+        $this->registerMiddleware(new Middleware\Validation());
+        $this->registerMiddleware(new Middleware\Authorization($this));
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setEndpoint(string $endpoint): void
+    {
+        // Remove trailing slashes
+        $endpoint = rtrim($endpoint, '/');
+
+        if ($endpoint === '') {
+            throw new InvalidEndpointException();
+        }
+
+        // Make sure the endpoint ends with a single slash
+        $this->endpoint = $endpoint . '/';
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getEndpoint(): string
+    {
+        return $this->endpoint;
+    }
+
+    /**
+     * @inheritdoc
+     *
+     * @return \Zoho\Crm\Response
+     */
+    public function executeQuery(QueryInterface $query): ResponseInterface
+    {
+        return $this->queryProcessor->executeQuery($query);
+    }
+
+    /**
+     * @inheritdoc
+     *
+     * @return \Zoho\Crm\Response[]
+     */
+    public function executeAsyncBatch(array $queries): array
+    {
+        return $this->queryProcessor->executeAsyncBatch($queries);
+    }
+
+    /**
+     * @inheritdoc
+     *
+     * @return $this
+     */
+    public function beforeQueryExecution(Closure $callback): ClientInterface
+    {
+        $this->queryProcessor->registerPreExecutionHook($callback);
+
+        return $this;
+    }
+
+    /**
+     * @inheritdoc
+     *
+     * @return $this
+     */
+    public function afterQueryExecution(Closure $callback): ClientInterface
+    {
+        $this->queryProcessor->registerPostExecutionHook($callback);
+
+        return $this;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getRequestCount(): int
+    {
+        return $this->queryProcessor->getRequestCount();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function registerMiddleware(callable $middleware): void
+    {
+        $this->queryProcessor->registerMiddleware($middleware);
+    }
+
+    /**
+     * Set the API OAuth 2.0 authorization endpoint.
+     *
+     * It will ensure that there is one slash at the end.
+     *
+     * @param string $endpoint The endpoint URI
+     * @return void
+     */
+    public function setAuthorizationEndpoint(string $endpoint): void
+    {
+        // Remove trailing slashes
+        $endpoint = rtrim($endpoint, '/');
+
+        if ($endpoint === '') {
+            throw new InvalidEndpointException();
+        }
+
+        // Make sure the endpoint ends with a single slash
+        $this->endpoint = $endpoint . '/';
+    }
+
+    /**
+     * Get the API OAuth 2.0 authorization endpoint.
+     *
+     * @return string
+     */
+    public function getAuthorizationEndpoint(): string
+    {
+        return $this->endpoint;
+    }
+
+    /**
+     * Set the API OAuth 2.0 access token.
+     *
+     * @param string|null $accessToken The new access token
+     * @return void
+     */
+    public function setAccessToken(?string $accessToken)
+    {
+        $this->oAuthAccessToken = $accessToken;
+    }
+
+    /**
+     * Get the API OAuth 2.0 access token.
+     *
+     * @return string|null
+     */
+    public function getAccessToken(): ?string
+    {
+        return $this->oAuthAccessToken;
+    }
+
+    /**
+     * Send a request to the OAuth 2.0 authorization server to get a fresh access token.
+     *
+     * @return array
+     */
+    public function refreshAccessToken(): array
+    {
+        $requestSender = new RequestSender();
+
+        $parameters = new UrlParameters([
+            'grant_type' => 'refresh_token',
+            'client_id' => $this->oAuthClientId,
+            'client_secret' => $this->oAuthClientSecret,
+            'refresh_token' => $this->oAuthRefreshToken
+        ]);
+
+        $request = new Request('POST', $this->oAuthEndpoint . 'token?' . $parameters);
+        $response = $requestSender->send($request);
+        $response = json_decode((string) $response->getBody(), true);
+
+        // Save the new access token
+        $this->oAuthAccessToken = $response['access_token'];
+
+        return $response;
+    }
+
+    /**
+     * Create a new raw query object.
+     *
+     * @param string|null $path (optional) The URI path
+     * @return RawQuery
+     */
+    public function newRawQuery(string $path = null)
+    {
+        return (new RawQuery($this))->setUri($path);
+    }
+}
