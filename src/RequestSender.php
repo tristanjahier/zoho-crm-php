@@ -20,15 +20,15 @@ class RequestSender implements RequestSenderInterface
     /** @var int The number of API requests sent so far */
     protected $requestCount = 0;
 
-    /** @var Preferences The client preferences container */
+    /** @var Preferences|null The client preferences container */
     protected $preferences;
 
     /**
      * The constructor.
      *
-     * @param Preferences The client preferences container
+     * @param Preferences|null $preferences (optional) The client preferences container
      */
-    public function __construct(Preferences $preferences)
+    public function __construct(Preferences $preferences = null)
     {
         $this->preferences = $preferences;
         $this->httpClient = new GuzzleClient();
@@ -94,7 +94,7 @@ class RequestSender implements RequestSenderInterface
      */
     private function handleException(RequestException $exception)
     {
-        if ($this->preferences->isEnabled('exception_messages_obfuscation')) {
+        if (isset($this->preferences) && $this->preferences->isEnabled('exception_messages_obfuscation')) {
             // Sometimes the auth token is included in the exception message by Guzzle.
             // This exception message could end up in many "unsafe" places like server logs,
             // error monitoring services, company internal communication etc.
