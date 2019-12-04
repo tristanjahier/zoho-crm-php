@@ -28,6 +28,10 @@ class Client implements ClientInterface
     /** @var string The API OAuth 2.0 authorization endpoint used by default */
     const DEFAULT_OAUTH_ENDPOINT = 'https://accounts.zoho.com/oauth/v2/';
 
+    /** @var string[] The sub-APIs helpers classes */
+    protected static $subApiClasses = [
+    ];
+
     /** @var string The OAuth 2.0 client ID */
     protected $oAuthClientId;
 
@@ -48,6 +52,9 @@ class Client implements ClientInterface
 
     /** @var \Zoho\Crm\QueryProcessor The query processor */
     protected $queryProcessor;
+
+    /** @var AbstractSubApi[] The sub-APIs helpers */
+    protected $subApis = [];
 
     /**
      * The constructor.
@@ -78,6 +85,8 @@ class Client implements ClientInterface
 
         $this->registerMiddleware(new Middleware\Validation());
         $this->registerMiddleware(new Middleware\Authorization($this));
+
+        $this->attachSubApis();
     }
 
     /**
@@ -251,5 +260,39 @@ class Client implements ClientInterface
     public function newRawQuery(string $path = null)
     {
         return (new RawQuery($this))->setUri($path);
+    }
+
+    /**
+     * Attach all sub-APIs helpers.
+     *
+     * @return void
+     */
+    protected function attachSubApis(): void
+    {
+        foreach (static::$subApiClasses as $name => $class) {
+            $this->subApis[$name] = new $class($this);
+        }
+    }
+
+    /**
+     * Get a sub-API helper by name.
+     *
+     * @param string $name The name of the sub-API
+     * @return AbstractSubApi
+     */
+    public function getSubApi(string $name): AbstractSubApi
+    {
+        return $this->subApis[$name];
+    }
+
+    /**
+     * Dynamically retrieve sub-API helpers as client public properties.
+     *
+     * @param string $name The name of the sub-API
+     * @return AbstractSubApi
+     */
+    public function __get(string $name)
+    {
+        return $this->getSubApi($name);
     }
 }
