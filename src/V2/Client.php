@@ -19,6 +19,8 @@ use Zoho\Crm\RawQuery;
  * It is the central point for each request to the API of Zoho CRM.
  *
  * @author Tristan Jahier <tristan.jahier@gmail.com>
+ *
+ * @property-read Records\SubApi $records
  */
 class Client implements ClientInterface
 {
@@ -30,6 +32,7 @@ class Client implements ClientInterface
 
     /** @var string[] The sub-APIs helpers classes */
     protected static $subApiClasses = [
+        'records' => Records\SubApi::class,
     ];
 
     /** @var string The OAuth 2.0 client ID */
