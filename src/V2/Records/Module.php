@@ -28,7 +28,7 @@ class Module
     }
 
     /**
-     * Create a query to list the records of a module.
+     * Create a query to list the records of the module.
      *
      * @return ListQuery
      */
@@ -55,6 +55,16 @@ class Module
     }
 
     /**
+     * Create a query to list the deleted records of the module.
+     *
+     * @return ListDeletedQuery
+     */
+    public function newListDeletedQuery()
+    {
+        return (new ListDeletedQuery($this->client))->setModule($this->name);
+    }
+
+    /**
      * Alias of {@see self::newListQuery()}.
      *
      * @return ListQuery
@@ -62,6 +72,16 @@ class Module
     public function all()
     {
         return $this->newListQuery();
+    }
+
+    /**
+     * Alias of {@see self::newListDeletedQuery()}.
+     *
+     * @return ListDeletedQuery
+     */
+    public function deleted()
+    {
+        return $this->newListDeletedQuery();
     }
 
     /**
