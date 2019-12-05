@@ -13,7 +13,6 @@ use Zoho\Crm\Contracts\QueryPaginatorInterface;
 use Zoho\Crm\Contracts\ResponsePageMergerInterface;
 use Zoho\Crm\Support\UrlParameters;
 use Zoho\Crm\Exceptions\InvalidQueryException;
-use Zoho\Crm\Entities\Entity;
 use Zoho\Crm\Entities\Collection;
 use Zoho\Crm\Support\Helper;
 
@@ -737,7 +736,7 @@ class Query implements PaginatedQueryInterface
      *
      * It will fail if called on a query which is not supposed to retrieve records.
      *
-     * @return \Zoho\Crm\Entities\Entity
+     * @return \Zoho\Crm\V1\Entities\Entity
      */
     public function first()
     {

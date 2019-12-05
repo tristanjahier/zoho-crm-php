@@ -10,7 +10,7 @@ namespace Zoho\Crm\V1\Modules;
 class PriceBooks extends AbstractRecordsModule
 {
     /** @inheritdoc */
-    protected static $associatedEntity = \Zoho\Crm\Entities\Records\PriceBook::class;
+    protected static $associatedEntity = \Zoho\Crm\V1\Entities\Records\PriceBook::class;
 
     /** @inheritdoc */
     protected static $supportedMethods = [

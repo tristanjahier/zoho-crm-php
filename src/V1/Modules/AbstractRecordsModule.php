@@ -3,7 +3,7 @@
 namespace Zoho\Crm\V1\Modules;
 
 use Zoho\Crm\IdList;
-use Zoho\Crm\Entities\Records\Record;
+use Zoho\Crm\V1\Entities\Records\Record;
 use Zoho\Crm\V1\XmlBuilder;
 
 /**
@@ -32,7 +32,7 @@ abstract class AbstractRecordsModule extends AbstractModule
      * @see https://www.zoho.com/crm/developer/docs/api/getrecordbyid.html
      *
      * @param string $id The record ID
-     * @return \Zoho\Crm\Entities\Entity|array
+     * @return \Zoho\Crm\V1\Entities\Entity|array
      */
     public function find(string $id)
     {

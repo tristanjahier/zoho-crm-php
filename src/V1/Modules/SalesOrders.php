@@ -10,7 +10,7 @@ namespace Zoho\Crm\V1\Modules;
 class SalesOrders extends AbstractRecordsModule
 {
     /** @inheritdoc */
-    protected static $associatedEntity = \Zoho\Crm\Entities\Records\SaleOrder::class;
+    protected static $associatedEntity = \Zoho\Crm\V1\Entities\Records\SaleOrder::class;
 
     /** @inheritdoc */
     protected static $supportedMethods = [

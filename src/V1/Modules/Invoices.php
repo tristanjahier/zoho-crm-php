@@ -10,7 +10,7 @@ namespace Zoho\Crm\V1\Modules;
 class Invoices extends AbstractRecordsModule
 {
     /** @inheritdoc */
-    protected static $associatedEntity = \Zoho\Crm\Entities\Records\Invoice::class;
+    protected static $associatedEntity = \Zoho\Crm\V1\Entities\Records\Invoice::class;
 
     /** @inheritdoc */
     protected static $supportedMethods = [

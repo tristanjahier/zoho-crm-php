@@ -1,8 +1,8 @@
 <?php
 
-namespace Zoho\Crm\Entities\Records;
+namespace Zoho\Crm\V2\Records;
 
-use Zoho\Crm\Entities\Entity;
+use Zoho\Crm\V2\Entity;
 
 /**
  * Default implementation of a record entity.

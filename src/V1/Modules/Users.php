@@ -10,7 +10,7 @@ namespace Zoho\Crm\V1\Modules;
 class Users extends AbstractModule
 {
     /** @inheritdoc */
-    protected static $associatedEntity = \Zoho\Crm\Entities\User::class;
+    protected static $associatedEntity = \Zoho\Crm\V1\Entities\User::class;
 
     /** @inheritdoc */
     protected static $supportedMethods = [

@@ -1,6 +1,6 @@
 <?php
 
-namespace Zoho\Crm\Entities;
+namespace Zoho\Crm\V1\Entities;
 
 /**
  * Module field entity.

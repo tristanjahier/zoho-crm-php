@@ -8,7 +8,7 @@ namespace Zoho\Crm\V1\Modules;
 class PotStageHistory extends AbstractRecordsModule
 {
     /** @inheritdoc */
-    protected static $associatedEntity = \Zoho\Crm\Entities\PotentialStageHistoryEntry::class;
+    protected static $associatedEntity = \Zoho\Crm\V1\Entities\PotentialStageHistoryEntry::class;
 
     /** @inheritdoc */
     protected static $supportedMethods = [

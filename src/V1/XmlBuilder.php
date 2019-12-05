@@ -5,7 +5,7 @@ namespace Zoho\Crm\V1;
 use SimpleXMLElement;
 use Zoho\Crm\Support\Helper;
 use Zoho\Crm\Entities\Collection;
-use Zoho\Crm\Entities\Entity;
+use Zoho\Crm\Support\Arrayable;
 
 /**
  * Static class to help build XML requests.
@@ -35,7 +35,7 @@ class XmlBuilder
             $row = $xml->addChild('row');
             $row->addAttribute('no', $rowCount);
 
-            if ($record instanceof Entity) {
+            if ($record instanceof Arrayable) {
                 $record = $record->toArray();
             }
 

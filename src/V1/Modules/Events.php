@@ -10,7 +10,7 @@ namespace Zoho\Crm\V1\Modules;
 class Events extends AbstractRecordsModule
 {
     /** @inheritdoc */
-    protected static $associatedEntity = \Zoho\Crm\Entities\Records\Event::class;
+    protected static $associatedEntity = \Zoho\Crm\V1\Entities\Records\Event::class;
 
     /** @inheritdoc */
     protected static $supportedMethods = [

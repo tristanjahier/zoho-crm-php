@@ -233,7 +233,7 @@ It implements `ArrayAccess` and `IteratorAggregate` which lets you manipulate it
 
 // You can access items with square brackets:
 $aRecord = $records[2];
-$records[] = new Zoho\Crm\Entities\Entity();
+$records[] = new Zoho\Crm\V1\Entities\Entity();
 
 // And you can loop through it:
 foreach ($records as $record) {
@@ -495,7 +495,7 @@ In the raw API response, fields are grouped by sections (labeled groups of field
 
 #### `getAll(array $params = [])`
 
-Retrieve all fields of the module. Return a collection of `Zoho\Crm\Entities\Field` entities.
+Retrieve all fields of the module. Return a collection of `Zoho\Crm\V1\Entities\Field` entities.
 
 ```php
 $fields = $client->contacts->getAll();

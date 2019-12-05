@@ -6,7 +6,7 @@ use BadMethodCallException;
 use InvalidArgumentException;
 use Zoho\Crm\V1\Client;
 use Zoho\Crm\Support\ClassShortNameTrait;
-use Zoho\Crm\Entities\Entity;
+use Zoho\Crm\V1\Entities\Entity;
 use Doctrine\Common\Inflector\Inflector;
 
 /**
@@ -134,7 +134,7 @@ abstract class AbstractModule
      * Create a new entity.
      *
      * @param array $attributes (optional) The entity attributes
-     * @return \Zoho\Crm\Entities\Entity
+     * @return \Zoho\Crm\V1\Entities\Entity
      */
     public function newEntity($attributes = [])
     {

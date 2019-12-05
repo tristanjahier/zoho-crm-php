@@ -68,7 +68,7 @@ class Module
      * Retrieve a record by its ID.
      *
      * @param string $id The record ID
-     * @return \Zoho\Crm\Entities\Records\Record
+     * @return Record
      */
     public function find(string $id)
     {

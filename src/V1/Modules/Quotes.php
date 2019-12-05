@@ -10,7 +10,7 @@ namespace Zoho\Crm\V1\Modules;
 class Quotes extends AbstractRecordsModule
 {
     /** @inheritdoc */
-    protected static $associatedEntity = \Zoho\Crm\Entities\Records\Quote::class;
+    protected static $associatedEntity = \Zoho\Crm\V1\Entities\Records\Quote::class;
 
     /** @inheritdoc */
     protected static $supportedMethods = [

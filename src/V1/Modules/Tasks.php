@@ -10,7 +10,7 @@ namespace Zoho\Crm\V1\Modules;
 class Tasks extends AbstractRecordsModule
 {
     /** @inheritdoc */
-    protected static $associatedEntity = \Zoho\Crm\Entities\Records\Task::class;
+    protected static $associatedEntity = \Zoho\Crm\V1\Entities\Records\Task::class;
 
     /** @inheritdoc */
     protected static $supportedMethods = [

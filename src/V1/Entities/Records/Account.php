@@ -1,6 +1,6 @@
 <?php
 
-namespace Zoho\Crm\Entities\Records;
+namespace Zoho\Crm\V1\Entities\Records;
 
 /**
  * Account entity class.

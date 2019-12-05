@@ -10,7 +10,7 @@ namespace Zoho\Crm\V1\Modules;
 class Accounts extends AbstractRecordsModule
 {
     /** @inheritdoc */
-    protected static $associatedEntity = \Zoho\Crm\Entities\Records\Account::class;
+    protected static $associatedEntity = \Zoho\Crm\V1\Entities\Records\Account::class;
 
     /** @inheritdoc */
     protected static $supportedMethods = [

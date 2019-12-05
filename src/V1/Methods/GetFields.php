@@ -4,7 +4,7 @@ namespace Zoho\Crm\V1\Methods;
 
 use Zoho\Crm\V1\Query;
 use Zoho\Crm\Entities\Collection;
-use Zoho\Crm\Entities\FieldSection;
+use Zoho\Crm\V1\Entities\FieldSection;
 
 /**
  * @see https://www.zoho.com/crm/developer/docs/api/getfields.html

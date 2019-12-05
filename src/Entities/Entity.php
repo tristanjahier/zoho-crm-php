@@ -2,8 +2,7 @@
 
 namespace Zoho\Crm\Entities;
 
-use Doctrine\Common\Inflector\Inflector;
-use Zoho\Crm\V1\Client;
+use Zoho\Crm\Contracts\ClientInterface;
 use Zoho\Crm\Support\ClassShortNameTrait;
 use Zoho\Crm\Support\Arrayable;
 
@@ -17,25 +16,22 @@ class Entity implements Arrayable
     /** @var string|null The name of the entity */
     protected static $name;
 
-    /** @var string|null The name of the related module */
-    protected static $moduleName;
-
     /** @var string|null The name of the identifier attribute */
     protected static $idName;
 
     /** @var string[] The entity attributes */
     protected $attributes = [];
 
-    /** @var \Zoho\Crm\V1\Client|null The client to which the entity is bound */
+    /** @var \Zoho\Crm\Contracts\ClientInterface|null The client to which the entity is bound */
     protected $client;
 
     /**
      * The constructor.
      *
      * @param string[] $attributes (optional) The entity attributes
-     * @param \Zoho\Crm\V1\Client $client (optional) The client to which the entity must be bound
+     * @param \Zoho\Crm\Contracts\ClientInterface|null $client (optional) The client to which the entity is bound
      */
-    public function __construct(array $attributes = [], Client $client = null)
+    public function __construct(array $attributes = [], ClientInterface $client = null)
     {
         $this->attributes = $attributes;
         $this->client = $client;
@@ -52,31 +48,13 @@ class Entity implements Arrayable
     }
 
     /**
-     * Get the name of the related module.
-     *
-     * @return string
-     */
-    public static function moduleName()
-    {
-        if (isset(static::$moduleName)) {
-            return static::$moduleName;
-        }
-
-        return Inflector::pluralize(static::name());
-    }
-
-    /**
      * Get the name of the identifier attribute.
      *
      * @return string
      */
     public static function idName()
     {
-        if (isset(static::$idName)) {
-            return static::$idName;
-        }
-
-        return strtoupper(static::name()) . 'ID';
+        return static::$idName;
     }
 
     /**
@@ -133,7 +111,11 @@ class Entity implements Arrayable
      */
     public function getId()
     {
-        return $this->get(static::idName());
+        if (is_null($idName = static::idName())) {
+            return null;
+        }
+
+        return $this->get($idName);
     }
 
     /**
@@ -149,9 +131,9 @@ class Entity implements Arrayable
     /**
      * Get the client to which the entity is bound.
      *
-     * @return \Zoho\Crm\V1\Client|null
+     * @return \Zoho\Crm\Contracts\ClientInterface|null
      */
-    public function getClient()
+    public function getClient(): ?ClientInterface
     {
         return $this->client;
     }
@@ -159,10 +141,10 @@ class Entity implements Arrayable
     /**
      * Set the client to which the entity is bound.
      *
-     * @param \Zoho\Crm\V1\Client|null $client The client to which the entity must be bound
+     * @param \Zoho\Crm\Contracts\ClientInterface|null $client The client to which the entity is bound
      * @return void
      */
-    public function setClient(?Client $client)
+    public function setClient(?ClientInterface $client)
     {
         $this->client = $client;
     }
@@ -175,20 +157,6 @@ class Entity implements Arrayable
     public function isDetached()
     {
         return is_null($this->client);
-    }
-
-    /**
-     * Get the related module handler.
-     *
-     * @return \Zoho\Crm\V1\Modules\AbstractModule|null
-     */
-    public function module()
-    {
-        if ($this->isDetached()) {
-            return null;
-        }
-
-        return $this->client->module(static::moduleName());
     }
 
     /**
