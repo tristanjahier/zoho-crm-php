@@ -34,7 +34,7 @@ class Module
      */
     public function newListQuery()
     {
-        return (new ListQuery($this->client))->setModule($this->name);
+        return new ListQuery($this->client, $this->name);
     }
 
     /**
@@ -45,7 +45,7 @@ class Module
      */
     public function newGetByIdQuery(string $id = null)
     {
-        $query = (new GetByIdQuery($this->client))->setModule($this->name);
+        $query = new GetByIdQuery($this->client, $this->name);
 
         if (isset($id)) {
             $query->setId($id);
@@ -61,7 +61,7 @@ class Module
      */
     public function newListDeletedQuery()
     {
-        return (new ListDeletedQuery($this->client))->setModule($this->name);
+        return new ListDeletedQuery($this->client, $this->name);
     }
 
     /**

@@ -5,14 +5,27 @@ namespace Zoho\Crm\V2\Records;
 use Zoho\Crm\Support\Helper;
 use Zoho\Crm\Exceptions\InvalidQueryException;
 use Zoho\Crm\V2\AbstractQuery as BaseQuery;
+use Zoho\Crm\V2\Client;
 
 /**
  * Base class for Record APIs queries.
  */
 abstract class AbstractQuery extends BaseQuery
 {
-    /** @var string|null The name of the Zoho module */
+    /** @var string The name of the Zoho module */
     protected $module;
+
+    /**
+     * The constructor.
+     *
+     * @param \Zoho\Crm\V2\Client $client The client to use to make the request
+     * @param string $module The name of the Zoho module
+     */
+    public function __construct(Client $client, string $module)
+    {
+        parent::__construct($client);
+        $this->module = $module;
+    }
 
     /**
      * Set the requested module.
@@ -30,9 +43,9 @@ abstract class AbstractQuery extends BaseQuery
     /**
      * Get the requested module.
      *
-     * @return string|null
+     * @return string
      */
-    public function getModule(): ?string
+    public function getModule(): string
     {
         return $this->module;
     }
