@@ -3,6 +3,7 @@
 namespace Zoho\Crm\Traits;
 
 use Zoho\Crm\Support\HttpMethod;
+use Zoho\Crm\Exceptions\InvalidHttpMethodException;
 
 /**
  * Basic implementation of HTTP method for QueryInterface.
@@ -20,6 +21,10 @@ trait HasRequestHttpMethod
      */
     public function setHttpMethod(string $method)
     {
+        if (! HttpMethod::isValid($method)) {
+            throw new InvalidHttpMethodException($method);
+        }
+
         $this->httpMethod = $method;
 
         return $this;
