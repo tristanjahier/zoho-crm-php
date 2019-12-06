@@ -5,14 +5,15 @@ namespace Zoho\Crm\V2;
 use Zoho\Crm\Contracts\QueryInterface;
 use Zoho\Crm\Support\Helper;
 use Zoho\Crm\Support\UrlParameters;
-use Zoho\Crm\BasicQueryTrait;
+use Zoho\Crm\Traits\BasicQueryImplementation;
+use Zoho\Crm\Traits\HasHttpVerb;
 
 /**
  * Base class for all API v2 queries.
  */
 abstract class AbstractQuery implements QueryInterface
 {
-    use BasicQueryTrait;
+    use BasicQueryImplementation, HasHttpVerb;
 
     /** @var Client The API client that originated this query */
     protected $client;
