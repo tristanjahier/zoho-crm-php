@@ -278,6 +278,16 @@ class Client implements ClientInterface
     }
 
     /**
+     * Get all sub-API helpers.
+     *
+     * @return AbstractSubApi[]
+     */
+    public function getSubApis(): array
+    {
+        return $this->subApis;
+    }
+
+    /**
      * Get a sub-API helper by name.
      *
      * @param string $name The name of the sub-API
