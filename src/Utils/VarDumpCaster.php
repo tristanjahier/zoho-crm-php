@@ -7,10 +7,10 @@ use Symfony\Component\VarDumper\Caster\CutStub;
 use Doctrine\Common\Inflector\Inflector;
 use Zoho\Crm\V1\Client;
 use Zoho\Crm\V1\Modules\AbstractModule;
-use Zoho\Crm\V1\Query;
-use Zoho\Crm\RawQuery;
+use Zoho\Crm\Contracts\QueryInterface;
 use Zoho\Crm\Entities\Entity;
 use Zoho\Crm\Support\Collection;
+use Zoho\Crm\Support\UrlParameters;
 
 /**
  * Caster for Symfony's var-dumper.
@@ -34,8 +34,7 @@ class VarDumpCaster
         return [
             Client::class => self::class.'::castClient',
             AbstractModule::class => self::class.'::castModule',
-            Query::class => self::class.'::castQuery',
-            RawQuery::class => self::class.'::castRawQuery',
+            QueryInterface::class => self::class.'::castQuery',
             Entity::class => self::class.'::castEntity',
             Collection::class => self::class.'::castCollection',
         ];
@@ -81,31 +80,19 @@ class VarDumpCaster
     /**
      * Cast a query instance.
      *
-     * @param \Zoho\Crm\V1\Query $query The query instance
+     * @param \Zoho\Crm\Contracts\QueryInterface $query The query instance
      * @return array
      */
-    public static function castQuery(Query $query)
+    public static function castQuery(QueryInterface $query)
     {
-        $result = (array) $query;
+        $uriComponents = parse_url($query->getUri());
+        $uriComponents['query'] = UrlParameters::createFromString($uriComponents['query'] ?? '')->toArray();
 
-        $result[Caster::PREFIX_PROTECTED . 'client'] = new CutStub($query->getClient());
-
-        return $result;
-    }
-
-    /**
-     * Cast a raw query instance.
-     *
-     * @param \Zoho\Crm\RawQuery $query The query instance
-     * @return array
-     */
-    public static function castRawQuery(RawQuery $query)
-    {
         return self::prefixKeys([
             'httpMethod' => $query->getHttpMethod(),
-            'uri' => $query->getUri(),
+            'uri' => $uriComponents,
             'headers' => $query->getHeaders(),
-            'body' => $query->getBody()
+            'body' => mb_strimwidth((string) $query->getBody(), 0, 128, ' … (truncated)', 'UTF-8')
         ], Caster::PREFIX_PROTECTED);
     }
 
