@@ -5,12 +5,14 @@ namespace Zoho\Crm\Utils;
 use Symfony\Component\VarDumper\Caster\Caster;
 use Symfony\Component\VarDumper\Caster\CutStub;
 use Doctrine\Common\Inflector\Inflector;
-use Zoho\Crm\V1\Client;
-use Zoho\Crm\V1\Modules\AbstractModule;
+use Zoho\Crm\Contracts\ClientInterface;
 use Zoho\Crm\Contracts\QueryInterface;
 use Zoho\Crm\Entities\Entity;
 use Zoho\Crm\Support\Collection;
 use Zoho\Crm\Support\UrlParameters;
+use Zoho\Crm\V1\Client as V1Client;
+use Zoho\Crm\V1\Modules\AbstractModule;
+use Zoho\Crm\V2\Client as V2Client;
 
 /**
  * Caster for Symfony's var-dumper.
@@ -32,7 +34,7 @@ class VarDumpCaster
     public static function getConfig()
     {
         return [
-            Client::class => self::class.'::castClient',
+            ClientInterface::class => self::class.'::castClient',
             AbstractModule::class => self::class.'::castModule',
             QueryInterface::class => self::class.'::castQuery',
             Entity::class => self::class.'::castEntity',
@@ -43,23 +45,41 @@ class VarDumpCaster
     /**
      * Cast a client instance.
      *
-     * @param \Zoho\Crm\V1\Client $client The client instance
+     * @param \Zoho\Crm\Contracts\ClientInterface $client The client instance
      * @return array
      */
-    public static function castClient(Client $client)
+    public static function castClient(ClientInterface $client)
     {
-        $result = [
+        $properties = [
             Caster::PREFIX_PROTECTED . 'endpoint' => $client->getEndpoint(),
             Caster::PREFIX_PROTECTED . 'requestCount' => $client->getRequestCount(),
         ];
 
-        $modules = array_merge($client->modules(), $client->aliasedModules());
-
-        foreach ($modules as $name => $instance) {
-            $result[Inflector::camelize($name)] = new CutStub($instance);
+        if ($client instanceof V1Client) {
+            $properties = array_merge($properties, self::castV1Client($client));
+        } elseif ($client instanceof V2Client) {
+            $properties = array_merge($properties, self::castV2Client($client));
         }
 
-        return $result;
+        return $properties;
+    }
+
+    /**
+     * Cast a V1 client instance.
+     *
+     * @param \Zoho\Crm\V1\Client $client The client instance
+     * @return array
+     */
+    public static function castV1Client(V1Client $client)
+    {
+        $modules = array_merge($client->modules(), $client->aliasedModules());
+        $properties = [];
+
+        foreach ($modules as $name => $instance) {
+            $properties[Inflector::camelize($name)] = new CutStub($instance);
+        }
+
+        return $properties;
     }
 
     /**
@@ -75,6 +95,23 @@ class VarDumpCaster
             Caster::PREFIX_PROTECTED . 'name' => $module->name(),
             Caster::PREFIX_PROTECTED . 'supportedMethods' => $module->supportedMethods(),
         ];
+    }
+
+    /**
+     * Cast a V2 client instance.
+     *
+     * @param \Zoho\Crm\V2\Client $client The client instance
+     * @return array
+     */
+    public static function castV2Client(V2Client $client)
+    {
+        $properties = [];
+
+        foreach ($client->getSubApis() as $name => $instance) {
+            $properties[$name] = new CutStub($instance);
+        }
+
+        return $properties;
     }
 
     /**
