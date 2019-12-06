@@ -71,8 +71,8 @@ abstract class AbstractQuery extends BaseQuery
     {
         $uri = "$this->module";
 
-        if ($this->parameters->isNotEmpty()) {
-            $uri .= "?$this->parameters";
+        if ($this->urlParameters->isNotEmpty()) {
+            $uri .= "?$this->urlParameters";
         }
 
         return $uri;

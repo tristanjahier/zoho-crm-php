@@ -43,7 +43,7 @@ class GetByIdQuery extends AbstractQuery
      */
     public function getUri(): string
     {
-        return "$this->module/$this->recordId?$this->parameters";
+        return "$this->module/$this->recordId?$this->urlParameters";
     }
 
     /**

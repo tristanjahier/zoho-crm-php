@@ -16,7 +16,7 @@ class ListDeletedQuery extends AbstractQuery
      */
     public function getUri(): string
     {
-        return "$this->module/deleted?$this->parameters";
+        return "$this->module/deleted?$this->urlParameters";
     }
 
     /**
