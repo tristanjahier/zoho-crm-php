@@ -6,7 +6,7 @@ use Zoho\Crm\Contracts\QueryInterface;
 use Zoho\Crm\Contracts\ClientInterface;
 use Zoho\Crm\Contracts\ResponseInterface;
 use Zoho\Crm\Contracts\ResponseTransformerInterface;
-use Zoho\Crm\Support\HttpVerb;
+use Zoho\Crm\Support\HttpMethod;
 use Zoho\Crm\Support\UrlParameters;
 
 /**
@@ -15,7 +15,7 @@ use Zoho\Crm\Support\UrlParameters;
 class RawQuery implements QueryInterface
 {
     use Traits\BasicQueryImplementation;
-    use Traits\HasHttpVerb;
+    use Traits\HasRequestHttpMethod;
 
     /** @var string|null The URI */
     protected $uri;

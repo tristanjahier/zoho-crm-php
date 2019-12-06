@@ -3,7 +3,7 @@
 namespace Zoho\Crm\V1\Methods;
 
 use Zoho\Crm\V1\Query;
-use Zoho\Crm\Support\HttpVerb;
+use Zoho\Crm\Support\HttpMethod;
 
 /**
  * @see https://www.zoho.com/crm/developer/docs/api/insertrecords.html
@@ -11,7 +11,7 @@ use Zoho\Crm\Support\HttpVerb;
 class InsertRecords extends AbstractMethod
 {
     /** @inheritdoc */
-    protected static $httpVerb = HttpVerb::POST;
+    protected static $httpMethod = HttpMethod::POST;
 
     /**
      * @inheritdoc

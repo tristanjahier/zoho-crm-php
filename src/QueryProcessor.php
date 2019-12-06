@@ -129,7 +129,7 @@ class QueryProcessor
     protected function createHttpRequest(QueryInterface $query)
     {
         return new Request(
-            $query->getHttpVerb(),
+            $query->getHttpMethod(),
             $this->client->getEndpoint() . $query->getUri(),
             $query->getHeaders(),
             $query->getBody()

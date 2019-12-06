@@ -63,9 +63,9 @@ class Query implements PaginatedQueryInterface
     /**
      * @inheritdoc
      */
-    public function getHttpVerb(): string
+    public function getHttpMethod(): string
     {
-        return $this->getClientMethod()->getHttpVerb();
+        return $this->getClientMethod()->getHttpMethod();
     }
 
     /**

@@ -7,13 +7,13 @@ use Zoho\Crm\V1\Query;
 interface MethodInterface
 {
     /**
-     * Get the HTTP verb to use to make a request to the API method.
+     * Get the HTTP method to use to make a request to the API method.
      *
      * @return string
      *
-     * @see \Zoho\Crm\Support\HttpVerb for a list of possible values
+     * @see \Zoho\Crm\Support\HttpMethod for a list of possible values
      */
-    public function getHttpVerb();
+    public function getHttpMethod();
 
     /**
      * Determine if a raw API response is empty or null (no data).

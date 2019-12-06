@@ -3,9 +3,9 @@
 namespace Zoho\Crm\Support;
 
 /**
- * Enumeration of the standard HTTP verbs/methods.
+ * Enumeration of the standard HTTP methods.
  */
-abstract class HttpVerb
+abstract class HttpMethod
 {
     /** @var string */
     const OPTIONS = 'OPTIONS';
@@ -35,7 +35,7 @@ abstract class HttpVerb
     const PATCH = 'PATCH';
 
     /**
-     * Get all valid HTTP verbs/methods.
+     * Get all valid HTTP methods.
      *
      * @return string[]
      */
@@ -45,13 +45,13 @@ abstract class HttpVerb
     }
 
     /**
-     * Check if a string is a valid HTTP verb/method.
+     * Check if a string is a valid HTTP method.
      *
-     * @param string $verb The string to check
+     * @param string $method The string to check
      * @return bool
      */
-    public static function isValid(string $verb): bool
+    public static function isValid(string $method): bool
     {
-        return in_array(strtoupper($verb), self::getAll());
+        return in_array(strtoupper($method), self::getAll());
     }
 }

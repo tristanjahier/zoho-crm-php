@@ -5,11 +5,11 @@ namespace Zoho\Crm\Contracts;
 interface RequestableInterface
 {
     /**
-     * Get the HTTP verb/method that must be used for the request.
+     * Get the HTTP method that must be used for the request.
      *
      * @return string
      */
-    public function getHttpVerb(): string;
+    public function getHttpMethod(): string;
 
     /**
      * Set the URI to request.

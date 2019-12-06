@@ -102,7 +102,7 @@ class VarDumpCaster
     public static function castRawQuery(RawQuery $query)
     {
         return self::prefixKeys([
-            'httpVerb' => $query->getHttpVerb(),
+            'httpMethod' => $query->getHttpMethod(),
             'uri' => $query->getUri(),
             'headers' => $query->getHeaders(),
             'body' => $query->getBody()

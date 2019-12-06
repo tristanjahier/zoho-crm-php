@@ -7,7 +7,7 @@ use Zoho\Crm\Support\Helper;
 use Zoho\Crm\Support\UrlParameters;
 use Zoho\Crm\Traits\{
     BasicQueryImplementation,
-    HasHttpVerb,
+    HasRequestHttpMethod,
     HasRequestUrlParameters
 };
 
@@ -16,7 +16,7 @@ use Zoho\Crm\Traits\{
  */
 abstract class AbstractQuery implements QueryInterface
 {
-    use BasicQueryImplementation, HasHttpVerb, HasRequestUrlParameters;
+    use BasicQueryImplementation, HasRequestHttpMethod, HasRequestUrlParameters;
 
     /** @var Client The API client that originated this query */
     protected $client;

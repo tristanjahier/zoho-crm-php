@@ -4,7 +4,7 @@ namespace Zoho\Crm\V1\Methods;
 
 use Zoho\Crm\Contracts\ResponseTransformerInterface;
 use Zoho\Crm\Contracts\QueryInterface;
-use Zoho\Crm\Support\HttpVerb;
+use Zoho\Crm\Support\HttpMethod;
 use Zoho\Crm\V1\Query;
 use Zoho\Crm\Support\ClassShortNameTrait;
 
@@ -15,8 +15,8 @@ abstract class AbstractMethod implements MethodInterface, ResponseTransformerInt
 {
     use ClassShortNameTrait;
 
-    /** @var string The HTTP verb to use to make a request to the API method */
-    protected static $httpVerb = HttpVerb::GET;
+    /** @var string The HTTP method to use to make a request to the API method */
+    protected static $httpMethod = HttpMethod::GET;
 
     /**
      * Get the name of the API method handled by this class.
@@ -31,9 +31,9 @@ abstract class AbstractMethod implements MethodInterface, ResponseTransformerInt
     /**
      * @inheritdoc
      */
-    public function getHttpVerb()
+    public function getHttpMethod()
     {
-        return static::$httpVerb;
+        return static::$httpMethod;
     }
 
     /**

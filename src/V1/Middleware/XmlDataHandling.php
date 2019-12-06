@@ -5,7 +5,7 @@ namespace Zoho\Crm\V1\Middleware;
 use Zoho\Crm\Contracts\MiddlewareInterface;
 use Zoho\Crm\Contracts\QueryInterface;
 use Zoho\Crm\Support\UrlParameters;
-use Zoho\Crm\Support\HttpVerb;
+use Zoho\Crm\Support\HttpMethod;
 
 /**
  * Middleware that moves 'xmlData' parameter to body in POST requests.
@@ -23,7 +23,7 @@ class XmlDataHandling implements MiddlewareInterface
         // For queries with 'xmlData' URL parameter, the URL query string size might be very large.
         // For that reason we will move it to the body instead.
 
-        if ($query->getHttpVerb() === HttpVerb::POST && $parameters->has('xmlData')) {
+        if ($query->getHttpMethod() === HttpMethod::POST && $parameters->has('xmlData')) {
             $newUri = parse_url($uri, PHP_URL_PATH) . '?' . $parameters->except('xmlData');
             $query->setUri($newUri);
             $query->setBody((string) $parameters->only('xmlData'));
