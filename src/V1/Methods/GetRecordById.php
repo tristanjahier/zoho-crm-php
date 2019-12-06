@@ -17,7 +17,7 @@ class GetRecordById extends GetRecords
     {
         $result = parent::cleanResponse($response, $query);
 
-        return $query->hasParameter('idlist') ? $result : $result[0];
+        return $query->hasUrlParameter('idlist') ? $result : $result[0];
     }
 
     /**
@@ -27,7 +27,7 @@ class GetRecordById extends GetRecords
     {
         $module = $query->getClientModule();
 
-        if ($query->hasParameter('idlist')) {
+        if ($query->hasUrlParameter('idlist')) {
             $collection = new Collection();
 
             foreach ($response as $record) {

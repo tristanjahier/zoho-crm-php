@@ -27,7 +27,7 @@ class InsertRecords extends AbstractMethod
     public function cleanResponse(array $response, Query $query)
     {
         $recordIds = [];
-        $version = $query->getParameter('version');
+        $version = $query->getUrlParameter('version');
 
         if ($version === 2) {
 

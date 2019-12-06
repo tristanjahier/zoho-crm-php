@@ -15,6 +15,8 @@ use Zoho\Crm\Support\UrlParameters;
 use Zoho\Crm\Exceptions\InvalidQueryException;
 use Zoho\Crm\Entities\Collection;
 use Zoho\Crm\Support\Helper;
+use Zoho\Crm\Traits\BasicQueryImplementation;
+use Zoho\Crm\Traits\HasRequestUrlParameters;
 
 /**
  * A container for all the attributes of an API request.
@@ -24,8 +26,7 @@ use Zoho\Crm\Support\Helper;
  */
 class Query implements PaginatedQueryInterface
 {
-    /** @var \Zoho\Crm\V1\Client The API client that originated this query */
-    protected $client;
+    use BasicQueryImplementation, HasRequestUrlParameters;
 
     /** @var string The response format */
     protected $format;
@@ -35,15 +36,6 @@ class Query implements PaginatedQueryInterface
 
     /** @var string The API method */
     protected $method;
-
-    /** @var Support\UrlParameters The URL parameters collection */
-    protected $parameters;
-
-    /** @var string[] The array of HTTP request headers */
-    protected $headers = [];
-
-    /** @var mixed The HTTP request body */
-    protected $body;
 
     /** @var bool Whether the query must be paginated or not */
     protected $paginated = false;
@@ -65,7 +57,7 @@ class Query implements PaginatedQueryInterface
     public function __construct(ClientInterface $client)
     {
         $this->client = $client;
-        $this->parameters = new UrlParameters();
+        $this->urlParameters = new UrlParameters();
     }
 
     /**
@@ -89,7 +81,7 @@ class Query implements PaginatedQueryInterface
         $this->module = $segments[1] ?? null;
         $this->method = $segments[2] ?? null;
 
-        $this->parameters = UrlParameters::createFromUrl($uri);
+        $this->urlParameters = UrlParameters::createFromUrl($uri);
 
         return $this;
     }
@@ -99,71 +91,7 @@ class Query implements PaginatedQueryInterface
      */
     public function getUri(): string
     {
-        return "{$this->format}/{$this->module}/{$this->method}?{$this->parameters}";
-    }
-
-    /**
-     * @inheritdoc
-     *
-     * @return $this
-     */
-    public function setUriParameter(string $key, $value)
-    {
-        $this->param($key, $value);
-
-        return $this;
-    }
-
-    /**
-     * @inheritdoc
-     *
-     * @return $this
-     */
-    public function setHeader(string $name, $value)
-    {
-        $this->headers[$name] = $value;
-
-        return $this;
-    }
-
-    /**
-     * @inheritdoc
-     *
-     * @return $this
-     */
-    public function removeHeader(string $name)
-    {
-        unset($this->headers[$name]);
-
-        return $this;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getHeaders(): array
-    {
-        return $this->headers;
-    }
-
-    /**
-     * @inheritdoc
-     *
-     * @return $this
-     */
-    public function setBody($content)
-    {
-        $this->body = $content;
-
-        return $this;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getBody()
-    {
-        return $this->body;
+        return "{$this->format}/{$this->module}/{$this->method}?{$this->urlParameters}";
     }
 
     /**
@@ -241,99 +169,6 @@ class Query implements PaginatedQueryInterface
     public function method(?string $method)
     {
         $this->method = $method;
-
-        return $this;
-    }
-
-    /**
-     * Get the URL parameters.
-     *
-     * @return Support\UrlParameters
-     */
-    public function getParameters()
-    {
-        return $this->parameters;
-    }
-
-    /**
-     * Get the value of a URL parameter by key.
-     *
-     * @param string $key The parameter key
-     * @return mixed
-     */
-    public function getParameter(string $key)
-    {
-        return $this->parameters[$key];
-    }
-
-    /**
-     * Check if a URL parameter exists by key.
-     *
-     * @param string $key The parameter key
-     * @return bool
-     */
-    public function hasParameter(string $key)
-    {
-        return $this->parameters->has($key);
-    }
-
-    /**
-     * Remove all URL parameters.
-     *
-     * If an argument is passed, they will be replaced by a new set.
-     *
-     * @param array|Support\UrlParameters $parameters (optional) The new set of parameters
-     * @return $this
-     */
-    public function resetParameters($parameters = [])
-    {
-        if (! $parameters instanceof UrlParameters) {
-            $parameters = new UrlParameters($parameters);
-        }
-
-        $this->parameters = $parameters;
-
-        return $this;
-    }
-
-    /**
-     * Set a URL parameter.
-     *
-     * @param string $key The key
-     * @param mixed $value (optional) The value
-     * @return $this
-     */
-    public function param(string $key, $value = null)
-    {
-        $this->parameters->set($key, $value);
-
-        return $this;
-    }
-
-    /**
-     * Set multiple URL parameters.
-     *
-     * @param array $parameters The parameters
-     * @return $this
-     */
-    public function params(array $parameters)
-    {
-        foreach ($parameters as $key => $value) {
-            $this->param($key, $value);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Remove a URL parameter by key.
-     *
-     * @param string $key The parameter key
-     * @return $this
-     */
-    public function removeParam(string $key)
-    {
-        $this->parameters->unset($key);
 
         return $this;
     }
@@ -425,7 +260,7 @@ class Query implements PaginatedQueryInterface
      */
     public function getSelectedColumns()
     {
-        $selection = $this->parameters->get('selectColumns');
+        $selection = $this->urlParameters->get('selectColumns');
 
         if ($selection === null) {
             return [];
@@ -490,7 +325,7 @@ class Query implements PaginatedQueryInterface
     public function modifiedAfter($date)
     {
         if ($date === null) {
-            $this->parameters->unset('lastModifiedTime');
+            $this->urlParameters->unset('lastModifiedTime');
             return $this;
         }
 
@@ -716,22 +551,6 @@ class Query implements PaginatedQueryInterface
     }
 
     /**
-     * @inheritdoc
-     */
-    public function execute(): ResponseInterface
-    {
-        return $this->client->executeQuery($this);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function get()
-    {
-        return $this->execute()->getContent();
-    }
-
-    /**
      * Retrieve only the first record matched by the query.
      *
      * It will fail if called on a query which is not supposed to retrieve records.
@@ -743,7 +562,7 @@ class Query implements PaginatedQueryInterface
         // Set the range of fetched records to 1 to optimize the execution time.
 
         return $this->copy()
-            ->param('toIndex', $this->getParameter('fromIndex'))
+            ->param('toIndex', $this->getUrlParameter('fromIndex'))
             ->paginated(false)
             ->get()
             ->first();
@@ -786,20 +605,12 @@ class Query implements PaginatedQueryInterface
     }
 
     /**
-     * @inheritdoc
-     */
-    public function copy(): QueryInterface
-    {
-        return clone $this;
-    }
-
-    /**
      * Allow the deep cloning of the query.
      *
      * @return void
      */
     public function __clone()
     {
-        $this->parameters = clone $this->parameters;
+        $this->urlParameters = clone $this->urlParameters;
     }
 }
