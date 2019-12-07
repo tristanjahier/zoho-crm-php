@@ -38,4 +38,14 @@ trait BasicQueryImplementation
     {
         return $this->execute()->getContent();
     }
+
+    /**
+     * Execute the query and get the raw, unparsed response.
+     *
+     * @return string
+     */
+    public function getRaw(): string
+    {
+        return $this->execute()->getRawContent();
+    }
 }
