@@ -4,6 +4,7 @@ namespace Zoho\Crm\V2\Records;
 
 use Zoho\Crm\Contracts\ResponseTransformerInterface;
 use Zoho\Crm\Exceptions\InvalidQueryException;
+use Zoho\Crm\Support\Helper;
 
 /**
  * A query to get a specific record by ID.
@@ -36,6 +37,20 @@ class GetByIdQuery extends AbstractQuery
     public function getId(): ?string
     {
         return $this->recordId;
+    }
+
+    /**
+     * @inheritdoc
+     *
+     * @return $this
+     */
+    public function setUri(?string $uri)
+    {
+        parent::setUri($uri);
+
+        $this->recordId = Helper::getUrlPathSegmentByIndex($uri, 1);
+
+        return $this;
     }
 
     /**
