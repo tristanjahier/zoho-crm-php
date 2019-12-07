@@ -87,6 +87,20 @@ class UrlParameters extends Collection
     }
 
     /**
+     * Create an instance from a string.
+     *
+     * @param string $query The string to parse
+     * @return static
+     */
+    public static function createFromString(string $query)
+    {
+        $parameters = [];
+        parse_str($query, $parameters);
+
+        return new static($parameters);
+    }
+
+    /**
      * Create an instance from a URL.
      *
      * @param string $url The URL to parse
@@ -94,9 +108,6 @@ class UrlParameters extends Collection
      */
     public static function createFromUrl(string $url)
     {
-        $parameters = [];
-        parse_str(parse_url($url, PHP_URL_QUERY), $parameters);
-
-        return new static($parameters);
+        return static::createFromString(parse_url($url, PHP_URL_QUERY) ?? '');
     }
 }
