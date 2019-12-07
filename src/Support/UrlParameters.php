@@ -2,8 +2,6 @@
 
 namespace Zoho\Crm\Support;
 
-use DateTime;
-
 /**
  * Container for URL query string bits.
  */
@@ -35,7 +33,7 @@ class UrlParameters extends Collection
     {
         if (is_bool($value)) {
             return Helper::booleanToString($value);
-        } elseif ($value instanceof DateTime) {
+        } elseif ($value instanceof \DateTimeInterface) {
             return $value->format('Y-m-d H:i:s');
         } elseif (is_array($value)) {
             $values = array_map(function ($val) {
