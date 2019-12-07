@@ -67,20 +67,6 @@ abstract class AbstractQuery extends BaseQuery
     /**
      * @inheritdoc
      */
-    public function getUri(): string
-    {
-        $uri = "$this->module";
-
-        if ($this->urlParameters->isNotEmpty()) {
-            $uri .= "?$this->urlParameters";
-        }
-
-        return $uri;
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function validate(): void
     {
         if (is_null($this->module) || empty($this->module)) {

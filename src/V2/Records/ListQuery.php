@@ -13,6 +13,14 @@ class ListQuery extends AbstractQuery
 {
     /**
      * @inheritdoc
+     */
+    public function getUri(): string
+    {
+        return "$this->module?$this->urlParameters";
+    }
+
+    /**
+     * @inheritdoc
      *
      * @return RecordListTransformer
      */
