@@ -20,6 +20,10 @@ class RecordListTransformer implements ResponseTransformerInterface
     {
         $records = new Collection();
 
+        if (is_null($content)) {
+            return $records;
+        }
+
         foreach ($content['data'] as $attributes) {
             $records->push(new Record($attributes));
         }
