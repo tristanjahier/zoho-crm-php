@@ -3,6 +3,7 @@
 namespace Zoho\Crm\V2\Records;
 
 use Zoho\Crm\Contracts\ResponseTransformerInterface;
+use Zoho\Crm\Support\Helper;
 
 /**
  * A query to get a list of records.
@@ -128,5 +129,28 @@ class ListQuery extends AbstractQuery
     public function selectDefaultFields()
     {
         return $this->selectTimestamps()->select('Created_By', 'Modified_By', 'Owner');
+    }
+
+    /**
+     * Set the minimum date for records' last modification (`Modified_Time` field).
+     *
+     * @param \DateTimeInterface|string|null $date A date object or a valid string
+     * @return $this
+     */
+    public function modifiedAfter($date)
+    {
+        if (is_null($date)) {
+            return $this->removeHeader('If-Modified-Since');
+        }
+
+        if (! Helper::isValidDateInput($date)) {
+            throw new \InvalidArgumentException('Date must implement DateTimeInterface or be a valid date string.');
+        }
+
+        if (is_string($date)) {
+            $date = new \DateTime($date);
+        }
+
+        return $this->setHeader('If-Modified-Since', $date->format(DATE_ATOM));
     }
 }

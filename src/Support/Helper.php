@@ -98,4 +98,31 @@ final class Helper
 
         return $segments[$index] ?? null;
     }
+
+    /**
+     * Check if a value is a valid date.
+     *
+     * It must be either an object implementing DateTimeInterface, or a valid date string.
+     *
+     * @param mixed $date The value to check
+     * @return bool
+     */
+    public static function isValidDateInput($date): bool
+    {
+        if ($date instanceof \DateTimeInterface) {
+            return true;
+        }
+
+        if (! is_string($date) || trim($date) === '') {
+            return false;
+        }
+
+        try {
+            new \DateTime($date);
+        } catch (\Exception $e) {
+            return false;
+        }
+
+        return true;
+    }
 }
