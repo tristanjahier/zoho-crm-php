@@ -2,8 +2,6 @@
 
 namespace Zoho\Crm\Support;
 
-use Exception;
-
 /**
  * Static helper class for miscellaneous purposes.
  */
@@ -25,7 +23,7 @@ final class Helper
      * @param bool $bool The boolean value
      * @return string
      */
-    public static function booleanToString($bool)
+    public static function booleanToString(bool $bool): string
     {
         return $bool ? 'true' : 'false';
     }
@@ -38,7 +36,7 @@ final class Helper
      *
      * @throws \Exception if the string is neither "true" nor "false".
      */
-    public static function stringToBoolean($bool)
+    public static function stringToBoolean(string $bool): bool
     {
         if ($bool === 'true') {
             return true;
@@ -46,7 +44,7 @@ final class Helper
             return false;
         }
 
-        throw new Exception('Invalid boolean string representation: "' . $bool . '"');
+        throw new \InvalidArgumentException("Invalid boolean string representation: '$bool'");
     }
 
     /**
@@ -54,11 +52,11 @@ final class Helper
      *
      * The pattern wildcard is the asterisk: "*".
      *
-     * @param string $value The string to test
+     * @param string|null $value The string to test
      * @param string $pattern The pattern
      * @return bool
      */
-    public static function stringIsLike($value, $pattern)
+    public static function stringIsLike(?string $value, string $pattern): bool
     {
         if ($value === $pattern) {
             return true;
@@ -78,7 +76,7 @@ final class Helper
      * @param string $url The URL to parse
      * @return string[]
      */
-    public static function getUrlPathSegments(string $url)
+    public static function getUrlPathSegments(string $url): array
     {
         $path = trim(parse_url($url, PHP_URL_PATH), '/');
 
@@ -90,9 +88,9 @@ final class Helper
      *
      * @param string $url The URL to parse
      * @param int $index The segment index
-     * @return string
+     * @return string|null
      */
-    public static function getUrlPathSegmentByIndex(string $url, int $index)
+    public static function getUrlPathSegmentByIndex(string $url, int $index): ?string
     {
         $segments = self::getUrlPathSegments($url);
 
