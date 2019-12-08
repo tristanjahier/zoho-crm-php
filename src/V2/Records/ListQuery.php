@@ -132,6 +132,54 @@ class ListQuery extends AbstractQuery
     }
 
     /**
+     * Sort records by a given field, in a given direction.
+     *
+     * The ordering direction must be either 'asc' or 'desc'.
+     *
+     * @param string $field The field name
+     * @param string $order (optional) The ordering direction
+     * @return $this
+     */
+    public function sortBy(string $field, string $order = 'asc')
+    {
+        return $this->params([
+            'sort_by' => $field,
+            'sort_order' => $order
+        ]);
+    }
+
+    /**
+     * Sort records by a given field, in descending order.
+     *
+     * @param string $field The field name
+     * @return $this
+     */
+    public function sortByDesc(string $field)
+    {
+        return $this->sortBy($field, 'desc');
+    }
+
+    /**
+     * Sort records in ascending order.
+     *
+     * @return $this
+     */
+    public function sortAsc()
+    {
+        return $this->param('sort_order', 'asc');
+    }
+
+    /**
+     * Sort records in descending order.
+     *
+     * @return $this
+     */
+    public function sortDesc()
+    {
+        return $this->param('sort_order', 'desc');
+    }
+
+    /**
      * Set the minimum date for records' last modification (`Modified_Time` field).
      *
      * @param \DateTimeInterface|string|null $date A date object or a valid string
