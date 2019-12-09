@@ -42,9 +42,9 @@ trait BasicQueryImplementation
     /**
      * Execute the query and get the raw, unparsed response.
      *
-     * @return string
+     * @return string|string[]
      */
-    public function getRaw(): string
+    public function getRaw()
     {
         return $this->execute()->getRawContent();
     }
