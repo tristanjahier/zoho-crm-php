@@ -46,7 +46,7 @@ class Response implements ResponseInterface
     /**
      * @inheritdoc
      */
-    public function getRawContent(): string
+    public function getRawContent()
     {
         return $this->rawContent;
     }

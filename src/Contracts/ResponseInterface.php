@@ -7,9 +7,12 @@ interface ResponseInterface
     /**
      * Get the raw HTTP response body.
      *
-     * @return string
+     * The return value MUST be an array of strings for paginated responses,
+     * and MUST be a string for normal responses.
+     *
+     * @return string|string[]
      */
-    public function getRawContent(): string;
+    public function getRawContent();
 
     /**
      * Get the parsed, cleaned up content.
