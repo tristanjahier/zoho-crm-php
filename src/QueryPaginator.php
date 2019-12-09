@@ -143,13 +143,13 @@ class QueryPaginator implements QueryPaginatorInterface
      */
     private function handlePageResponse(Response $pageResponse)
     {
+        $this->responses[] = $pageResponse;
+
         // If this page is empty, then the following ones will be too
         if ($pageResponse->isEmpty()) {
             $this->hasMoreData = false;
             return;
         }
-
-        $this->responses[] = $pageResponse;
 
         // If the page is not fully filled, it means we reached the end
         if (count($pageResponse->getContent()) < self::PAGE_MAX_SIZE) {
