@@ -43,4 +43,14 @@ abstract class AbstractQuery implements QueryInterface
 
         return $this;
     }
+
+    /**
+     * Allow the deep cloning of the query.
+     *
+     * @return void
+     */
+    public function __clone()
+    {
+        $this->urlParameters = clone $this->urlParameters;
+    }
 }
