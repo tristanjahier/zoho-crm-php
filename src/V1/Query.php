@@ -15,8 +15,11 @@ use Zoho\Crm\Support\UrlParameters;
 use Zoho\Crm\Exceptions\InvalidQueryException;
 use Zoho\Crm\Entities\Collection;
 use Zoho\Crm\Support\Helper;
-use Zoho\Crm\Traits\BasicQueryImplementation;
-use Zoho\Crm\Traits\HasRequestUrlParameters;
+use Zoho\Crm\Traits\{
+    BasicQueryImplementation,
+    HasRequestUrlParameters,
+    HasPagination
+};
 
 /**
  * A container for all the attributes of an API request.
@@ -26,7 +29,7 @@ use Zoho\Crm\Traits\HasRequestUrlParameters;
  */
 class Query implements PaginatedQueryInterface
 {
-    use BasicQueryImplementation, HasRequestUrlParameters;
+    use BasicQueryImplementation, HasRequestUrlParameters, HasPagination;
 
     /** @var string The response format */
     protected $format;
@@ -36,12 +39,6 @@ class Query implements PaginatedQueryInterface
 
     /** @var string The API method */
     protected $method;
-
-    /** @var bool Whether the query must be paginated or not */
-    protected $paginated = false;
-
-    /** @var int|null The maximum number of concurrent requests allowed to fetch pages */
-    protected $concurrency;
 
     /** @var int|null The maximum number of records to fetch */
     protected $limit;
@@ -437,71 +434,10 @@ class Query implements PaginatedQueryInterface
 
     /**
      * @inheritdoc
-     *
-     * @return $this
-     */
-    public function paginated(bool $paginated = true): PaginatedQueryInterface
-    {
-        $this->paginated = $paginated;
-
-        if (! $paginated) {
-            $this->concurrency(null);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function isPaginated(): bool
-    {
-        return $this->paginated;
-    }
-
-    /**
-     * @inheritdoc
      */
     public function getPaginator(): QueryPaginatorInterface
     {
         return new QueryPaginator($this);
-    }
-
-    /**
-     * Set the concurrency limit for asynchronous pagination.
-     *
-     * @param int|null $concurrency The concurrency limit
-     * @return $this
-     */
-    public function concurrency(?int $concurrency)
-    {
-        if (! is_null($concurrency) && (! is_int($concurrency) || $concurrency <= 0)) {
-            throw new InvalidArgumentException('Query concurrency must be a positive non-zero integer.');
-        }
-
-        $this->concurrency = $concurrency;
-
-        return $this;
-    }
-
-    /**
-     * Get the concurrency limit for asynchronous pagination.
-     *
-     * @return int|null
-     */
-    public function getConcurrency()
-    {
-        return $this->concurrency;
-    }
-
-    /**
-     * Determine if the query requires asynchronous pagination.
-     *
-     * @return bool
-     */
-    public function mustFetchPagesAsynchronously()
-    {
-        return isset($this->concurrency) && $this->concurrency > 1;
     }
 
     /**
@@ -527,10 +463,6 @@ class Query implements PaginatedQueryInterface
         if ($this->hasMaxModificationDate() && $modifiedDateIsMissing) {
             $message = '"Modified Time" column is required with "modifiedBefore()" constraint.';
             throw new InvalidQueryException($this, $message);
-        }
-
-        if ($this->mustFetchPagesAsynchronously() && ! $this->isPaginated()) {
-            throw new InvalidQueryException($this, 'setting concurrency on a non-paginated query is irrelevant.');
         }
     }
 
@@ -563,7 +495,7 @@ class Query implements PaginatedQueryInterface
 
         return $this->copy()
             ->param('toIndex', $this->getUrlParameter('fromIndex'))
-            ->paginated(false)
+            ->autoPaginated(false)
             ->get()
             ->first();
     }

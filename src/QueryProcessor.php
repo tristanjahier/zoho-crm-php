@@ -58,7 +58,7 @@ class QueryProcessor
      */
     public function executeQuery(QueryInterface $query)
     {
-        if ($query instanceof PaginatedQueryInterface && $query->isPaginated()) {
+        if ($query instanceof PaginatedQueryInterface && $query->mustBePaginatedAutomatically()) {
             return $this->executePaginatedQuery($query);
         }
 
@@ -183,7 +183,7 @@ class QueryProcessor
         $promises = [];
 
         foreach ($queries as $i => $query) {
-            if ($query->isPaginated()) {
+            if ($query->mustBePaginatedAutomatically()) {
                 throw new PaginatedQueryInBatchExecutionException();
             }
 

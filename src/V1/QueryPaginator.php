@@ -126,7 +126,7 @@ class QueryPaginator implements QueryPaginatorInterface
     private function getNextPageQuery()
     {
         $query = $this->query->copy()
-            ->paginated(false)
+            ->autoPaginated(false)
             ->param('fromIndex', $this->lastFetchedIndex + 1)
             ->param('toIndex', $this->lastFetchedIndex + self::PAGE_MAX_SIZE);
 
@@ -168,7 +168,7 @@ class QueryPaginator implements QueryPaginatorInterface
      */
     public function fetchAll()
     {
-        if ($this->query->mustFetchPagesAsynchronously()) {
+        if ($this->query->mustBePaginatedConcurrently()) {
             return $this->fetchAllAsync();
         }
 

@@ -150,7 +150,7 @@ When querying records from Zoho, you will get a maximum of 200 records per reque
 In this library, pagination is made simple thanks to a query method called `paginated()`. All you have to do is to call this method on a query and the library will fetch every page of records until there is no more data (or before if you set a limit). Example:
 
 ```php
-$client->newQuery('Contacts', 'getRecords')->paginated()->get();
+$client->newQuery('Contacts', 'getRecords')->autoPaginated()->get();
 ```
 
 **Important note:** do not use pagination on API methods that do not support the "fromIndex" and "toIndex" parameters.
@@ -158,7 +158,7 @@ $client->newQuery('Contacts', 'getRecords')->paginated()->get();
 By default, query pagination is synchronous. It simply means that every new page is only fetched once the previous one has been executed and returned a response. **This library also supports asynchronous query execution, and it makes pagination faster.** Once again, this is really simple to use. All you have to do is to call the `concurrency()` method on the query:
 
 ```php
-$client->newQuery('Calls', 'getRecords')->paginated()->concurrency(5)->get();
+$client->newQuery('Calls', 'getRecords')->autoPaginated()->concurrency(5)->get();
 ```
 
 This method takes a single argument: a positive non-zero integer (> 0). It is the number of concurrent API requests. If you pass `1`, pagination will be synchronous. You can also pass `null` to disable asynchronous pagination.
@@ -259,7 +259,7 @@ A module handler also has a `newQuery()` method, which is the same as `Client::n
 $client->potentials->newQuery('getMyRecords')
     ->modifiedAfter('2019-04-01')
     ->orderBy('Modified Time', 'desc')
-    ->paginated();
+    ->autoPaginated();
 ```
 
 In addition, most of the modules have methods to help you write even more shorter and cleaner queries. They will be referenced in the next part of this guide.

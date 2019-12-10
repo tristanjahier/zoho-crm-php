@@ -504,10 +504,10 @@ class Client implements ClientInterface
      * @param string|null $module (optional) The name of the API module
      * @param string|null $method (optional) The name of the API method
      * @param array $params (optional) An array of URL parameters
-     * @param bool $paginated (optional) Whether to fetch multiple pages or not
+     * @param bool $autoPaginated (optional) Whether it will be automatically paginated or not
      * @return Query
      */
-    public function newQuery($module = null, $method = null, $params = [], $paginated = false)
+    public function newQuery($module = null, $method = null, $params = [], $autoPaginated = false)
     {
         return (new Query($this))
             ->format(self::DEFAULT_RESPONSE_FORMAT)
@@ -516,9 +516,9 @@ class Client implements ClientInterface
             ->params($this->defaultParameters)
             ->params($params)
             ->param('authtoken', '_HIDDEN_')
-            ->paginated($paginated)
+            ->autoPaginated($autoPaginated)
             ->concurrency(
-                $paginated && $this->preferences->isEnabled('concurrent_pagination_by_default')
+                $autoPaginated && $this->preferences->isEnabled('concurrent_pagination_by_default')
                     ? $this->preferences->get('default_concurrency')
                     : null
             );
