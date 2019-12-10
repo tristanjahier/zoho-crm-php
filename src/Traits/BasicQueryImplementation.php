@@ -4,6 +4,7 @@ namespace Zoho\Crm\Traits;
 
 use Zoho\Crm\Contracts\QueryInterface;
 use Zoho\Crm\Contracts\ResponseInterface;
+use Zoho\Crm\Contracts\ClientInterface;
 
 /**
  * A trait that contains a basic implementation for most of the QueryInterface features.
@@ -21,6 +22,14 @@ trait BasicQueryImplementation
     public function copy(): QueryInterface
     {
         return clone $this;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getClient(): ClientInterface
+    {
+        return $this->client;
     }
 
     /**

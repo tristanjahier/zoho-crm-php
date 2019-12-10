@@ -92,16 +92,6 @@ class Query implements PaginatedQueryInterface
     }
 
     /**
-     * Get the bound API client.
-     *
-     * @return \Zoho\Crm\V1\Client
-     */
-    public function getClient()
-    {
-        return $this->client;
-    }
-
-    /**
      * Get the response format.
      *
      * @return string

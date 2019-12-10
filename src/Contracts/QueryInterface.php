@@ -25,6 +25,13 @@ interface QueryInterface extends RequestableInterface
     public function copy(): self;
 
     /**
+     * Get the bound API client.
+     *
+     * @return ClientInterface
+     */
+    public function getClient(): ClientInterface;
+
+    /**
      * Execute the query with the bound client.
      *
      * @return ResponseInterface
