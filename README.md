@@ -147,7 +147,7 @@ $data = $query->execute()->getContent();
 
 When querying records from Zoho, you will get a maximum of 200 records per request. Thus, if you want to get more than 200 records, you need to make multiple requests. This is done with the "fromIndex" and "toIndex" request parameters. Iterating on these parameters is called **pagination**.
 
-In this library, pagination is made simple thanks to a query method called `paginated()`. All you have to do is to call this method on a query and the library will fetch every page of records until there is no more data (or before if you set a limit). Example:
+In this library, pagination is made simple thanks to a query method called `autoPaginated()`. All you have to do is to call this method on a query and the library will fetch every page of records until there is no more data (or before if you set a limit). Example:
 
 ```php
 $client->newQuery('Contacts', 'getRecords')->autoPaginated()->get();
