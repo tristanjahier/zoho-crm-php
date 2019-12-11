@@ -81,7 +81,7 @@ class Module
      */
     public function deleted()
     {
-        return $this->newListDeletedQuery();
+        return $this->newListDeletedQuery()->autoPaginated();
     }
 
     /**

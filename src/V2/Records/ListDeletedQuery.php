@@ -9,7 +9,7 @@ use Zoho\Crm\Contracts\ResponseTransformerInterface;
  *
  * @see https://www.zoho.com/crm/developer/docs/api/get-deleted-records.html
  */
-class ListDeletedQuery extends AbstractQuery
+class ListDeletedQuery extends AbstractPaginatedQuery
 {
     /**
      * @inheritdoc
