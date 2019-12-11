@@ -65,13 +65,13 @@ class Module
     }
 
     /**
-     * Alias of {@see self::newListQuery()}.
+     * Create a query to retrieve all the module records.
      *
      * @return ListQuery
      */
     public function all()
     {
-        return $this->newListQuery();
+        return $this->newListQuery()->autoPaginated();
     }
 
     /**
