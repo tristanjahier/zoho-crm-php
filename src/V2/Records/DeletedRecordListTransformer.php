@@ -20,6 +20,10 @@ class DeletedRecordListTransformer implements ResponseTransformerInterface
     {
         $records = new Collection();
 
+        if (is_null($content)) {
+            return $records;
+        }
+
         foreach ($content['data'] as $attributes) {
             $records->push(new DeletedRecord($attributes));
         }
