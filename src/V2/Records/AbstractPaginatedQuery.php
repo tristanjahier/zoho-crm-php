@@ -52,7 +52,7 @@ abstract class AbstractPaginatedQuery extends AbstractQuery implements Paginated
             throw new \InvalidArgumentException('Page number must be a positive non-zero integer.');
         }
 
-        return $this->param('page', $page);
+        return $this->param('page', $page)->autoPaginated(false);
     }
 
     /**
