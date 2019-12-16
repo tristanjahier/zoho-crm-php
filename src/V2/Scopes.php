@@ -83,6 +83,51 @@ final class Scopes
     }
 
     /**
+     * Determine if a given scope is valid.
+     *
+     * @param string $scope The scope to check
+     * @return bool
+     */
+    public static function isValid(string $scope): bool
+    {
+        $segments = explode('.', $scope);
+
+        // Allow omission of the root segment
+        if ($segments[0] === self::SERVICE_NAME) {
+            array_shift($segments);
+        }
+
+        $scopes = self::SCOPES;
+
+        // Try to get as deep as possible through the scope segments
+        while (! is_null($segment = array_shift($segments))) {
+            // If there is at least one more segment, but we reached the deepest
+            // scope level already, then the scope is too long and invalid.
+            if (! is_array($scopes)) {
+                return false;
+            }
+
+            // If the segment is present as a key, it means that we can go deeper.
+            if (isset($scopes[$segment])) {
+                $scopes = $scopes[$segment];
+                continue;
+            }
+
+            // If the segment is present as a value, it means that we reached the deepest level.
+            if (in_array($segment, $scopes)) {
+                $scopes = $segment;
+                continue;
+            }
+
+            // If the segment is not present, then the scope is invalid.
+            return false;
+        }
+
+        // If the scope is valid, then the last segment should have led to a single string.
+        return is_string($scopes);
+    }
+
+    /**
      * Generate a string with all available scopes, with full access.
      *
      * @return string
