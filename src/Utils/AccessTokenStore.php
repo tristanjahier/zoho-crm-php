@@ -106,6 +106,16 @@ class AccessTokenStore
     }
 
     /**
+     * Determine if the access token is still valid or not.
+     *
+     * @return bool
+     */
+    public function isValid(): bool
+    {
+        return ! $this->hasExpired();
+    }
+
+    /**
      * Check if the access token will expire in less than a given amount of time.
      *
      * @param int $howMuch The amount of time (> 0)
