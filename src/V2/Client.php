@@ -59,6 +59,9 @@ class Client implements ClientInterface
     /** @var AbstractSubApi[] The sub-APIs helpers */
     protected $subApis = [];
 
+    /** @var \Closure[] The callbacks to execute each time the access token has been refreshed */
+    protected $accessTokenRefreshedCallbacks = [];
+
     /**
      * The constructor.
      *
@@ -251,7 +254,25 @@ class Client implements ClientInterface
         // Save the new access token
         $this->oAuthAccessToken = $response['access_token'] ?? null;
 
+        // Fire the registered callbacks
+        foreach ($this->accessTokenRefreshedCallbacks as $callback) {
+            $callback($response);
+        }
+
         return $response;
+    }
+
+    /**
+     * Register a callback to execute each time the access token has been refreshed.
+     *
+     * @param \Closure $callback The callback to execute
+     * @return $this
+     */
+    public function accessTokenRefreshed(Closure $callback): self
+    {
+        $this->accessTokenRefreshedCallbacks[] = $callback;
+
+        return $this;
     }
 
     /**
