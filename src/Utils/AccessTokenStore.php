@@ -48,6 +48,22 @@ class AccessTokenStore
     }
 
     /**
+     * Create the file if it does not exist.
+     *
+     * Return true if the creation was successful or if the file already exists.
+     *
+     * @return bool
+     */
+    public function createUnlessExists(): bool
+    {
+        if ($this->fileExists) {
+            return true;
+        }
+
+        return $this->fileExists = touch($this->filePath);
+    }
+
+    /**
      * Set the access token.
      *
      * @param string $token The new token
@@ -142,6 +158,12 @@ class AccessTokenStore
      */
     public function save(): bool
     {
-        return (bool) file_put_contents($this->filePath, json_encode($this->content));
+        $saved = (bool) file_put_contents($this->filePath, json_encode($this->content));
+
+        if ($saved) {
+            $this->fileExists = true;
+        }
+
+        return $saved;
     }
 }
