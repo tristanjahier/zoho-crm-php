@@ -249,7 +249,7 @@ class Client implements ClientInterface
         $response = json_decode((string) $response->getBody(), true);
 
         // Save the new access token
-        $this->oAuthAccessToken = $response['access_token'];
+        $this->oAuthAccessToken = $response['access_token'] ?? null;
 
         return $response;
     }
