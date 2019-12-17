@@ -3,15 +3,19 @@
 namespace Zoho\Crm\V2\Records;
 
 use Zoho\Crm\Contracts\ResponseTransformerInterface;
+use Zoho\Crm\Contracts\PaginatedQueryInterface;
 use Zoho\Crm\Support\Helper;
+use Zoho\Crm\V2\Traits\HasPagination;
 
 /**
  * A query to get a list of records.
  *
  * @see https://www.zoho.com/crm/developer/docs/api/get-records.html
  */
-class ListQuery extends AbstractPaginatedQuery
+class ListQuery extends AbstractQuery implements PaginatedQueryInterface
 {
+    use HasPagination;
+
     /**
      * @inheritdoc
      */

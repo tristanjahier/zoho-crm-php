@@ -1,22 +1,19 @@
 <?php
 
-namespace Zoho\Crm\V2\Records;
+namespace Zoho\Crm\V2\Traits;
 
-use Zoho\Crm\Contracts\{
-    PaginatedQueryInterface,
-    QueryPaginatorInterface,
-    ResponsePageMergerInterface
-};
-use Zoho\Crm\Traits\HasPagination;
+use Zoho\Crm\Contracts\QueryPaginatorInterface;
+use Zoho\Crm\Contracts\ResponsePageMergerInterface;
+use Zoho\Crm\Traits\HasPagination as BasePaginationTrait;
 use Zoho\Crm\V2\QueryPaginator;
 use Zoho\Crm\V2\CollectionPageMerger;
 
 /**
- * Base class for Record APIs paginated queries.
+ * Basic API v2 implementation for PaginatedQueryInterface.
  */
-abstract class AbstractPaginatedQuery extends AbstractQuery implements PaginatedQueryInterface
+trait HasPagination
 {
-    use HasPagination;
+    use BasePaginationTrait;
 
     /**
      * @inheritdoc
