@@ -4,6 +4,7 @@ namespace Zoho\Crm\V2\Records;
 
 use Zoho\Crm\Contracts\ResponseTransformerInterface;
 use Zoho\Crm\Contracts\PaginatedQueryInterface;
+use Zoho\Crm\Exceptions\InvalidQueryException;
 use Zoho\Crm\Support\Helper;
 use Zoho\Crm\V2\Traits\HasPagination;
 
@@ -16,12 +17,39 @@ class ListQuery extends AbstractQuery implements PaginatedQueryInterface
 {
     use HasPagination;
 
+    /** @var \DateTime|null The maximum record modification date to fetch */
+    protected $maxModificationDate;
+
     /**
      * @inheritdoc
      */
     public function getUri(): string
     {
         return "$this->module?$this->urlParameters";
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function validate(): void
+    {
+        parent::validate();
+
+        if (! $this->hasMaxModificationDate()) {
+            return;
+        }
+
+        // "Modified_Time" field has to be be present in the results.
+        if ($this->hasSelection() && ! $this->hasSelected('Modified_Time')) {
+            $message = '"Modified_Time" field is required when using modifiedBefore().';
+            throw new InvalidQueryException($this, $message);
+        }
+
+        // The query must also be sorted by "Modified_Time" in ascending order.
+        if ($this->getUrlParameter('sort_by') != 'Modified_Time' || $this->getUrlParameter('sort_order') != 'asc') {
+            $message = 'must be sorted by "Modified_Time" in ascending order when using modifiedBefore().';
+            throw new InvalidQueryException($this, $message);
+        }
     }
 
     /**
@@ -92,6 +120,16 @@ class ListQuery extends AbstractQuery implements PaginatedQueryInterface
         return array_filter(array_map(function ($field) {
             return trim((string) $field);
         }, $fields));
+    }
+
+    /**
+     * Check if there is a field selection.
+     *
+     * @return bool
+     */
+    public function hasSelection(): bool
+    {
+        return ! empty($this->getSelectedFields());
     }
 
     /**
@@ -197,14 +235,78 @@ class ListQuery extends AbstractQuery implements PaginatedQueryInterface
             return $this->removeHeader('If-Modified-Since');
         }
 
+        $date = $this->getValidatedDateObject($date);
+
+        return $this->setHeader('If-Modified-Since', $date->format(DATE_ATOM));
+    }
+
+    /**
+     * Set the maximum date for records' last modification (`Modified_Time` field).
+     *
+     * @param \DateTimeInterface|string|null $date A date object or a valid string
+     * @return $this
+     *
+     * @throws \InvalidArgumentException
+     */
+    public function modifiedBefore($date)
+    {
+        $this->maxModificationDate = is_null($date) ? null : $this->getValidatedDateObject($date);
+
+        return $this;
+    }
+
+    /**
+     * Set the minimum and maximum dates for records' last modification.
+     *
+     * @param \DateTimeInterface|string|null $from A date object or a valid string
+     * @param \DateTimeInterface|string|null $to A date object or a valid string
+     * @return $this
+     *
+     * @throws \InvalidArgumentException
+     */
+    public function modifiedBetween($from, $to)
+    {
+        return $this->modifiedAfter($from)->modifiedBefore($to);
+    }
+
+    /**
+     * Check if the query has a maximum modification date for records.
+     *
+     * @return bool
+     */
+    public function hasMaxModificationDate(): bool
+    {
+        return isset($this->maxModificationDate);
+    }
+
+    /**
+     * Get the maximum date for records' last modification.
+     *
+     * @return \DateTime|null
+     */
+    public function getMaxModificationDate(): ?\DateTime
+    {
+        return $this->maxModificationDate;
+    }
+
+    /**
+     * Ensure to get a valid DateTime object.
+     *
+     * @param \DateTimeInterface|string $date A date object or a valid string
+     * @return \DateTime
+     *
+     * @throws \InvalidArgumentException
+     */
+    protected function getValidatedDateObject($date)
+    {
         if (! Helper::isValidDateInput($date)) {
             throw new \InvalidArgumentException('Date must implement DateTimeInterface or be a valid date string.');
         }
 
         if (is_string($date)) {
-            $date = new \DateTime($date);
+            return new \DateTime($date);
         }
 
-        return $this->setHeader('If-Modified-Since', $date->format(DATE_ATOM));
+        return $date;
     }
 }
