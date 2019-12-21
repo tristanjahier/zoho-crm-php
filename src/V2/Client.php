@@ -58,6 +58,9 @@ class Client implements ClientInterface
     /** @var \Zoho\Crm\QueryProcessor The query processor */
     protected $queryProcessor;
 
+    /** @var Preferences The client preferences container */
+    protected $preferences;
+
     /** @var AbstractSubApi[] The sub-APIs helpers */
     protected $subApis = [];
 
@@ -88,6 +91,8 @@ class Client implements ClientInterface
         if (isset($endpoint)) {
             $this->setEndpoint($endpoint);
         }
+
+        $this->preferences = new Preferences();
 
         $this->queryProcessor = new QueryProcessor(
             $this,
@@ -124,6 +129,16 @@ class Client implements ClientInterface
     public function getEndpoint(): string
     {
         return $this->endpoint;
+    }
+
+    /**
+     * Get the client preferences container.
+     *
+     * @return Preferences
+     */
+    public function preferences(): Preferences
+    {
+        return $this->preferences;
     }
 
     /**

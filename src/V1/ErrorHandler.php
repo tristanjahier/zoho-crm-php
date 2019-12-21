@@ -6,20 +6,19 @@ use Exception;
 use GuzzleHttp\Exception\RequestException;
 use Zoho\Crm\Contracts\ErrorHandlerInterface;
 use Zoho\Crm\Contracts\QueryInterface;
-use Zoho\Crm\Preferences;
 
 /**
  * Handler for API v1 errors.
  */
 class ErrorHandler implements ErrorHandlerInterface
 {
-    /** @var \Zoho\Crm\Preferences The client preferences container */
+    /** @var Preferences The client preferences container */
     protected $preferences;
 
     /**
      * The constructor.
      *
-     * @param \Zoho\Crm\Preferences $preferences The client preferences container
+     * @param Preferences $preferences The client preferences container
      */
     public function __construct(Preferences $preferences)
     {

@@ -8,8 +8,11 @@ use Zoho\Crm\Support\Collection;
 /**
  * A container class for the client preferences.
  */
-class Preferences extends Collection
+class PreferencesContainer extends Collection
 {
+    /** @var array The available preferences and their default values */
+    protected static $defaults = [];
+
     /**
      * The constructor.
      */
@@ -25,11 +28,7 @@ class Preferences extends Collection
      */
     public function defaults()
     {
-        return [
-            'exception_messages_obfuscation' => false,
-            'concurrent_pagination_by_default' => false,
-            'default_concurrency' => 5,
-        ];
+        return static::$defaults;
     }
 
     /**
@@ -39,7 +38,7 @@ class Preferences extends Collection
      */
     public function resetDefaults()
     {
-        $this->items = $this->defaults();
+        $this->items = static::$defaults;
     }
 
     /**

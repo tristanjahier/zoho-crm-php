@@ -10,7 +10,6 @@ use Zoho\Crm\Contracts\ResponseInterface;
 use Zoho\Crm\V1\Modules\AbstractModule;
 use Zoho\Crm\V1\Methods\MethodInterface;
 use Zoho\Crm\ResponseFormat;
-use Zoho\Crm\Preferences;
 use Zoho\Crm\QueryProcessor;
 use Zoho\Crm\RequestSender;
 
@@ -409,7 +408,7 @@ class Client implements ClientInterface
      *
      * @return Preferences
      */
-    public function preferences()
+    public function preferences(): Preferences
     {
         return $this->preferences;
     }
