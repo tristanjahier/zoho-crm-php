@@ -1,6 +1,6 @@
 <?php
 
-namespace Zoho\Crm\Exceptions;
+namespace Zoho\Crm\V1\Exceptions;
 
 use Exception;
 
