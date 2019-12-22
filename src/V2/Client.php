@@ -89,7 +89,12 @@ class Client implements ClientInterface
             $this->setEndpoint($endpoint);
         }
 
-        $this->queryProcessor = new QueryProcessor($this, new RequestSender(), new ResponseParser());
+        $this->queryProcessor = new QueryProcessor(
+            $this,
+            new RequestSender(),
+            new ResponseParser(),
+            new ErrorHandler()
+        );
 
         $this->registerMiddleware(new Middleware\Validation());
         $this->registerMiddleware(new Middleware\Authorization($this));

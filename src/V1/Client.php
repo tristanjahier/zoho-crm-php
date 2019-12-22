@@ -155,8 +155,9 @@ class Client implements ClientInterface
 
         $this->queryProcessor = new QueryProcessor(
             $this,
-            new RequestSender($this->preferences),
-            new ResponseParser()
+            new RequestSender(),
+            new ResponseParser(),
+            new ErrorHandler($this->preferences)
         );
 
         $this->queryProcessor->registerMiddleware(new Middleware\Validation($this));
