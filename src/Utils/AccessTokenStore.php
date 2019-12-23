@@ -25,16 +25,40 @@ class AccessTokenStore
      * The constructor.
      *
      * @param string $filePath The file path where to store the token
+     * @param bool $load Whether to load the file or not
      */
-    public function __construct(string $filePath)
+    public function __construct(string $filePath, bool $load = true)
     {
         $this->filePath = $filePath;
-        $this->fileExists = file_exists($filePath);
-        $this->content = $this->fileExists ? json_decode(file_get_contents($filePath), true) : null;
+
+        if ($load) {
+            $this->load();
+        }
+    }
+
+    /**
+     * Read the file and load its contents if existing.
+     *
+     * @return void
+     */
+    public function load(): void
+    {
+        $this->fileExists = file_exists($this->filePath);
+        $this->content = $this->fileExists ? json_decode(file_get_contents($this->filePath), true) : null;
 
         if (is_null($this->content)) {
             $this->content = [];
         }
+    }
+
+    /**
+     * Alias of {@see self::load()}.
+     *
+     * @return void
+     */
+    public function reload(): void
+    {
+        $this->load();
     }
 
     /**
