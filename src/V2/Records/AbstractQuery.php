@@ -55,11 +55,11 @@ abstract class AbstractQuery extends BaseQuery
      *
      * @return $this
      */
-    public function setUri(?string $uri)
+    public function setUrl(?string $url)
     {
-        parent::setUri($uri);
+        parent::setUrl($url);
 
-        $this->module = Helper::getUrlPathSegmentByIndex($uri, 0);
+        $this->module = Helper::getUrlPathSegmentByIndex($url, 0);
 
         return $this;
     }

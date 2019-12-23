@@ -17,15 +17,15 @@ class XmlDataHandling implements MiddlewareInterface
      */
     public function __invoke(QueryInterface $query): void
     {
-        $uri = $query->getUri();
-        $parameters = UrlParameters::createFromUrl($uri);
+        $url = $query->getUrl();
+        $parameters = UrlParameters::createFromUrl($url);
 
         // For queries with 'xmlData' URL parameter, the URL query string size might be very large.
         // For that reason we will move it to the body instead.
 
         if ($query->getHttpMethod() === HttpMethod::POST && $parameters->has('xmlData')) {
-            $newUri = parse_url($uri, PHP_URL_PATH) . '?' . $parameters->except('xmlData');
-            $query->setUri($newUri);
+            $newUrl = parse_url($url, PHP_URL_PATH) . '?' . $parameters->except('xmlData');
+            $query->setUrl($newUrl);
             $query->setBody((string) $parameters->only('xmlData'));
             $query->setHeader('Content-Type', 'application/x-www-form-urlencoded');
         }

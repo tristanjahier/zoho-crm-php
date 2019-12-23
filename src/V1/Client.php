@@ -101,7 +101,7 @@ class Client implements ClientInterface
         Methods\UpdateRecords::class,
     ];
 
-    /** @var string The API endpoint (base URI with trailing slash) */
+    /** @var string The API endpoint base URL (with trailing slash) */
     protected $endpoint = self::DEFAULT_ENDPOINT;
 
     /** @var string The API authentication token */
@@ -137,7 +137,7 @@ class Client implements ClientInterface
      * The constructor.
      *
      * @param string|null $authToken (optional) The auth token
-     * @param string|null $endpoint (optional) The endpoint URI
+     * @param string|null $endpoint (optional) The endpoint base URL
      */
     public function __construct($authToken = null, $endpoint = null)
     {
@@ -527,12 +527,12 @@ class Client implements ClientInterface
     /**
      * Create a new raw query object.
      *
-     * @param string|null $path (optional) The URI path
+     * @param string|null $path (optional) The URL path
      * @return RawQuery
      */
     public function newRawQuery(string $path = null)
     {
-        return (new RawQuery($this))->setUri($path);
+        return (new RawQuery($this))->setUrl($path);
     }
 
     /**

@@ -37,14 +37,14 @@ class Validation implements MiddlewareInterface
      */
     public function __invoke(QueryInterface $query): void
     {
-        // Analyze the URI path and check that it is correctly formed
-        $uriPathSegments = Helper::getUrlPathSegments($query->getUri());
+        // Analyze the URL path and check that it is correctly formed
+        $urlPathSegments = Helper::getUrlPathSegments($query->getUrl());
 
-        if (count($uriPathSegments) != 3) {
-            throw new InvalidQueryException($query, 'malformed URI.');
+        if (count($urlPathSegments) != 3) {
+            throw new InvalidQueryException($query, 'malformed URL.');
         }
 
-        [$format, $module, $method] = $uriPathSegments;
+        [$format, $module, $method] = $urlPathSegments;
 
         // Check if the requested module and method are both supported
         if (! $this->client->supports($module)) {

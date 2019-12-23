@@ -49,10 +49,10 @@ class Client implements ClientInterface
     /** @var string|null The OAuth 2.0 access token */
     protected $oAuthAccessToken;
 
-    /** @var string The API endpoint (base URI with trailing slash) */
+    /** @var string The API endpoint base URL (with trailing slash) */
     protected $endpoint = self::DEFAULT_ENDPOINT;
 
-    /** @var string The API OAuth 2.0 authorization endpoint */
+    /** @var string The API OAuth 2.0 authorization endpoint base URL */
     protected $oAuthEndpoint = self::DEFAULT_OAUTH_ENDPOINT;
 
     /** @var \Zoho\Crm\QueryProcessor The query processor */
@@ -74,7 +74,7 @@ class Client implements ClientInterface
      * @param string $oAuthClientSecret The client secret
      * @param string $oAuthRefreshToken The refresh token
      * @param string|null $oAuthAccessToken (optional) The access token
-     * @param string|null $endpoint (optional) The endpoint URI
+     * @param string|null $endpoint (optional) The endpoint base URL
      */
     public function __construct(
         string $oAuthClientId,
@@ -202,11 +202,11 @@ class Client implements ClientInterface
     }
 
     /**
-     * Set the API OAuth 2.0 authorization endpoint.
+     * Set the API OAuth 2.0 authorization endpoint base URL.
      *
      * It will ensure that there is one slash at the end.
      *
-     * @param string $endpoint The endpoint URI
+     * @param string $endpoint The endpoint base URL
      * @return void
      */
     public function setAuthorizationEndpoint(string $endpoint): void
@@ -300,12 +300,12 @@ class Client implements ClientInterface
     /**
      * Create a new raw query object.
      *
-     * @param string|null $path (optional) The URI path
+     * @param string|null $path (optional) The URL path
      * @return RawQuery
      */
     public function newRawQuery(string $path = null)
     {
-        return (new RawQuery($this))->setUri($path);
+        return (new RawQuery($this))->setUrl($path);
     }
 
     /**

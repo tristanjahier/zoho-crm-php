@@ -26,7 +26,7 @@ class ResponseParser implements ResponseParserInterface
     {
         $rawContent = (string) $httpResponse->getBody();
 
-        $format = Helper::getUrlPathSegmentByIndex($query->getUri(), 0);
+        $format = Helper::getUrlPathSegmentByIndex($query->getUrl(), 0);
         $content = $this->parseFormattedString($rawContent, $format);
 
         $this->validate($content);

@@ -12,26 +12,26 @@ interface RequestableInterface
     public function getHttpMethod(): string;
 
     /**
-     * Set the URI to request.
+     * Set the URL to request.
      *
-     * @param string|null $uri The new URI
+     * @param string|null $url The new URL
      */
-    public function setUri(?string $uri);
+    public function setUrl(?string $url);
 
     /**
-     * Get the URI to request.
+     * Get the URL to request.
      *
      * @return string
      */
-    public function getUri(): string;
+    public function getUrl(): string;
 
     /**
-     * Set a query string parameter on the existing URI.
+     * Set a query string parameter on the existing URL.
      *
      * @param string $key The parameter key
      * @param mixed $value The parameter value
      */
-    public function setUriParameter(string $key, $value);
+    public function setUrlParameter(string $key, $value);
 
     /**
      * Set a header field.

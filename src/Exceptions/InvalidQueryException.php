@@ -15,6 +15,6 @@ class InvalidQueryException extends Exception
      */
     public function __construct(QueryInterface $query, $message)
     {
-        parent::__construct("Invalid query: $message (URI: {$query->getUri()})");
+        parent::__construct("Invalid query: $message (URL: {$query->getUrl()})");
     }
 }

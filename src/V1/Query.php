@@ -70,15 +70,15 @@ class Query implements PaginatedQueryInterface
      *
      * @return $this
      */
-    public function setUri(?string $uri)
+    public function setUrl(?string $url)
     {
-        $segments = Helper::getUrlPathSegments($uri);
+        $segments = Helper::getUrlPathSegments($url);
 
         $this->format = $segments[0] ?? null;
         $this->module = $segments[1] ?? null;
         $this->method = $segments[2] ?? null;
 
-        $this->urlParameters = UrlParameters::createFromUrl($uri);
+        $this->urlParameters = UrlParameters::createFromUrl($url);
 
         return $this;
     }
@@ -86,7 +86,7 @@ class Query implements PaginatedQueryInterface
     /**
      * @inheritdoc
      */
-    public function getUri(): string
+    public function getUrl(): string
     {
         return "{$this->format}/{$this->module}/{$this->method}?{$this->urlParameters}";
     }

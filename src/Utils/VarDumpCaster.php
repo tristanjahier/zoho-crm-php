@@ -122,12 +122,12 @@ class VarDumpCaster
      */
     public static function castQuery(QueryInterface $query)
     {
-        $uriComponents = parse_url($query->getUri());
-        $uriComponents['query'] = UrlParameters::createFromString($uriComponents['query'] ?? '')->toArray();
+        $urlComponents = parse_url($query->getUrl());
+        $urlComponents['query'] = UrlParameters::createFromString($urlComponents['query'] ?? '')->toArray();
 
         return self::prefixKeys([
             'httpMethod' => $query->getHttpMethod(),
-            'uri' => $uriComponents,
+            'url' => $urlComponents,
             'headers' => $query->getHeaders(),
             'body' => mb_strimwidth((string) $query->getBody(), 0, 128, ' … (truncated)', 'UTF-8')
         ], Caster::PREFIX_PROTECTED);

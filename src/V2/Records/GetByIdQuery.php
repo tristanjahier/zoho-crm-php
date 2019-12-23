@@ -44,11 +44,11 @@ class GetByIdQuery extends AbstractQuery
      *
      * @return $this
      */
-    public function setUri(?string $uri)
+    public function setUrl(?string $url)
     {
-        parent::setUri($uri);
+        parent::setUrl($url);
 
-        $this->recordId = Helper::getUrlPathSegmentByIndex($uri, 1);
+        $this->recordId = Helper::getUrlPathSegmentByIndex($url, 1);
 
         return $this;
     }
@@ -56,7 +56,7 @@ class GetByIdQuery extends AbstractQuery
     /**
      * @inheritdoc
      */
-    public function getUri(): string
+    public function getUrl(): string
     {
         return "$this->module/$this->recordId?$this->urlParameters";
     }

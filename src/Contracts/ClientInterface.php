@@ -7,11 +7,11 @@ use Closure;
 interface ClientInterface
 {
     /**
-     * Set the API endpoint.
+     * Set the API endpoint base URL.
      *
      * It will ensure that there is one slash at the end.
      *
-     * @param string $endpoint The endpoint URI
+     * @param string $endpoint The endpoint base URL
      * @return void
      *
      * @throws \Zoho\Crm\Exceptions\InvalidEndpointException
@@ -19,7 +19,7 @@ interface ClientInterface
     public function setEndpoint(string $endpoint): void;
 
     /**
-     * Get the API endpoint.
+     * Get the API endpoint base URL.
      *
      * @return string
      */

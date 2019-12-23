@@ -19,7 +19,7 @@ class ListDeletedQuery extends AbstractQuery implements PaginatedQueryInterface
     /**
      * @inheritdoc
      */
-    public function getUri(): string
+    public function getUrl(): string
     {
         return "$this->module/deleted?$this->urlParameters";
     }

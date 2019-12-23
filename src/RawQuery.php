@@ -17,8 +17,8 @@ class RawQuery implements QueryInterface
     use Traits\BasicQueryImplementation;
     use Traits\HasRequestHttpMethod;
 
-    /** @var string|null The URI */
-    protected $uri;
+    /** @var string|null The URL */
+    protected $url;
 
     /**
      * The constructor.
@@ -35,9 +35,9 @@ class RawQuery implements QueryInterface
      *
      * @return $this
      */
-    public function setUri(?string $uri)
+    public function setUrl(?string $url)
     {
-        $this->uri = $uri;
+        $this->url = $url;
 
         return $this;
     }
@@ -45,9 +45,9 @@ class RawQuery implements QueryInterface
     /**
      * @inheritdoc
      */
-    public function getUri(): string
+    public function getUrl(): string
     {
-        return $this->uri;
+        return $this->url;
     }
 
     /**
@@ -55,13 +55,13 @@ class RawQuery implements QueryInterface
      *
      * @return $this
      */
-    public function setUriParameter(string $key, $value)
+    public function setUrlParameter(string $key, $value)
     {
-        $path = parse_url($this->uri, PHP_URL_PATH);
-        $parameters = UrlParameters::createFromUrl($this->uri);
+        $path = parse_url($this->url, PHP_URL_PATH);
+        $parameters = UrlParameters::createFromUrl($this->url);
         $parameters[$key] = $value;
 
-        $this->uri = $path . '?' . $parameters;
+        $this->url = $path . '?' . $parameters;
 
         return $this;
     }

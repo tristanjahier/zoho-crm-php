@@ -15,7 +15,7 @@ trait HasRequestUrlParameters
     /**
      * @inheritdoc
      */
-    public function setUriParameter(string $key, $value)
+    public function setUrlParameter(string $key, $value)
     {
         $this->urlParameters->set($key, $value);
 

@@ -145,7 +145,7 @@ class QueryProcessor
     {
         return new Request(
             $query->getHttpMethod(),
-            $this->client->getEndpoint() . $query->getUri(),
+            $this->client->getEndpoint() . $query->getUrl(),
             $query->getHeaders(),
             $query->getBody()
         );

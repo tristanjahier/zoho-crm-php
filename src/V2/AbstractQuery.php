@@ -37,9 +37,9 @@ abstract class AbstractQuery implements QueryInterface
      *
      * @return $this
      */
-    public function setUri(?string $uri)
+    public function setUrl(?string $url)
     {
-        $this->urlParameters = UrlParameters::createFromUrl($uri);
+        $this->urlParameters = UrlParameters::createFromUrl($url);
 
         return $this;
     }
