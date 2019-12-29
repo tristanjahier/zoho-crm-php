@@ -1,0 +1,56 @@
+<?php
+
+namespace Zoho\Crm\V2\AccessTokenStores;
+
+use DateTimeInterface;
+use DateTimeImmutable;
+
+/**
+ * An interface to handle the storage of API access tokens.
+ */
+interface StoreInterface
+{
+    /**
+     * Set the access token.
+     *
+     * @param string|null $token The new token
+     * @return void
+     */
+    public function setAccessToken(?string $token): void;
+
+    /**
+     * Get the access token.
+     *
+     * @return string|null
+     */
+    public function getAccessToken(): ?string;
+
+    /**
+     * Set the token expiry date.
+     *
+     * @param \DateTimeInterface|null $date The new expiry date
+     * @return void
+     */
+    public function setExpiryDate(?DateTimeInterface $date): void;
+
+    /**
+     * Get the token expiry date.
+     *
+     * @return \DateTimeImmutable|null
+     */
+    public function getExpiryDate(): ?DateTimeImmutable;
+
+    /**
+     * Determine if the access token exists and is still valid or not.
+     *
+     * @return bool
+     */
+    public function isValid(): bool;
+
+    /**
+     * Save the current state back into the storage.
+     *
+     * @return bool
+     */
+    public function save(): bool;
+}
