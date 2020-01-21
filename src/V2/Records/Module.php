@@ -65,6 +65,16 @@ class Module
     }
 
     /**
+     * Create a query to perform a search among the records of the module.
+     *
+     * @return SearchQuery
+     */
+    public function newSearchQuery()
+    {
+        return new SearchQuery($this->client, $this->name);
+    }
+
+    /**
      * Create a query to retrieve all the module records.
      *
      * @return ListQuery
@@ -82,6 +92,29 @@ class Module
     public function deleted()
     {
         return $this->newListDeletedQuery()->autoPaginated();
+    }
+
+    /**
+     * Create a query to search records matching criteria.
+     *
+     * @param string $criteria The search criteria
+     * @return SearchQuery
+     */
+    public function search(string $criteria)
+    {
+        return $this->newSearchQuery()->param('criteria', $criteria)->autoPaginated();
+    }
+
+    /**
+     * Create a query to search records with a given field value.
+     *
+     * @param string $field The name of the field
+     * @param string $value The wanted value
+     * @return SearchQuery
+     */
+    public function searchBy(string $field, string $value)
+    {
+        return $this->search("($field:equals:$value)");
     }
 
     /**
