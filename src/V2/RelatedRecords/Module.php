@@ -5,7 +5,7 @@ namespace Zoho\Crm\V2\RelatedRecords;
 use Zoho\Crm\V2\Client;
 
 /**
- * A class to help querying the records of a specific API module.
+ * A class to help querying the related records of a specific API module.
  */
 class Module
 {

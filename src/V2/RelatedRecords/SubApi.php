@@ -6,7 +6,7 @@ use Doctrine\Common\Inflector\Inflector;
 use Zoho\Crm\V2\AbstractSubApi;
 
 /**
- * Helper for the Record APIs.
+ * Helper for the Related Records APIs.
  */
 class SubApi extends AbstractSubApi
 {
