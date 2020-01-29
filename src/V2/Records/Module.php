@@ -127,4 +127,27 @@ class Module
     {
         return $this->newGetByIdQuery($id)->get();
     }
+
+    /**
+     * Create a query to perform a related list among the records of the module.
+     *
+     * @return ListRelatedQuery
+     */
+    public function newRelatedQuery(): ListRelatedQuery
+    {
+        return new ListRelatedQuery($this->client, $this->name);
+    }
+
+    /**
+     * Create a query to list the related records of the module.
+     *
+     * @param  string    $recordId        The record Id
+     * @param  string    $relatedListName The related list API name
+     *
+     * @return ListRelatedQuery
+     */
+    public function relationsOf(string $recordId, string $relatedListName): ListRelatedQuery
+    {
+        return $this->newRelatedQuery()->setRecordAndRelatedList($recordId, $relatedListName)->autoPaginated();
+    }
 }
