@@ -35,7 +35,6 @@ class Client implements ClientInterface
     protected static $subApiClasses = [
         'records' => Records\SubApi::class,
         'users' => Users\SubApi::class,
-        'related_records' => RelatedRecords\SubApi::class,
     ];
 
     /** @var string The OAuth 2.0 client ID */
