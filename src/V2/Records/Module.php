@@ -129,7 +129,7 @@ class Module
     }
 
     /**
-     * Create a query to perform a related list among the records of the module.
+     * Create a query to perform a related module among the records of the module.
      *
      * @return ListRelatedQuery
      */
@@ -141,13 +141,13 @@ class Module
     /**
      * Create a query to list the related records of the module.
      *
-     * @param  string    $recordId        The record Id
-     * @param  string    $relatedListName The related list API name
+     * @param  string    $recordId          The record ID
+     * @param  string    $relatedModuleName The related module API name
      *
      * @return ListRelatedQuery
      */
-    public function relationsOf(string $recordId, string $relatedListName): ListRelatedQuery
+    public function relationsOf(string $recordId, string $relatedModuleName): ListRelatedQuery
     {
-        return $this->newRelatedQuery()->setRecordAndRelatedList($recordId, $relatedListName)->autoPaginated();
+        return $this->newRelatedQuery()->setRecordId($recordId)->setRelatedModule($relatedModuleName)->autoPaginated();
     }
 }
