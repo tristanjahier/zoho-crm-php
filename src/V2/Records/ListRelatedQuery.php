@@ -67,21 +67,6 @@ class ListRelatedQuery extends AbstractQuery implements PaginatedQueryInterface
     }
 
     /**
-     * Set related list API name and record Id.
-     * @param string $recordId
-     * @param string $relatedListName
-     *
-     * @return $this
-     */
-    public function setRecordAndRelatedList(string $recordId, string $relatedListName)
-    {
-        $this->recordId = $recordId;
-        $this->relatedList = $relatedListName;
-
-        return $this;
-    }
-
-    /**
      * Set the minimum modified time.
      *
      * @param \DateTimeInterface|string|null $date A date object or a valid string
