@@ -12,7 +12,7 @@ class ListRelatedQuery extends AbstractQuery implements PaginatedQueryInterface
     use HasPagination;
 
     /**
-     * @var string The record id
+     * @var string The record ID
      */
     protected $recordId;
 
@@ -30,7 +30,7 @@ class ListRelatedQuery extends AbstractQuery implements PaginatedQueryInterface
     }
 
     /**
-     * Get record Id.
+     * Get record ID.
      */
     public function getRecordId(): string
     {
@@ -38,7 +38,8 @@ class ListRelatedQuery extends AbstractQuery implements PaginatedQueryInterface
     }
 
     /**
-     * Set record Id.
+     * Set record ID.
+     *
      * @param string $id
      */
     public function setRecordId(string $id): void
