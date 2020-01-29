@@ -41,10 +41,14 @@ class ListRelatedQuery extends AbstractQuery implements PaginatedQueryInterface
      * Set record ID.
      *
      * @param string $id
+     *
+     * @return ListRelatedQuery
      */
-    public function setRecordId(string $id): void
+    public function setRecordId(string $id): ListRelatedQuery
     {
         $this->recordId = $id;
+
+        return $this;
     }
 
     /**
@@ -61,10 +65,14 @@ class ListRelatedQuery extends AbstractQuery implements PaginatedQueryInterface
      * Set related module API Name.
      *
      * @param string $relatedModule
+     *
+     * @return ListRelatedQuery
      */
-    public function setRelatedModule(string $relatedModule): void
+    public function setRelatedModule(string $relatedModule): ListRelatedQuery
     {
         $this->relatedModule = $relatedModule;
+
+        return $this;
     }
 
     /**
