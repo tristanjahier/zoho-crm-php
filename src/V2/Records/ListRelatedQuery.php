@@ -17,16 +17,16 @@ class ListRelatedQuery extends AbstractQuery implements PaginatedQueryInterface
     protected $recordId;
 
     /**
-     * @var string The related list API name
+     * @var string The related module API name.
      */
-    protected $relatedList;
+    protected $relatedModule;
 
     /**
      * @inheritdoc
      */
     public function getUrl(): string
     {
-        return "$this->module/$this->recordId/$this->relatedList";
+        return "$this->module/$this->recordId/$this->relatedModule";
     }
 
     /**
@@ -47,23 +47,23 @@ class ListRelatedQuery extends AbstractQuery implements PaginatedQueryInterface
     }
 
     /**
-     * Get related list API name.
+     * Get related module API name.
      *
      * @return string
      */
-    public function getRelatedList(): string
+    public function getRelatedModule(): string
     {
-        return $this->relatedList;
+        return $this->relatedModule;
     }
 
     /**
-     * Set related list API Name.
+     * Set related module API Name.
      *
-     * @param string $relatedListName
+     * @param string $relatedModule
      */
-    public function setRelatedList(string $relatedListName): void
+    public function setRelatedModule(string $relatedModule): void
     {
-        $this->relatedList = $relatedListName;
+        $this->relatedModule = $relatedModule;
     }
 
     /**
