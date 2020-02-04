@@ -7,30 +7,25 @@ use Zoho\Crm\Contracts\ResponseTransformerInterface;
 use Zoho\Crm\Support\Helper;
 use Zoho\Crm\V2\Traits\HasPagination;
 
+/**
+ * A query to get a list of related records.
+ *
+ * @see https://www.zoho.com/crm/developer/docs/api/get-related-records.html
+ */
 class ListRelatedQuery extends AbstractQuery implements PaginatedQueryInterface
 {
     use HasPagination;
 
-    /**
-     * @var string The record ID
-     */
+    /** @var string The record ID */
     protected $recordId;
 
-    /**
-     * @var string The related module API name.
-     */
+    /** @var string The name of the related module */
     protected $relatedModule;
 
     /**
-     * @inheritdoc
-     */
-    public function getUrl(): string
-    {
-        return "$this->module/$this->recordId/$this->relatedModule";
-    }
-
-    /**
-     * Get record ID.
+     * Get the record ID.
+     *
+     * @return string
      */
     public function getRecordId(): string
     {
@@ -38,13 +33,12 @@ class ListRelatedQuery extends AbstractQuery implements PaginatedQueryInterface
     }
 
     /**
-     * Set record ID.
+     * Set the record ID.
      *
-     * @param string $id
-     *
-     * @return ListRelatedQuery
+     * @param string $id The record ID
+     * @return $this
      */
-    public function setRecordId(string $id): ListRelatedQuery
+    public function setRecordId(string $id): self
     {
         $this->recordId = $id;
 
@@ -52,7 +46,7 @@ class ListRelatedQuery extends AbstractQuery implements PaginatedQueryInterface
     }
 
     /**
-     * Get related module API name.
+     * Get the name of the related module.
      *
      * @return string
      */
@@ -62,13 +56,12 @@ class ListRelatedQuery extends AbstractQuery implements PaginatedQueryInterface
     }
 
     /**
-     * Set related module API Name.
+     * Set the name of the related module.
      *
-     * @param string $relatedModule
-     *
-     * @return ListRelatedQuery
+     * @param string $relatedModule The name of the related module
+     * @return $this
      */
-    public function setRelatedModule(string $relatedModule): ListRelatedQuery
+    public function setRelatedModule(string $relatedModule): self
     {
         $this->relatedModule = $relatedModule;
 
@@ -76,43 +69,11 @@ class ListRelatedQuery extends AbstractQuery implements PaginatedQueryInterface
     }
 
     /**
-     * Set the minimum modified time.
-     *
-     * @param \DateTimeInterface|string|null $date A date object or a valid string
-     * @return $this
-     *
-     * @throws \Exception
+     * @inheritdoc
      */
-    public function after($date)
+    public function getUrl(): string
     {
-        if (is_null($date)) {
-            return $this->removeHeader('If-Modified-Since');
-        }
-
-        $date = $this->getValidatedDateObject($date);
-
-        return $this->setHeader('If-Modified-Since', $date->format(DATE_ATOM));
-    }
-
-    /**
-     * Ensure to get a valid DateTime object.
-     *
-     * @param \DateTimeInterface|string $date A date object or a valid string
-     * @return \DateTimeInterface|string
-     *
-     * @throws \Exception
-     */
-    protected function getValidatedDateObject($date)
-    {
-        if (! Helper::isValidDateInput($date)) {
-            throw new \InvalidArgumentException('Date must implement DateTimeInterface or be a valid date string.');
-        }
-
-        if (is_string($date)) {
-            return new \DateTime($date);
-        }
-
-        return $date;
+        return "$this->module/$this->recordId/$this->relatedModule?$this->urlParameters";
     }
 
     /**
@@ -131,5 +92,45 @@ class ListRelatedQuery extends AbstractQuery implements PaginatedQueryInterface
     public function getResponseTransformer(): ?ResponseTransformerInterface
     {
         return new RecordListTransformer();
+    }
+
+    /**
+     * Set the minimum date for records' last modification (`Modified_Time` field).
+     *
+     * @param \DateTimeInterface|string|null $date A date object or a valid string
+     * @return $this
+     *
+     * @throws \InvalidArgumentException
+     */
+    public function modifiedAfter($date)
+    {
+        if (is_null($date)) {
+            return $this->removeHeader('If-Modified-Since');
+        }
+
+        $date = $this->getValidatedDateObject($date);
+
+        return $this->setHeader('If-Modified-Since', $date->format(DATE_ATOM));
+    }
+
+    /**
+     * Ensure to get a valid date object (implementing DateTimeInterface).
+     *
+     * @param \DateTimeInterface|string $date A date object or a valid string
+     * @return \DateTimeInterface
+     *
+     * @throws \InvalidArgumentException
+     */
+    protected function getValidatedDateObject($date)
+    {
+        if (! Helper::isValidDateInput($date)) {
+            throw new \InvalidArgumentException('Date must implement DateTimeInterface or be a valid date string.');
+        }
+
+        if (is_string($date)) {
+            return new \DateTime($date);
+        }
+
+        return $date;
     }
 }
