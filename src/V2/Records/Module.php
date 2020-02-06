@@ -75,6 +75,16 @@ class Module
     }
 
     /**
+     * Create a query to list the records from another module related to a given record.
+     *
+     * @return ListRelatedQuery
+     */
+    public function newListRelatedQuery(): ListRelatedQuery
+    {
+        return new ListRelatedQuery($this->client, $this->name);
+    }
+
+    /**
      * Create a query to retrieve all the module records.
      *
      * @return ListQuery
@@ -115,6 +125,21 @@ class Module
     public function searchBy(string $field, string $value)
     {
         return $this->search("($field:equals:$value)");
+    }
+
+    /**
+     * Create a query to list the records from another module related to a given record.
+     *
+     * @param string $recordId The record ID
+     * @param string $relatedModuleName The name of the related module
+     * @return ListRelatedQuery
+     */
+    public function relationsOf(string $recordId, string $relatedModuleName): ListRelatedQuery
+    {
+        return $this->newListRelatedQuery()
+            ->setRecordId($recordId)
+            ->setRelatedModule($relatedModuleName)
+            ->autoPaginated();
     }
 
     /**
