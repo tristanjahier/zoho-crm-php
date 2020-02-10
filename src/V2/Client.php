@@ -219,7 +219,7 @@ class Client implements ClientInterface
         }
 
         // Make sure the endpoint ends with a single slash
-        $this->endpoint = $endpoint . '/';
+        $this->oAuthEndpoint = $endpoint . '/';
     }
 
     /**
@@ -229,7 +229,7 @@ class Client implements ClientInterface
      */
     public function getAuthorizationEndpoint(): string
     {
-        return $this->endpoint;
+        return $this->oAuthEndpoint;
     }
 
     /**
