@@ -278,6 +278,16 @@ class Client implements ClientInterface
     }
 
     /**
+     * Determine if the access token exists and is still valid.
+     *
+     * @return bool
+     */
+    public function accessTokenIsValid(): bool
+    {
+        return $this->accessTokenStore->isValid();
+    }
+
+    /**
      * Send a request to the OAuth 2.0 authorization server to get a fresh access token.
      *
      * @return array
