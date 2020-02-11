@@ -128,8 +128,21 @@ class PreferencesContainer extends Collection
      *
      * @throws Exceptions\UnsupportedPreferenceException
      */
-    public function isEnabled($key)
+    public function isEnabled($key): bool
     {
         return $this->get($key) === true;
+    }
+
+    /**
+     * Check if a given preference has a non-null value.
+     *
+     * @param string $key The name of the preference
+     * @return bool
+     *
+     * @throws Exceptions\UnsupportedPreferenceException
+     */
+    public function isSet($key): bool
+    {
+        return $this->get($key) !== null;
     }
 }
