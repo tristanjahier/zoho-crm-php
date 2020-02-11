@@ -3,12 +3,14 @@
 namespace Zoho\Crm\V2;
 
 use Closure;
+use DateTimeInterface;
 use GuzzleHttp\Psr7\Request;
 use Zoho\Crm\Contracts\ClientInterface;
 use Zoho\Crm\Contracts\QueryInterface;
 use Zoho\Crm\Contracts\ResponseInterface;
 use Zoho\Crm\Exceptions\InvalidEndpointException;
 use Zoho\Crm\Support\UrlParameters;
+use Zoho\Crm\V2\AccessTokenStores\StoreInterface;
 use Zoho\Crm\QueryProcessor;
 use Zoho\Crm\RequestSender;
 use Zoho\Crm\RawQuery;
@@ -46,14 +48,14 @@ class Client implements ClientInterface
     /** @var string The OAuth 2.0 refresh token */
     protected $oAuthRefreshToken;
 
-    /** @var string|null The OAuth 2.0 access token */
-    protected $oAuthAccessToken;
-
     /** @var string The API endpoint base URL (with trailing slash) */
     protected $endpoint = self::DEFAULT_ENDPOINT;
 
     /** @var string The API OAuth 2.0 authorization endpoint base URL */
     protected $oAuthEndpoint = self::DEFAULT_OAUTH_ENDPOINT;
+
+    /** @var AccessTokenStores\StoreInterface The access token store */
+    protected $accessTokenStore;
 
     /** @var \Zoho\Crm\QueryProcessor The query processor */
     protected $queryProcessor;
@@ -73,20 +75,20 @@ class Client implements ClientInterface
      * @param string $oAuthClientId The client ID
      * @param string $oAuthClientSecret The client secret
      * @param string $oAuthRefreshToken The refresh token
-     * @param string|null $oAuthAccessToken (optional) The access token
+     * @param AccessTokenStores\StoreInterface $accessTokenStore The access token store
      * @param string|null $endpoint (optional) The endpoint base URL
      */
     public function __construct(
         string $oAuthClientId,
         string $oAuthClientSecret,
         string $oAuthRefreshToken,
-        string $oAuthAccessToken = null,
+        StoreInterface $accessTokenStore,
         string $endpoint = null)
     {
         $this->oAuthClientId = $oAuthClientId;
         $this->oAuthClientSecret = $oAuthClientSecret;
         $this->oAuthRefreshToken = $oAuthRefreshToken;
-        $this->oAuthAccessToken = $oAuthAccessToken;
+        $this->accessTokenStore = $accessTokenStore;
 
         if (isset($endpoint)) {
             $this->setEndpoint($endpoint);
@@ -233,14 +235,16 @@ class Client implements ClientInterface
     }
 
     /**
-     * Set the API OAuth 2.0 access token.
+     * Set the API OAuth 2.0 access token and its expiry date.
      *
      * @param string|null $accessToken The new access token
+     * @param \DateTimeInterface|null $expiryDate The new expiry date
      * @return void
      */
-    public function setAccessToken(?string $accessToken)
+    public function setAccessToken(?string $accessToken, ?DateTimeInterface $expiryDate)
     {
-        $this->oAuthAccessToken = $accessToken;
+        $this->accessTokenStore->setAccessToken($accessToken);
+        $this->accessTokenStore->setExpiryDate($expiryDate);
     }
 
     /**
@@ -250,7 +254,27 @@ class Client implements ClientInterface
      */
     public function getAccessToken(): ?string
     {
-        return $this->oAuthAccessToken;
+        return $this->accessTokenStore->getAccessToken();
+    }
+
+    /**
+     * Get the API OAuth 2.0 access token expiry date.
+     *
+     * @return \DateTimeInterface|null
+     */
+    public function getAccessTokenExpiryDate(): ?DateTimeInterface
+    {
+        return $this->accessTokenStore->getExpiryDate();
+    }
+
+    /**
+     * Get the access token store.
+     *
+     * @return StoreInterface
+     */
+    public function getAccessTokenStore(): StoreInterface
+    {
+        return $this->accessTokenStore;
     }
 
     /**
@@ -274,7 +298,13 @@ class Client implements ClientInterface
         $response = json_decode((string) $response->getBody(), true);
 
         // Save the new access token
-        $this->oAuthAccessToken = $response['access_token'] ?? null;
+        $this->accessTokenStore->setAccessToken($response['access_token'] ?? null);
+        $delayInSeconds = $response['expires_in_sec'] ?? $response['expires_in'];
+        $this->accessTokenStore->setExpiryDate((new \DateTime)->modify("+$delayInSeconds seconds"));
+
+        if ($this->preferences->isEnabled('access_token_auto_save')) {
+            $this->accessTokenStore->save();
+        }
 
         // Fire the registered callbacks
         foreach ($this->accessTokenRefreshedCallbacks as $callback) {
