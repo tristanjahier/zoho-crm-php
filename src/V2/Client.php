@@ -104,6 +104,7 @@ class Client implements ClientInterface
         );
 
         $this->registerMiddleware(new Middleware\Validation());
+        $this->registerMiddleware(new Middleware\AccessTokenAutoRefresh($this));
         $this->registerMiddleware(new Middleware\Authorization($this));
 
         $this->attachSubApis();

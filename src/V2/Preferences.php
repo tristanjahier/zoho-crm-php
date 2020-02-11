@@ -17,5 +17,13 @@ class Preferences extends PreferencesContainer
          * @var bool
          */
         'access_token_auto_save' => true,
+
+        /**
+         * The limit of validity time (in seconds) below which the access token must be refreshed automatically.
+         * Set null to disable this feature.
+         *
+         * @var int|null
+         */
+        'access_token_auto_refresh_limit' => null,
     ];
 }
