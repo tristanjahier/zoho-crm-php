@@ -12,6 +12,7 @@ use Zoho\Crm\V1\Methods\MethodInterface;
 use Zoho\Crm\ResponseFormat;
 use Zoho\Crm\QueryProcessor;
 use Zoho\Crm\RequestSender;
+use Zoho\Crm\RawQuery;
 
 /**
  * Zoho CRM API client. Main class of the library.
