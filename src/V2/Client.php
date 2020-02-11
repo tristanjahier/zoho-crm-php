@@ -75,20 +75,20 @@ class Client implements ClientInterface
      * @param string $oAuthClientId The client ID
      * @param string $oAuthClientSecret The client secret
      * @param string $oAuthRefreshToken The refresh token
-     * @param AccessTokenStores\StoreInterface $accessTokenStore The access token store
+     * @param AccessTokenStores\StoreInterface|null $accessTokenStore (optional) The access token store
      * @param string|null $endpoint (optional) The endpoint base URL
      */
     public function __construct(
         string $oAuthClientId,
         string $oAuthClientSecret,
         string $oAuthRefreshToken,
-        StoreInterface $accessTokenStore,
+        StoreInterface $accessTokenStore = null,
         string $endpoint = null)
     {
         $this->oAuthClientId = $oAuthClientId;
         $this->oAuthClientSecret = $oAuthClientSecret;
         $this->oAuthRefreshToken = $oAuthRefreshToken;
-        $this->accessTokenStore = $accessTokenStore;
+        $this->accessTokenStore = $accessTokenStore ?? new AccessTokenStores\NoStore();
 
         if (isset($endpoint)) {
             $this->setEndpoint($endpoint);
