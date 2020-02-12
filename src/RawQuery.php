@@ -16,9 +16,10 @@ class RawQuery implements QueryInterface
 {
     use Traits\BasicQueryImplementation;
     use Traits\HasRequestHttpMethod;
+    use Traits\HasRequestUrlParameters;
 
-    /** @var string|null The URL */
-    protected $url;
+    /** @var string|null The URL path */
+    protected $urlPath;
 
     /**
      * The constructor.
@@ -31,13 +32,16 @@ class RawQuery implements QueryInterface
     }
 
     /**
-     * @inheritdoc
+     * Set the URL to request.
      *
+     * @param string|null $url The new URL
      * @return $this
      */
     public function setUrl(?string $url)
     {
-        $this->url = $url;
+        $url = $url ?? '';
+        $this->urlPath = parse_url($url, PHP_URL_PATH);
+        $this->urlParameters = UrlParameters::createFromUrl($url);
 
         return $this;
     }
@@ -47,23 +51,7 @@ class RawQuery implements QueryInterface
      */
     public function getUrl(): string
     {
-        return $this->url;
-    }
-
-    /**
-     * @inheritdoc
-     *
-     * @return $this
-     */
-    public function setUrlParameter(string $key, $value)
-    {
-        $path = parse_url($this->url, PHP_URL_PATH);
-        $parameters = UrlParameters::createFromUrl($this->url);
-        $parameters[$key] = $value;
-
-        $this->url = $path . '?' . $parameters;
-
-        return $this;
+        return "$this->urlPath?$this->urlParameters";
     }
 
     /**
@@ -81,5 +69,15 @@ class RawQuery implements QueryInterface
     {
         // No specific transformation
         return null;
+    }
+
+    /**
+     * Allow the deep cloning of the query.
+     *
+     * @return void
+     */
+    public function __clone()
+    {
+        $this->urlParameters = clone $this->urlParameters;
     }
 }

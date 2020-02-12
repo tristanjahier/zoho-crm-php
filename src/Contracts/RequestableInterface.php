@@ -2,6 +2,8 @@
 
 namespace Zoho\Crm\Contracts;
 
+use Zoho\Crm\Support\UrlParameters;
+
 interface RequestableInterface
 {
     /**
@@ -10,13 +12,6 @@ interface RequestableInterface
      * @return string
      */
     public function getHttpMethod(): string;
-
-    /**
-     * Set the URL to request.
-     *
-     * @param string|null $url The new URL
-     */
-    public function setUrl(?string $url);
 
     /**
      * Get the URL to request.
@@ -32,6 +27,36 @@ interface RequestableInterface
      * @param mixed $value The parameter value
      */
     public function setUrlParameter(string $key, $value);
+
+    /**
+     * Get all query string parameters.
+     *
+     * @return \Zoho\Crm\Support\UrlParameters
+     */
+    public function getUrlParameters(): UrlParameters;
+
+    /**
+     * Get the value of a query string parameter by key.
+     *
+     * @param string $key The parameter key
+     * @return mixed
+     */
+    public function getUrlParameter(string $key);
+
+    /**
+     * Check if a query string parameter exists by key.
+     *
+     * @param string $key The parameter key
+     * @return bool
+     */
+    public function hasUrlParameter(string $key): bool;
+
+    /**
+     * Remove a query string parameter by key.
+     *
+     * @param string $key The parameter key
+     */
+    public function removeUrlParameter(string $key);
 
     /**
      * Set a header field.

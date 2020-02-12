@@ -41,20 +41,6 @@ class GetByIdQuery extends AbstractQuery
 
     /**
      * @inheritdoc
-     *
-     * @return $this
-     */
-    public function setUrl(?string $url)
-    {
-        parent::setUrl($url);
-
-        $this->recordId = Helper::getUrlPathSegmentByIndex($url, 1);
-
-        return $this;
-    }
-
-    /**
-     * @inheritdoc
      */
     public function getUrl(): string
     {

@@ -52,20 +52,6 @@ abstract class AbstractQuery extends BaseQuery
 
     /**
      * @inheritdoc
-     *
-     * @return $this
-     */
-    public function setUrl(?string $url)
-    {
-        parent::setUrl($url);
-
-        $this->module = Helper::getUrlPathSegmentByIndex($url, 0);
-
-        return $this;
-    }
-
-    /**
-     * @inheritdoc
      */
     public function validate(): void
     {

@@ -33,18 +33,6 @@ abstract class AbstractQuery implements QueryInterface
     }
 
     /**
-     * @inheritdoc
-     *
-     * @return $this
-     */
-    public function setUrl(?string $url)
-    {
-        $this->urlParameters = UrlParameters::createFromUrl($url);
-
-        return $this;
-    }
-
-    /**
      * Allow the deep cloning of the query.
      *
      * @return void

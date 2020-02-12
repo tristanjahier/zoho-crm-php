@@ -14,6 +14,8 @@ trait HasRequestUrlParameters
 
     /**
      * @inheritdoc
+     *
+     * @return $this
      */
     public function setUrlParameter(string $key, $value)
     {
@@ -23,20 +25,15 @@ trait HasRequestUrlParameters
     }
 
     /**
-     * Get the URL parameters.
-     *
-     * @return \Zoho\Crm\Support\UrlParameters
+     * @inheritdoc
      */
-    public function getUrlParameters()
+    public function getUrlParameters(): UrlParameters
     {
         return $this->urlParameters;
     }
 
     /**
-     * Get the value of a URL parameter by key.
-     *
-     * @param string $key The parameter key
-     * @return mixed
+     * @inheritdoc
      */
     public function getUrlParameter(string $key)
     {
@@ -44,14 +41,21 @@ trait HasRequestUrlParameters
     }
 
     /**
-     * Check if a URL parameter exists by key.
-     *
-     * @param string $key The parameter key
-     * @return bool
+     * @inheritdoc
      */
-    public function hasUrlParameter(string $key)
+    public function hasUrlParameter(string $key): bool
     {
         return $this->urlParameters->has($key);
+    }
+
+    /**
+     * @inheritdoc
+     *
+     * @return void
+     */
+    public function removeUrlParameter(string $key)
+    {
+        $this->urlParameters->unset($key);
     }
 
     /**
@@ -74,7 +78,7 @@ trait HasRequestUrlParameters
     }
 
     /**
-     * Set a URL parameter.
+     * Shortcut method to set a URL parameter.
      *
      * @param string $key The key
      * @param mixed $value The value
@@ -82,13 +86,13 @@ trait HasRequestUrlParameters
      */
     public function param(string $key, $value)
     {
-        $this->urlParameters->set($key, $value);
+        $this->setUrlParameter($key, $value);
 
         return $this;
     }
 
     /**
-     * Set multiple URL parameters.
+     * Shortcut method to set multiple URL parameters.
      *
      * @param array $parameters The parameters
      * @return $this
@@ -96,21 +100,21 @@ trait HasRequestUrlParameters
     public function params(array $parameters)
     {
         foreach ($parameters as $key => $value) {
-            $this->param($key, $value);
+            $this->setUrlParameter($key, $value);
         }
 
         return $this;
     }
 
     /**
-     * Remove a URL parameter by key.
+     * Shortcut method to remove a URL parameter by key.
      *
      * @param string $key The parameter key
      * @return $this
      */
     public function removeParam(string $key)
     {
-        $this->urlParameters->unset($key);
+        $this->removeUrlParameter($key);
 
         return $this;
     }

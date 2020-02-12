@@ -4,7 +4,6 @@ namespace Zoho\Crm\V1\Middleware;
 
 use Zoho\Crm\Contracts\MiddlewareInterface;
 use Zoho\Crm\Contracts\QueryInterface;
-use Zoho\Crm\Support\UrlParameters;
 use Zoho\Crm\Support\HttpMethod;
 
 /**
@@ -17,16 +16,12 @@ class XmlDataHandling implements MiddlewareInterface
      */
     public function __invoke(QueryInterface $query): void
     {
-        $url = $query->getUrl();
-        $parameters = UrlParameters::createFromUrl($url);
-
         // For queries with 'xmlData' URL parameter, the URL query string size might be very large.
         // For that reason we will move it to the body instead.
 
-        if ($query->getHttpMethod() === HttpMethod::POST && $parameters->has('xmlData')) {
-            $newUrl = parse_url($url, PHP_URL_PATH) . '?' . $parameters->except('xmlData');
-            $query->setUrl($newUrl);
-            $query->setBody((string) $parameters->only('xmlData'));
+        if ($query->getHttpMethod() === HttpMethod::POST && $query->hasUrlParameter('xmlData')) {
+            $query->setBody((string) $query->getUrlParameters()->only('xmlData'));
+            $query->removeUrlParameter('xmlData');
             $query->setHeader('Content-Type', 'application/x-www-form-urlencoded');
         }
     }

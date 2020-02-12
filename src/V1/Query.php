@@ -67,24 +67,6 @@ class Query implements PaginatedQueryInterface
 
     /**
      * @inheritdoc
-     *
-     * @return $this
-     */
-    public function setUrl(?string $url)
-    {
-        $segments = Helper::getUrlPathSegments($url);
-
-        $this->format = $segments[0] ?? null;
-        $this->module = $segments[1] ?? null;
-        $this->method = $segments[2] ?? null;
-
-        $this->urlParameters = UrlParameters::createFromUrl($url);
-
-        return $this;
-    }
-
-    /**
-     * @inheritdoc
      */
     public function getUrl(): string
     {
