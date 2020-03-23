@@ -28,6 +28,8 @@ interface StoreInterface
     /**
      * Set the token expiry date.
      *
+     * The date argument will not be modified.
+     *
      * @param \DateTimeInterface|null $date The new expiry date
      * @return void
      */

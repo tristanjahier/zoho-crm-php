@@ -42,9 +42,9 @@ abstract class AbstractStore implements StoreInterface
             return;
         }
 
-        $stringDate = $date->format(DateTimeInterface::ATOM);
-
-        $this->expiryDate = DateTimeImmutable::createFromFormat(DateTimeInterface::ATOM, $stringDate);
+        // Create an immutable copy from any type implementing DateTimeInterface.
+        $dateString = $date->format(DateTimeInterface::ATOM);
+        $this->expiryDate = DateTimeImmutable::createFromFormat(DateTimeInterface::ATOM, $dateString);
     }
 
     /**
