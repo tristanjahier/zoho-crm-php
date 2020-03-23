@@ -143,6 +143,22 @@ class Module
     }
 
     /**
+     * Create a query to list the records related to a given record from another module.
+     *
+     * Inverse of {@see self::relationsOf()}.
+     *
+     * @param string $relatedModuleName The name of the related module
+     * @param string $recordId The related record ID
+     * @return ListRelatedQuery
+     */
+    public function relatedTo(string $relatedModuleName, string $recordId): ListRelatedQuery
+    {
+        return $this->client->records
+            ->module($relatedModuleName)
+            ->relationsOf($recordId, $this->name);
+    }
+
+    /**
      * Retrieve a record by its ID.
      *
      * @param string $id The record ID
