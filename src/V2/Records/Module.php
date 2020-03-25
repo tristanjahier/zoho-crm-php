@@ -85,6 +85,23 @@ class Module
     }
 
     /**
+     * Create a query to insert one or many records.
+     *
+     * @param array|null $triggers (optional) The triggers to enable
+     * @return InsertQuery
+     */
+    public function newInsertQuery(array $triggers = null): InsertQuery
+    {
+        $query = new InsertQuery($this->client, $this->name);
+
+        if (isset($triggers)) {
+            $query->triggers($triggers);
+        }
+
+        return $query;
+    }
+
+    /**
      * Create a query to retrieve all the module records.
      *
      * @return ListQuery
@@ -167,5 +184,33 @@ class Module
     public function find(string $id)
     {
         return $this->newGetByIdQuery($id)->get();
+    }
+
+    /**
+     * Insert a new record.
+     *
+     * @param array|Record $record The record to insert
+     * @param array|null $triggers (optional) The triggers to enable
+     * @return array|null
+     */
+    public function insert($record, array $triggers = null)
+    {
+        $response = $this->newInsertQuery($triggers)->addRecord($record)->get();
+
+        // Because we intended to explicitly insert only one record,
+        // we want to return an individual response.
+        return $response[0] ?? null;
+    }
+
+    /**
+     * Insert new records.
+     *
+     * @param iterable $records The records to insert
+     * @param array|null $triggers (optional) The triggers to enable
+     * @return array[]
+     */
+    public function insertMany($records, array $triggers = null)
+    {
+        return $this->newInsertQuery($triggers)->addRecords($records)->get();
     }
 }
