@@ -102,6 +102,23 @@ class Module
     }
 
     /**
+     * Create a query to delete a specific record by ID.
+     *
+     * @param string|null $id (optional) The record ID
+     * @return DeleteQuery
+     */
+    public function newDeleteQuery(string $id = null): DeleteQuery
+    {
+        $query = new DeleteQuery($this->client, $this->name);
+
+        if (isset($id)) {
+            $query->setId($id);
+        }
+
+        return $query;
+    }
+
+    /**
      * Create a query to retrieve all the module records.
      *
      * @return ListQuery
@@ -212,5 +229,20 @@ class Module
     public function insertMany($records, array $triggers = null)
     {
         return $this->newInsertQuery($triggers)->addRecords($records)->get();
+    }
+
+    /**
+     * Delete a record by ID.
+     *
+     * @param string $id The ID of the record to delete
+     * @return array|null
+     */
+    public function delete(string $id)
+    {
+        $response = $this->newDeleteQuery($id)->get();
+
+        // Because we intended to explicitly delete only one record,
+        // we want to return an individual response.
+        return $response[0] ?? null;
     }
 }
