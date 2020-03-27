@@ -119,6 +119,23 @@ class Module
     }
 
     /**
+     * Create a query to delete many records by ID.
+     *
+     * @param array|null $ids (optional) The records IDs
+     * @return DeleteManyQuery
+     */
+    public function newDeleteManyQuery(array $ids = null): DeleteManyQuery
+    {
+        $query = new DeleteManyQuery($this->client, $this->name);
+
+        if (isset($ids)) {
+            $query->setIds($ids);
+        }
+
+        return $query;
+    }
+
+    /**
      * Create a query to retrieve all the module records.
      *
      * @return ListQuery
@@ -244,5 +261,16 @@ class Module
         // Because we intended to explicitly delete only one record,
         // we want to return an individual response.
         return $response[0] ?? null;
+    }
+
+    /**
+     * Delete many records by ID.
+     *
+     * @param string[] $ids The IDs of the records to delete
+     * @return array[]
+     */
+    public function deleteMany(array $ids)
+    {
+        return $this->newDeleteManyQuery($ids)->get();
     }
 }
