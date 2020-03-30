@@ -102,6 +102,33 @@ class Module
     }
 
     /**
+     * Create a query to update a specific record by ID.
+     *
+     * @param string|null $id (optional) The record ID
+     * @param array|Record|null $data (optional) The field values to update
+     * @param array|null $triggers (optional) The triggers to enable
+     * @return UpdateQuery
+     */
+    public function newUpdateQuery(string $id = null, $data = null, array $triggers = null): UpdateQuery
+    {
+        $query = new UpdateQuery($this->client, $this->name);
+
+        if (isset($id)) {
+            $query->setRecordId($id);
+        }
+
+        if (isset($data)) {
+            $query->setRecordData($data);
+        }
+
+        if (isset($triggers)) {
+            $query->triggers($triggers);
+        }
+
+        return $query;
+    }
+
+    /**
      * Create a query to delete a specific record by ID.
      *
      * @param string|null $id (optional) The record ID
@@ -246,6 +273,23 @@ class Module
     public function insertMany($records, array $triggers = null)
     {
         return $this->newInsertQuery($triggers)->addRecords($records)->get();
+    }
+
+    /**
+     * Update an existing record.
+     *
+     * @param string $id The record ID
+     * @param array|Record $data The field values to update
+     * @param array|null $triggers (optional) The triggers to enable
+     * @return array|null
+     */
+    public function update(string $id, $data, array $triggers = null)
+    {
+        $response = $this->newUpdateQuery($id, $data, $triggers)->get();
+
+        // Because we intended to explicitly update only one record,
+        // we want to return an individual response.
+        return $response[0] ?? null;
     }
 
     /**
