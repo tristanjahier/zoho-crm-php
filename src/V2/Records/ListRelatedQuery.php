@@ -4,6 +4,7 @@ namespace Zoho\Crm\V2\Records;
 
 use Zoho\Crm\Contracts\PaginatedQueryInterface;
 use Zoho\Crm\Contracts\ResponseTransformerInterface;
+use Zoho\Crm\Exceptions\InvalidQueryException;
 use Zoho\Crm\Support\Helper;
 use Zoho\Crm\V2\Traits\HasPagination;
 
@@ -81,7 +82,15 @@ class ListRelatedQuery extends AbstractQuery implements PaginatedQueryInterface
      */
     public function validate(): void
     {
-        //
+        parent::validate();
+
+        if (is_null($this->recordId) || empty($this->recordId)) {
+            throw new InvalidQueryException($this, 'the record ID must be present.');
+        }
+
+        if (is_null($this->relatedModule) || empty($this->relatedModule)) {
+            throw new InvalidQueryException($this, 'the related module must be defined.');
+        }
     }
 
     /**
