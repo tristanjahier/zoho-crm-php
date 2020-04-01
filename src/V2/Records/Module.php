@@ -129,6 +129,28 @@ class Module
     }
 
     /**
+     * Create a query to update many records.
+     *
+     * @param iterable|null $records (optional) The records to update
+     * @param array|null $triggers (optional) The triggers to enable
+     * @return UpdateManyQuery
+     */
+    public function newUpdateManyQuery($records = null, array $triggers = null): UpdateManyQuery
+    {
+        $query = new UpdateManyQuery($this->client, $this->name);
+
+        if (isset($records)) {
+            $query->addRecords($records);
+        }
+
+        if (isset($triggers)) {
+            $query->triggers($triggers);
+        }
+
+        return $query;
+    }
+
+    /**
      * Create a query to delete a specific record by ID.
      *
      * @param string|null $id (optional) The record ID
@@ -290,6 +312,18 @@ class Module
         // Because we intended to explicitly update only one record,
         // we want to return an individual response.
         return $response[0] ?? null;
+    }
+
+    /**
+     * Update many existing records.
+     *
+     * @param iterable $records The records to update
+     * @param array|null $triggers (optional) The triggers to enable
+     * @return array[]
+     */
+    public function updateMany($records, array $triggers = null)
+    {
+        return $this->newUpdateManyQuery($records, $triggers)->get();
     }
 
     /**
