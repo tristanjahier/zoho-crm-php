@@ -32,7 +32,7 @@ class InsertQuery extends AbstractQuery
      * @param array|Record $data The record data or object
      * @return $this
      */
-    public function addRecord($data)
+    public function addRecord($data): self
     {
         if ($data instanceof Record) {
             $data = $data->toArray();
@@ -53,7 +53,7 @@ class InsertQuery extends AbstractQuery
      * @param iterable $records The records
      * @return $this
      */
-    public function addRecords(iterable $records)
+    public function addRecords(iterable $records): self
     {
         foreach ($records as $record) {
             $this->addRecord($record);
@@ -68,7 +68,7 @@ class InsertQuery extends AbstractQuery
      * @param string[] $triggers The trigger names
      * @return $this
      */
-    public function triggers($triggers)
+    public function triggers($triggers): self
     {
         $triggers = is_array($triggers) ? $triggers : func_get_args();
 
@@ -88,7 +88,7 @@ class InsertQuery extends AbstractQuery
      *
      * @return $this
      */
-    public function disableTriggers()
+    public function disableTriggers(): self
     {
         $this->triggers = [];
 

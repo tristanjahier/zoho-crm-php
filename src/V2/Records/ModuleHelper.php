@@ -48,7 +48,7 @@ class ModuleHelper
         $query = new GetByIdQuery($this->client, $this->name);
 
         if (isset($id)) {
-            $query->setId($id);
+            $query->setRecordId($id);
         }
 
         return $query;
@@ -67,32 +67,56 @@ class ModuleHelper
     /**
      * Create a query to perform a search among the records of the module.
      *
+     * @param string|null $criteria (optional) The search criteria
      * @return SearchQuery
      */
-    public function newSearchQuery(): SearchQuery
+    public function newSearchQuery(string $criteria = null): SearchQuery
     {
-        return new SearchQuery($this->client, $this->name);
+        $query = new SearchQuery($this->client, $this->name);
+
+        if (isset($criteria)) {
+            $query->param('criteria', $criteria);
+        }
+
+        return $query;
     }
 
     /**
      * Create a query to list the records from another module related to a given record.
      *
+     * @param string|null $recordId (optional) The record ID
+     * @param string|null $relatedModule (optional) The name of the related module
      * @return ListRelatedQuery
      */
-    public function newListRelatedQuery(): ListRelatedQuery
+    public function newListRelatedQuery(string $recordId = null, string $relatedModule = null): ListRelatedQuery
     {
-        return new ListRelatedQuery($this->client, $this->name);
+        $query = new ListRelatedQuery($this->client, $this->name);
+
+        if (isset($recordId)) {
+            $query->setRecordId($recordId);
+        }
+
+        if (isset($relatedModule)) {
+            $query->setRelatedModule($relatedModule);
+        }
+
+        return $query;
     }
 
     /**
      * Create a query to insert one or many records.
      *
+     * @param iterable|null $records (optional) The records to insert
      * @param array|null $triggers (optional) The triggers to enable
      * @return InsertQuery
      */
-    public function newInsertQuery(array $triggers = null): InsertQuery
+    public function newInsertQuery($records = null, array $triggers = null): InsertQuery
     {
         $query = new InsertQuery($this->client, $this->name);
+
+        if (isset($records)) {
+            $query->addRecords($records);
+        }
 
         if (isset($triggers)) {
             $query->triggers($triggers);
@@ -161,7 +185,7 @@ class ModuleHelper
         $query = new DeleteQuery($this->client, $this->name);
 
         if (isset($id)) {
-            $query->setId($id);
+            $query->setRecordId($id);
         }
 
         return $query;
@@ -178,14 +202,14 @@ class ModuleHelper
         $query = new DeleteManyQuery($this->client, $this->name);
 
         if (isset($ids)) {
-            $query->setIds($ids);
+            $query->setRecordIds($ids);
         }
 
         return $query;
     }
 
     /**
-     * Create a query to retrieve all the module records.
+     * Create an auto-paginated query to retrieve all the records.
      *
      * @return ListQuery
      */
@@ -195,7 +219,7 @@ class ModuleHelper
     }
 
     /**
-     * Alias of {@see self::newListDeletedQuery()}.
+     * Create an auto-paginated query to retrieve all the deleted records.
      *
      * @return ListDeletedQuery
      */
@@ -205,18 +229,18 @@ class ModuleHelper
     }
 
     /**
-     * Create a query to search records matching criteria.
+     * Create an auto-paginated query to search records matching some criteria.
      *
      * @param string $criteria The search criteria
      * @return SearchQuery
      */
     public function search(string $criteria): SearchQuery
     {
-        return $this->newSearchQuery()->param('criteria', $criteria)->autoPaginated();
+        return $this->newSearchQuery($criteria)->autoPaginated();
     }
 
     /**
-     * Create a query to search records with a given field value.
+     * Create an auto-paginated query to search records with a given field value.
      *
      * @param string $field The name of the field
      * @param string $value The wanted value
@@ -228,38 +252,35 @@ class ModuleHelper
     }
 
     /**
-     * Create a query to list the records from another module related to a given record.
+     * Create an auto-paginated query to list the records from another module related to a given record.
      *
      * @param string $recordId The record ID
-     * @param string $relatedModuleName The name of the related module
+     * @param string $relatedModule The name of the related module
      * @return ListRelatedQuery
      */
-    public function relationsOf(string $recordId, string $relatedModuleName): ListRelatedQuery
+    public function relationsOf(string $recordId, string $relatedModule): ListRelatedQuery
     {
-        return $this->newListRelatedQuery()
-            ->setRecordId($recordId)
-            ->setRelatedModule($relatedModuleName)
-            ->autoPaginated();
+        return $this->newListRelatedQuery($recordId, $relatedModule)->autoPaginated();
     }
 
     /**
-     * Create a query to list the records related to a given record from another module.
+     * Create an auto-paginated query to list the records related to a given record from another module.
      *
      * Inverse of {@see self::relationsOf()}.
      *
-     * @param string $relatedModuleName The name of the related module
+     * @param string $relatedModule The name of the related module
      * @param string $recordId The related record ID
      * @return ListRelatedQuery
      */
-    public function relatedTo(string $relatedModuleName, string $recordId): ListRelatedQuery
+    public function relatedTo(string $relatedModule, string $recordId): ListRelatedQuery
     {
         return $this->client->records
-            ->module($relatedModuleName)
+            ->module($relatedModule)
             ->relationsOf($recordId, $this->name);
     }
 
     /**
-     * Retrieve a record by its ID.
+     * Retrieve a specific record by ID.
      *
      * @param string $id The record ID
      * @return Record
@@ -278,7 +299,7 @@ class ModuleHelper
      */
     public function insert($record, array $triggers = null)
     {
-        $response = $this->newInsertQuery($triggers)->addRecord($record)->get();
+        $response = $this->newInsertQuery([$record], $triggers)->get();
 
         // Because we intended to explicitly insert only one record,
         // we want to return an individual response.
@@ -294,7 +315,7 @@ class ModuleHelper
      */
     public function insertMany($records, array $triggers = null)
     {
-        return $this->newInsertQuery($triggers)->addRecords($records)->get();
+        return $this->newInsertQuery($records, $triggers)->get();
     }
 
     /**

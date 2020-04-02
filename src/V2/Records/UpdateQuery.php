@@ -32,7 +32,7 @@ class UpdateQuery extends AbstractQuery
      * @param string $id The record ID
      * @return $this
      */
-    public function setRecordId(string $id)
+    public function setRecordId(string $id): self
     {
         $this->recordId = $id;
 
@@ -55,7 +55,7 @@ class UpdateQuery extends AbstractQuery
      * @param array|Record $data The record data
      * @return $this
      */
-    public function setRecordData($data)
+    public function setRecordData($data): self
     {
         if ($data instanceof Record) {
             $data = $data->toArray();

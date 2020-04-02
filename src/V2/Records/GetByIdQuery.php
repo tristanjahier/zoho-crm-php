@@ -22,7 +22,7 @@ class GetByIdQuery extends AbstractQuery
      * @param string $id The ID to fetch
      * @return $this
      */
-    public function setId(string $id)
+    public function setRecordId(string $id): self
     {
         $this->recordId = $id;
 
@@ -34,7 +34,7 @@ class GetByIdQuery extends AbstractQuery
      *
      * @return string|null
      */
-    public function getId(): ?string
+    public function getRecordId(): ?string
     {
         return $this->recordId;
     }

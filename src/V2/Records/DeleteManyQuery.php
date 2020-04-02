@@ -24,7 +24,7 @@ class DeleteManyQuery extends AbstractQuery
      * @param string[] $ids The IDs to delete
      * @return $this
      */
-    public function setIds(array $ids)
+    public function setRecordIds(array $ids): self
     {
         // Basic input filter
         $ids = array_filter(array_map('trim', $ids));
@@ -37,7 +37,7 @@ class DeleteManyQuery extends AbstractQuery
      *
      * @return string[]
      */
-    public function getIds(): array
+    public function getRecordIds(): array
     {
         if (! $this->hasUrlParameter('ids')) {
             return [];
@@ -52,7 +52,7 @@ class DeleteManyQuery extends AbstractQuery
      * @param bool $enabled (optional) Whether the workflow rules should be triggered
      * @return $this
      */
-    public function triggerWorkflowRules(bool $enabled = true)
+    public function triggerWorkflowRules(bool $enabled = true): self
     {
         return $this->param('wf_trigger', Helper::booleanToString($enabled));
     }
@@ -72,7 +72,7 @@ class DeleteManyQuery extends AbstractQuery
     {
         parent::validate();
 
-        $ids = $this->getIds();
+        $ids = $this->getRecordIds();
 
         if (empty($ids)) {
             throw new InvalidQueryException($this, 'must submit at least one record ID.');

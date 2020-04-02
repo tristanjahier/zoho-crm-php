@@ -27,7 +27,7 @@ class DeleteQuery extends AbstractQuery
      * @param string $id The ID to delete
      * @return $this
      */
-    public function setId(string $id)
+    public function setRecordId(string $id): self
     {
         $this->recordId = $id;
 
@@ -39,7 +39,7 @@ class DeleteQuery extends AbstractQuery
      *
      * @return string|null
      */
-    public function getId(): ?string
+    public function getRecordId(): ?string
     {
         return $this->recordId;
     }
@@ -50,7 +50,7 @@ class DeleteQuery extends AbstractQuery
      * @param bool $enabled (optional) Whether the workflow rules should be triggered
      * @return $this
      */
-    public function triggerWorkflowRules(bool $enabled = true)
+    public function triggerWorkflowRules(bool $enabled = true): self
     {
         return $this->param('wf_trigger', Helper::booleanToString($enabled));
     }

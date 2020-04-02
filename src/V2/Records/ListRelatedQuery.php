@@ -17,21 +17,11 @@ class ListRelatedQuery extends AbstractQuery implements PaginatedQueryInterface
 {
     use HasPagination;
 
-    /** @var string The record ID */
+    /** @var string|null The record ID */
     protected $recordId;
 
-    /** @var string The name of the related module */
+    /** @var string|null The name of the related module */
     protected $relatedModule;
-
-    /**
-     * Get the record ID.
-     *
-     * @return string
-     */
-    public function getRecordId(): string
-    {
-        return $this->recordId;
-    }
 
     /**
      * Set the record ID.
@@ -47,13 +37,13 @@ class ListRelatedQuery extends AbstractQuery implements PaginatedQueryInterface
     }
 
     /**
-     * Get the name of the related module.
+     * Get the record ID.
      *
-     * @return string
+     * @return string|null
      */
-    public function getRelatedModule(): string
+    public function getRecordId(): ?string
     {
-        return $this->relatedModule;
+        return $this->recordId;
     }
 
     /**
@@ -67,6 +57,16 @@ class ListRelatedQuery extends AbstractQuery implements PaginatedQueryInterface
         $this->relatedModule = $relatedModule;
 
         return $this;
+    }
+
+    /**
+     * Get the name of the related module.
+     *
+     * @return string|null
+     */
+    public function getRelatedModule(): ?string
+    {
+        return $this->relatedModule;
     }
 
     /**
