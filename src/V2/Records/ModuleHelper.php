@@ -32,7 +32,7 @@ class ModuleHelper
      *
      * @return ListQuery
      */
-    public function newListQuery()
+    public function newListQuery(): ListQuery
     {
         return new ListQuery($this->client, $this->name);
     }
@@ -43,7 +43,7 @@ class ModuleHelper
      * @param string|null $id (optional) The record ID
      * @return GetByIdQuery
      */
-    public function newGetByIdQuery(string $id = null)
+    public function newGetByIdQuery(string $id = null): GetByIdQuery
     {
         $query = new GetByIdQuery($this->client, $this->name);
 
@@ -59,7 +59,7 @@ class ModuleHelper
      *
      * @return ListDeletedQuery
      */
-    public function newListDeletedQuery()
+    public function newListDeletedQuery(): ListDeletedQuery
     {
         return new ListDeletedQuery($this->client, $this->name);
     }
@@ -69,7 +69,7 @@ class ModuleHelper
      *
      * @return SearchQuery
      */
-    public function newSearchQuery()
+    public function newSearchQuery(): SearchQuery
     {
         return new SearchQuery($this->client, $this->name);
     }
@@ -189,7 +189,7 @@ class ModuleHelper
      *
      * @return ListQuery
      */
-    public function all()
+    public function all(): ListQuery
     {
         return $this->newListQuery()->autoPaginated();
     }
@@ -199,7 +199,7 @@ class ModuleHelper
      *
      * @return ListDeletedQuery
      */
-    public function deleted()
+    public function deleted(): ListDeletedQuery
     {
         return $this->newListDeletedQuery()->autoPaginated();
     }
@@ -210,7 +210,7 @@ class ModuleHelper
      * @param string $criteria The search criteria
      * @return SearchQuery
      */
-    public function search(string $criteria)
+    public function search(string $criteria): SearchQuery
     {
         return $this->newSearchQuery()->param('criteria', $criteria)->autoPaginated();
     }
@@ -222,7 +222,7 @@ class ModuleHelper
      * @param string $value The wanted value
      * @return SearchQuery
      */
-    public function searchBy(string $field, string $value)
+    public function searchBy(string $field, string $value): SearchQuery
     {
         return $this->search("($field:equals:$value)");
     }
@@ -264,7 +264,7 @@ class ModuleHelper
      * @param string $id The record ID
      * @return Record
      */
-    public function find(string $id)
+    public function find(string $id): Record
     {
         return $this->newGetByIdQuery($id)->get();
     }
