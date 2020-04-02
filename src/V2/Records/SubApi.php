@@ -14,11 +14,11 @@ class SubApi extends AbstractSubApi
      * Create a module helper.
      *
      * @param string $name The name of the module
-     * @return Module
+     * @return ModuleHelper
      */
-    public function module(string $name): Module
+    public function module(string $name): ModuleHelper
     {
-        return new Module($this->client, $name);
+        return new ModuleHelper($this->client, $name);
     }
 
     /**
@@ -28,7 +28,7 @@ class SubApi extends AbstractSubApi
      * Example: `$client->records->priceBooks` instead of `$client->records->module('PriceBooks')`.
      *
      * @param string $name The name of the module in camel case
-     * @return Module
+     * @return ModuleHelper
      */
     public function __get(string $name)
     {

@@ -5,9 +5,9 @@ namespace Zoho\Crm\V2\Records;
 use Zoho\Crm\V2\Client;
 
 /**
- * A class to help querying the records of a specific API module.
+ * An intermediate class to help creating queries for a specific API module.
  */
-class Module
+class ModuleHelper
 {
     /** @var \Zoho\Crm\V2\Client The client to which the module is linked */
     protected $client;
