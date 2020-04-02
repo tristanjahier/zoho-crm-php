@@ -14,17 +14,17 @@ class SubApi extends AbstractSubApi
      *
      * @return ListQuery
      */
-    public function newListQuery()
+    public function newListQuery(): ListQuery
     {
         return new ListQuery($this->client);
     }
 
     /**
-     * Create a query to retrieve all the users.
+     * Create an auto-paginated query to retrieve all the users.
      *
      * @return ListQuery
      */
-    public function all()
+    public function all(): ListQuery
     {
         return $this->newListQuery()->autoPaginated();
     }
