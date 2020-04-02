@@ -2,11 +2,9 @@
 
 namespace Zoho\Crm\V2\Records;
 
-use Zoho\Crm\Contracts\ResponseTransformerInterface;
 use Zoho\Crm\Exceptions\InvalidQueryException;
 use Zoho\Crm\Support\HttpMethod;
 use Zoho\Crm\Support\Helper;
-use Zoho\Crm\V2\UnwrapDataTransformer;
 
 /**
  * A query to delete many records.
@@ -81,15 +79,5 @@ class DeleteManyQuery extends AbstractQuery
         if (count($ids) > 100) {
             throw new InvalidQueryException($this, 'cannot delete more than 100 records.');
         }
-    }
-
-    /**
-     * @inheritdoc
-     *
-     * @return \Zoho\Crm\V2\UnwrapDataTransformer
-     */
-    public function getResponseTransformer(): ?ResponseTransformerInterface
-    {
-        return new UnwrapDataTransformer();
     }
 }

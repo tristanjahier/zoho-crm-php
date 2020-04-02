@@ -1,6 +1,6 @@
 <?php
 
-namespace Zoho\Crm\V2;
+namespace Zoho\Crm\V2\Records;
 
 use Zoho\Crm\Contracts\ResponseTransformerInterface;
 use Zoho\Crm\Contracts\QueryInterface;

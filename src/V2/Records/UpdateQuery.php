@@ -2,10 +2,8 @@
 
 namespace Zoho\Crm\V2\Records;
 
-use Zoho\Crm\Contracts\ResponseTransformerInterface;
 use Zoho\Crm\Exceptions\InvalidQueryException;
 use Zoho\Crm\Support\HttpMethod;
-use Zoho\Crm\V2\UnwrapDataTransformer;
 
 /**
  * A query to update a specific record.
@@ -136,15 +134,5 @@ class UpdateQuery extends AbstractQuery
             'data' => [$this->recordData],
             'trigger' => $this->triggers
         ]);
-    }
-
-    /**
-     * @inheritdoc
-     *
-     * @return \Zoho\Crm\V2\UnwrapDataTransformer
-     */
-    public function getResponseTransformer(): ?ResponseTransformerInterface
-    {
-        return new UnwrapDataTransformer();
     }
 }

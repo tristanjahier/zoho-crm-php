@@ -2,11 +2,9 @@
 
 namespace Zoho\Crm\V2\Records;
 
-use Zoho\Crm\Contracts\ResponseTransformerInterface;
 use Zoho\Crm\Exceptions\InvalidQueryException;
 use Zoho\Crm\Support\HttpMethod;
 use Zoho\Crm\Support\Helper;
-use Zoho\Crm\V2\UnwrapDataTransformer;
 
 /**
  * A query to delete a specific record.
@@ -73,15 +71,5 @@ class DeleteQuery extends AbstractQuery
         if (is_null($this->recordId) || empty($this->recordId)) {
             throw new InvalidQueryException($this, 'the record ID must be present.');
         }
-    }
-
-    /**
-     * @inheritdoc
-     *
-     * @return \Zoho\Crm\V2\UnwrapDataTransformer
-     */
-    public function getResponseTransformer(): ?ResponseTransformerInterface
-    {
-        return new UnwrapDataTransformer();
     }
 }

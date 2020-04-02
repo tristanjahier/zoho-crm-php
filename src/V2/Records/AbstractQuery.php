@@ -2,6 +2,7 @@
 
 namespace Zoho\Crm\V2\Records;
 
+use Zoho\Crm\Contracts\ResponseTransformerInterface;
 use Zoho\Crm\Support\Helper;
 use Zoho\Crm\Exceptions\InvalidQueryException;
 use Zoho\Crm\V2\AbstractQuery as BaseQuery;
@@ -58,5 +59,15 @@ abstract class AbstractQuery extends BaseQuery
         if (is_null($this->module) || empty($this->module)) {
             throw new InvalidQueryException($this, 'the module name must be present.');
         }
+    }
+
+    /**
+     * @inheritdoc
+     *
+     * @return UnwrapDataTransformer
+     */
+    public function getResponseTransformer(): ?ResponseTransformerInterface
+    {
+        return new UnwrapDataTransformer();
     }
 }
