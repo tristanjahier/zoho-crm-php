@@ -175,6 +175,36 @@ class ModuleHelper
     }
 
     /**
+     * Create a query to upsert (insert or update if exists) one or many records.
+     *
+     * @param iterable|null $records (optional) The records to upsert
+     * @param array|null $duplicateCheckFields (optional) The fields used for duplicate check
+     * @param array|null $triggers (optional) The triggers to enable
+     * @return UpsertQuery
+     */
+    public function newUpsertQuery(
+        $records = null,
+        array $duplicateCheckFields = null,
+        array $triggers = null
+    ): UpsertQuery {
+        $query = new UpsertQuery($this->client, $this->name);
+
+        if (isset($records)) {
+            $query->addRecords($records);
+        }
+
+        if (isset($duplicateCheckFields)) {
+            $query->checkDuplicatesOn($duplicateCheckFields);
+        }
+
+        if (isset($triggers)) {
+            $query->triggers($triggers);
+        }
+
+        return $query;
+    }
+
+    /**
      * Create a query to delete a specific record by ID.
      *
      * @param string|null $id (optional) The record ID
@@ -345,6 +375,36 @@ class ModuleHelper
     public function updateMany($records, array $triggers = null)
     {
         return $this->newUpdateManyQuery($records, $triggers)->get();
+    }
+
+    /**
+     * Upsert a record.
+     *
+     * @param array|Record $record The record to upsert
+     * @param array|null $duplicateCheckFields (optional) The fields used for duplicate check
+     * @param array|null $triggers (optional) The triggers to enable
+     * @return array|null
+     */
+    public function upsert($record, array $duplicateCheckFields = null, array $triggers = null)
+    {
+        $response = $this->newUpsertQuery([$record], $duplicateCheckFields, $triggers)->get();
+
+        // Because we intended to explicitly upsert only one record,
+        // we want to return an individual response.
+        return $response[0] ?? null;
+    }
+
+    /**
+     * Upsert many records.
+     *
+     * @param iterable $records The records to upsert
+     * @param array|null $duplicateCheckFields (optional) The fields used for duplicate check
+     * @param array|null $triggers (optional) The triggers to enable
+     * @return array[]
+     */
+    public function upsertMany($records, array $duplicateCheckFields = null, array $triggers = null)
+    {
+        return $this->newUpsertQuery($records, $duplicateCheckFields, $triggers)->get();
     }
 
     /**
