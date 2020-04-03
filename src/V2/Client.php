@@ -304,7 +304,13 @@ class Client implements ClientInterface
             'refresh_token' => $this->oAuthRefreshToken
         ]);
 
-        $request = new Request('POST', $this->oAuthEndpoint . 'token?' . $parameters);
+        $request = new Request(
+            'POST',
+            $this->oAuthEndpoint . 'token',
+            ['Content-Type' => 'application/x-www-form-urlencoded'],
+            (string) $parameters
+        );
+
         $response = $requestSender->send($request);
         $response = json_decode((string) $response->getBody(), true);
 
