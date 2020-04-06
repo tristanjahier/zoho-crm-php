@@ -7,6 +7,26 @@ use Zoho\Crm\V2\AbstractSubApi;
 
 /**
  * Helper for the Record APIs.
+ *
+ * @property-read ModuleHelper $leads
+ * @property-read ModuleHelper $accounts
+ * @property-read ModuleHelper $contacts
+ * @property-read ModuleHelper $deals
+ * @property-read ModuleHelper $campaigns
+ * @property-read ModuleHelper $tasks
+ * @property-read ModuleHelper $cases
+ * @property-read ModuleHelper $events
+ * @property-read ModuleHelper $calls
+ * @property-read ModuleHelper $solutions
+ * @property-read ModuleHelper $products
+ * @property-read ModuleHelper $vendors
+ * @property-read ModuleHelper $priceBooks
+ * @property-read ModuleHelper $quotes
+ * @property-read ModuleHelper $salesOrders
+ * @property-read ModuleHelper $purchaseOrders
+ * @property-read ModuleHelper $invoices
+ * @property-read ModuleHelper $activities
+ * @property-read ModuleHelper $notes
  */
 class SubApi extends AbstractSubApi
 {
