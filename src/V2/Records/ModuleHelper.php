@@ -313,9 +313,9 @@ class ModuleHelper
      * Retrieve a specific record by ID.
      *
      * @param string $id The record ID
-     * @return Record
+     * @return Record|null
      */
-    public function find(string $id): Record
+    public function find(string $id): ?Record
     {
         return $this->newGetByIdQuery($id)->get();
     }
