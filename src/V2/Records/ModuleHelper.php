@@ -327,7 +327,7 @@ class ModuleHelper
      * @param array|null $triggers (optional) The triggers to enable
      * @return array|null
      */
-    public function insert($record, array $triggers = null)
+    public function insert($record, array $triggers = null): ?array
     {
         $response = $this->newInsertQuery([$record], $triggers)->get();
 
@@ -343,7 +343,7 @@ class ModuleHelper
      * @param array|null $triggers (optional) The triggers to enable
      * @return array[]
      */
-    public function insertMany($records, array $triggers = null)
+    public function insertMany($records, array $triggers = null): array
     {
         return $this->newInsertQuery($records, $triggers)->get();
     }
@@ -356,7 +356,7 @@ class ModuleHelper
      * @param array|null $triggers (optional) The triggers to enable
      * @return array|null
      */
-    public function update(string $id, $data, array $triggers = null)
+    public function update(string $id, $data, array $triggers = null): ?array
     {
         $response = $this->newUpdateQuery($id, $data, $triggers)->get();
 
@@ -372,7 +372,7 @@ class ModuleHelper
      * @param array|null $triggers (optional) The triggers to enable
      * @return array[]
      */
-    public function updateMany($records, array $triggers = null)
+    public function updateMany($records, array $triggers = null): array
     {
         return $this->newUpdateManyQuery($records, $triggers)->get();
     }
@@ -385,7 +385,7 @@ class ModuleHelper
      * @param array|null $triggers (optional) The triggers to enable
      * @return array|null
      */
-    public function upsert($record, array $duplicateCheckFields = null, array $triggers = null)
+    public function upsert($record, array $duplicateCheckFields = null, array $triggers = null): ?array
     {
         $response = $this->newUpsertQuery([$record], $duplicateCheckFields, $triggers)->get();
 
@@ -402,7 +402,7 @@ class ModuleHelper
      * @param array|null $triggers (optional) The triggers to enable
      * @return array[]
      */
-    public function upsertMany($records, array $duplicateCheckFields = null, array $triggers = null)
+    public function upsertMany($records, array $duplicateCheckFields = null, array $triggers = null): array
     {
         return $this->newUpsertQuery($records, $duplicateCheckFields, $triggers)->get();
     }
@@ -413,7 +413,7 @@ class ModuleHelper
      * @param string $id The ID of the record to delete
      * @return array|null
      */
-    public function delete(string $id)
+    public function delete(string $id): ?array
     {
         $response = $this->newDeleteQuery($id)->get();
 
@@ -428,7 +428,7 @@ class ModuleHelper
      * @param string[] $ids The IDs of the records to delete
      * @return array[]
      */
-    public function deleteMany(array $ids)
+    public function deleteMany(array $ids): array
     {
         return $this->newDeleteManyQuery($ids)->get();
     }
