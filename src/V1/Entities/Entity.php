@@ -2,8 +2,8 @@
 
 namespace Zoho\Crm\V1\Entities;
 
-use Doctrine\Common\Inflector\Inflector;
 use Zoho\Crm\Entities\Entity as BaseEntity;
+use Zoho\Crm\Support\Helper;
 
 /**
  * Default minimal implementation of an API v1 entity.
@@ -24,7 +24,7 @@ class Entity extends BaseEntity
             return static::$moduleName;
         }
 
-        return Inflector::pluralize(static::name());
+        return Helper::inflector()->pluralize(static::name());
     }
 
     /**

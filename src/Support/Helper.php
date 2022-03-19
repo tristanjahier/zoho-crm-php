@@ -2,11 +2,17 @@
 
 namespace Zoho\Crm\Support;
 
+use Doctrine\Inflector\InflectorFactory;
+use Doctrine\Inflector\Inflector;
+
 /**
  * Static helper class for miscellaneous purposes.
  */
 final class Helper
 {
+    /** @var \Doctrine\Inflector\Inflector Cached instance of Doctrine Inflector */
+    private static $inflector;
+
     /**
      * The constructor.
      *
@@ -122,5 +128,19 @@ final class Helper
         }
 
         return true;
+    }
+
+    /**
+     * Get an instance of Doctrine Inflector for string manipulations.
+     *
+     * @return \Doctrine\Inflector\Inflector
+     */
+    public static function inflector(): Inflector
+    {
+        if (self::$inflector !== null) {
+            return self::$inflector;
+        }
+
+        return self::$inflector = InflectorFactory::create()->build();
     }
 }

@@ -7,7 +7,6 @@ use InvalidArgumentException;
 use Zoho\Crm\V1\Client;
 use Zoho\Crm\Support\ClassShortNameTrait;
 use Zoho\Crm\V1\Entities\Entity;
-use Doctrine\Common\Inflector\Inflector;
 
 /**
  * Base class of the API module handlers.

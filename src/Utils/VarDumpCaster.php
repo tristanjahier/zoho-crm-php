@@ -4,10 +4,10 @@ namespace Zoho\Crm\Utils;
 
 use Symfony\Component\VarDumper\Caster\Caster;
 use Symfony\Component\VarDumper\Caster\CutStub;
-use Doctrine\Common\Inflector\Inflector;
 use Zoho\Crm\Contracts\ClientInterface;
 use Zoho\Crm\Contracts\QueryInterface;
 use Zoho\Crm\Entities\Entity;
+use Zoho\Crm\Support\Helper;
 use Zoho\Crm\Support\Collection;
 use Zoho\Crm\Support\UrlParameters;
 use Zoho\Crm\V1\Client as V1Client;
@@ -76,7 +76,7 @@ class VarDumpCaster
         $properties = [];
 
         foreach ($modules as $name => $instance) {
-            $properties[Inflector::camelize($name)] = new CutStub($instance);
+            $properties[Helper::inflector()->camelize($name)] = new CutStub($instance);
         }
 
         return $properties;

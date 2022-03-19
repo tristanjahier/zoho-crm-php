@@ -3,12 +3,12 @@
 namespace Zoho\Crm\V1;
 
 use Closure;
-use Doctrine\Common\Inflector\Inflector;
 use Zoho\Crm\Contracts\ClientInterface;
 use Zoho\Crm\Contracts\QueryInterface;
 use Zoho\Crm\Contracts\ResponseInterface;
 use Zoho\Crm\V1\Modules\AbstractModule;
 use Zoho\Crm\V1\Methods\MethodInterface;
+use Zoho\Crm\Support\Helper;
 use Zoho\Crm\ResponseFormat;
 use Zoho\Crm\QueryProcessor;
 use Zoho\Crm\RequestSender;
@@ -607,6 +607,6 @@ class Client implements ClientInterface
      */
     public function __get($name)
     {
-        return $this->module(Inflector::classify($name));
+        return $this->module(Helper::inflector()->classify($name));
     }
 }

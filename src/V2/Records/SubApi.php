@@ -2,8 +2,8 @@
 
 namespace Zoho\Crm\V2\Records;
 
-use Doctrine\Common\Inflector\Inflector;
 use Zoho\Crm\V2\AbstractSubApi;
+use Zoho\Crm\Support\Helper;
 
 /**
  * Helper for the Record APIs.
@@ -52,6 +52,6 @@ class SubApi extends AbstractSubApi
      */
     public function __get(string $name)
     {
-        return $this->module(Inflector::classify($name));
+        return $this->module(Helper::inflector()->classify($name));
     }
 }
