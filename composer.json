@@ -1,5 +1,5 @@
 {
-    "name": "tristanjahier/zoho-crm-php",
+    "name": "tristanjahier/zoho-crm",
     "description": "A PHP wrapper library for Zoho CRM API.",
     "keywords": ["Zoho", "CRM", "API", "library", "wrapper", "client"],
     "homepage": "https://github.com/tristanjahier/zoho-crm-php",
