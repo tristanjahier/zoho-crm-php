@@ -1,6 +1,6 @@
-# Zoho CRM API wrapper library (PHP)
+# Zoho CRM API client (PHP)
 
-This is an API wrapper library for Zoho CRM, written in PHP.
+This is an API client library for Zoho CRM, written in PHP.
 
 It aims to cover the whole API (every module and method), while providing a great abstraction and very easy-to-use methods.
 
@@ -17,14 +17,14 @@ Edit your `composer.json` file:
 
 ```json
 "require": {
-    "tristanjahier/zoho-crm-php": "^0.4"
+    "tristanjahier/zoho-crm": "^0.4"
 }
 ```
 
 or simply run this command:
 
 ```
-composer require tristanjahier/zoho-crm-php
+composer require tristanjahier/zoho-crm
 ```
 
 ## Getting started
