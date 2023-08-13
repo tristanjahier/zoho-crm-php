@@ -4,13 +4,15 @@ namespace Zoho\Crm\Utils;
 
 use Symfony\Component\VarDumper\Caster\Caster;
 use Symfony\Component\VarDumper\Caster\CutStub;
-use Doctrine\Common\Inflector\Inflector;
-use Zoho\Crm\Client;
-use Zoho\Crm\Modules\AbstractModule;
-use Zoho\Crm\Query;
-use Zoho\Crm\RawQuery;
+use Zoho\Crm\Contracts\ClientInterface;
+use Zoho\Crm\Contracts\QueryInterface;
 use Zoho\Crm\Entities\Entity;
+use Zoho\Crm\Support\Helper;
 use Zoho\Crm\Support\Collection;
+use Zoho\Crm\Support\UrlParameters;
+use Zoho\Crm\V1\Client as V1Client;
+use Zoho\Crm\V1\Modules\AbstractModule;
+use Zoho\Crm\V2\Client as V2Client;
 
 /**
  * Caster for Symfony's var-dumper.
@@ -32,10 +34,9 @@ class VarDumpCaster
     public static function getConfig()
     {
         return [
-            Client::class => self::class.'::castClient',
+            ClientInterface::class => self::class.'::castClient',
             AbstractModule::class => self::class.'::castModule',
-            Query::class => self::class.'::castQuery',
-            RawQuery::class => self::class.'::castRawQuery',
+            QueryInterface::class => self::class.'::castQuery',
             Entity::class => self::class.'::castEntity',
             Collection::class => self::class.'::castCollection',
         ];
@@ -44,29 +45,47 @@ class VarDumpCaster
     /**
      * Cast a client instance.
      *
-     * @param \Zoho\Crm\Client $client The client instance
+     * @param \Zoho\Crm\Contracts\ClientInterface $client The client instance
      * @return array
      */
-    public static function castClient(Client $client)
+    public static function castClient(ClientInterface $client)
     {
-        $result = [
+        $properties = [
             Caster::PREFIX_PROTECTED . 'endpoint' => $client->getEndpoint(),
             Caster::PREFIX_PROTECTED . 'requestCount' => $client->getRequestCount(),
         ];
 
-        $modules = array_merge($client->modules(), $client->aliasedModules());
-
-        foreach ($modules as $name => $instance) {
-            $result[Inflector::camelize($name)] = new CutStub($instance);
+        if ($client instanceof V1Client) {
+            $properties = array_merge($properties, self::castV1Client($client));
+        } elseif ($client instanceof V2Client) {
+            $properties = array_merge($properties, self::castV2Client($client));
         }
 
-        return $result;
+        return $properties;
+    }
+
+    /**
+     * Cast a V1 client instance.
+     *
+     * @param \Zoho\Crm\V1\Client $client The client instance
+     * @return array
+     */
+    public static function castV1Client(V1Client $client)
+    {
+        $modules = array_merge($client->modules(), $client->aliasedModules());
+        $properties = [];
+
+        foreach ($modules as $name => $instance) {
+            $properties[Helper::inflector()->camelize($name)] = new CutStub($instance);
+        }
+
+        return $properties;
     }
 
     /**
      * Cast a module handler instance.
      *
-     * @param \Zoho\Crm\Modules\AbstractModule $module The module instance
+     * @param \Zoho\Crm\V1\Modules\AbstractModule $module The module instance
      * @return array
      */
     public static function castModule(AbstractModule $module)
@@ -79,33 +98,38 @@ class VarDumpCaster
     }
 
     /**
-     * Cast a query instance.
+     * Cast a V2 client instance.
      *
-     * @param \Zoho\Crm\Query $query The query instance
+     * @param \Zoho\Crm\V2\Client $client The client instance
      * @return array
      */
-    public static function castQuery(Query $query)
+    public static function castV2Client(V2Client $client)
     {
-        $result = (array) $query;
+        $properties = [];
 
-        $result[Caster::PREFIX_PROTECTED . 'client'] = new CutStub($query->getClient());
+        foreach ($client->getSubApis() as $name => $instance) {
+            $properties[$name] = new CutStub($instance);
+        }
 
-        return $result;
+        return $properties;
     }
 
     /**
-     * Cast a raw query instance.
+     * Cast a query instance.
      *
-     * @param \Zoho\Crm\RawQuery $query The query instance
+     * @param \Zoho\Crm\Contracts\QueryInterface $query The query instance
      * @return array
      */
-    public static function castRawQuery(RawQuery $query)
+    public static function castQuery(QueryInterface $query)
     {
+        $urlComponents = parse_url($query->getUrl());
+        $urlComponents['query'] = UrlParameters::createFromString($urlComponents['query'] ?? '')->toArray();
+
         return self::prefixKeys([
-            'httpVerb' => $query->getHttpVerb(),
-            'uri' => $query->getUri(),
+            'httpMethod' => $query->getHttpMethod(),
+            'url' => $urlComponents,
             'headers' => $query->getHeaders(),
-            'body' => $query->getBody()
+            'body' => mb_strimwidth((string) $query->getBody(), 0, 128, ' … (truncated)', 'UTF-8')
         ], Caster::PREFIX_PROTECTED);
     }
 

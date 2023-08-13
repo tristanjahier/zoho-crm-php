@@ -2,36 +2,61 @@
 
 namespace Zoho\Crm\Contracts;
 
+use Zoho\Crm\Support\UrlParameters;
+
 interface RequestableInterface
 {
     /**
-     * Get the HTTP verb/method that must be used for the request.
+     * Get the HTTP method that must be used for the request.
      *
      * @return string
      */
-    public function getHttpVerb(): string;
+    public function getHttpMethod(): string;
 
     /**
-     * Set the URI to request.
-     *
-     * @param string|null $uri The new URI
-     */
-    public function setUri(?string $uri);
-
-    /**
-     * Get the URI to request.
+     * Get the URL to request.
      *
      * @return string
      */
-    public function getUri(): string;
+    public function getUrl(): string;
 
     /**
-     * Set a query string parameter on the existing URI.
+     * Set a query string parameter on the existing URL.
      *
      * @param string $key The parameter key
      * @param mixed $value The parameter value
      */
-    public function setUriParameter(string $key, $value);
+    public function setUrlParameter(string $key, $value);
+
+    /**
+     * Get all query string parameters.
+     *
+     * @return \Zoho\Crm\Support\UrlParameters
+     */
+    public function getUrlParameters(): UrlParameters;
+
+    /**
+     * Get the value of a query string parameter by key.
+     *
+     * @param string $key The parameter key
+     * @return mixed
+     */
+    public function getUrlParameter(string $key);
+
+    /**
+     * Check if a query string parameter exists by key.
+     *
+     * @param string $key The parameter key
+     * @return bool
+     */
+    public function hasUrlParameter(string $key): bool;
+
+    /**
+     * Remove a query string parameter by key.
+     *
+     * @param string $key The parameter key
+     */
+    public function removeUrlParameter(string $key);
 
     /**
      * Set a header field.

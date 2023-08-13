@@ -2,8 +2,6 @@
 
 namespace Zoho\Crm\Support;
 
-use DateTime;
-
 /**
  * Container for URL query string bits.
  */
@@ -35,7 +33,7 @@ class UrlParameters extends Collection
     {
         if (is_bool($value)) {
             return Helper::booleanToString($value);
-        } elseif ($value instanceof DateTime) {
+        } elseif ($value instanceof \DateTimeInterface) {
             return $value->format('Y-m-d H:i:s');
         } elseif (is_array($value)) {
             $values = array_map(function ($val) {
@@ -87,6 +85,20 @@ class UrlParameters extends Collection
     }
 
     /**
+     * Create an instance from a string.
+     *
+     * @param string $query The string to parse
+     * @return static
+     */
+    public static function createFromString(string $query)
+    {
+        $parameters = [];
+        parse_str($query, $parameters);
+
+        return new static($parameters);
+    }
+
+    /**
      * Create an instance from a URL.
      *
      * @param string $url The URL to parse
@@ -94,9 +106,6 @@ class UrlParameters extends Collection
      */
     public static function createFromUrl(string $url)
     {
-        $parameters = [];
-        parse_str(parse_url($url, PHP_URL_QUERY), $parameters);
-
-        return new static($parameters);
+        return static::createFromString(parse_url($url, PHP_URL_QUERY) ?? '');
     }
 }

@@ -15,7 +15,7 @@ use Zoho\Crm\Exceptions\InvalidComparisonOperatorException;
  *
  * It acts as a wrapper for arrays, allowing to manipulate them in an object-oriented way.
  */
-class Collection implements ArrayAccess, Countable, IteratorAggregate
+class Collection implements ArrayAccess, Countable, IteratorAggregate, Arrayable
 {
     /** @var array The inner array */
     protected $items = [];

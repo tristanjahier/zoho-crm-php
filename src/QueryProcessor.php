@@ -3,13 +3,16 @@
 namespace Zoho\Crm;
 
 use Closure;
+use Exception;
 use GuzzleHttp\Psr7\Request;
 use Zoho\Crm\Contracts\ClientInterface;
 use Zoho\Crm\Contracts\RequestSenderInterface;
 use Zoho\Crm\Contracts\ResponseParserInterface;
+use Zoho\Crm\Contracts\ErrorHandlerInterface;
 use Zoho\Crm\Contracts\QueryInterface;
 use Zoho\Crm\Contracts\PaginatedQueryInterface;
 use Zoho\Crm\Exceptions\PaginatedQueryInBatchExecutionException;
+use Zoho\Crm\Exceptions\AsyncBatchRequestException;
 use Zoho\Crm\Support\Helper;
 
 /**
@@ -17,14 +20,17 @@ use Zoho\Crm\Support\Helper;
  */
 class QueryProcessor
 {
-    /** @var \Zoho\Crm\Contracts\ClientInterface The client to which this processor is attached */
+    /** @var Contracts\ClientInterface The client to which this processor is attached */
     protected $client;
 
-    /** @var \Zoho\Crm\Contracts\RequestSenderInterface The request sender */
+    /** @var Contracts\RequestSenderInterface The request sender */
     protected $requestSender;
 
-    /** @var \Zoho\Crm\Contracts\ResponseParserInterface The response parser */
+    /** @var Contracts\ResponseParserInterface The response parser */
     protected $responseParser;
+
+    /** @var Contracts\ErrorHandlerInterface The error handler */
+    protected $errorHandler;
 
     /** @var \Closure[] The callbacks to execute before each query execution */
     protected $preExecutionHooks = [];
@@ -38,36 +44,32 @@ class QueryProcessor
     /**
      * The constructor.
      *
-     * @param \Zoho\Crm\Contracts\ClientInterface $client The client to which it is attached
+     * @param Contracts\ClientInterface $client The client to which it is attached
+     * @param Contracts\RequestSenderInterface $requestSender The request sender
+     * @param Contracts\ResponseParserInterface $responseParser The response parser
+     * @param Contracts\ErrorHandlerInterface $errorHandler The error handler
      */
     public function __construct(
         ClientInterface $client,
-        RequestSenderInterface $requestSender = null,
-        ResponseParserInterface $responseParser = null
+        RequestSenderInterface $requestSender,
+        ResponseParserInterface $responseParser,
+        ErrorHandlerInterface $errorHandler
     ) {
         $this->client = $client;
-
-        if (is_null($requestSender)) {
-            $requestSender = new RequestSender($this->client->preferences());
-        }
-
-        if (is_null($responseParser)) {
-            $responseParser = new ResponseParser();
-        }
-
         $this->requestSender = $requestSender;
         $this->responseParser = $responseParser;
+        $this->errorHandler = $errorHandler;
     }
 
     /**
      * Execute a query and get a formal and generic response object.
      *
-     * @param \Zoho\Crm\Contracts\QueryInterface $query The query to execute
+     * @param Contracts\QueryInterface $query The query to execute
      * @return Response
      */
     public function executeQuery(QueryInterface $query)
     {
-        if ($query instanceof PaginatedQueryInterface && $query->isPaginated()) {
+        if ($query instanceof PaginatedQueryInterface && $query->mustBePaginatedAutomatically()) {
             return $this->executePaginatedQuery($query);
         }
 
@@ -82,7 +84,7 @@ class QueryProcessor
      * If synchronous, the returned value is the response of the API.
      * If asynchronous, the returned value is a promise that needs to be settled afterwards.
      *
-     * @param \Zoho\Crm\Contracts\QueryInterface $query The query to process
+     * @param Contracts\QueryInterface $query The query to process
      * @param bool $async (optional) Whether the resulting request must be asynchronous or not
      * @return \Psr\Http\Message\ResponseInterface|\GuzzleHttp\Promise\PromiseInterface
      */
@@ -112,7 +114,11 @@ class QueryProcessor
             );
         }
 
-        $response = $this->requestSender->send($request);
+        try {
+            $response = $this->requestSender->send($request);
+        } catch (Exception $e) {
+            $this->handleException($e, $query);
+        }
 
         $this->firePostExecutionHooks($query->copy(), $execId);
 
@@ -132,14 +138,14 @@ class QueryProcessor
     /**
      * Create an HTTP request out of a query.
      *
-     * @param \Zoho\Crm\Contracts\QueryInterface $query The query
+     * @param Contracts\QueryInterface $query The query
      * @return \GuzzleHttp\Psr7\Request
      */
     protected function createHttpRequest(QueryInterface $query)
     {
         return new Request(
-            $query->getHttpVerb(),
-            $this->client->getEndpoint() . $query->getUri(),
+            $query->getHttpMethod(),
+            $this->client->getEndpoint() . $query->getUrl(),
             $query->getHeaders(),
             $query->getBody()
         );
@@ -148,7 +154,7 @@ class QueryProcessor
     /**
      * Execute a paginated query.
      *
-     * @param \Zoho\Crm\Contracts\PaginatedQueryInterface $query The query to execute
+     * @param Contracts\PaginatedQueryInterface $query The query to execute
      * @return Response
      */
     protected function executePaginatedQuery(PaginatedQueryInterface $query)
@@ -192,20 +198,42 @@ class QueryProcessor
         $promises = [];
 
         foreach ($queries as $i => $query) {
-            if ($query->isPaginated()) {
+            if ($query->mustBePaginatedAutomatically()) {
                 throw new PaginatedQueryInBatchExecutionException();
             }
 
             $promises[$i] = $this->sendQuery($query, true);
         }
 
-        $rawResponses = $this->requestSender->fetchAsyncResponses($promises);
+        try {
+            $rawResponses = $this->requestSender->fetchAsyncResponses($promises);
+        } catch (AsyncBatchRequestException $e) {
+            // Unwrap the actual exception and retrieve the corresponding query.
+            $this->handleException($e->getWrappedException(), $queries[$e->getKeyInBatch()]);
+        }
 
         foreach ($rawResponses as $i => $rawResponse) {
             $responses[$i] = $this->responseParser->parse($rawResponse, $queries[$i]);
         }
 
         return $responses;
+    }
+
+    /**
+     * Handle an exception thrown by the request sender.
+     *
+     * @param \Exception $exception
+     * @param Contracts\QueryInterface $query The query
+     * @return void
+     *
+     * @throws \Exception
+     */
+    protected function handleException(Exception $exception, QueryInterface $query)
+    {
+        $this->errorHandler->handle($exception, $query);
+
+        // If the error handler did not handle the error, just let it go.
+        throw $exception;
     }
 
     /**
@@ -280,7 +308,7 @@ class QueryProcessor
     /**
      * Apply the registered middlewares to a query.
      *
-     * @param \Zoho\Crm\Contracts\QueryInterface $query The query being executed
+     * @param Contracts\QueryInterface $query The query being executed
      * @return void
      */
     protected function applyMiddlewaresToQuery(QueryInterface $query)

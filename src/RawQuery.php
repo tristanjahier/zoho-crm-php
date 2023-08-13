@@ -6,7 +6,7 @@ use Zoho\Crm\Contracts\QueryInterface;
 use Zoho\Crm\Contracts\ClientInterface;
 use Zoho\Crm\Contracts\ResponseInterface;
 use Zoho\Crm\Contracts\ResponseTransformerInterface;
-use Zoho\Crm\Support\HttpVerb;
+use Zoho\Crm\Support\HttpMethod;
 use Zoho\Crm\Support\UrlParameters;
 
 /**
@@ -14,25 +14,17 @@ use Zoho\Crm\Support\UrlParameters;
  */
 class RawQuery implements QueryInterface
 {
-    /** @var \Zoho\Crm\Client The API client that originated this query */
-    protected $client;
+    use Traits\BasicQueryImplementation;
+    use Traits\HasRequestHttpMethod;
+    use Traits\HasRequestUrlParameters;
 
-    /** @var string The HTTP verb/method */
-    protected $httpVerb = HttpVerb::GET;
-
-    /** @var string|null The URI */
-    protected $uri;
-
-    /** @var string[] The array of HTTP request headers */
-    protected $headers = [];
-
-    /** @var mixed $body The HTTP request body */
-    protected $body;
+    /** @var string|null The URL path */
+    protected $urlPath;
 
     /**
      * The constructor.
      *
-     * @param \Zoho\Crm\Client $client The client to use to make the request
+     * @param \Zoho\Crm\Contracts\ClientInterface $client The client to use to make the request
      */
     public function __construct(ClientInterface $client)
     {
@@ -40,14 +32,16 @@ class RawQuery implements QueryInterface
     }
 
     /**
-     * Set the HTTP verb/method.
+     * Set the URL to request.
      *
-     * @param string $verb The HTTP verb/method to use
+     * @param string|null $url The new URL
      * @return $this
      */
-    public function setHttpVerb(string $verb)
+    public function setUrl(?string $url)
     {
-        $this->httpVerb = $verb;
+        $url = $url ?? '';
+        $this->urlPath = parse_url($url, PHP_URL_PATH);
+        $this->urlParameters = UrlParameters::createFromUrl($url);
 
         return $this;
     }
@@ -55,97 +49,9 @@ class RawQuery implements QueryInterface
     /**
      * @inheritdoc
      */
-    public function getHttpVerb(): string
+    public function getUrl(): string
     {
-        return $this->httpVerb;
-    }
-
-    /**
-     * @inheritdoc
-     *
-     * @return $this
-     */
-    public function setUri(?string $uri)
-    {
-        $this->uri = $uri;
-
-        return $this;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getUri(): string
-    {
-        return $this->uri;
-    }
-
-    /**
-     * @inheritdoc
-     *
-     * @return $this
-     */
-    public function setUriParameter(string $key, $value)
-    {
-        $path = parse_url($this->uri, PHP_URL_PATH);
-        $parameters = UrlParameters::createFromUrl($this->uri);
-        $parameters[$key] = $value;
-
-        $this->uri = $path . '?' . $parameters;
-
-        return $this;
-    }
-
-    /**
-     * @inheritdoc
-     *
-     * @return $this
-     */
-    public function setHeader(string $name, $value)
-    {
-        $this->headers[$name] = $value;
-
-        return $this;
-    }
-
-    /**
-     * @inheritdoc
-     *
-     * @return $this
-     */
-    public function removeHeader(string $name)
-    {
-        unset($this->headers[$name]);
-
-        return $this;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getHeaders(): array
-    {
-        return $this->headers;
-    }
-
-    /**
-     * @inheritdoc
-     *
-     * @return $this
-     */
-    public function setBody($content)
-    {
-        $this->body = $content;
-
-        return $this;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getBody()
-    {
-        return $this->body;
+        return "$this->urlPath?$this->urlParameters";
     }
 
     /**
@@ -159,33 +65,19 @@ class RawQuery implements QueryInterface
     /**
      * @inheritdoc
      */
-    public function copy(): QueryInterface
-    {
-        return clone $this;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function execute(): ResponseInterface
-    {
-        return $this->client->executeQuery($this);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function get()
-    {
-        return $this->execute()->getContent();
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function getResponseTransformer(): ?ResponseTransformerInterface
     {
         // No specific transformation
         return null;
+    }
+
+    /**
+     * Allow the deep cloning of the query.
+     *
+     * @return void
+     */
+    public function __clone()
+    {
+        $this->urlParameters = clone $this->urlParameters;
     }
 }
