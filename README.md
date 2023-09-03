@@ -17,7 +17,7 @@ Edit your `composer.json` file:
 
 ```json
 "require": {
-    "tristanjahier/zoho-crm": "^0.4"
+    "tristanjahier/zoho-crm": "^0.5"
 }
 ```
 

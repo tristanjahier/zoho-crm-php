@@ -7,7 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-https://github.com/tristanjahier/zoho-crm-php/compare/0.4.0...master
+https://github.com/tristanjahier/zoho-crm-php/compare/0.5.0...master
+
+
+## [0.5.0] - 2023-09-03
 
 ### Added
 
