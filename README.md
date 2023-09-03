@@ -503,6 +503,16 @@ $client->records->calls->deleteMany(['Record 1 ID', 'Record 2 ID']);
 
 Returns an array of arrays containing information about the results of the operation.
 
+### Users
+
+#### `all()`
+
+Instance of `Zoho\Crm\V2\Users\ListQuery` with auto-pagination enabled.
+
+```php
+$client->users->all();
+```
+
 ## Advanced topics
 
 ### Use a different API endpoint
