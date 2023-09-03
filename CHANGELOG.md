@@ -12,7 +12,7 @@ https://github.com/tristanjahier/zoho-crm-php/compare/0.4.0...master
 ### Added
 
 - Support for version 2 of the API. Components specific to this version are under the `Zoho\Crm\V2` namespace. Notably, the client class is `Zoho\Crm\V2\Client`.
-  - The API support is divided into "sub-APIs", which are helpers that regroup multiple related features of the API. They are attached to the client and you can access them as public properties (e.g.: `$client->theSubApi`). Currently available sub-APIs are `records` and `users`. See README.md for further documentation.
+  - The API support is divided into "sub-APIs", which are helpers that regroup multiple related features of the API. They are attached to the client and you can access them as public properties (e.g.: `$client->theSubApi`). Currently available sub-APIs are `records` and `users`. See [README.md](/README.md) for further documentation.
   - The client needs an "access token store" object to handle its API access token persistency. There are multiple basic implementations available in namespace `Zoho\Crm\V2\AccessTokenStores`. It must implement `StoreInterface`.
 - Compatibility with Guzzle 7.
 - Compatibility with PHP 8.
@@ -22,13 +22,16 @@ https://github.com/tristanjahier/zoho-crm-php/compare/0.4.0...master
 - `getRaw` method to all queries (v1 and v2), to get the raw contents of the API response.
 - `Zoho\Crm\V2\Scopes` utility class.
 - `Zoho\Crm\Utils\OAuthHelper` utility class.
+- `Zoho\Crm\PreferencesContainer` base class for client preferences. It adds a new `isSet` method to check if a preference value is not `null`.
 
 ### Changed
 
 - Composer package has been renamed `tristanjahier/zoho-crm`.
 - Everything specific to version 1 of the API has been moved under the dedicated `Zoho\Crm\V1` namespace. Notably, the client class is now `Zoho\Crm\V1\Client`.
 - Dependency injection in `Zoho\Crm\QueryProcessor` is now mandatory. Arguments `$requestSender` and `$responseParser` are not optional anymore, and `$errorHandler` has been added.
+- `Zoho\Crm\RequestSender` constructor does not accept a `$preferences` argument anymore.
 - Denominations of "HTTP verb" have been changed for "HTTP method" everywhere in the code. Because of that, the `getHttpVerb` method of `Zoho\Crm\Contracts\RequestableInterface` has been renamed `getHttpMethod`, and the `Zoho\Crm\Support\HttpVerb` class has been renamed `Zoho\Crm\Support\HttpMethod`.
+- Method `setHttpMethod` of queries now throws an exception (`Zoho\Crm\Exceptions\InvalidHttpMethodException`) when an invalid value is provided.
 - Denominations of "URI" have been changed for "URL" everywhere in the code. More information below.
 - In `RequestableInterface`, method `setUri` has been removed. Other methods have been renamed: `getUri => getUrl`, `setUriParameter => setUrlParameter`. New methods have been added: `getUrlParameters`, `getUrlParameter`, `hasUrlParameter`, `removeUrlParameter`. Query implementations have been changed accordingly. Notably:
   - Multiple methods of `Zoho\Crm\V1\Query` have been renamed: `setUriParameter => setUrlParameter`, `getParameters => getUrlParameters`, `getParameter => getUrlParameter`, `hasParameter => hasUrlParameter`. `resetParameters` has also been renamed to `resetUrlParameters` for consistency.
@@ -37,7 +40,12 @@ https://github.com/tristanjahier/zoho-crm-php/compare/0.4.0...master
   - Method `mustFetchPagesAsynchronously`, used to determine if pages must be fetched concurrently, has been renamed `mustBePaginatedConcurrently`.
 - In `QueryInterface`, method `getClient` was added.
 - `Zoho\Crm\Support\UrlParameters` now supports string-casting for all implementations of `DateTimeInterface`, instead of just instances of `DateTime`.
+- `Zoho\Crm\Exceptions\InvalidQueryException` now shows the HTTP method in its message.
 - `Zoho\Crm\Support\Collection` now implements `Zoho\Crm\Support\Arrayable`.
+
+### Fixed
+
+- Client ID, client secret and refresh token are now sent to the authorization endpoint in the request body instead of the URL query string. This is considered a fix because it improves security by reducing the risk of exposing these secrets in clear in error messages.
 
 ### Deprecated
 
