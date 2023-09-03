@@ -81,7 +81,7 @@ class UrlParameters extends Collection
      */
     public function __toString()
     {
-        return http_build_query($this->toStringArray(), null, '&', PHP_QUERY_RFC3986);
+        return http_build_query($this->toStringArray(), '', '&', PHP_QUERY_RFC3986);
     }
 
     /**
