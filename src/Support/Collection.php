@@ -112,7 +112,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, Arrayable
      *
      * @return int
      */
-    public function count()
+    public function count(): int
     {
         return count($this->items);
     }
@@ -997,7 +997,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, Arrayable
      * @param mixed $key The index
      * @return bool
      */
-    public function offsetExists($key)
+    public function offsetExists($key): bool
     {
         return $this->has($key);
     }
@@ -1010,6 +1010,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, Arrayable
      * @param mixed $key The index
      * @return mixed
      */
+    #[\ReturnTypeWillChange]
     public function offsetGet($key)
     {
         return $this->get($key);
@@ -1024,7 +1025,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, Arrayable
      * @param mixed $value The item
      * @return void
      */
-    public function offsetSet($key, $value)
+    public function offsetSet($key, $value): void
     {
         if ($key === null) {
             $this->push($value);
@@ -1041,7 +1042,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, Arrayable
      * @param mixed $key The index
      * @return void
      */
-    public function offsetUnset($key)
+    public function offsetUnset($key): void
     {
         $this->unset($key);
     }
@@ -1051,7 +1052,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, Arrayable
      *
      * @return \ArrayIterator
      */
-    public function getIterator()
+    public function getIterator(): ArrayIterator
     {
         return new ArrayIterator($this->items);
     }
