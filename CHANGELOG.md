@@ -56,6 +56,12 @@ https://github.com/tristanjahier/zoho-crm-php/compare/0.5.0...master
 
 - Installing from old Composer package name `tristanjahier/zoho-crm-php`.
 
+### Development
+
+- Upgraded dependencies:
+  - `phpunit/phpunit`: `5 -> 9`
+  - `symfony/var-dumper`: `4 -> 5`
+
 
 ## [0.4.0] - 2020-09-26
 
