@@ -6,7 +6,7 @@ It aims to cover the whole API (every module and method), while providing a grea
 
 ## Requirements
 
-- PHP : `7.3+`
+- PHP : `8.0+`
 - PHP cURL extension enabled
 
 ## Installation

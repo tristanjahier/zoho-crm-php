@@ -9,6 +9,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 https://github.com/tristanjahier/zoho-crm-php/compare/0.5.0...master
 
+### Changed
+
+- Dropped support for PHP 7.
+- Dropped support for Guzzle 6.
+- Dropped support for Doctrine Inflector 1.
+
+### Development
+
+- Upgraded dependencies:
+  - `symfony/var-dumper`: `5 -> 6`
+- Required PsySH (`psy/psysh`) as a development dependency (instead of relying only on a global installation).
+
 
 ## [0.5.0] - 2023-09-03
 
