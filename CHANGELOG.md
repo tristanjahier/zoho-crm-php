@@ -203,7 +203,7 @@ https://github.com/tristanjahier/zoho-crm-php/compare/0.5.0...master
 - Added custom casters for symfony/var-dumper and PsySH local config file (`.psysh.php`) to load them automatically.
 
 
-## [0.2.0] - 2018-05-30
+## [0.2.0] - 2018-07-30
 
 ### Added
 
