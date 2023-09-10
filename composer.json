@@ -15,13 +15,13 @@
     ],
     "require": {
         "php": "^8.0",
-        "guzzlehttp/guzzle": "^7.0",
-        "doctrine/inflector": "^2.0"
+        "doctrine/inflector": "^2.0",
+        "guzzlehttp/guzzle": "^7.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.0",
-        "symfony/var-dumper": "^6.0",
-        "psy/psysh": "^0.11"
+        "psy/psysh": "^0.11",
+        "symfony/var-dumper": "^6.0"
     },
     "minimum-stability": "stable",
     "autoload": {
@@ -33,5 +33,8 @@
         "psr-4": {
             "Zoho\\Crm\\Dev\\": "dev/src/"
         }
+    },
+    "config": {
+        "sort-packages": true
     }
 }
