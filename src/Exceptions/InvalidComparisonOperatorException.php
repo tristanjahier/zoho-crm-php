@@ -2,8 +2,6 @@
 
 namespace Zoho\Crm\Exceptions;
 
-use Exception;
-
 class InvalidComparisonOperatorException extends Exception
 {
     /**

@@ -2,8 +2,6 @@
 
 namespace Zoho\Crm\Exceptions;
 
-use Exception;
-
 class PaginatedQueryInBatchExecutionException extends Exception
 {
     /** @var string The exception message */

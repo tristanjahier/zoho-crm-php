@@ -2,8 +2,6 @@
 
 namespace Zoho\Crm\Exceptions;
 
-use Exception;
-
 class AsyncBatchRequestException extends Exception
 {
     /** @var \Exception The actual exception that was thrown */

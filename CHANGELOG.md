@@ -15,6 +15,7 @@ https://github.com/tristanjahier/zoho-crm-php/compare/0.5.0...master
 - Dropped support for Guzzle 6.
 - Dropped support for Doctrine Inflector 1.
 - `Zoho\Crm\V2\ResponseParser` will now throw an `UnreadableResponseException` when the API response body cannot be parsed.
+- All exceptions provided by the library now extend `Zoho\Crm\Exceptions\Exception`.
 
 ### Removed
 

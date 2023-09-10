@@ -2,7 +2,6 @@
 
 namespace Zoho\Crm\Exceptions;
 
-use Exception;
 use Zoho\Crm\Contracts\QueryInterface;
 
 class InvalidQueryException extends Exception
