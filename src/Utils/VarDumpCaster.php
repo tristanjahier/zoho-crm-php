@@ -10,8 +10,6 @@ use Zoho\Crm\Entities\Entity;
 use Zoho\Crm\Support\Helper;
 use Zoho\Crm\Support\Collection;
 use Zoho\Crm\Support\UrlParameters;
-use Zoho\Crm\V1\Client as V1Client;
-use Zoho\Crm\V1\Modules\AbstractModule;
 use Zoho\Crm\V2\Client as V2Client;
 
 /**
@@ -35,7 +33,6 @@ class VarDumpCaster
     {
         return [
             ClientInterface::class => self::class.'::castClient',
-            AbstractModule::class => self::class.'::castModule',
             QueryInterface::class => self::class.'::castQuery',
             Entity::class => self::class.'::castEntity',
             Collection::class => self::class.'::castCollection',
@@ -55,46 +52,11 @@ class VarDumpCaster
             Caster::PREFIX_PROTECTED . 'requestCount' => $client->getRequestCount(),
         ];
 
-        if ($client instanceof V1Client) {
-            $properties = array_merge($properties, self::castV1Client($client));
-        } elseif ($client instanceof V2Client) {
+        if ($client instanceof V2Client) {
             $properties = array_merge($properties, self::castV2Client($client));
         }
 
         return $properties;
-    }
-
-    /**
-     * Cast a V1 client instance.
-     *
-     * @param \Zoho\Crm\V1\Client $client The client instance
-     * @return array
-     */
-    public static function castV1Client(V1Client $client)
-    {
-        $modules = array_merge($client->modules(), $client->aliasedModules());
-        $properties = [];
-
-        foreach ($modules as $name => $instance) {
-            $properties[Helper::inflector()->camelize($name)] = new CutStub($instance);
-        }
-
-        return $properties;
-    }
-
-    /**
-     * Cast a module handler instance.
-     *
-     * @param \Zoho\Crm\V1\Modules\AbstractModule $module The module instance
-     * @return array
-     */
-    public static function castModule(AbstractModule $module)
-    {
-        return [
-            Caster::PREFIX_PROTECTED . 'client' => new CutStub($module->client()),
-            Caster::PREFIX_PROTECTED . 'name' => $module->name(),
-            Caster::PREFIX_PROTECTED . 'supportedMethods' => $module->supportedMethods(),
-        ];
     }
 
     /**

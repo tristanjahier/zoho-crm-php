@@ -15,6 +15,10 @@ https://github.com/tristanjahier/zoho-crm-php/compare/0.5.0...master
 - Dropped support for Guzzle 6.
 - Dropped support for Doctrine Inflector 1.
 
+### Removed
+
+- Support for version 1 of the API. The whole `Zoho\Crm\V1` namespace has been deleted.
+
 ### Development
 
 - Upgraded dependencies:
