@@ -12,6 +12,8 @@ interface ResponseParserInterface
      * @param \Psr\Http\Message\ResponseInterface $httpResponse The API response to read
      * @param QueryInterface $query The origin query
      * @return ResponseInterface
+     *
+     * @throws \Zoho\Crm\Exceptions\UnreadableResponseException
      */
     public function parse(HttpResponseInterface $httpResponse, QueryInterface $query): ResponseInterface;
 }

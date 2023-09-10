@@ -6,6 +6,7 @@ use Psr\Http\Message\ResponseInterface as HttpResponseInterface;
 use Zoho\Crm\Contracts\ResponseParserInterface;
 use Zoho\Crm\Contracts\QueryInterface;
 use Zoho\Crm\Contracts\ResponseInterface;
+use Zoho\Crm\Exceptions\UnreadableResponseException;
 use Zoho\Crm\Response;
 
 /**
@@ -22,8 +23,13 @@ class ResponseParser implements ResponseParserInterface
     public function parse(HttpResponseInterface $httpResponse, QueryInterface $query): ResponseInterface
     {
         $rawContent = (string) $httpResponse->getBody();
-
         $content = json_decode($rawContent, true);
+
+        if ($content === null && ! empty(trim($rawContent))) {
+            // If the decoded JSON content is null but the API response body was not empty,
+            // it means that there was an error reading the response.
+            throw new UnreadableResponseException();
+        }
 
         if ($transformer = $query->getResponseTransformer()) {
             $content = $transformer->transformResponse($content, $query);
