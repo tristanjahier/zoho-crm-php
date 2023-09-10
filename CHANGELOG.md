@@ -19,6 +19,7 @@ https://github.com/tristanjahier/zoho-crm-php/compare/0.5.0...master
 
 - Support for version 1 of the API. The whole `Zoho\Crm\V1` namespace has been deleted.
 - Unused classes `Zoho\Crm\ResponseFormat` and `Zoho\Crm\IdList`.
+- Trait `Zoho\Crm\Support\ClassShortNameTrait`. Replaced by `Zoho\Crm\Support\Helper::getClassShortName`.
 
 ### Development
 

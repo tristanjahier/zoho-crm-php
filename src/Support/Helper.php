@@ -143,4 +143,21 @@ final class Helper
 
         return self::$inflector = InflectorFactory::create()->build();
     }
+
+    /**
+     * Get the short name of a class.
+     *
+     * The short name (or unqualified name) is the class name without the namespace part.
+     * This method avoids to use the reflection API: {@see \ReflectionClass::getShortName()}.
+     *
+     * @param class-string $className
+     */
+    public static function getClassShortName(string $className): string
+    {
+        if ($pos = strrchr($className, '\\')) {
+            return substr($pos, 1);
+        } else {
+            return $className;
+        }
+    }
 }

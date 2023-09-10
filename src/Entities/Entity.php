@@ -3,16 +3,14 @@
 namespace Zoho\Crm\Entities;
 
 use Zoho\Crm\Contracts\ClientInterface;
-use Zoho\Crm\Support\ClassShortNameTrait;
 use Zoho\Crm\Support\Arrayable;
+use Zoho\Crm\Support\Helper;
 
 /**
  * Default minimal implementation of an API entity.
  */
 class Entity implements Arrayable
 {
-    use ClassShortNameTrait;
-
     /** @var string|null The name of the entity */
     protected static $name;
 
@@ -44,7 +42,7 @@ class Entity implements Arrayable
      */
     public static function name()
     {
-        return isset(static::$name) ? static::$name : self::getClassShortName();
+        return isset(static::$name) ? static::$name : Helper::getClassShortName(static::class);
     }
 
     /**
