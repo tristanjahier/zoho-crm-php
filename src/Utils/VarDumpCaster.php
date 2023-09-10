@@ -18,7 +18,7 @@ use Zoho\Crm\V2\Client as V2Client;
  * Useful in development to provide a nice and informative output while dumping
  * the most complex and important objects of this library.
  *
- * @see https://symfony.com/doc/current/components/var_dumper/advanced.html#casters
+ * @see https://symfony.com/doc/current/components/var_dumper.html#casters
  */
 class VarDumpCaster
 {
