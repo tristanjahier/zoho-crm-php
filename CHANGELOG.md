@@ -83,8 +83,6 @@ https://github.com/tristanjahier/zoho-crm-php/compare/0.5.0...master
 ### Fixed
 
 - Client ID, client secret and refresh token are now sent to the authorization endpoint in the request body instead of the URL query string. This is considered a fix because it improves security by reducing the risk of exposing these secrets in clear in error messages.
-- Deprecation warnings for return types related to `ArrayAccess`, `Countable` and `IteratorAggregate`.
-- Deprecation warnings related to function `http_build_query`.
 
 ### Deprecated
 
