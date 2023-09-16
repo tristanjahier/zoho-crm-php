@@ -3,7 +3,7 @@
 namespace Zoho\Crm\V2\Middleware;
 
 use Zoho\Crm\Contracts\MiddlewareInterface;
-use Zoho\Crm\Contracts\QueryInterface;
+use Zoho\Crm\Contracts\RequestInterface;
 use Zoho\Crm\V2\Client;
 
 /**
@@ -27,7 +27,7 @@ class AccessTokenAutoRefresh implements MiddlewareInterface
     /**
      * @inheritdoc
      */
-    public function __invoke(QueryInterface $query): void
+    public function __invoke(RequestInterface $request): void
     {
         if ($this->client->preferences()->isSet('access_token_auto_refresh_limit')) {
             $limit = $this->client->preferences()->get('access_token_auto_refresh_limit');

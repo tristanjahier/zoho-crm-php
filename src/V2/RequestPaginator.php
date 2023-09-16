@@ -2,15 +2,15 @@
 
 namespace Zoho\Crm\V2;
 
-use Zoho\Crm\AbstractQueryPaginator;
-use Zoho\Crm\Contracts\QueryInterface;
+use Zoho\Crm\AbstractRequestPaginator;
+use Zoho\Crm\Contracts\RequestInterface;
 use Zoho\Crm\Response;
 use Zoho\Crm\Entities\Collection;
 
 /**
- * Paginator for API v2 queries.
+ * Paginator for API v2 requests.
  */
-class QueryPaginator extends AbstractQueryPaginator
+class RequestPaginator extends AbstractRequestPaginator
 {
     /** @var int The latest page fetched */
     protected $latestPageFetched = 0;
@@ -18,11 +18,11 @@ class QueryPaginator extends AbstractQueryPaginator
     /**
      * @inheritdoc
      *
-     * @return AbstractQuery
+     * @return AbstractRequest
      */
-    protected function getNextPageQuery(): QueryInterface
+    protected function getNextPageRequest(): RequestInterface
     {
-        return $this->query->copy()
+        return $this->request->copy()
             ->autoPaginated(false)
             ->param('page', ++$this->latestPageFetched);
     }
@@ -32,7 +32,7 @@ class QueryPaginator extends AbstractQueryPaginator
      */
     protected function getPageSize(): int
     {
-        return (int) ($this->query->getUrlParameter('per_page') ?? static::PAGE_MAX_SIZE);
+        return (int) ($this->request->getUrlParameter('per_page') ?? static::PAGE_MAX_SIZE);
     }
 
     /**
@@ -47,10 +47,10 @@ class QueryPaginator extends AbstractQueryPaginator
         }
 
         // Apply the "maximum modification date" limit.
-        if (method_exists($this->query, 'modifiedBefore') && $this->query->hasMaxModificationDate()) {
+        if (method_exists($this->request, 'modifiedBefore') && $this->request->hasMaxModificationDate()) {
             $lastEntityDate = new \DateTime($page->getContent()->last()->get('Modified_Time'));
 
-            if ($lastEntityDate >= $this->query->getMaxModificationDate()) {
+            if ($lastEntityDate >= $this->request->getMaxModificationDate()) {
                 $this->hasMoreData = false;
                 $page->setContent($this->filterEntitiesExceedingMaxModificationDate($page->getContent()));
             }
@@ -59,7 +59,7 @@ class QueryPaginator extends AbstractQueryPaginator
 
     /**
      * Remove all entities from a page whose last modification date exceeds
-     * the maximum date set in the query.
+     * the maximum date set in the request.
      *
      * @param \Zoho\Crm\Entities\Collection $entities The entities to filter
      * @return \Zoho\Crm\Entities\Collection
@@ -68,7 +68,7 @@ class QueryPaginator extends AbstractQueryPaginator
     {
         return $entities->filter(function ($entity) {
             $modifiedAt = new \DateTime($entity->get('Modified_Time'));
-            return $modifiedAt < $this->query->getMaxModificationDate();
+            return $modifiedAt < $this->request->getMaxModificationDate();
         });
     }
 }

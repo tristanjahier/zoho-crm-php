@@ -2,24 +2,24 @@
 
 namespace Zoho\Crm\Traits;
 
-use Zoho\Crm\Contracts\QueryInterface;
+use Zoho\Crm\Contracts\RequestInterface;
 use Zoho\Crm\Contracts\ResponseInterface;
 use Zoho\Crm\Contracts\ClientInterface;
 
 /**
- * A trait that contains a basic implementation for most of the QueryInterface features.
+ * A trait that contains a basic implementation for most of the RequestInterface features.
  */
-trait BasicQueryImplementation
+trait BasicRequestImplementation
 {
     use HasRequestHeaders, HasRequestBody;
 
-    /** @var \Zoho\Crm\Contracts\ClientInterface The API client that originated this query */
+    /** @var \Zoho\Crm\Contracts\ClientInterface The API client that originated this request */
     protected $client;
 
     /**
      * @inheritdoc
      */
-    public function copy(): QueryInterface
+    public function copy(): RequestInterface
     {
         return clone $this;
     }
@@ -37,7 +37,7 @@ trait BasicQueryImplementation
      */
     public function execute(): ResponseInterface
     {
-        return $this->client->executeQuery($this);
+        return $this->client->executeRequest($this);
     }
 
     /**
@@ -49,7 +49,7 @@ trait BasicQueryImplementation
     }
 
     /**
-     * Execute the query and get the raw, unparsed response.
+     * Execute the request and get the raw, unparsed response.
      *
      * @return string|string[]
      */

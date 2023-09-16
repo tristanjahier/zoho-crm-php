@@ -2,18 +2,18 @@
 
 namespace Zoho\Crm\V2\Records;
 
-use Zoho\Crm\Contracts\PaginatedQueryInterface;
+use Zoho\Crm\Contracts\PaginatedRequestInterface;
 use Zoho\Crm\Contracts\ResponseTransformerInterface;
-use Zoho\Crm\Exceptions\InvalidQueryException;
+use Zoho\Crm\Exceptions\InvalidRequestException;
 use Zoho\Crm\Support\Helper;
 use Zoho\Crm\V2\Traits\HasPagination;
 
 /**
- * A query to get a list of related records.
+ * A request to get a list of related records.
  *
  * @see https://www.zoho.com/crm/developer/docs/api/get-related-records.html
  */
-class ListRelatedQuery extends AbstractQuery implements PaginatedQueryInterface
+class ListRelatedRequest extends AbstractRequest implements PaginatedRequestInterface
 {
     use HasPagination;
 
@@ -85,11 +85,11 @@ class ListRelatedQuery extends AbstractQuery implements PaginatedQueryInterface
         parent::validate();
 
         if (is_null($this->recordId) || empty($this->recordId)) {
-            throw new InvalidQueryException($this, 'the record ID must be present.');
+            throw new InvalidRequestException($this, 'the record ID must be present.');
         }
 
         if (is_null($this->relatedModule) || empty($this->relatedModule)) {
-            throw new InvalidQueryException($this, 'the related module must be defined.');
+            throw new InvalidRequestException($this, 'the related module must be defined.');
         }
     }
 

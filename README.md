@@ -37,8 +37,8 @@ Here are just a few examples of what is possible to do with this library:
 // Create an API client
 $client = new Zoho\Crm\V2\Client('MY_API_CLIENT_ID', 'MY_API_CLIENT_SECRET', 'MY_API_REFRESH_TOKEN');
 
-// Create a query and execute it
-$response = $client->newRawQuery('Calls')->param('page', 2)->execute();
+// Create a request and execute it
+$response = $client->newRawRequest('Calls')->param('page', 2)->execute();
 
 // Retrieve all deals modified for the last time after April 1st, 2019
 $deals = $client->records->deals->all()->modifiedAfter('2019-04-01')->get();
@@ -96,22 +96,22 @@ if (! $client->accessTokenIsValid()) {
 }
 ```
 
-You are now ready to make API requests! One possibility is to follow the HTTP specifications of the API and manually craft any request you want using "raw queries":
+You are now ready to make API requests! One possibility is to follow the HTTP specifications of the API and manually craft any request you want using "raw requests":
 ```php
 // Retrieve the second page of records from the Contacts module, modified after April 1st, 2019:
-$query = $client->newRawQuery()
+$request = $client->newRawRequest()
     ->setHttpMethod('GET')
     ->setUrl('Contacts')
     ->setHeader('If-Modified-Since', '2019-04-01')
     ->setUrlParameter('page', 2);
 
 // Retrieve a Deals record whose ID is 9032776450912388478:
-$query = $client->newRawQuery('Deals/9032776450912388478');
+$request = $client->newRawRequest('Deals/9032776450912388478');
 ```
 
-Creating a query does not make any request to the API, you need to execute it:
+Creating a request object does not make any HTTP request to the API, you need to execute it:
 ```php
-$response = $query->execute();
+$response = $request->execute();
 ```
 
 If the request is successful, it returns a `Response` instance. The API response is parsed and cleaned up for you, you simply have to use `getContent()` to get your data:
@@ -121,7 +121,7 @@ $data = $response->getContent();
 
 All summarized:
 ```php
-$response = $client->newRawQuery()
+$response = $client->newRawRequest()
     ->setHttpMethod('GET')
     ->setUrl('Contacts')
     ->setHeader('If-Modified-Since', '2019-04-01')
@@ -131,11 +131,11 @@ $response = $client->newRawQuery()
 $records = $response->getContent();
 ```
 
-If you do not want to bother with the formal `Response` object, you can call the `get()` method on any query. It will execute the query and return its response content:
+If you do not want to bother with the formal `Response` object, you can call the `get()` method on any request. It will execute the request and return its response content:
 ```php
-$data = $query->get();
+$data = $request->get();
 // is strictly equivalent to:
-$data = $query->execute()->getContent();
+$data = $request->execute()->getContent();
 ```
 
 *But... that's still a bit verbose, isn't it?* Yes. This is just the most basic way to make an API request. Read the next sections to learn how to make better use of the library.
@@ -151,9 +151,9 @@ The API support is divided into "sub-APIs", which are helpers that regroup multi
 
 **The purpose of a sub-API is to provide to the developer a fluent, eloquent and concise interface to manipulate one or multiple related aspects of the API.**
 
-For example, let's consider this query from a previous example, to retrieve the second page of records from the Contacts module that were modified after April 1st, 2019:
+For example, let's consider this request from a previous example, to retrieve the second page of records from the Contacts module that were modified after April 1st, 2019:
 ```php
-$records = $client->newRawQuery()
+$records = $client->newRawRequest()
     ->setHttpMethod('GET')
     ->setUrl('Contacts')
     ->setHeader('If-Modified-Since', '2019-04-01')
@@ -182,28 +182,28 @@ $users = $client->users->all()->get();
 
 These are just a couple of examples. Sub-APIs bring many more features. Look at the dedicated documentation and explore the code to find out.
 
-### Query pagination
+### Request pagination
 
 When requesting records from Zoho, you will get a maximum of 200 records per response. Thus, if you want to get more than 200 records, you need to make multiple requests. This is done with the "page" URL parameter. Iterating on this parameter is called **pagination**.
 
-In this library, pagination is made simple thanks to a query method called `autoPaginated()`. All you have to do is to call this method on a compatible query object (implementing `Zoho\Crm\Contracts\PaginatedQueryInterface`) and the library will fetch every page of records until there is no more data (or before if you set a limit). Example:
+In this library, pagination is made simple thanks to a request method called `autoPaginated()`. All you have to do is to call this method on a compatible request object (implementing `Zoho\Crm\Contracts\PaginatedRequestInterface`) and the library will fetch every page of records until there is no more data (or before if you set a limit). Example:
 ```php
-$client->records->contacts->newListQuery()->autoPaginated()->get();
+$client->records->contacts->newListRequest()->autoPaginated()->get();
 ```
 
 > [!NOTE]
-> The queries returned by the `all()` methods of Records and Users sub-APIs have auto-pagination already enabled.
+> The request objects returned by the `all()` methods of Records and Users sub-APIs have auto-pagination already enabled.
 
-By default, query pagination is synchronous. It simply means that every new page is only fetched once the previous one has been executed and returned a response. **This library also supports asynchronous query execution, and it usually makes pagination faster.** Once again, this is really simple to use. All you have to do is to call the `concurrency()` method on the query:
+By default, request pagination is synchronous. It simply means that every new page is only fetched once the previous one has been executed and returned a response. **This library also supports asynchronous request execution, and it usually makes pagination faster.** Once again, this is really simple to use. All you have to do is to call the `concurrency()` method on the request:
 ```php
-$client->records->calls->newListQuery()->autoPaginated()->concurrency(5)->get();
+$client->records->calls->newListRequest()->autoPaginated()->concurrency(5)->get();
 // or
 $client->records->calls->all()->concurrency(5)->get();
 ```
 
 This method takes a single argument: a positive non-zero integer (> 0). It is the number of concurrent API requests. If you pass `1`, pagination will be synchronous. You can also pass `null` to disable asynchronous pagination.
 
-Asynchronous pagination can speed up your paginated queries a lot, depending on the concurrency setting. If you need to retrieve thousands of records, it will save you a lot of execution time.
+Asynchronous pagination can speed up your paginated requests a lot, depending on the concurrency setting. If you need to retrieve thousands of records, it will save you a lot of execution time.
 
 > [!WARNING]
 > With X concurrent requests, you can waste up to X-1 API requests. Use it wisely.
@@ -308,7 +308,7 @@ The rest of this section details the methods available on the module helper.
 
 #### `all()`
 
-Instance of `Zoho\Crm\V2\Records\ListQuery` with auto-pagination enabled.
+Instance of `Zoho\Crm\V2\Records\ListRequest` with auto-pagination enabled.
 
 ```php
 $client->records->deals->all();
@@ -316,7 +316,7 @@ $client->records->deals->all();
 
 #### `deleted()`
 
-Instance of `Zoho\Crm\V2\Records\ListDeletedQuery` with auto-pagination enabled.
+Instance of `Zoho\Crm\V2\Records\ListDeletedRequest` with auto-pagination enabled.
 
 ```php
 $client->records->deals->deleted();
@@ -324,7 +324,7 @@ $client->records->deals->deleted();
 
 #### `search(string $criteria)`
 
-Instance of `Zoho\Crm\V2\Records\SearchQuery` with auto-pagination enabled.
+Instance of `Zoho\Crm\V2\Records\SearchRequest` with auto-pagination enabled.
 
 ```php
 $client->records->deals->search('<Search criteria>');
@@ -332,7 +332,7 @@ $client->records->deals->search('<Search criteria>');
 
 #### `searchBy(string $field, string $value)`
 
-Instance of `Zoho\Crm\V2\Records\SearchQuery` with auto-pagination enabled.
+Instance of `Zoho\Crm\V2\Records\SearchRequest` with auto-pagination enabled.
 
 ```php
 $client->records->deals->searchBy('Field', 'value');
@@ -343,7 +343,7 @@ $client->records->deals->search('(Field:equals:value>)');
 #### `relationsOf(string $recordId, string $relatedModule)`
 
 List the records from another module related to a given record.
-Instance of `Zoho\Crm\V2\Records\ListRelatedQuery` with auto-pagination enabled.
+Instance of `Zoho\Crm\V2\Records\ListRelatedRequest` with auto-pagination enabled.
 
 ```php
 $client->records->deals->relationsOf('<Deal ID>', 'Contacts');
@@ -352,7 +352,7 @@ $client->records->deals->relationsOf('<Deal ID>', 'Contacts');
 #### `relatedTo(string $relatedModule, string $recordId)`
 
 List the records related to a given record from another module. Inverse of `relationsOf()`.
-Instance of `Zoho\Crm\V2\Records\ListRelatedQuery` with auto-pagination enabled.
+Instance of `Zoho\Crm\V2\Records\ListRelatedRequest` with auto-pagination enabled.
 
 ```php
 $client->records->deals->relatedTo('Contacts', '<Contact ID>');
@@ -507,7 +507,7 @@ Returns an array of arrays containing information about the results of the opera
 
 #### `all()`
 
-Instance of `Zoho\Crm\V2\Users\ListQuery` with auto-pagination enabled.
+Instance of `Zoho\Crm\V2\Users\ListRequest` with auto-pagination enabled.
 
 ```php
 $client->users->all();
@@ -540,51 +540,51 @@ $client->preferences()->set('access_token_auto_refresh_limit', 60);
 
 In the above example, the client will request a fresh access token when it needs to make a request to the API and its current access token will expire in less than a minute.
 
-### Before and after query execution hooks
+### Before and after request execution hooks
 
-If you need to, you can register a closure that will be executed **before** or **after** the execution of each query.
+If you need to, you can register a closure that will be executed **before** or **after** each request.
 
 In both cases, the closure is an anonymous function which takes 2 arguments:
-1. a copy of the `Query` instance ;
+1. a copy of the request object ;
 2. a unique ID of the execution (random 16 chars string), in case you need to match the "before" and "after" hooks.
 
-Use the `beforeQueryExecution()` method to register a closure that will be invoked just before each query is executed, *but only after a successful query validation*.
+Use the `beforeRequestExecution()` method to register a closure that will be invoked just before each request is executed, *but only after a successful request validation*.
 
-Use the `afterQueryExecution()` method to register a closure that will be invoked just after each query is executed and the API has returned a response. *If an error or an exception is thrown from the HTTP request layer, the closure will not be invoked.*
+Use the `afterRequestExecution()` method to register a closure that will be invoked just after each request is executed and the API has returned a response. *If an error or an exception is thrown from the HTTP request layer, the closure will not be invoked.*
 
 Example:
 ```php
-use Zoho\Crm\Contracts\QueryInterface;
+use Zoho\Crm\Contracts\RequestInterface;
 
-$client->beforeQueryExecution(function (QueryInterface $query, string $execId) {
+$client->beforeRequestExecution(function (RequestInterface $request, string $execId) {
     // do something...
 });
 
-$client->afterQueryExecution(function (QueryInterface $query, string $execId) {
+$client->afterRequestExecution(function (RequestInterface $request, string $execId) {
     // do something...
 });
 ```
 
 > [!NOTE]
-> Paginated queries will not trigger these hooks directly, but their subsequent queries (per page) will.
-> In other words, only the queries that directly lead to an API HTTP request will trigger the hooks.
+> Paginated requests will not trigger these hooks directly, but their subsequent requests (per page) will.
+> In other words, only the requests that directly lead to an API HTTP request will trigger the hooks.
 
-### Query middleware
+### Request middleware
 
-If you need to, you can register custom middleware that will be applied to each query before it is converted into an HTTP request. Unlike execution hooks, middleware can modify the query object. Actually, this is exactly the point of middleware.
+If you need to, you can register custom middleware that will be applied to each request before it is converted into an HTTP request. Unlike execution hooks, middleware can modify the request object. Actually, this is exactly the point of middleware.
 
 Use the `registerMiddleware()` method, which only takes a `callable`. So, you can pass a closure or an object implementing `Zoho\Crm\Contracts\MiddlewareInterface`.
 
 Example:
 ```php
-use Zoho\Crm\Contracts\QueryInterface;
+use Zoho\Crm\Contracts\RequestInterface;
 
-$client->registerMiddleware(function (QueryInterface $query) {
-    $query->setUrlParameter('toto', 'tutu');
+$client->registerMiddleware(function (RequestInterface $request) {
+    $request->setUrlParameter('toto', 'tutu');
 });
 ```
 
-Notice that you don't need to return the query object. In fact, the return value will simply be ignored.
+Notice that you don't need to return the request object. In fact, the return value will simply be ignored.
 
 > [!NOTE]
-> As with execution hooks, paginated queries will not pass through the middleware directly, but their subsequent queries (per page) will.
+> As with execution hooks, paginated requests will not pass through the middleware directly, but their subsequent requests (per page) will.

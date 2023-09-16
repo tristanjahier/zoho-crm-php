@@ -6,7 +6,7 @@ use Zoho\Crm\Support\HttpMethod;
 use Zoho\Crm\Exceptions\InvalidHttpMethodException;
 
 /**
- * Basic implementation of HTTP method for QueryInterface.
+ * Basic implementation of HTTP method for RequestInterface.
  */
 trait HasRequestHttpMethod
 {

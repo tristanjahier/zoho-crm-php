@@ -10,22 +10,22 @@ use Zoho\Crm\V2\AbstractSubApi;
 class SubApi extends AbstractSubApi
 {
     /**
-     * Create a query to list the users.
+     * Create a request to list the users.
      *
-     * @return ListQuery
+     * @return ListRequest
      */
-    public function newListQuery(): ListQuery
+    public function newListRequest(): ListRequest
     {
-        return new ListQuery($this->client);
+        return new ListRequest($this->client);
     }
 
     /**
-     * Create an auto-paginated query to retrieve all the users.
+     * Create an auto-paginated request to retrieve all the users.
      *
-     * @return ListQuery
+     * @return ListRequest
      */
-    public function all(): ListQuery
+    public function all(): ListRequest
     {
-        return $this->newListQuery()->autoPaginated();
+        return $this->newListRequest()->autoPaginated();
     }
 }

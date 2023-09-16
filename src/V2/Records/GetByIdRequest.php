@@ -3,15 +3,15 @@
 namespace Zoho\Crm\V2\Records;
 
 use Zoho\Crm\Contracts\ResponseTransformerInterface;
-use Zoho\Crm\Exceptions\InvalidQueryException;
+use Zoho\Crm\Exceptions\InvalidRequestException;
 use Zoho\Crm\Support\Helper;
 
 /**
- * A query to get a specific record by ID.
+ * A request to get a specific record by ID.
  *
  * @see https://www.zoho.com/crm/developer/docs/api/get-specific-record.html
  */
-class GetByIdQuery extends AbstractQuery
+class GetByIdRequest extends AbstractRequest
 {
     /** @var string|null The ID of the record to fetch */
     protected $recordId;
@@ -55,7 +55,7 @@ class GetByIdQuery extends AbstractQuery
         parent::validate();
 
         if (is_null($this->recordId) || empty($this->recordId)) {
-            throw new InvalidQueryException($this, 'the record ID must be present.');
+            throw new InvalidRequestException($this, 'the record ID must be present.');
         }
     }
 

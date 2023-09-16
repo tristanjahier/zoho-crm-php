@@ -3,15 +3,15 @@
 namespace Zoho\Crm;
 
 /**
- * Base but incomplete query paginator implementation.
+ * Base but incomplete request paginator implementation.
  */
-abstract class AbstractQueryPaginator implements Contracts\QueryPaginatorInterface
+abstract class AbstractRequestPaginator implements Contracts\RequestPaginatorInterface
 {
     /** @var int The maximum number of items per page */
     const PAGE_MAX_SIZE = 200;
 
-    /** @var Contracts\PaginatedQueryInterface The parent query */
-    protected $query;
+    /** @var Contracts\PaginatedRequestInterface The parent request */
+    protected $request;
 
     /** @var Response[] The responses that have been retrieved so far */
     protected $responses = [];
@@ -25,11 +25,11 @@ abstract class AbstractQueryPaginator implements Contracts\QueryPaginatorInterfa
     /**
      * The constructor.
      *
-     * @param Contracts\PaginatedQueryInterface $query The parent query
+     * @param Contracts\PaginatedRequestInterface $request The parent request
      */
-    public function __construct(Contracts\PaginatedQueryInterface $query)
+    public function __construct(Contracts\PaginatedRequestInterface $request)
     {
-        $this->query = $query;
+        $this->request = $request;
     }
 
     /**
@@ -81,7 +81,7 @@ abstract class AbstractQueryPaginator implements Contracts\QueryPaginatorInterfa
     /**
      * Fetch a new page.
      *
-     * It creates a copy of the parent query, and changes the page indexes
+     * It creates a copy of the parent request, and changes the page indexes
      * to match the current state of fetching.
      *
      * @return Response|null
@@ -92,7 +92,7 @@ abstract class AbstractQueryPaginator implements Contracts\QueryPaginatorInterfa
             return;
         }
 
-        $page = $this->getNextPageQuery()->execute();
+        $page = $this->getNextPageRequest()->execute();
         $this->handlePage($page);
         $this->fetchCount++;
 
@@ -106,7 +106,7 @@ abstract class AbstractQueryPaginator implements Contracts\QueryPaginatorInterfa
      */
     public function fetchAll()
     {
-        if ($this->query->mustBePaginatedConcurrently()) {
+        if ($this->request->mustBePaginatedConcurrently()) {
             return $this->fetchAllAsync();
         }
 
@@ -136,7 +136,7 @@ abstract class AbstractQueryPaginator implements Contracts\QueryPaginatorInterfa
     public function fetchAllAsync(int $concurrency = null)
     {
         while ($this->hasMoreData) {
-            $this->fetchConcurrently($concurrency ?? $this->query->getConcurrency());
+            $this->fetchConcurrently($concurrency ?? $this->request->getConcurrency());
         }
 
         return $this->responses;
@@ -163,22 +163,22 @@ abstract class AbstractQueryPaginator implements Contracts\QueryPaginatorInterfa
     /**
      * Fetch a given number of pages concurrently.
      *
-     * @param int $concurrentQueries The number of pages to fetch
+     * @param int $concurrentRequests The number of pages to fetch
      * @return Response[]
      */
-    public function fetchConcurrently(int $concurrentQueries)
+    public function fetchConcurrently(int $concurrentRequests)
     {
         if (! $this->hasMoreData) {
             return;
         }
 
-        $queries = [];
+        $requests = [];
 
-        for ($i = 0; $i < $concurrentQueries; $i++) {
-            $queries[] = $this->getNextPageQuery();
+        for ($i = 0; $i < $concurrentRequests; $i++) {
+            $requests[] = $this->getNextPageRequest();
         }
 
-        $responses = $this->query->getClient()->executeAsyncBatch($queries);
+        $responses = $this->request->getClient()->executeAsyncBatch($requests);
 
         foreach ($responses as $page) {
             if (! $this->hasMoreData) {
@@ -188,7 +188,7 @@ abstract class AbstractQueryPaginator implements Contracts\QueryPaginatorInterfa
             $this->handlePage($page);
         }
 
-        $this->fetchCount += $concurrentQueries;
+        $this->fetchCount += $concurrentRequests;
 
         return $this->responses;
     }
@@ -216,11 +216,11 @@ abstract class AbstractQueryPaginator implements Contracts\QueryPaginatorInterfa
     }
 
     /**
-     * Get a query for the next page to fetch, and move forward the page cursor.
+     * Get a request for the next page to fetch, and move forward the page cursor.
      *
-     * @return Contracts\QueryInterface
+     * @return Contracts\RequestInterface
      */
-    abstract protected function getNextPageQuery(): Contracts\QueryInterface;
+    abstract protected function getNextPageRequest(): Contracts\RequestInterface;
 
     /**
      * Get the size of a page.

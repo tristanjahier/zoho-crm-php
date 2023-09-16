@@ -2,16 +2,16 @@
 
 namespace Zoho\Crm\V2\Records;
 
-use Zoho\Crm\Exceptions\InvalidQueryException;
+use Zoho\Crm\Exceptions\InvalidRequestException;
 use Zoho\Crm\Support\HttpMethod;
 use Zoho\Crm\Support\Helper;
 
 /**
- * A query to delete a specific record.
+ * A request to delete a specific record.
  *
  * @see https://www.zoho.com/crm/developer/docs/api/delete-specific-record.html
  */
-class DeleteQuery extends AbstractQuery
+class DeleteRequest extends AbstractRequest
 {
     /** @inheritdoc */
     protected $httpMethod = HttpMethod::DELETE;
@@ -69,7 +69,7 @@ class DeleteQuery extends AbstractQuery
         parent::validate();
 
         if (is_null($this->recordId) || empty($this->recordId)) {
-            throw new InvalidQueryException($this, 'the record ID must be present.');
+            throw new InvalidRequestException($this, 'the record ID must be present.');
         }
     }
 }

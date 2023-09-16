@@ -3,16 +3,16 @@
 namespace Zoho\Crm\V2\Records;
 
 use Zoho\Crm\Contracts\ResponseTransformerInterface;
-use Zoho\Crm\Contracts\PaginatedQueryInterface;
+use Zoho\Crm\Contracts\PaginatedRequestInterface;
 use Zoho\Crm\Support\Helper;
 use Zoho\Crm\V2\Traits\HasPagination;
 
 /**
- * A query to get a list of deleted records.
+ * A request to get a list of deleted records.
  *
  * @see https://www.zoho.com/crm/developer/docs/api/get-deleted-records.html
  */
-class ListDeletedQuery extends AbstractQuery implements PaginatedQueryInterface
+class ListDeletedRequest extends AbstractRequest implements PaginatedRequestInterface
 {
     use HasPagination;
 

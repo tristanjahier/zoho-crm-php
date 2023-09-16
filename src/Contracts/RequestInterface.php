@@ -2,10 +2,10 @@
 
 namespace Zoho\Crm\Contracts;
 
-interface QueryInterface extends RequestableInterface
+interface RequestInterface extends HttpRequestableInterface
 {
     /**
-     * Validate the query.
+     * Validate the request.
      *
      * Check attributes consistency and the presence of the required ones.
      * If the validation passes, nothing will happen.
@@ -13,12 +13,12 @@ interface QueryInterface extends RequestableInterface
      *
      * @return void
      *
-     * @throws \Zoho\Crm\Exceptions\InvalidQueryException
+     * @throws \Zoho\Crm\Exceptions\InvalidRequestException
      */
     public function validate(): void;
 
     /**
-     * Create a deep copy of the query.
+     * Create a deep copy of the request.
      *
      * @return self
      */
@@ -32,14 +32,14 @@ interface QueryInterface extends RequestableInterface
     public function getClient(): ClientInterface;
 
     /**
-     * Execute the query with the bound client.
+     * Execute the request with the bound client.
      *
      * @return ResponseInterface
      */
     public function execute(): ResponseInterface;
 
     /**
-     * Execute the query and get a result adapted to its nature.
+     * Execute the request and get a result adapted to its nature.
      *
      * @return mixed
      */

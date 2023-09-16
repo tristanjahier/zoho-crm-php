@@ -2,16 +2,16 @@
 
 namespace Zoho\Crm\V2\Records;
 
-use Zoho\Crm\Contracts\PaginatedQueryInterface;
+use Zoho\Crm\Contracts\PaginatedRequestInterface;
 use Zoho\Crm\Contracts\ResponseTransformerInterface;
 use Zoho\Crm\V2\Traits\HasPagination;
 
 /**
- * A query to search records.
+ * A request to search records.
  *
  * @see https://www.zoho.com/crm/developer/docs/api/search-records.html
  */
-class SearchQuery extends AbstractQuery implements PaginatedQueryInterface
+class SearchRequest extends AbstractRequest implements PaginatedRequestInterface
 {
     use HasPagination;
 

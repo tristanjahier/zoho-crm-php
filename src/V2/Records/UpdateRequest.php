@@ -2,15 +2,15 @@
 
 namespace Zoho\Crm\V2\Records;
 
-use Zoho\Crm\Exceptions\InvalidQueryException;
+use Zoho\Crm\Exceptions\InvalidRequestException;
 use Zoho\Crm\Support\HttpMethod;
 
 /**
- * A query to update a specific record.
+ * A request to update a specific record.
  *
  * @see https://www.zoho.com/crm/developer/docs/api/update-specific-record.html
  */
-class UpdateQuery extends AbstractQuery
+class UpdateRequest extends AbstractRequest
 {
     /** @inheritdoc */
     protected $httpMethod = HttpMethod::PUT;
@@ -22,7 +22,7 @@ class UpdateQuery extends AbstractQuery
     protected $recordData = [];
 
     /** @var array The things that the API request will trigger in Zoho CRM */
-    protected $triggers = InsertQuery::TRIGGERS;
+    protected $triggers = InsertRequest::TRIGGERS;
 
     /**
      * Set the ID of the record to update.
@@ -79,7 +79,7 @@ class UpdateQuery extends AbstractQuery
         $triggers = is_array($triggers) ? $triggers : func_get_args();
 
         foreach ($triggers as $trigger) {
-            if (! in_array($trigger, InsertQuery::TRIGGERS)) {
+            if (! in_array($trigger, InsertRequest::TRIGGERS)) {
                 throw new \InvalidArgumentException("'$trigger' is not a valid Zoho CRM API trigger.");
             }
         }
@@ -109,11 +109,11 @@ class UpdateQuery extends AbstractQuery
         parent::validate();
 
         if (is_null($this->recordId) || empty($this->recordId)) {
-            throw new InvalidQueryException($this, 'the record ID must be present.');
+            throw new InvalidRequestException($this, 'the record ID must be present.');
         }
 
         if (empty($this->recordData)) {
-            throw new InvalidQueryException($this, 'the record data must be present.');
+            throw new InvalidRequestException($this, 'the record data must be present.');
         }
     }
 

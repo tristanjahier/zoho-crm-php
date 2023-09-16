@@ -2,14 +2,14 @@
 
 namespace Zoho\Crm\V2\Traits;
 
-use Zoho\Crm\Contracts\QueryPaginatorInterface;
+use Zoho\Crm\Contracts\RequestPaginatorInterface;
 use Zoho\Crm\Contracts\ResponsePageMergerInterface;
 use Zoho\Crm\Traits\HasPagination as BasePaginationTrait;
-use Zoho\Crm\V2\QueryPaginator;
+use Zoho\Crm\V2\RequestPaginator;
 use Zoho\Crm\V2\CollectionPageMerger;
 
 /**
- * Basic API v2 implementation for PaginatedQueryInterface.
+ * Basic API v2 implementation for PaginatedRequestInterface.
  */
 trait HasPagination
 {
@@ -18,11 +18,11 @@ trait HasPagination
     /**
      * @inheritdoc
      *
-     * @return \Zoho\Crm\V2\QueryPaginator
+     * @return \Zoho\Crm\V2\RequestPaginator
      */
-    public function getPaginator(): QueryPaginatorInterface
+    public function getPaginator(): RequestPaginatorInterface
     {
-        return new QueryPaginator($this);
+        return new RequestPaginator($this);
     }
 
     /**
@@ -62,7 +62,7 @@ trait HasPagination
      */
     public function perPage(int $perPage)
     {
-        $max = QueryPaginator::PAGE_MAX_SIZE;
+        $max = RequestPaginator::PAGE_MAX_SIZE;
 
         if ($perPage <= 0 || $perPage > $max) {
             throw new \InvalidArgumentException("\"Per page\" number must be between 1 and $max.");

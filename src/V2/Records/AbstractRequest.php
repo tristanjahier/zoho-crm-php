@@ -4,14 +4,14 @@ namespace Zoho\Crm\V2\Records;
 
 use Zoho\Crm\Contracts\ResponseTransformerInterface;
 use Zoho\Crm\Support\Helper;
-use Zoho\Crm\Exceptions\InvalidQueryException;
-use Zoho\Crm\V2\AbstractQuery as BaseQuery;
+use Zoho\Crm\Exceptions\InvalidRequestException;
+use Zoho\Crm\V2\AbstractRequest as BaseRequest;
 use Zoho\Crm\V2\Client;
 
 /**
- * Base class for Record APIs queries.
+ * Base class for Record APIs requests.
  */
-abstract class AbstractQuery extends BaseQuery
+abstract class AbstractRequest extends BaseRequest
 {
     /** @var string The name of the Zoho module */
     protected $module;
@@ -57,7 +57,7 @@ abstract class AbstractQuery extends BaseQuery
     public function validate(): void
     {
         if (is_null($this->module) || empty($this->module)) {
-            throw new InvalidQueryException($this, 'the module name must be present.');
+            throw new InvalidRequestException($this, 'the module name must be present.');
         }
     }
 

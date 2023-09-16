@@ -5,11 +5,11 @@ namespace Zoho\Crm\V2\Records;
 use Zoho\Crm\Support\HttpMethod;
 
 /**
- * A query to update many records.
+ * A request to update many records.
  *
  * @see https://www.zoho.com/crm/developer/docs/api/update-records.html
  */
-class UpdateManyQuery extends InsertQuery
+class UpdateManyRequest extends InsertRequest
 {
     /** @inheritdoc */
     protected $httpMethod = HttpMethod::PUT;

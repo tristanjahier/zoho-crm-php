@@ -3,7 +3,7 @@
 namespace Zoho\Crm\Traits;
 
 /**
- * Basic implementation of HTTP request headers for QueryInterface.
+ * Basic implementation of HTTP request headers for RequestInterface.
  */
 trait HasRequestHeaders
 {

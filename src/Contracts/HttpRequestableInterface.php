@@ -4,7 +4,7 @@ namespace Zoho\Crm\Contracts;
 
 use Zoho\Crm\Support\UrlParameters;
 
-interface RequestableInterface
+interface HttpRequestableInterface
 {
     /**
      * Get the HTTP method that must be used for the request.

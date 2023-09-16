@@ -9,16 +9,16 @@ use Zoho\Crm\Contracts\ClientInterface;
 use Zoho\Crm\Contracts\RequestSenderInterface;
 use Zoho\Crm\Contracts\ResponseParserInterface;
 use Zoho\Crm\Contracts\ErrorHandlerInterface;
-use Zoho\Crm\Contracts\QueryInterface;
-use Zoho\Crm\Contracts\PaginatedQueryInterface;
-use Zoho\Crm\Exceptions\PaginatedQueryInBatchExecutionException;
+use Zoho\Crm\Contracts\RequestInterface;
+use Zoho\Crm\Contracts\PaginatedRequestInterface;
+use Zoho\Crm\Exceptions\PaginatedRequestInBatchExecutionException;
 use Zoho\Crm\Exceptions\AsyncBatchRequestException;
 use Zoho\Crm\Support\Helper;
 
 /**
- * The query processor.
+ * The API request processor.
  */
-class QueryProcessor
+class RequestProcessor
 {
     /** @var Contracts\ClientInterface The client to which this processor is attached */
     protected $client;
@@ -32,13 +32,13 @@ class QueryProcessor
     /** @var Contracts\ErrorHandlerInterface The error handler */
     protected $errorHandler;
 
-    /** @var \Closure[] The callbacks to execute before each query execution */
+    /** @var \Closure[] The callbacks to execute before each request */
     protected $preExecutionHooks = [];
 
-    /** @var \Closure[] The callbacks to execute after each query execution */
+    /** @var \Closure[] The callbacks to execute after each request */
     protected $postExecutionHooks = [];
 
-    /** @var callable[] The middlewares to apply to each query before execution */
+    /** @var callable[] The middlewares to apply to each request before execution */
     protected $middlewares = [];
 
     /**
@@ -62,52 +62,52 @@ class QueryProcessor
     }
 
     /**
-     * Execute a query and get a formal and generic response object.
+     * Execute a request and get a formal and generic response object.
      *
-     * @param Contracts\QueryInterface $query The query to execute
+     * @param Contracts\RequestInterface $request The request to execute
      * @return Response
      */
-    public function executeQuery(QueryInterface $query)
+    public function executeRequest(RequestInterface $request)
     {
-        if ($query instanceof PaginatedQueryInterface && $query->mustBePaginatedAutomatically()) {
-            return $this->executePaginatedQuery($query);
+        if ($request instanceof PaginatedRequestInterface && $request->mustBePaginatedAutomatically()) {
+            return $this->executePaginatedRequest($request);
         }
 
-        $response = $this->sendQuery($query);
+        $response = $this->sendRequest($request);
 
-        return $this->responseParser->parse($response, $query);
+        return $this->responseParser->parse($response, $request);
     }
 
     /**
-     * Process a query and send it, synchronously or asynchronously.
+     * Process a request and send it, synchronously or asynchronously.
      *
      * If synchronous, the returned value is the response of the API.
      * If asynchronous, the returned value is a promise that needs to be settled afterwards.
      *
-     * @param Contracts\QueryInterface $query The query to process
+     * @param Contracts\RequestInterface $request The request to process
      * @param bool $async (optional) Whether the resulting request must be asynchronous or not
      * @return \Psr\Http\Message\ResponseInterface|\GuzzleHttp\Promise\PromiseInterface
      */
-    protected function sendQuery(QueryInterface $query, bool $async = false)
+    protected function sendRequest(RequestInterface $request, bool $async = false)
     {
-        // Use a copy of the query, so that all modifications potentially
-        // brought by middleware are not affecting the original query.
-        $query = $query->copy();
+        // Use a copy of the request, so that all modifications potentially
+        // brought by middleware are not affecting the original request.
+        $request = $request->copy();
 
-        $this->applyMiddlewaresToQuery($query);
+        $this->applyMiddlewaresToRequest($request);
 
-        // Generate a "unique" ID for the query execution
+        // Generate a "unique" ID for the request execution
         $execId = $this->generateRandomId();
 
-        $request = $this->createHttpRequest($query);
+        $httpRequest = $this->createHttpRequest($request);
 
-        $this->firePreExecutionHooks($query->copy(), $execId);
+        $this->firePreExecutionHooks($request->copy(), $execId);
 
         if ($async) {
             return $this->requestSender->sendAsync(
-                $request,
-                function ($response) use ($query, $execId) {
-                    $this->firePostExecutionHooks($query->copy(), $execId);
+                $httpRequest,
+                function ($response) use ($request, $execId) {
+                    $this->firePostExecutionHooks($request->copy(), $execId);
 
                     return $response;
                 }
@@ -115,12 +115,12 @@ class QueryProcessor
         }
 
         try {
-            $response = $this->requestSender->send($request);
+            $response = $this->requestSender->send($httpRequest);
         } catch (Exception $e) {
-            $this->handleException($e, $query);
+            $this->handleException($e, $request);
         }
 
-        $this->firePostExecutionHooks($query->copy(), $execId);
+        $this->firePostExecutionHooks($request->copy(), $execId);
 
         return $response;
     }
@@ -136,30 +136,30 @@ class QueryProcessor
     }
 
     /**
-     * Create an HTTP request out of a query.
+     * Create an HTTP request out of an API request.
      *
-     * @param Contracts\QueryInterface $query The query
+     * @param Contracts\RequestInterface $request The request
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function createHttpRequest(QueryInterface $query)
+    protected function createHttpRequest(RequestInterface $request)
     {
         return new Request(
-            $query->getHttpMethod(),
-            $this->client->getEndpoint() . $query->getUrl(),
-            $query->getHeaders(),
-            $query->getBody()
+            $request->getHttpMethod(),
+            $this->client->getEndpoint() . $request->getUrl(),
+            $request->getHeaders(),
+            $request->getBody()
         );
     }
 
     /**
-     * Execute a paginated query.
+     * Execute a paginated request.
      *
-     * @param Contracts\PaginatedQueryInterface $query The query to execute
+     * @param Contracts\PaginatedRequestInterface $request The request to execute
      * @return Response
      */
-    protected function executePaginatedQuery(PaginatedQueryInterface $query)
+    protected function executePaginatedRequest(PaginatedRequestInterface $request)
     {
-        $paginator = $query->getPaginator();
+        $paginator = $request->getPaginator();
         $paginator->fetchAll();
 
         // Once all pages have been fetched, we will merge them into a single response
@@ -177,43 +177,43 @@ class QueryProcessor
 
         // We need to merge the pages, but because we cannot assume the nature
         // of the content, we need to defer this operation to a dedicated object.
-        $mergedContent = $query->getResponsePageMerger()->mergePaginatedContents(...$contents);
+        $mergedContent = $request->getResponsePageMerger()->mergePaginatedContents(...$contents);
 
-        return new Response($query, $mergedContent, $rawContents);
+        return new Response($request, $mergedContent, $rawContents);
     }
 
     /**
-     * Execute a batch of queries concurrently and get the responses when all received.
+     * Execute a batch of requests concurrently and get the responses when all received.
      *
-     * The response objects are returned in the same order their queries were provided.
+     * The response objects are returned in the same order their requests were provided.
      *
-     * @param Query[] $queries The batch of queries to execute
+     * @param Request[] $requests The batch of requests to execute
      * @return Response[]
      *
-     * @throws Exceptions\PaginatedQueryInBatchExecutionException
+     * @throws Exceptions\PaginatedRequestInBatchExecutionException
      */
-    public function executeAsyncBatch(array $queries)
+    public function executeAsyncBatch(array $requests)
     {
         $responses = [];
         $promises = [];
 
-        foreach ($queries as $i => $query) {
-            if ($query->mustBePaginatedAutomatically()) {
-                throw new PaginatedQueryInBatchExecutionException();
+        foreach ($requests as $i => $request) {
+            if ($request->mustBePaginatedAutomatically()) {
+                throw new PaginatedRequestInBatchExecutionException();
             }
 
-            $promises[$i] = $this->sendQuery($query, true);
+            $promises[$i] = $this->sendRequest($request, true);
         }
 
         try {
             $rawResponses = $this->requestSender->fetchAsyncResponses($promises);
         } catch (AsyncBatchRequestException $e) {
-            // Unwrap the actual exception and retrieve the corresponding query.
-            $this->handleException($e->getWrappedException(), $queries[$e->getKeyInBatch()]);
+            // Unwrap the actual exception and retrieve the corresponding request.
+            $this->handleException($e->getWrappedException(), $requests[$e->getKeyInBatch()]);
         }
 
         foreach ($rawResponses as $i => $rawResponse) {
-            $responses[$i] = $this->responseParser->parse($rawResponse, $queries[$i]);
+            $responses[$i] = $this->responseParser->parse($rawResponse, $requests[$i]);
         }
 
         return $responses;
@@ -223,14 +223,14 @@ class QueryProcessor
      * Handle an exception thrown by the request sender.
      *
      * @param \Exception $exception
-     * @param Contracts\QueryInterface $query The query
+     * @param Contracts\RequestInterface $request The request
      * @return void
      *
      * @throws \Exception
      */
-    protected function handleException(Exception $exception, QueryInterface $query)
+    protected function handleException(Exception $exception, RequestInterface $request)
     {
-        $this->errorHandler->handle($exception, $query);
+        $this->errorHandler->handle($exception, $request);
 
         // If the error handler did not handle the error, just let it go.
         throw $exception;
@@ -247,7 +247,7 @@ class QueryProcessor
     }
 
     /**
-     * Register a callback to execute before each query execution.
+     * Register a callback to execute before each request.
      *
      * @param \Closure $callback The callback to execute
      * @return void
@@ -258,7 +258,7 @@ class QueryProcessor
     }
 
     /**
-     * Register a callback to execute after each query execution.
+     * Register a callback to execute after each request.
      *
      * @param \Closure $callback The callback to execute
      * @return void
@@ -295,7 +295,7 @@ class QueryProcessor
     }
 
     /**
-     * Register a middleware that will be applied to each query before execution.
+     * Register a middleware that will be applied to each request before execution.
      *
      * @param callable $middleware The middleware to register
      * @return void
@@ -306,15 +306,15 @@ class QueryProcessor
     }
 
     /**
-     * Apply the registered middlewares to a query.
+     * Apply the registered middlewares to a request.
      *
-     * @param Contracts\QueryInterface $query The query being executed
+     * @param Contracts\RequestInterface $request The request being executed
      * @return void
      */
-    protected function applyMiddlewaresToQuery(QueryInterface $query)
+    protected function applyMiddlewaresToRequest(RequestInterface $request)
     {
         foreach ($this->middlewares as $middleware) {
-            $middleware($query);
+            $middleware($request);
         }
     }
 }

@@ -5,7 +5,7 @@ namespace Zoho\Crm\Utils;
 use Symfony\Component\VarDumper\Caster\Caster;
 use Symfony\Component\VarDumper\Caster\CutStub;
 use Zoho\Crm\Contracts\ClientInterface;
-use Zoho\Crm\Contracts\QueryInterface;
+use Zoho\Crm\Contracts\RequestInterface;
 use Zoho\Crm\Entities\Entity;
 use Zoho\Crm\Support\Helper;
 use Zoho\Crm\Support\Collection;
@@ -33,7 +33,7 @@ class VarDumpCaster
     {
         return [
             ClientInterface::class => self::class.'::castClient',
-            QueryInterface::class => self::class.'::castQuery',
+            RequestInterface::class => self::class.'::castRequest',
             Entity::class => self::class.'::castEntity',
             Collection::class => self::class.'::castCollection',
         ];
@@ -77,21 +77,21 @@ class VarDumpCaster
     }
 
     /**
-     * Cast a query instance.
+     * Cast a request instance.
      *
-     * @param \Zoho\Crm\Contracts\QueryInterface $query The query instance
+     * @param \Zoho\Crm\Contracts\RequestInterface $request The request instance
      * @return array
      */
-    public static function castQuery(QueryInterface $query)
+    public static function castRequest(RequestInterface $request)
     {
-        $urlComponents = parse_url($query->getUrl());
+        $urlComponents = parse_url($request->getUrl());
         $urlComponents['query'] = UrlParameters::createFromString($urlComponents['query'] ?? '')->toArray();
 
         return self::prefixKeys([
-            'httpMethod' => $query->getHttpMethod(),
+            'httpMethod' => $request->getHttpMethod(),
             'url' => $urlComponents,
-            'headers' => $query->getHeaders(),
-            'body' => mb_strimwidth((string) $query->getBody(), 0, 128, ' … (truncated)', 'UTF-8')
+            'headers' => $request->getHeaders(),
+            'body' => mb_strimwidth((string) $request->getBody(), 0, 128, ' … (truncated)', 'UTF-8')
         ], Caster::PREFIX_PROTECTED);
     }
 

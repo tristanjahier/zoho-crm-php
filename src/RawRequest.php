@@ -2,7 +2,7 @@
 
 namespace Zoho\Crm;
 
-use Zoho\Crm\Contracts\QueryInterface;
+use Zoho\Crm\Contracts\RequestInterface;
 use Zoho\Crm\Contracts\ClientInterface;
 use Zoho\Crm\Contracts\ResponseInterface;
 use Zoho\Crm\Contracts\ResponseTransformerInterface;
@@ -12,9 +12,9 @@ use Zoho\Crm\Support\UrlParameters;
 /**
  * A basic object representing an API request.
  */
-class RawQuery implements QueryInterface
+class RawRequest implements RequestInterface
 {
-    use Traits\BasicQueryImplementation;
+    use Traits\BasicRequestImplementation;
     use Traits\HasRequestHttpMethod;
     use Traits\HasRequestUrlParameters;
 
@@ -72,7 +72,7 @@ class RawQuery implements QueryInterface
     }
 
     /**
-     * Allow the deep cloning of the query.
+     * Allow the deep cloning of the request.
      *
      * @return void
      */

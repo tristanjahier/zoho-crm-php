@@ -2,16 +2,16 @@
 
 namespace Zoho\Crm\V2\Records;
 
-use Zoho\Crm\Exceptions\InvalidQueryException;
+use Zoho\Crm\Exceptions\InvalidRequestException;
 use Zoho\Crm\Support\HttpMethod;
 use Zoho\Crm\Support\Helper;
 
 /**
- * A query to delete many records.
+ * A request to delete many records.
  *
  * @see https://www.zoho.com/crm/developer/docs/api/delete-records.html
  */
-class DeleteManyQuery extends AbstractQuery
+class DeleteManyRequest extends AbstractRequest
 {
     /** @inheritdoc */
     protected $httpMethod = HttpMethod::DELETE;
@@ -73,11 +73,11 @@ class DeleteManyQuery extends AbstractQuery
         $ids = $this->getRecordIds();
 
         if (empty($ids)) {
-            throw new InvalidQueryException($this, 'must submit at least one record ID.');
+            throw new InvalidRequestException($this, 'must submit at least one record ID.');
         }
 
         if (count($ids) > 100) {
-            throw new InvalidQueryException($this, 'cannot delete more than 100 records.');
+            throw new InvalidRequestException($this, 'cannot delete more than 100 records.');
         }
     }
 }

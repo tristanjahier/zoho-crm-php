@@ -3,7 +3,7 @@
 namespace Zoho\Crm\V2\Records;
 
 use Zoho\Crm\Contracts\ResponseTransformerInterface;
-use Zoho\Crm\Contracts\QueryInterface;
+use Zoho\Crm\Contracts\RequestInterface;
 
 /**
  * A very basic transformer to extract the value of the "data" key.
@@ -15,7 +15,7 @@ class UnwrapDataTransformer implements ResponseTransformerInterface
      *
      * @return mixed|null
      */
-    public function transformResponse($content, QueryInterface $query)
+    public function transformResponse($content, RequestInterface $request)
     {
         return $content['data'] ?? null;
     }

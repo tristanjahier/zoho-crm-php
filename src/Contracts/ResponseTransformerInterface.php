@@ -11,8 +11,8 @@ interface ResponseTransformerInterface
      * simplify the data structure, wrap into a data object etc.
      *
      * @param mixed $content The raw response content
-     * @param QueryInterface $query The origin query
+     * @param RequestInterface $request The origin request
      * @return mixed
      */
-    public function transformResponse($content, QueryInterface $query);
+    public function transformResponse($content, RequestInterface $request);
 }

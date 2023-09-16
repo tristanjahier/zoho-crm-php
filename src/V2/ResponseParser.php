@@ -4,7 +4,7 @@ namespace Zoho\Crm\V2;
 
 use Psr\Http\Message\ResponseInterface as HttpResponseInterface;
 use Zoho\Crm\Contracts\ResponseParserInterface;
-use Zoho\Crm\Contracts\QueryInterface;
+use Zoho\Crm\Contracts\RequestInterface;
 use Zoho\Crm\Contracts\ResponseInterface;
 use Zoho\Crm\Exceptions\UnreadableResponseException;
 use Zoho\Crm\Response;
@@ -20,7 +20,7 @@ class ResponseParser implements ResponseParserInterface
      *
      * @return \Zoho\Crm\Response
      */
-    public function parse(HttpResponseInterface $httpResponse, QueryInterface $query): ResponseInterface
+    public function parse(HttpResponseInterface $httpResponse, RequestInterface $request): ResponseInterface
     {
         $rawContent = (string) $httpResponse->getBody();
         $content = json_decode($rawContent, true);
@@ -31,10 +31,10 @@ class ResponseParser implements ResponseParserInterface
             throw new UnreadableResponseException();
         }
 
-        if ($transformer = $query->getResponseTransformer()) {
-            $content = $transformer->transformResponse($content, $query);
+        if ($transformer = $request->getResponseTransformer()) {
+            $content = $transformer->transformResponse($content, $request);
         }
 
-        return new Response($query, $content, $rawContent);
+        return new Response($request, $content, $rawContent);
     }
 }

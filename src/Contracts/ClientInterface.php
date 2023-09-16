@@ -26,36 +26,36 @@ interface ClientInterface
     public function getEndpoint(): string;
 
     /**
-     * Execute a query and get a formal and generic response object.
+     * Execute a request and get a formal and generic response object.
      *
-     * @param QueryInterface $query The query to execute
+     * @param RequestInterface $request The request to execute
      * @return ResponseInterface
      */
-    public function executeQuery(QueryInterface $query): ResponseInterface;
+    public function executeRequest(RequestInterface $request): ResponseInterface;
 
     /**
-     * Execute a batch of queries concurrently and get the responses when all received.
+     * Execute a batch of requests concurrently and get the responses when all received.
      *
-     * @param QueryInterface[] $queries The batch of queries to execute
+     * @param RequestInterface[] $requests The batch of requests to execute
      * @return ResponseInterface[]
      */
-    public function executeAsyncBatch(array $queries): array;
+    public function executeAsyncBatch(array $requests): array;
 
     /**
-     * Register a callback to execute before each query execution.
+     * Register a callback to execute before each request.
      *
      * @param \Closure $callback The callback to execute
      * @return self
      */
-    public function beforeQueryExecution(Closure $callback): self;
+    public function beforeRequestExecution(Closure $callback): self;
 
     /**
-     * Register a callback to execute after each query execution.
+     * Register a callback to execute after each request.
      *
      * @param \Closure $callback The callback to execute
      * @return self
      */
-    public function afterQueryExecution(Closure $callback): self;
+    public function afterRequestExecution(Closure $callback): self;
 
     /**
      * Get the number of API requests made by the client.
@@ -65,9 +65,9 @@ interface ClientInterface
     public function getRequestCount(): int;
 
     /**
-     * Register a middleware that will be applied to each query before execution.
+     * Register a middleware that will be applied to each request before execution.
      *
-     * The query may be altered by the middleware.
+     * The request may be altered by the middleware.
      *
      * @param callable $middleware The middleware to register
      * @return void

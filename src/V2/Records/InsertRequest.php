@@ -2,15 +2,15 @@
 
 namespace Zoho\Crm\V2\Records;
 
-use Zoho\Crm\Exceptions\InvalidQueryException;
+use Zoho\Crm\Exceptions\InvalidRequestException;
 use Zoho\Crm\Support\HttpMethod;
 
 /**
- * A query to insert one or many records.
+ * A request to insert one or many records.
  *
  * @see https://www.zoho.com/crm/developer/docs/api/insert-records.html
  */
-class InsertQuery extends AbstractQuery
+class InsertRequest extends AbstractRequest
 {
     /** @var string[] All available triggers */
     const TRIGGERS = ['workflow', 'approval', 'blueprint'];
@@ -101,11 +101,11 @@ class InsertQuery extends AbstractQuery
         parent::validate();
 
         if (empty($this->records)) {
-            throw new InvalidQueryException($this, 'records data cannot be empty.');
+            throw new InvalidRequestException($this, 'records data cannot be empty.');
         }
 
         if (count($this->records) > 100) {
-            throw new InvalidQueryException($this, 'cannot insert more than 100 records.');
+            throw new InvalidRequestException($this, 'cannot insert more than 100 records.');
         }
     }
 

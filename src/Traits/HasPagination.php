@@ -3,11 +3,11 @@
 namespace Zoho\Crm\Traits;
 
 /**
- * Basic implementation for PaginatedQueryInterface.
+ * Basic implementation for PaginatedRequestInterface.
  */
 trait HasPagination
 {
-    /** @var bool Whether the query must be automatically paginated or not */
+    /** @var bool Whether the request must be automatically paginated or not */
     protected $autoPaginated = false;
 
     /** @var int|null The maximum number of concurrent requests allowed to fetch pages */
@@ -38,11 +38,11 @@ trait HasPagination
     }
 
     /**
-     * Turn on/off automatic pagination for the query.
+     * Turn on/off automatic pagination for the request.
      *
-     * If enabled, the pages will be automatically fetched on query execution.
+     * If enabled, the pages will be automatically fetched on request execution.
      *
-     * @param bool $enabled (optional) Whether the query is auto paginated, true if omitted
+     * @param bool $enabled (optional) Whether the request is auto paginated, true if omitted
      * @return $this
      */
     public function autoPaginated(bool $enabled = true): self
@@ -61,7 +61,7 @@ trait HasPagination
     public function concurrency(?int $concurrency): self
     {
         if (! is_null($concurrency) && (! is_int($concurrency) || $concurrency <= 0)) {
-            throw new \InvalidArgumentException('Query concurrency must be a positive non-zero integer.');
+            throw new \InvalidArgumentException('Request concurrency must be a positive non-zero integer.');
         }
 
         $this->concurrency = $concurrency;

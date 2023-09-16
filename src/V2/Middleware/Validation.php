@@ -3,21 +3,21 @@
 namespace Zoho\Crm\V2\Middleware;
 
 use Zoho\Crm\Contracts\MiddlewareInterface;
-use Zoho\Crm\Contracts\QueryInterface;
+use Zoho\Crm\Contracts\RequestInterface;
 
 /**
- * Middleware that validates queries.
+ * Middleware that validates requests.
  */
 class Validation implements MiddlewareInterface
 {
     /**
      * @inheritdoc
      *
-     * @throws \Zoho\Crm\Exceptions\InvalidQueryException
+     * @throws \Zoho\Crm\Exceptions\InvalidRequestException
      */
-    public function __invoke(QueryInterface $query): void
+    public function __invoke(RequestInterface $request): void
     {
         // Additional internal validation logic
-        $query->validate();
+        $request->validate();
     }
 }

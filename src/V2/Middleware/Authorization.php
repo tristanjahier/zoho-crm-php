@@ -3,11 +3,11 @@
 namespace Zoho\Crm\V2\Middleware;
 
 use Zoho\Crm\Contracts\MiddlewareInterface;
-use Zoho\Crm\Contracts\QueryInterface;
+use Zoho\Crm\Contracts\RequestInterface;
 use Zoho\Crm\V2\Client;
 
 /**
- * Middleware that adds the API authorization access token to the query headers.
+ * Middleware that adds the API authorization access token to the request headers.
  */
 class Authorization implements MiddlewareInterface
 {
@@ -27,8 +27,8 @@ class Authorization implements MiddlewareInterface
     /**
      * @inheritdoc
      */
-    public function __invoke(QueryInterface $query): void
+    public function __invoke(RequestInterface $request): void
     {
-        $query->setHeader('Authorization', 'Zoho-oauthtoken ' . $this->client->getAccessToken());
+        $request->setHeader('Authorization', 'Zoho-oauthtoken ' . $this->client->getAccessToken());
     }
 }

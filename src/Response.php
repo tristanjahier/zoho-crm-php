@@ -3,15 +3,15 @@
 namespace Zoho\Crm;
 
 use Zoho\Crm\Contracts\ResponseInterface;
-use Zoho\Crm\Contracts\QueryInterface;
+use Zoho\Crm\Contracts\RequestInterface;
 
 /**
  * A container for the content of an API response.
  */
 class Response implements ResponseInterface
 {
-    /** @var \Zoho\Crm\Contracts\QueryInterface The origin query */
-    private $query;
+    /** @var \Zoho\Crm\Contracts\RequestInterface The origin request */
+    private $request;
 
     /** @var string The raw HTTP response body */
     private $rawContent;
@@ -22,25 +22,25 @@ class Response implements ResponseInterface
     /**
      * The constructor.
      *
-     * @param \Zoho\Crm\Contracts\QueryInterface $query The origin query
+     * @param \Zoho\Crm\Contracts\RequestInterface $request The origin request
      * @param mixed $content The parsed response content
      * @param string $rawContent The raw response body
      */
-    public function __construct(QueryInterface $query, $content, $rawContent)
+    public function __construct(RequestInterface $request, $content, $rawContent)
     {
-        $this->query = $query;
+        $this->request = $request;
         $this->rawContent = $rawContent;
         $this->content = $content;
     }
 
     /**
-     * Get the origin query.
+     * Get the origin request.
      *
-     * @return \Zoho\Crm\Contracts\QueryInterface
+     * @return \Zoho\Crm\Contracts\RequestInterface
      */
-    public function getQuery(): QueryInterface
+    public function getRequest(): RequestInterface
     {
-        return $this->query;
+        return $this->request;
     }
 
     /**

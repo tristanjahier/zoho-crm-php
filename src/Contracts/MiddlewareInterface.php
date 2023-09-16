@@ -5,10 +5,10 @@ namespace Zoho\Crm\Contracts;
 interface MiddlewareInterface
 {
     /**
-     * Apply the middleware on the query.
+     * Apply the middleware on the request.
      *
-     * @param QueryInterface $query The query
+     * @param RequestInterface $request The request
      * @return void
      */
-    public function __invoke(QueryInterface $query): void;
+    public function __invoke(RequestInterface $request): void;
 }

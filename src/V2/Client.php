@@ -6,14 +6,14 @@ use Closure;
 use DateTimeInterface;
 use GuzzleHttp\Psr7\Request;
 use Zoho\Crm\Contracts\ClientInterface;
-use Zoho\Crm\Contracts\QueryInterface;
+use Zoho\Crm\Contracts\RequestInterface;
 use Zoho\Crm\Contracts\ResponseInterface;
 use Zoho\Crm\Exceptions\InvalidEndpointException;
 use Zoho\Crm\Support\UrlParameters;
 use Zoho\Crm\V2\AccessTokenStores\StoreInterface;
-use Zoho\Crm\QueryProcessor;
+use Zoho\Crm\RequestProcessor;
 use Zoho\Crm\RequestSender;
-use Zoho\Crm\RawQuery;
+use Zoho\Crm\RawRequest;
 
 /**
  * Zoho CRM APIv2 client. Main class of the library.
@@ -57,8 +57,8 @@ class Client implements ClientInterface
     /** @var AccessTokenStores\StoreInterface The access token store */
     protected $accessTokenStore;
 
-    /** @var \Zoho\Crm\QueryProcessor The query processor */
-    protected $queryProcessor;
+    /** @var \Zoho\Crm\RequestProcessor The request processor */
+    protected $requestProcessor;
 
     /** @var Preferences The client preferences container */
     protected $preferences;
@@ -96,7 +96,7 @@ class Client implements ClientInterface
 
         $this->preferences = new Preferences();
 
-        $this->queryProcessor = new QueryProcessor(
+        $this->requestProcessor = new RequestProcessor(
             $this,
             new RequestSender(),
             new ResponseParser(),
@@ -149,9 +149,9 @@ class Client implements ClientInterface
      *
      * @return \Zoho\Crm\Response
      */
-    public function executeQuery(QueryInterface $query): ResponseInterface
+    public function executeRequest(RequestInterface $request): ResponseInterface
     {
-        return $this->queryProcessor->executeQuery($query);
+        return $this->requestProcessor->executeRequest($request);
     }
 
     /**
@@ -159,9 +159,9 @@ class Client implements ClientInterface
      *
      * @return \Zoho\Crm\Response[]
      */
-    public function executeAsyncBatch(array $queries): array
+    public function executeAsyncBatch(array $requests): array
     {
-        return $this->queryProcessor->executeAsyncBatch($queries);
+        return $this->requestProcessor->executeAsyncBatch($requests);
     }
 
     /**
@@ -169,9 +169,9 @@ class Client implements ClientInterface
      *
      * @return $this
      */
-    public function beforeQueryExecution(Closure $callback): ClientInterface
+    public function beforeRequestExecution(Closure $callback): ClientInterface
     {
-        $this->queryProcessor->registerPreExecutionHook($callback);
+        $this->requestProcessor->registerPreExecutionHook($callback);
 
         return $this;
     }
@@ -181,9 +181,9 @@ class Client implements ClientInterface
      *
      * @return $this
      */
-    public function afterQueryExecution(Closure $callback): ClientInterface
+    public function afterRequestExecution(Closure $callback): ClientInterface
     {
-        $this->queryProcessor->registerPostExecutionHook($callback);
+        $this->requestProcessor->registerPostExecutionHook($callback);
 
         return $this;
     }
@@ -193,7 +193,7 @@ class Client implements ClientInterface
      */
     public function getRequestCount(): int
     {
-        return $this->queryProcessor->getRequestCount();
+        return $this->requestProcessor->getRequestCount();
     }
 
     /**
@@ -201,7 +201,7 @@ class Client implements ClientInterface
      */
     public function registerMiddleware(callable $middleware): void
     {
-        $this->queryProcessor->registerMiddleware($middleware);
+        $this->requestProcessor->registerMiddleware($middleware);
     }
 
     /**
@@ -345,14 +345,14 @@ class Client implements ClientInterface
     }
 
     /**
-     * Create a new raw query object.
+     * Create a new raw request object.
      *
      * @param string|null $path (optional) The URL path
-     * @return RawQuery
+     * @return RawRequest
      */
-    public function newRawQuery(string $path = null)
+    public function newRawRequest(string $path = null)
     {
-        return (new RawQuery($this))->setUrl($path);
+        return (new RawRequest($this))->setUrl($path);
     }
 
     /**

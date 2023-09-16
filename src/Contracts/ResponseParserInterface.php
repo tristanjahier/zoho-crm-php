@@ -10,10 +10,10 @@ interface ResponseParserInterface
      * Parse an API response and transform its content into a relevant data object.
      *
      * @param \Psr\Http\Message\ResponseInterface $httpResponse The API response to read
-     * @param QueryInterface $query The origin query
+     * @param RequestInterface $request The origin request
      * @return ResponseInterface
      *
      * @throws \Zoho\Crm\Exceptions\UnreadableResponseException
      */
-    public function parse(HttpResponseInterface $httpResponse, QueryInterface $query): ResponseInterface;
+    public function parse(HttpResponseInterface $httpResponse, RequestInterface $request): ResponseInterface;
 }

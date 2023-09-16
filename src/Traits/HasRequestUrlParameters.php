@@ -5,7 +5,7 @@ namespace Zoho\Crm\Traits;
 use Zoho\Crm\Support\UrlParameters;
 
 /**
- * Basic implementation of URL parameters (query string) for QueryInterface.
+ * Basic implementation of URL parameters (query string) for RequestInterface.
  */
 trait HasRequestUrlParameters
 {

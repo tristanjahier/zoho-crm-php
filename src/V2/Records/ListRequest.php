@@ -3,17 +3,17 @@
 namespace Zoho\Crm\V2\Records;
 
 use Zoho\Crm\Contracts\ResponseTransformerInterface;
-use Zoho\Crm\Contracts\PaginatedQueryInterface;
-use Zoho\Crm\Exceptions\InvalidQueryException;
+use Zoho\Crm\Contracts\PaginatedRequestInterface;
+use Zoho\Crm\Exceptions\InvalidRequestException;
 use Zoho\Crm\Support\Helper;
 use Zoho\Crm\V2\Traits\HasPagination;
 
 /**
- * A query to get a list of records.
+ * A request to get a list of records.
  *
  * @see https://www.zoho.com/crm/developer/docs/api/get-records.html
  */
-class ListQuery extends AbstractQuery implements PaginatedQueryInterface
+class ListRequest extends AbstractRequest implements PaginatedRequestInterface
 {
     use HasPagination;
 
@@ -42,13 +42,13 @@ class ListQuery extends AbstractQuery implements PaginatedQueryInterface
         // "Modified_Time" field has to be be present in the results.
         if ($this->hasSelection() && ! $this->hasSelected('Modified_Time')) {
             $message = '"Modified_Time" field is required when using modifiedBefore().';
-            throw new InvalidQueryException($this, $message);
+            throw new InvalidRequestException($this, $message);
         }
 
-        // The query must also be sorted by "Modified_Time" in ascending order.
+        // The request must also be sorted by "Modified_Time" in ascending order.
         if ($this->getUrlParameter('sort_by') != 'Modified_Time' || $this->getUrlParameter('sort_order') != 'asc') {
             $message = 'must be sorted by "Modified_Time" in ascending order when using modifiedBefore().';
-            throw new InvalidQueryException($this, $message);
+            throw new InvalidRequestException($this, $message);
         }
     }
 
@@ -270,7 +270,7 @@ class ListQuery extends AbstractQuery implements PaginatedQueryInterface
     }
 
     /**
-     * Check if the query has a maximum modification date for records.
+     * Check if the request has a maximum modification date for records.
      *
      * @return bool
      */

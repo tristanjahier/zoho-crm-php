@@ -2,23 +2,23 @@
 
 namespace Zoho\Crm\V2;
 
-use Zoho\Crm\Contracts\QueryInterface;
+use Zoho\Crm\Contracts\RequestInterface;
 use Zoho\Crm\Support\Helper;
 use Zoho\Crm\Support\UrlParameters;
 use Zoho\Crm\Traits\{
-    BasicQueryImplementation,
+    BasicRequestImplementation,
     HasRequestHttpMethod,
     HasRequestUrlParameters
 };
 
 /**
- * Base class for all API v2 queries.
+ * Base class for all API v2 requests.
  */
-abstract class AbstractQuery implements QueryInterface
+abstract class AbstractRequest implements RequestInterface
 {
-    use BasicQueryImplementation, HasRequestHttpMethod, HasRequestUrlParameters;
+    use BasicRequestImplementation, HasRequestHttpMethod, HasRequestUrlParameters;
 
-    /** @var Client The API client that originated this query */
+    /** @var Client The API client that originated this request */
     protected $client;
 
     /**
@@ -33,7 +33,7 @@ abstract class AbstractQuery implements QueryInterface
     }
 
     /**
-     * Allow the deep cloning of the query.
+     * Allow the deep cloning of the request.
      *
      * @return void
      */

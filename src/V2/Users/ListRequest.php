@@ -2,17 +2,17 @@
 
 namespace Zoho\Crm\V2\Users;
 
-use Zoho\Crm\Contracts\PaginatedQueryInterface;
+use Zoho\Crm\Contracts\PaginatedRequestInterface;
 use Zoho\Crm\Contracts\ResponseTransformerInterface;
-use Zoho\Crm\V2\AbstractQuery;
+use Zoho\Crm\V2\AbstractRequest;
 use Zoho\Crm\V2\Traits\HasPagination;
 
 /**
- * A query to get a list of users.
+ * A request to get a list of users.
  *
  * @see https://www.zoho.com/crm/developer/docs/api/get-users.html
  */
-class ListQuery extends AbstractQuery implements PaginatedQueryInterface
+class ListRequest extends AbstractRequest implements PaginatedRequestInterface
 {
     use HasPagination;
 

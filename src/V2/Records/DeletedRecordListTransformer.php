@@ -3,7 +3,7 @@
 namespace Zoho\Crm\V2\Records;
 
 use Zoho\Crm\Contracts\ResponseTransformerInterface;
-use Zoho\Crm\Contracts\QueryInterface;
+use Zoho\Crm\Contracts\RequestInterface;
 use Zoho\Crm\Entities\Collection;
 
 /**
@@ -16,7 +16,7 @@ class DeletedRecordListTransformer implements ResponseTransformerInterface
      *
      * @return \Zoho\Crm\Entities\Collection
      */
-    public function transformResponse($content, QueryInterface $query)
+    public function transformResponse($content, RequestInterface $request)
     {
         $records = new Collection();
 

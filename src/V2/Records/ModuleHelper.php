@@ -5,7 +5,7 @@ namespace Zoho\Crm\V2\Records;
 use Zoho\Crm\V2\Client;
 
 /**
- * An intermediate class to help creating queries for a specific API module.
+ * An intermediate class to help creating requests for a specific API module.
  */
 class ModuleHelper
 {
@@ -28,281 +28,281 @@ class ModuleHelper
     }
 
     /**
-     * Create a query to list the records of the module.
+     * Create a request to list the records of the module.
      *
-     * @return ListQuery
+     * @return ListRequest
      */
-    public function newListQuery(): ListQuery
+    public function newListRequest(): ListRequest
     {
-        return new ListQuery($this->client, $this->name);
+        return new ListRequest($this->client, $this->name);
     }
 
     /**
-     * Create a query to get a specific record by ID.
+     * Create a request to get a specific record by ID.
      *
      * @param string|null $id (optional) The record ID
-     * @return GetByIdQuery
+     * @return GetByIdRequest
      */
-    public function newGetByIdQuery(string $id = null): GetByIdQuery
+    public function newGetByIdRequest(string $id = null): GetByIdRequest
     {
-        $query = new GetByIdQuery($this->client, $this->name);
+        $request = new GetByIdRequest($this->client, $this->name);
 
         if (isset($id)) {
-            $query->setRecordId($id);
+            $request->setRecordId($id);
         }
 
-        return $query;
+        return $request;
     }
 
     /**
-     * Create a query to list the deleted records of the module.
+     * Create a request to list the deleted records of the module.
      *
-     * @return ListDeletedQuery
+     * @return ListDeletedRequest
      */
-    public function newListDeletedQuery(): ListDeletedQuery
+    public function newListDeletedRequest(): ListDeletedRequest
     {
-        return new ListDeletedQuery($this->client, $this->name);
+        return new ListDeletedRequest($this->client, $this->name);
     }
 
     /**
-     * Create a query to perform a search among the records of the module.
+     * Create a request to perform a search among the records of the module.
      *
      * @param string|null $criteria (optional) The search criteria
-     * @return SearchQuery
+     * @return SearchRequest
      */
-    public function newSearchQuery(string $criteria = null): SearchQuery
+    public function newSearchRequest(string $criteria = null): SearchRequest
     {
-        $query = new SearchQuery($this->client, $this->name);
+        $request = new SearchRequest($this->client, $this->name);
 
         if (isset($criteria)) {
-            $query->param('criteria', $criteria);
+            $request->param('criteria', $criteria);
         }
 
-        return $query;
+        return $request;
     }
 
     /**
-     * Create a query to list the records from another module related to a given record.
+     * Create a request to list the records from another module related to a given record.
      *
      * @param string|null $recordId (optional) The record ID
      * @param string|null $relatedModule (optional) The name of the related module
-     * @return ListRelatedQuery
+     * @return ListRelatedRequest
      */
-    public function newListRelatedQuery(string $recordId = null, string $relatedModule = null): ListRelatedQuery
+    public function newListRelatedRequest(string $recordId = null, string $relatedModule = null): ListRelatedRequest
     {
-        $query = new ListRelatedQuery($this->client, $this->name);
+        $request = new ListRelatedRequest($this->client, $this->name);
 
         if (isset($recordId)) {
-            $query->setRecordId($recordId);
+            $request->setRecordId($recordId);
         }
 
         if (isset($relatedModule)) {
-            $query->setRelatedModule($relatedModule);
+            $request->setRelatedModule($relatedModule);
         }
 
-        return $query;
+        return $request;
     }
 
     /**
-     * Create a query to insert one or many records.
+     * Create a request to insert one or many records.
      *
      * @param iterable|null $records (optional) The records to insert
      * @param array|null $triggers (optional) The triggers to enable
-     * @return InsertQuery
+     * @return InsertRequest
      */
-    public function newInsertQuery($records = null, array $triggers = null): InsertQuery
+    public function newInsertRequest($records = null, array $triggers = null): InsertRequest
     {
-        $query = new InsertQuery($this->client, $this->name);
+        $request = new InsertRequest($this->client, $this->name);
 
         if (isset($records)) {
-            $query->addRecords($records);
+            $request->addRecords($records);
         }
 
         if (isset($triggers)) {
-            $query->triggers($triggers);
+            $request->triggers($triggers);
         }
 
-        return $query;
+        return $request;
     }
 
     /**
-     * Create a query to update a specific record by ID.
+     * Create a request to update a specific record by ID.
      *
      * @param string|null $id (optional) The record ID
      * @param array|Record|null $data (optional) The field values to update
      * @param array|null $triggers (optional) The triggers to enable
-     * @return UpdateQuery
+     * @return UpdateRequest
      */
-    public function newUpdateQuery(string $id = null, $data = null, array $triggers = null): UpdateQuery
+    public function newUpdateRequest(string $id = null, $data = null, array $triggers = null): UpdateRequest
     {
-        $query = new UpdateQuery($this->client, $this->name);
+        $request = new UpdateRequest($this->client, $this->name);
 
         if (isset($id)) {
-            $query->setRecordId($id);
+            $request->setRecordId($id);
         }
 
         if (isset($data)) {
-            $query->setRecordData($data);
+            $request->setRecordData($data);
         }
 
         if (isset($triggers)) {
-            $query->triggers($triggers);
+            $request->triggers($triggers);
         }
 
-        return $query;
+        return $request;
     }
 
     /**
-     * Create a query to update many records.
+     * Create a request to update many records.
      *
      * @param iterable|null $records (optional) The records to update
      * @param array|null $triggers (optional) The triggers to enable
-     * @return UpdateManyQuery
+     * @return UpdateManyRequest
      */
-    public function newUpdateManyQuery($records = null, array $triggers = null): UpdateManyQuery
+    public function newUpdateManyRequest($records = null, array $triggers = null): UpdateManyRequest
     {
-        $query = new UpdateManyQuery($this->client, $this->name);
+        $request = new UpdateManyRequest($this->client, $this->name);
 
         if (isset($records)) {
-            $query->addRecords($records);
+            $request->addRecords($records);
         }
 
         if (isset($triggers)) {
-            $query->triggers($triggers);
+            $request->triggers($triggers);
         }
 
-        return $query;
+        return $request;
     }
 
     /**
-     * Create a query to upsert (insert or update if exists) one or many records.
+     * Create a request to upsert (insert or update if exists) one or many records.
      *
      * @param iterable|null $records (optional) The records to upsert
      * @param array|null $duplicateCheckFields (optional) The fields used for duplicate check
      * @param array|null $triggers (optional) The triggers to enable
-     * @return UpsertQuery
+     * @return UpsertRequest
      */
-    public function newUpsertQuery(
+    public function newUpsertRequest(
         $records = null,
         array $duplicateCheckFields = null,
         array $triggers = null
-    ): UpsertQuery {
-        $query = new UpsertQuery($this->client, $this->name);
+    ): UpsertRequest {
+        $request = new UpsertRequest($this->client, $this->name);
 
         if (isset($records)) {
-            $query->addRecords($records);
+            $request->addRecords($records);
         }
 
         if (isset($duplicateCheckFields)) {
-            $query->checkDuplicatesOn($duplicateCheckFields);
+            $request->checkDuplicatesOn($duplicateCheckFields);
         }
 
         if (isset($triggers)) {
-            $query->triggers($triggers);
+            $request->triggers($triggers);
         }
 
-        return $query;
+        return $request;
     }
 
     /**
-     * Create a query to delete a specific record by ID.
+     * Create a request to delete a specific record by ID.
      *
      * @param string|null $id (optional) The record ID
-     * @return DeleteQuery
+     * @return DeleteRequest
      */
-    public function newDeleteQuery(string $id = null): DeleteQuery
+    public function newDeleteRequest(string $id = null): DeleteRequest
     {
-        $query = new DeleteQuery($this->client, $this->name);
+        $request = new DeleteRequest($this->client, $this->name);
 
         if (isset($id)) {
-            $query->setRecordId($id);
+            $request->setRecordId($id);
         }
 
-        return $query;
+        return $request;
     }
 
     /**
-     * Create a query to delete many records by ID.
+     * Create a request to delete many records by ID.
      *
      * @param array|null $ids (optional) The records IDs
-     * @return DeleteManyQuery
+     * @return DeleteManyRequest
      */
-    public function newDeleteManyQuery(array $ids = null): DeleteManyQuery
+    public function newDeleteManyRequest(array $ids = null): DeleteManyRequest
     {
-        $query = new DeleteManyQuery($this->client, $this->name);
+        $request = new DeleteManyRequest($this->client, $this->name);
 
         if (isset($ids)) {
-            $query->setRecordIds($ids);
+            $request->setRecordIds($ids);
         }
 
-        return $query;
+        return $request;
     }
 
     /**
-     * Create an auto-paginated query to retrieve all the records.
+     * Create an auto-paginated request to retrieve all the records.
      *
-     * @return ListQuery
+     * @return ListRequest
      */
-    public function all(): ListQuery
+    public function all(): ListRequest
     {
-        return $this->newListQuery()->autoPaginated();
+        return $this->newListRequest()->autoPaginated();
     }
 
     /**
-     * Create an auto-paginated query to retrieve all the deleted records.
+     * Create an auto-paginated request to retrieve all the deleted records.
      *
-     * @return ListDeletedQuery
+     * @return ListDeletedRequest
      */
-    public function deleted(): ListDeletedQuery
+    public function deleted(): ListDeletedRequest
     {
-        return $this->newListDeletedQuery()->autoPaginated();
+        return $this->newListDeletedRequest()->autoPaginated();
     }
 
     /**
-     * Create an auto-paginated query to search records matching some criteria.
+     * Create an auto-paginated request to search records matching some criteria.
      *
      * @param string $criteria The search criteria
-     * @return SearchQuery
+     * @return SearchRequest
      */
-    public function search(string $criteria): SearchQuery
+    public function search(string $criteria): SearchRequest
     {
-        return $this->newSearchQuery($criteria)->autoPaginated();
+        return $this->newSearchRequest($criteria)->autoPaginated();
     }
 
     /**
-     * Create an auto-paginated query to search records with a given field value.
+     * Create an auto-paginated request to search records with a given field value.
      *
      * @param string $field The name of the field
      * @param string $value The wanted value
-     * @return SearchQuery
+     * @return SearchRequest
      */
-    public function searchBy(string $field, string $value): SearchQuery
+    public function searchBy(string $field, string $value): SearchRequest
     {
         return $this->search("($field:equals:$value)");
     }
 
     /**
-     * Create an auto-paginated query to list the records from another module related to a given record.
+     * Create an auto-paginated request to list the records from another module related to a given record.
      *
      * @param string $recordId The record ID
      * @param string $relatedModule The name of the related module
-     * @return ListRelatedQuery
+     * @return ListRelatedRequest
      */
-    public function relationsOf(string $recordId, string $relatedModule): ListRelatedQuery
+    public function relationsOf(string $recordId, string $relatedModule): ListRelatedRequest
     {
-        return $this->newListRelatedQuery($recordId, $relatedModule)->autoPaginated();
+        return $this->newListRelatedRequest($recordId, $relatedModule)->autoPaginated();
     }
 
     /**
-     * Create an auto-paginated query to list the records related to a given record from another module.
+     * Create an auto-paginated request to list the records related to a given record from another module.
      *
      * Inverse of {@see self::relationsOf()}.
      *
      * @param string $relatedModule The name of the related module
      * @param string $recordId The related record ID
-     * @return ListRelatedQuery
+     * @return ListRelatedRequest
      */
-    public function relatedTo(string $relatedModule, string $recordId): ListRelatedQuery
+    public function relatedTo(string $relatedModule, string $recordId): ListRelatedRequest
     {
         return $this->client->records
             ->module($relatedModule)
@@ -317,7 +317,7 @@ class ModuleHelper
      */
     public function find(string $id): ?Record
     {
-        return $this->newGetByIdQuery($id)->get();
+        return $this->newGetByIdRequest($id)->get();
     }
 
     /**
@@ -329,7 +329,7 @@ class ModuleHelper
      */
     public function insert($record, array $triggers = null): ?array
     {
-        $response = $this->newInsertQuery([$record], $triggers)->get();
+        $response = $this->newInsertRequest([$record], $triggers)->get();
 
         // Because we intended to explicitly insert only one record,
         // we want to return an individual response.
@@ -345,7 +345,7 @@ class ModuleHelper
      */
     public function insertMany($records, array $triggers = null): array
     {
-        return $this->newInsertQuery($records, $triggers)->get();
+        return $this->newInsertRequest($records, $triggers)->get();
     }
 
     /**
@@ -358,7 +358,7 @@ class ModuleHelper
      */
     public function update(string $id, $data, array $triggers = null): ?array
     {
-        $response = $this->newUpdateQuery($id, $data, $triggers)->get();
+        $response = $this->newUpdateRequest($id, $data, $triggers)->get();
 
         // Because we intended to explicitly update only one record,
         // we want to return an individual response.
@@ -374,7 +374,7 @@ class ModuleHelper
      */
     public function updateMany($records, array $triggers = null): array
     {
-        return $this->newUpdateManyQuery($records, $triggers)->get();
+        return $this->newUpdateManyRequest($records, $triggers)->get();
     }
 
     /**
@@ -387,7 +387,7 @@ class ModuleHelper
      */
     public function upsert($record, array $duplicateCheckFields = null, array $triggers = null): ?array
     {
-        $response = $this->newUpsertQuery([$record], $duplicateCheckFields, $triggers)->get();
+        $response = $this->newUpsertRequest([$record], $duplicateCheckFields, $triggers)->get();
 
         // Because we intended to explicitly upsert only one record,
         // we want to return an individual response.
@@ -404,7 +404,7 @@ class ModuleHelper
      */
     public function upsertMany($records, array $duplicateCheckFields = null, array $triggers = null): array
     {
-        return $this->newUpsertQuery($records, $duplicateCheckFields, $triggers)->get();
+        return $this->newUpsertRequest($records, $duplicateCheckFields, $triggers)->get();
     }
 
     /**
@@ -415,7 +415,7 @@ class ModuleHelper
      */
     public function delete(string $id): ?array
     {
-        $response = $this->newDeleteQuery($id)->get();
+        $response = $this->newDeleteRequest($id)->get();
 
         // Because we intended to explicitly delete only one record,
         // we want to return an individual response.
@@ -430,6 +430,6 @@ class ModuleHelper
      */
     public function deleteMany(array $ids): array
     {
-        return $this->newDeleteManyQuery($ids)->get();
+        return $this->newDeleteManyRequest($ids)->get();
     }
 }

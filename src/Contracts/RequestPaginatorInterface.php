@@ -2,7 +2,7 @@
 
 namespace Zoho\Crm\Contracts;
 
-interface QueryPaginatorInterface
+interface RequestPaginatorInterface
 {
     /**
      * Fetch pages until there is no more data to fetch.

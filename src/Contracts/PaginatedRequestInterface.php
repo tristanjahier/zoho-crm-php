@@ -2,17 +2,17 @@
 
 namespace Zoho\Crm\Contracts;
 
-interface PaginatedQueryInterface extends QueryInterface
+interface PaginatedRequestInterface extends RequestInterface
 {
     /**
-     * Determine if the query must be automatically paginated.
+     * Determine if the request must be automatically paginated.
      *
      * @return bool
      */
     public function mustBePaginatedAutomatically(): bool;
 
     /**
-     * Determine if the query requires concurrent and asynchronous pagination.
+     * Determine if the request requires concurrent and asynchronous pagination.
      *
      * @return bool
      */
@@ -26,14 +26,14 @@ interface PaginatedQueryInterface extends QueryInterface
     public function getConcurrency(): ?int;
 
     /**
-     * Create a paginator for the query.
+     * Create a paginator for the request.
      *
-     * @return QueryPaginatorInterface
+     * @return RequestPaginatorInterface
      */
-    public function getPaginator(): QueryPaginatorInterface;
+    public function getPaginator(): RequestPaginatorInterface;
 
     /**
-     * Get a page content merger for paginated queries.
+     * Get a page content merger for paginated requests.
      *
      * @return ResponsePageMergerInterface
      */
