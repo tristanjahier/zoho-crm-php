@@ -105,7 +105,7 @@ class ListRequest extends AbstractRequest implements PaginatedRequestInterface
     {
         $selection = $this->getUrlParameter('fields');
 
-        return $this->normalizeSelectedFields(explode(',', $selection));
+        return $this->normalizeSelectedFields(explode(',', $selection ?? ''));
     }
 
     /**
