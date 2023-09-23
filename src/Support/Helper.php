@@ -84,7 +84,7 @@ final class Helper
      */
     public static function getUrlPathSegments(string $url): array
     {
-        $path = trim(parse_url($url, PHP_URL_PATH), '/');
+        $path = trim(parse_url($url, PHP_URL_PATH) ?? '', '/');
 
         return explode('/', $path);
     }
