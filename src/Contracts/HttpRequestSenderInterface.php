@@ -6,7 +6,7 @@ use Closure;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
-interface RequestSenderInterface
+interface HttpRequestSenderInterface
 {
     /**
      * Send an HTTP request to the API, and return the response.

@@ -7,12 +7,12 @@ use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Exception\RequestException;
-use Zoho\Crm\Contracts\RequestSenderInterface;
+use Zoho\Crm\Contracts\HttpRequestSenderInterface;
 
 /**
- * The request sender.
+ * The HTTP request sender.
  */
-class RequestSender implements RequestSenderInterface
+class HttpRequestSender implements HttpRequestSenderInterface
 {
     /** @var int The number of API requests sent so far */
     protected $requestCount = 0;

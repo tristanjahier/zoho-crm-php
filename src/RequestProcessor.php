@@ -6,7 +6,7 @@ use Closure;
 use Exception;
 use GuzzleHttp\Psr7\Request;
 use Zoho\Crm\Contracts\ClientInterface;
-use Zoho\Crm\Contracts\RequestSenderInterface;
+use Zoho\Crm\Contracts\HttpRequestSenderInterface;
 use Zoho\Crm\Contracts\ResponseParserInterface;
 use Zoho\Crm\Contracts\ErrorHandlerInterface;
 use Zoho\Crm\Contracts\RequestInterface;
@@ -23,8 +23,8 @@ class RequestProcessor
     /** @var Contracts\ClientInterface The client to which this processor is attached */
     protected $client;
 
-    /** @var Contracts\RequestSenderInterface The request sender */
-    protected $requestSender;
+    /** @var Contracts\HttpRequestSenderInterface The HTTP request sender */
+    protected $httpRequestSender;
 
     /** @var Contracts\ResponseParserInterface The response parser */
     protected $responseParser;
@@ -45,18 +45,18 @@ class RequestProcessor
      * The constructor.
      *
      * @param Contracts\ClientInterface $client The client to which it is attached
-     * @param Contracts\RequestSenderInterface $requestSender The request sender
+     * @param Contracts\HttpRequestSenderInterface $httpRequestSender The HTTP request sender
      * @param Contracts\ResponseParserInterface $responseParser The response parser
      * @param Contracts\ErrorHandlerInterface $errorHandler The error handler
      */
     public function __construct(
         ClientInterface $client,
-        RequestSenderInterface $requestSender,
+        HttpRequestSenderInterface $httpRequestSender,
         ResponseParserInterface $responseParser,
         ErrorHandlerInterface $errorHandler
     ) {
         $this->client = $client;
-        $this->requestSender = $requestSender;
+        $this->httpRequestSender = $httpRequestSender;
         $this->responseParser = $responseParser;
         $this->errorHandler = $errorHandler;
     }
@@ -104,7 +104,7 @@ class RequestProcessor
         $this->firePreExecutionHooks($request->copy(), $execId);
 
         if ($async) {
-            return $this->requestSender->sendAsync(
+            return $this->httpRequestSender->sendAsync(
                 $httpRequest,
                 function ($response) use ($request, $execId) {
                     $this->firePostExecutionHooks($request->copy(), $execId);
@@ -115,7 +115,7 @@ class RequestProcessor
         }
 
         try {
-            $response = $this->requestSender->send($httpRequest);
+            $response = $this->httpRequestSender->send($httpRequest);
         } catch (Exception $e) {
             $this->handleException($e, $request);
         }
@@ -206,7 +206,7 @@ class RequestProcessor
         }
 
         try {
-            $rawResponses = $this->requestSender->fetchAsyncResponses($promises);
+            $rawResponses = $this->httpRequestSender->fetchAsyncResponses($promises);
         } catch (AsyncBatchRequestException $e) {
             // Unwrap the actual exception and retrieve the corresponding request.
             $this->handleException($e->getWrappedException(), $requests[$e->getKeyInBatch()]);
@@ -220,7 +220,7 @@ class RequestProcessor
     }
 
     /**
-     * Handle an exception thrown by the request sender.
+     * Handle an exception thrown by the HTTP request sender.
      *
      * @param \Exception $exception
      * @param Contracts\RequestInterface $request The request
@@ -243,7 +243,7 @@ class RequestProcessor
      */
     public function getRequestCount(): int
     {
-        return $this->requestSender->getRequestCount();
+        return $this->httpRequestSender->getRequestCount();
     }
 
     /**

@@ -12,7 +12,7 @@ use Zoho\Crm\Exceptions\InvalidEndpointException;
 use Zoho\Crm\Support\UrlParameters;
 use Zoho\Crm\V2\AccessTokenStores\StoreInterface;
 use Zoho\Crm\RequestProcessor;
-use Zoho\Crm\RequestSender;
+use Zoho\Crm\HttpRequestSender;
 use Zoho\Crm\RawRequest;
 
 /**
@@ -98,7 +98,7 @@ class Client implements ClientInterface
 
         $this->requestProcessor = new RequestProcessor(
             $this,
-            new RequestSender(),
+            new HttpRequestSender(),
             new ResponseParser(),
             new ErrorHandler()
         );
@@ -295,7 +295,7 @@ class Client implements ClientInterface
      */
     public function refreshAccessToken(): array
     {
-        $requestSender = new RequestSender();
+        $httpRequestSender = new HttpRequestSender();
 
         $parameters = new UrlParameters([
             'grant_type' => 'refresh_token',
@@ -311,7 +311,7 @@ class Client implements ClientInterface
             (string) $parameters
         );
 
-        $response = $requestSender->send($request);
+        $response = $httpRequestSender->send($request);
         $response = json_decode((string) $response->getBody(), true);
 
         // Save the new access token

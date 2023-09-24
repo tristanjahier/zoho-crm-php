@@ -23,7 +23,7 @@ class AsyncBatchRequestException extends Exception
     }
 
     /**
-     * Get the actual exception that was thrown by the request sender.
+     * Get the actual exception that was thrown by the HTTP request sender.
      *
      * @return \Exception
      */
