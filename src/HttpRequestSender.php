@@ -2,11 +2,11 @@
 
 namespace Zoho\Crm;
 
-use Closure;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Promise\PromiseInterface;
 use Zoho\Crm\Contracts\HttpRequestSenderInterface;
 
 /**
@@ -45,8 +45,11 @@ class HttpRequestSender implements HttpRequestSenderInterface
      *
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function sendAsync(RequestInterface $request, Closure $onFulfilled, Closure $onRejected = null)
-    {
+    public function sendAsync(
+        RequestInterface $request,
+        callable $onFulfilled,
+        callable $onRejected = null
+    ): PromiseInterface {
         return $this->httpClient->sendAsync($request)->then($onFulfilled, $onRejected);
     }
 
@@ -57,7 +60,7 @@ class HttpRequestSender implements HttpRequestSenderInterface
      *
      * @throws \GuzzleHttp\Exception\RequestException
      */
-    public function fetchAsyncResponses(array $promises)
+    public function fetchAsyncResponses(array $promises): array
     {
         $responses = [];
 

@@ -2,7 +2,6 @@
 
 namespace Zoho\Crm\Contracts;
 
-use Closure;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
@@ -20,10 +19,10 @@ interface HttpRequestSenderInterface
      * Prepare an asynchronous HTTP request to the API, and return a promise.
      *
      * @param \Psr\Http\Message\RequestInterface $request The request to send
-     * @param \Closure $onFulfilled The closure to handle request success
-     * @param \Closure|null $onRejected (optional) The closure to handle request failure
+     * @param callable $onFulfilled The closure to handle request success
+     * @param callable|null $onRejected (optional) The closure to handle request failure
      */
-    public function sendAsync(RequestInterface $request, Closure $onFulfilled, Closure $onRejected = null);
+    public function sendAsync(RequestInterface $request, callable $onFulfilled, callable $onRejected = null): mixed;
 
     /**
      * Settle a batch of HTTP promises, then return all responses.
@@ -31,7 +30,7 @@ interface HttpRequestSenderInterface
      * @param array $promises The promises to settle
      * @return \Psr\Http\Message\ResponseInterface[]
      */
-    public function fetchAsyncResponses(array $promises);
+    public function fetchAsyncResponses(array $promises): array;
 
     /**
      * Get the number of API requests sent so far.
