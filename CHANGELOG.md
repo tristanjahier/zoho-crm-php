@@ -16,6 +16,14 @@ https://github.com/tristanjahier/zoho-crm-php/compare/0.5.0...master
 - Dropped support for Doctrine Inflector 1.
 - `Zoho\Crm\V2\ResponseParser` will now throw an `UnreadableResponseException` when the API response body cannot be parsed.
 - All exceptions provided by the library now extend `Zoho\Crm\Exceptions\Exception`.
+- Denominations of "queries" have been changed for "requests" everywhere in the code. "Queries" was a confusing name. Indeed these objects act as high-level abstractions for API HTTP requests, so this name is more suitable. Very notable changes:
+  - Interfaces `QueryInterface` and `PaginatedQueryInterface` were replaced with `RequestInterface` and `PaginatedRequestInterface`.
+  - Methods of interface `ClientInterface` have been renamed: `executeQuery => executeRequest`, `beforeQueryExecution => beforeRequestExecution` and `afterQueryExecution => afterRequestExecution`.
+  - `Zoho\Crm\QueryProcessor` was renamed `Zoho\Crm\RequestProcessor`.
+  - The `Query` suffix was changed for `Request` in all API query objects. For example: `ListQuery => ListRequest`, `SearchQuery => SearchRequest` `UpdateQuery => UpdateRequest`.
+- Renamed "request sender" to "HTTP request sender" to clarify that this component is purely dedicated to HTTP transport (interface `Zoho\Crm\Contracts\HttpRequestSenderInterface` and implementation `Zoho\Crm\HttpRequestSender`).
+  - Additionally, signatures of methods `sendAsync` and `fetchAsyncResponses` were modified.
+- Added explicit dependency on `psr/http-message`. To be clear: the library was *already* dependent on this package, but it was indirectly relying on Guzzle to install it.
 
 ### Removed
 
@@ -37,11 +45,16 @@ https://github.com/tristanjahier/zoho-crm-php/compare/0.5.0...master
     - `ModuleNotFoundException`
     - `UnsupportedModuleException`
 
+### Fixed
+
+- Deprecation warnings related to functions `explode` and `trim`.
+
 ### Development
 
 - Upgraded dependencies:
   - `symfony/var-dumper`: `5 -> 6`
 - Required PsySH (`psy/psysh`) as a development dependency (instead of relying only on a global installation).
+- Installed PHP Coding Standards Fixer (`friendsofphp/php-cs-fixer`) as a development dependency.
 
 
 ## [0.5.0] - 2023-09-03
