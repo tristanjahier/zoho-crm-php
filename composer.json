@@ -20,6 +20,7 @@
         "psr/http-message": "^2.0"
     },
     "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.0",
         "phpunit/phpunit": "^9.0",
         "psy/psysh": "^0.11",
         "symfony/var-dumper": "^6.0"
@@ -34,6 +35,12 @@
         "psr-4": {
             "Zoho\\Crm\\Dev\\": "dev/src/"
         }
+    },
+    "scripts": {
+        "fix-cs": "php-cs-fixer fix --verbose"
+    },
+    "scripts-descriptions": {
+        "fix-cs": "Executes Symfony's PHP Coding Standards Fixer on the source code"
     },
     "config": {
         "sort-packages": true
