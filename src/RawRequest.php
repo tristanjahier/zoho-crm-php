@@ -4,9 +4,7 @@ namespace Zoho\Crm;
 
 use Zoho\Crm\Contracts\RequestInterface;
 use Zoho\Crm\Contracts\ClientInterface;
-use Zoho\Crm\Contracts\ResponseInterface;
 use Zoho\Crm\Contracts\ResponseTransformerInterface;
-use Zoho\Crm\Support\HttpMethod;
 use Zoho\Crm\Support\UrlParameters;
 
 /**
@@ -51,7 +49,7 @@ class RawRequest implements RequestInterface
      */
     public function getUrl(): string
     {
-        return "$this->urlPath?$this->urlParameters";
+        return "{$this->urlPath}?{$this->urlParameters}";
     }
 
     /**

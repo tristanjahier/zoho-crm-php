@@ -20,7 +20,7 @@ class SearchRequest extends AbstractRequest implements PaginatedRequestInterface
      */
     public function getUrl(): string
     {
-        return "$this->module/search?$this->urlParameters";
+        return "{$this->module}/search?{$this->urlParameters}";
     }
 
     /**

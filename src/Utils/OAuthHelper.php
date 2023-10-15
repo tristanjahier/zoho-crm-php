@@ -9,12 +9,12 @@ use Zoho\Crm\Support\UrlParameters;
 /**
  * Static helper class for OAuth 2.0.
  *
- * @link https://www.zoho.com/crm/developer/docs/api/oauth-overview.html
+ * @see https://www.zoho.com/crm/developer/docs/api/oauth-overview.html
  */
 final class OAuthHelper
 {
     /** @var string The API OAuth 2.0 authorization endpoint used by default */
-    const DEFAULT_OAUTH_ENDPOINT = 'https://accounts.zoho.com/oauth/v2/';
+    public const DEFAULT_OAUTH_ENDPOINT = 'https://accounts.zoho.com/oauth/v2/';
 
     /**
      * The constructor.

@@ -7,7 +7,6 @@ use Symfony\Component\VarDumper\Caster\CutStub;
 use Zoho\Crm\Contracts\ClientInterface;
 use Zoho\Crm\Contracts\RequestInterface;
 use Zoho\Crm\Entities\Entity;
-use Zoho\Crm\Support\Helper;
 use Zoho\Crm\Support\Collection;
 use Zoho\Crm\Support\UrlParameters;
 use Zoho\Crm\V2\Client as V2Client;

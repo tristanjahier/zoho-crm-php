@@ -8,31 +8,31 @@ namespace Zoho\Crm\Support;
 abstract class HttpMethod
 {
     /** @var string */
-    const OPTIONS = 'OPTIONS';
+    public const OPTIONS = 'OPTIONS';
 
     /** @var string */
-    const GET = 'GET';
+    public const GET = 'GET';
 
     /** @var string */
-    const HEAD = 'HEAD';
+    public const HEAD = 'HEAD';
 
     /** @var string */
-    const POST = 'POST';
+    public const POST = 'POST';
 
     /** @var string */
-    const PUT = 'PUT';
+    public const PUT = 'PUT';
 
     /** @var string */
-    const DELETE = 'DELETE';
+    public const DELETE = 'DELETE';
 
     /** @var string */
-    const TRACE = 'TRACE';
+    public const TRACE = 'TRACE';
 
     /** @var string */
-    const CONNECT = 'CONNECT';
+    public const CONNECT = 'CONNECT';
 
     /** @var string */
-    const PATCH = 'PATCH';
+    public const PATCH = 'PATCH';
 
     /**
      * Get all valid HTTP methods.

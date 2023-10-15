@@ -13,7 +13,6 @@ use Zoho\Crm\Contracts\RequestInterface;
 use Zoho\Crm\Contracts\PaginatedRequestInterface;
 use Zoho\Crm\Exceptions\PaginatedRequestInBatchExecutionException;
 use Zoho\Crm\Exceptions\AsyncBatchRequestException;
-use Zoho\Crm\Support\Helper;
 
 /**
  * The API request processor.

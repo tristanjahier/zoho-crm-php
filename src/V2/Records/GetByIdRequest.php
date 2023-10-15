@@ -4,7 +4,6 @@ namespace Zoho\Crm\V2\Records;
 
 use Zoho\Crm\Contracts\ResponseTransformerInterface;
 use Zoho\Crm\Exceptions\InvalidRequestException;
-use Zoho\Crm\Support\Helper;
 
 /**
  * A request to get a specific record by ID.
@@ -44,7 +43,7 @@ class GetByIdRequest extends AbstractRequest
      */
     public function getUrl(): string
     {
-        return "$this->module/$this->recordId?$this->urlParameters";
+        return "{$this->module}/{$this->recordId}?{$this->urlParameters}";
     }
 
     /**

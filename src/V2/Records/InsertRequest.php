@@ -13,7 +13,7 @@ use Zoho\Crm\Support\HttpMethod;
 class InsertRequest extends AbstractRequest
 {
     /** @var string[] All available triggers */
-    const TRIGGERS = ['workflow', 'approval', 'blueprint'];
+    public const TRIGGERS = ['workflow', 'approval', 'blueprint'];
 
     /** @inheritdoc */
     protected $httpMethod = HttpMethod::POST;
@@ -72,7 +72,7 @@ class InsertRequest extends AbstractRequest
 
         foreach ($triggers as $trigger) {
             if (! in_array($trigger, self::TRIGGERS)) {
-                throw new \InvalidArgumentException("'$trigger' is not a valid Zoho CRM API trigger.");
+                throw new \InvalidArgumentException("'{$trigger}' is not a valid Zoho CRM API trigger.");
             }
         }
 
@@ -114,7 +114,7 @@ class InsertRequest extends AbstractRequest
      */
     public function getUrl(): string
     {
-        return "$this->module?$this->urlParameters";
+        return "{$this->module}?{$this->urlParameters}";
     }
 
     /**

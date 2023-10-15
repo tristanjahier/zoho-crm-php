@@ -60,7 +60,7 @@ class DeleteManyRequest extends AbstractRequest
      */
     public function getUrl(): string
     {
-        return "$this->module?$this->urlParameters";
+        return "{$this->module}?{$this->urlParameters}";
     }
 
     /**

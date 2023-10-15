@@ -278,7 +278,7 @@ class ModuleHelper
      */
     public function searchBy(string $field, string $value): SearchRequest
     {
-        return $this->search("($field:equals:$value)");
+        return $this->search("({$field}:equals:{$value})");
     }
 
     /**

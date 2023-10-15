@@ -21,7 +21,7 @@ class ListDeletedRequest extends AbstractRequest implements PaginatedRequestInte
      */
     public function getUrl(): string
     {
-        return "$this->module/deleted?$this->urlParameters";
+        return "{$this->module}/deleted?{$this->urlParameters}";
     }
 
     /**

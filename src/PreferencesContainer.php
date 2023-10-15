@@ -54,9 +54,9 @@ class PreferencesContainer extends Collection
     {
         if ($this->has($key)) {
             return parent::set($key, $value);
-        } else {
-            throw new UnsupportedPreferenceException($key);
         }
+
+        throw new UnsupportedPreferenceException($key);
     }
 
     /**
@@ -72,9 +72,9 @@ class PreferencesContainer extends Collection
     {
         if ($this->has($key)) {
             return parent::get($key);
-        } else {
-            throw new UnsupportedPreferenceException($key);
         }
+
+        throw new UnsupportedPreferenceException($key);
     }
 
     /**

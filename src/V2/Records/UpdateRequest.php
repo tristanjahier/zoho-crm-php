@@ -80,7 +80,7 @@ class UpdateRequest extends AbstractRequest
 
         foreach ($triggers as $trigger) {
             if (! in_array($trigger, InsertRequest::TRIGGERS)) {
-                throw new \InvalidArgumentException("'$trigger' is not a valid Zoho CRM API trigger.");
+                throw new \InvalidArgumentException("'{$trigger}' is not a valid Zoho CRM API trigger.");
             }
         }
 
@@ -122,7 +122,7 @@ class UpdateRequest extends AbstractRequest
      */
     public function getUrl(): string
     {
-        return "$this->module/$this->recordId?$this->urlParameters";
+        return "{$this->module}/{$this->recordId}?{$this->urlParameters}";
     }
 
     /**

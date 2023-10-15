@@ -25,7 +25,7 @@ class ListRequest extends AbstractRequest implements PaginatedRequestInterface
      */
     public function getUrl(): string
     {
-        return "$this->module?$this->urlParameters";
+        return "{$this->module}?{$this->urlParameters}";
     }
 
     /**

@@ -22,7 +22,9 @@ class ErrorHandler implements ErrorHandlerInterface
 
                 if ($response['code'] === 'INVALID_TOKEN') {
                     throw new Exceptions\InvalidTokenException($exception->getMessage());
-                } elseif ($response['code'] === 'AUTHENTICATION_FAILURE') {
+                }
+
+                if ($response['code'] === 'AUTHENTICATION_FAILURE') {
                     throw new Exceptions\AuthenticationFailureException($exception->getMessage());
                 }
             }

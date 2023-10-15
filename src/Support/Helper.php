@@ -40,17 +40,19 @@ final class Helper
      * @param string $bool A string representing a boolean
      * @return bool
      *
-     * @throws \Exception if the string is neither "true" nor "false".
+     * @throws \Exception if the string is neither "true" nor "false"
      */
     public static function stringToBoolean(string $bool): bool
     {
         if ($bool === 'true') {
             return true;
-        } elseif ($bool === 'false') {
+        }
+
+        if ($bool === 'false') {
             return false;
         }
 
-        throw new \InvalidArgumentException("Invalid boolean string representation: '$bool'");
+        throw new \InvalidArgumentException("Invalid boolean string representation: '{$bool}'");
     }
 
     /**
@@ -156,8 +158,8 @@ final class Helper
     {
         if ($pos = strrchr($className, '\\')) {
             return substr($pos, 1);
-        } else {
-            return $className;
         }
+
+        return $className;
     }
 }

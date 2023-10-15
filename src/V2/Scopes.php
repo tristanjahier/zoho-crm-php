@@ -5,15 +5,15 @@ namespace Zoho\Crm\V2;
 /**
  * Static helper class to manipulate and validate OAuth authorization scopes.
  *
- * @link https://www.zoho.com/crm//developer/docs/api/oauth-overview.html#scopes
+ * @see https://www.zoho.com/crm//developer/docs/api/oauth-overview.html#scopes
  */
 final class Scopes
 {
     /** @var string The root of each Zoho CRM scopes */
-    const SERVICE_NAME = 'ZohoCRM';
+    public const SERVICE_NAME = 'ZohoCRM';
 
     /** @var array All valid scopes */
-    const SCOPES = [
+    public const SCOPES = [
         'users' => ['all', 'read', 'write', 'create', 'update', 'delete'],
 
         'org' => ['all', 'read', 'write', 'create', 'update', 'delete'],

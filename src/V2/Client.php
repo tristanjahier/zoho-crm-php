@@ -22,16 +22,16 @@ use Zoho\Crm\RawRequest;
  *
  * @author Tristan Jahier <tristan.jahier@gmail.com>
  *
- * @property-read Records\SubApi $records
- * @property-read Users\SubApi $users
+ * @property Records\SubApi $records
+ * @property Users\SubApi $users
  */
 class Client implements ClientInterface
 {
     /** @var string The API endpoint used by default */
-    const DEFAULT_ENDPOINT = 'https://www.zohoapis.com/crm/v2/';
+    public const DEFAULT_ENDPOINT = 'https://www.zohoapis.com/crm/v2/';
 
     /** @var string The API OAuth 2.0 authorization endpoint used by default */
-    const DEFAULT_OAUTH_ENDPOINT = 'https://accounts.zoho.com/oauth/v2/';
+    public const DEFAULT_OAUTH_ENDPOINT = 'https://accounts.zoho.com/oauth/v2/';
 
     /** @var string[] The sub-APIs helpers classes */
     protected static $subApiClasses = [
@@ -83,8 +83,8 @@ class Client implements ClientInterface
         string $oAuthClientSecret,
         string $oAuthRefreshToken,
         StoreInterface $accessTokenStore = null,
-        string $endpoint = null)
-    {
+        string $endpoint = null
+    ) {
         $this->oAuthClientId = $oAuthClientId;
         $this->oAuthClientSecret = $oAuthClientSecret;
         $this->oAuthRefreshToken = $oAuthRefreshToken;
@@ -317,7 +317,7 @@ class Client implements ClientInterface
         // Save the new access token
         $this->accessTokenStore->setAccessToken($response['access_token'] ?? null);
         $delayInSeconds = $response['expires_in_sec'] ?? $response['expires_in'];
-        $this->accessTokenStore->setExpiryDate((new \DateTime)->modify("+$delayInSeconds seconds"));
+        $this->accessTokenStore->setExpiryDate((new \DateTime())->modify("+{$delayInSeconds} seconds"));
 
         if ($this->preferences->isEnabled('access_token_auto_save')) {
             $this->accessTokenStore->save();

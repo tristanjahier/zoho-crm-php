@@ -31,7 +31,7 @@ class AccessTokenAutoRefresh implements MiddlewareInterface
     {
         if ($this->client->preferences()->isSet('access_token_auto_refresh_limit')) {
             $limit = $this->client->preferences()->get('access_token_auto_refresh_limit');
-            $date = (new \DateTime())->modify("+$limit seconds");
+            $date = (new \DateTime())->modify("+{$limit} seconds");
 
             // If the token is null, has expired, or will expire within the given limit of time: refresh it!
             if (! $this->client->accessTokenIsValid() || $date > $this->client->getAccessTokenExpiryDate()) {

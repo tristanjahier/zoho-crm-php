@@ -65,7 +65,7 @@ trait HasPagination
         $max = RequestPaginator::PAGE_MAX_SIZE;
 
         if ($perPage <= 0 || $perPage > $max) {
-            throw new \InvalidArgumentException("\"Per page\" number must be between 1 and $max.");
+            throw new \InvalidArgumentException("\"Per page\" number must be between 1 and {$max}.");
         }
 
         return $this->param('per_page', $perPage);

@@ -8,7 +8,7 @@ namespace Zoho\Crm;
 abstract class AbstractRequestPaginator implements Contracts\RequestPaginatorInterface
 {
     /** @var int The maximum number of items per page */
-    const PAGE_MAX_SIZE = 200;
+    public const PAGE_MAX_SIZE = 200;
 
     /** @var Contracts\PaginatedRequestInterface The parent request */
     protected $request;

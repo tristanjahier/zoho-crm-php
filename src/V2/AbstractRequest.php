@@ -3,7 +3,6 @@
 namespace Zoho\Crm\V2;
 
 use Zoho\Crm\Contracts\RequestInterface;
-use Zoho\Crm\Support\Helper;
 use Zoho\Crm\Support\UrlParameters;
 use Zoho\Crm\Traits\{
     BasicRequestImplementation,

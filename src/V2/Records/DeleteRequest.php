@@ -58,7 +58,7 @@ class DeleteRequest extends AbstractRequest
      */
     public function getUrl(): string
     {
-        return "$this->module/$this->recordId?$this->urlParameters";
+        return "{$this->module}/{$this->recordId}?{$this->urlParameters}";
     }
 
     /**

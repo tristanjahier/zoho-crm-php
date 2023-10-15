@@ -88,10 +88,10 @@ abstract class AbstractStore implements StoreInterface
     public function expiresInLessThan(int $howMuch, string $what): bool
     {
         if ($howMuch < 0) {
-            throw new \LogicException("The amount of time cannot be negative.");
+            throw new \LogicException('The amount of time cannot be negative.');
         }
 
-        $date = (new \DateTime())->modify("+$howMuch $what");
+        $date = (new \DateTime())->modify("+{$howMuch} {$what}");
 
         return is_null($this->accessToken) || $date > $this->expiryDate;
     }

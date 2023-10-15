@@ -11,6 +11,6 @@ class InvalidHttpMethodException extends Exception
      */
     public function __construct(string $method)
     {
-        parent::__construct("\"$method\" is not a valid HTTP method.");
+        parent::__construct("\"{$method}\" is not a valid HTTP method.");
     }
 }

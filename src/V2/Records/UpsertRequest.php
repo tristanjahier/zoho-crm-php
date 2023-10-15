@@ -30,7 +30,7 @@ class UpsertRequest extends InsertRequest
      */
     public function getUrl(): string
     {
-        return "$this->module/upsert?$this->urlParameters";
+        return "{$this->module}/upsert?{$this->urlParameters}";
     }
 
     /**

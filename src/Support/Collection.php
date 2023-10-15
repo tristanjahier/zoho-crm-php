@@ -7,7 +7,6 @@ use Countable;
 use IteratorAggregate;
 use ArrayIterator;
 use InvalidArgumentException;
-use Zoho\Crm\Support\Helper;
 use Zoho\Crm\Exceptions\InvalidComparisonOperatorException;
 
 /**
@@ -878,7 +877,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, Arrayable
 
         if ($requested > $count) {
             throw new InvalidArgumentException(
-                "You are trying to get $requested items but the collection only contains $count."
+                "You are trying to get {$requested} items but the collection only contains {$count}."
             );
         }
 
@@ -963,7 +962,9 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, Arrayable
     {
         if (is_array($item) || $item instanceof ArrayAccess) {
             return $item[$property] ?? null;
-        } elseif (is_object($item) && isset($item->{$property})) {
+        }
+
+        if (is_object($item) && isset($item->{$property})) {
             return $item->{$property};
         }
 

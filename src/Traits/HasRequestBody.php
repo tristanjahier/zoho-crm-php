@@ -7,7 +7,7 @@ namespace Zoho\Crm\Traits;
  */
 trait HasRequestBody
 {
-    /** @var mixed $body The HTTP request body */
+    /** @var mixed The HTTP request body */
     protected $body;
 
     /**

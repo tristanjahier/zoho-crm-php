@@ -8,25 +8,25 @@ use Zoho\Crm\Support\Helper;
 /**
  * Helper for the Record APIs.
  *
- * @property-read ModuleHelper $leads
- * @property-read ModuleHelper $accounts
- * @property-read ModuleHelper $contacts
- * @property-read ModuleHelper $deals
- * @property-read ModuleHelper $campaigns
- * @property-read ModuleHelper $tasks
- * @property-read ModuleHelper $cases
- * @property-read ModuleHelper $events
- * @property-read ModuleHelper $calls
- * @property-read ModuleHelper $solutions
- * @property-read ModuleHelper $products
- * @property-read ModuleHelper $vendors
- * @property-read ModuleHelper $priceBooks
- * @property-read ModuleHelper $quotes
- * @property-read ModuleHelper $salesOrders
- * @property-read ModuleHelper $purchaseOrders
- * @property-read ModuleHelper $invoices
- * @property-read ModuleHelper $activities
- * @property-read ModuleHelper $notes
+ * @property ModuleHelper $leads
+ * @property ModuleHelper $accounts
+ * @property ModuleHelper $contacts
+ * @property ModuleHelper $deals
+ * @property ModuleHelper $campaigns
+ * @property ModuleHelper $tasks
+ * @property ModuleHelper $cases
+ * @property ModuleHelper $events
+ * @property ModuleHelper $calls
+ * @property ModuleHelper $solutions
+ * @property ModuleHelper $products
+ * @property ModuleHelper $vendors
+ * @property ModuleHelper $priceBooks
+ * @property ModuleHelper $quotes
+ * @property ModuleHelper $salesOrders
+ * @property ModuleHelper $purchaseOrders
+ * @property ModuleHelper $invoices
+ * @property ModuleHelper $activities
+ * @property ModuleHelper $notes
  */
 class SubApi extends AbstractSubApi
 {
