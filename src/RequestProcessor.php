@@ -4,7 +4,7 @@ namespace Zoho\Crm;
 
 use Closure;
 use Exception;
-use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Psr7\Request as HttpRequest;
 use Zoho\Crm\Contracts\ClientInterface;
 use Zoho\Crm\Contracts\HttpRequestSenderInterface;
 use Zoho\Crm\Contracts\ResponseParserInterface;
@@ -137,12 +137,12 @@ class RequestProcessor
     /**
      * Create an HTTP request out of an API request.
      *
-     * @param Contracts\RequestInterface $request The request
+     * @param Contracts\RequestInterface $request The API request
      * @return \GuzzleHttp\Psr7\Request
      */
     protected function createHttpRequest(RequestInterface $request)
     {
-        return new Request(
+        return new HttpRequest(
             $request->getHttpMethod(),
             $this->client->getEndpoint() . $request->getUrlPath() . '?' . $request->getUrlParameters(),
             $request->getHeaders(),
