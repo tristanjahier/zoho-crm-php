@@ -21,6 +21,7 @@ https://github.com/tristanjahier/zoho-crm-php/compare/0.5.0...master
   - Methods of interface `ClientInterface` have been renamed: `executeQuery => executeRequest`, `beforeQueryExecution => beforeRequestExecution` and `afterQueryExecution => afterRequestExecution`.
   - `Zoho\Crm\QueryProcessor` was renamed `Zoho\Crm\RequestProcessor`.
   - The `Query` suffix was changed for `Request` in all API query objects. For example: `ListQuery => ListRequest`, `SearchQuery => SearchRequest` `UpdateQuery => UpdateRequest`.
+- In `HttpRequestableInterface`, method `getUrl` has been replaced by `getUrlPath`, because it simplifies implementations to require the URL path separately.
 - Renamed "request sender" to "HTTP request sender" to clarify that this component is purely dedicated to HTTP transport (interface `Zoho\Crm\Contracts\HttpRequestSenderInterface` and implementation `Zoho\Crm\HttpRequestSender`).
   - Additionally, signatures of methods `sendAsync` and `fetchAsyncResponses` were modified.
 - Added explicit dependency on `psr/http-message`. To be clear: the library was *already* dependent on this package, but it was indirectly relying on Guzzle to install it.
