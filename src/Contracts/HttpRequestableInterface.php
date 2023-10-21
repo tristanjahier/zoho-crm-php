@@ -14,11 +14,11 @@ interface HttpRequestableInterface
     public function getHttpMethod(): string;
 
     /**
-     * Get the URL to request.
+     * Get the URL path to request.
      *
      * @return string
      */
-    public function getUrl(): string;
+    public function getUrlPath(): string;
 
     /**
      * Set a query string parameter on the existing URL.

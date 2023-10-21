@@ -72,9 +72,9 @@ class ListRelatedRequest extends AbstractRequest implements PaginatedRequestInte
     /**
      * @inheritdoc
      */
-    public function getUrl(): string
+    public function getUrlPath(): string
     {
-        return "{$this->module}/{$this->recordId}/{$this->relatedModule}?{$this->urlParameters}";
+        return "{$this->module}/{$this->recordId}/{$this->relatedModule}";
     }
 
     /**

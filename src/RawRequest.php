@@ -47,9 +47,9 @@ class RawRequest implements RequestInterface
     /**
      * @inheritdoc
      */
-    public function getUrl(): string
+    public function getUrlPath(): string
     {
-        return "{$this->urlPath}?{$this->urlParameters}";
+        return $this->urlPath;
     }
 
     /**

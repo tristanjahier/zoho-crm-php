@@ -19,9 +19,9 @@ class ListRequest extends AbstractRequest implements PaginatedRequestInterface
     /**
      * @inheritdoc
      */
-    public function getUrl(): string
+    public function getUrlPath(): string
     {
-        return "users?{$this->urlParameters}";
+        return 'users';
     }
 
     /**

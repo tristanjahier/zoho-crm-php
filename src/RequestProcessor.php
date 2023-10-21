@@ -144,7 +144,7 @@ class RequestProcessor
     {
         return new Request(
             $request->getHttpMethod(),
-            $this->client->getEndpoint() . $request->getUrl(),
+            $this->client->getEndpoint() . $request->getUrlPath() . '?' . $request->getUrlParameters(),
             $request->getHeaders(),
             $request->getBody()
         );

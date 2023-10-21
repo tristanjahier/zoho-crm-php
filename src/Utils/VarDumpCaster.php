@@ -8,7 +8,6 @@ use Zoho\Crm\Contracts\ClientInterface;
 use Zoho\Crm\Contracts\RequestInterface;
 use Zoho\Crm\Entities\Entity;
 use Zoho\Crm\Support\Collection;
-use Zoho\Crm\Support\UrlParameters;
 use Zoho\Crm\V2\Client as V2Client;
 
 /**
@@ -83,12 +82,12 @@ class VarDumpCaster
      */
     public static function castRequest(RequestInterface $request)
     {
-        $urlComponents = parse_url($request->getUrl());
-        $urlComponents['query'] = UrlParameters::createFromString($urlComponents['query'] ?? '')->toArray();
-
         return self::prefixKeys([
             'httpMethod' => $request->getHttpMethod(),
-            'url' => $urlComponents,
+            'url' => [
+                'path' => $request->getUrlPath(),
+                'query' => $request->getUrlParameters()->toArray(),
+            ],
             'headers' => $request->getHeaders(),
             'body' => mb_strimwidth((string) $request->getBody(), 0, 128, ' … (truncated)', 'UTF-8')
         ], Caster::PREFIX_PROTECTED);

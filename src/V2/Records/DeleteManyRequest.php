@@ -58,9 +58,9 @@ class DeleteManyRequest extends AbstractRequest
     /**
      * @inheritdoc
      */
-    public function getUrl(): string
+    public function getUrlPath(): string
     {
-        return "{$this->module}?{$this->urlParameters}";
+        return $this->module;
     }
 
     /**

@@ -18,9 +18,9 @@ class SearchRequest extends AbstractRequest implements PaginatedRequestInterface
     /**
      * @inheritdoc
      */
-    public function getUrl(): string
+    public function getUrlPath(): string
     {
-        return "{$this->module}/search?{$this->urlParameters}";
+        return "{$this->module}/search";
     }
 
     /**

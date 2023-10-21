@@ -19,9 +19,9 @@ class ListDeletedRequest extends AbstractRequest implements PaginatedRequestInte
     /**
      * @inheritdoc
      */
-    public function getUrl(): string
+    public function getUrlPath(): string
     {
-        return "{$this->module}/deleted?{$this->urlParameters}";
+        return "{$this->module}/deleted";
     }
 
     /**

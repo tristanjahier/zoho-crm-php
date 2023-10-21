@@ -28,9 +28,9 @@ class UpsertRequest extends InsertRequest
     /**
      * @inheritdoc
      */
-    public function getUrl(): string
+    public function getUrlPath(): string
     {
-        return "{$this->module}/upsert?{$this->urlParameters}";
+        return "{$this->module}/upsert";
     }
 
     /**

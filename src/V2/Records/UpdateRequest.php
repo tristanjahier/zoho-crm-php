@@ -120,9 +120,9 @@ class UpdateRequest extends AbstractRequest
     /**
      * @inheritdoc
      */
-    public function getUrl(): string
+    public function getUrlPath(): string
     {
-        return "{$this->module}/{$this->recordId}?{$this->urlParameters}";
+        return "{$this->module}/{$this->recordId}";
     }
 
     /**

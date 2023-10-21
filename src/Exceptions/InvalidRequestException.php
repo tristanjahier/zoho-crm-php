@@ -14,6 +14,12 @@ class InvalidRequestException extends Exception
      */
     public function __construct(RequestInterface $request, $message)
     {
-        parent::__construct("Invalid request: {$message} ({$request->getHttpMethod()} /{$request->getUrl()})");
+        $url = '/' . $request->getUrlPath();
+
+        if ($request->getUrlParameters()->isNotEmpty()) {
+            $url .= '?' . $request->getUrlParameters();
+        }
+
+        parent::__construct("Invalid request: {$message} ({$request->getHttpMethod()} {$url})");
     }
 }
