@@ -25,6 +25,8 @@ https://github.com/tristanjahier/zoho-crm-php/compare/0.5.0...master
 - Renamed "request sender" to "HTTP request sender" to clarify that this component is purely dedicated to HTTP transport (interface `Zoho\Crm\Contracts\HttpRequestSenderInterface` and implementation `Zoho\Crm\HttpRequestSender`).
   - Additionally, signatures of methods `sendAsync` and `fetchAsyncResponses` were modified.
 - Added explicit dependency on `psr/http-message`. To be clear: the library was *already* dependent on this package, but it was indirectly relying on Guzzle to install it.
+- The full original HTTP responses will now be kept in response objects, instead of only the raw body contents. In interface `ResponseInterface`, the `getRawContent` method has been replaced with `getRawResponses`, which must always return an array of HTTP responses.
+  - Consequently, request method `getRaw` was changed to return an array of HTTP responses (PSR interface) if the request is paginated, or else a single HTTP response.
 
 ### Removed
 
