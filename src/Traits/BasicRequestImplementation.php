@@ -2,6 +2,7 @@
 
 namespace Zoho\Crm\Traits;
 
+use Zoho\Crm\Contracts\PaginatedRequestInterface;
 use Zoho\Crm\Contracts\RequestInterface;
 use Zoho\Crm\Contracts\ResponseInterface;
 use Zoho\Crm\Contracts\ClientInterface;
@@ -49,12 +50,16 @@ trait BasicRequestImplementation
     }
 
     /**
-     * Execute the request and get the raw, unparsed response.
+     * Execute the request and get the raw HTTP response(s).
      *
-     * @return string|string[]
+     * @return \Psr\Http\Message\ResponseInterface|\Psr\Http\Message\ResponseInterface[]
      */
     public function getRaw()
     {
-        return $this->execute()->getRawContent();
+        $responses = $this->execute()->getRawResponses();
+
+        return $this instanceof PaginatedRequestInterface && $this->mustBePaginatedAutomatically()
+            ? $responses
+            : array_values($responses)[0];
     }
 }

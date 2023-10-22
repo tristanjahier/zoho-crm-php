@@ -35,6 +35,6 @@ class ResponseParser implements ResponseParserInterface
             $content = $transformer->transformResponse($content, $request);
         }
 
-        return new Response($request, $content, $rawContent);
+        return new Response($request, $content, $httpResponse);
     }
 }

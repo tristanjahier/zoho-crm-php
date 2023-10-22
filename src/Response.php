@@ -2,6 +2,7 @@
 
 namespace Zoho\Crm;
 
+use Psr\Http\Message\ResponseInterface as HttpResponseInterface;
 use Zoho\Crm\Contracts\ResponseInterface;
 use Zoho\Crm\Contracts\RequestInterface;
 
@@ -13,24 +14,24 @@ class Response implements ResponseInterface
     /** @var \Zoho\Crm\Contracts\RequestInterface The origin request */
     private $request;
 
-    /** @var string The raw HTTP response body */
-    private $rawContent;
-
     /** @var mixed The parsed, cleaned up response content */
     private $content;
+
+    /** @var \Psr\Http\Message\ResponseInterface[] The raw HTTP responses */
+    private $httpResponses;
 
     /**
      * The constructor.
      *
      * @param \Zoho\Crm\Contracts\RequestInterface $request The origin request
      * @param mixed $content The parsed response content
-     * @param string $rawContent The raw response body
+     * @param HttpResponseInterface|HttpResponseInterface[]|null $httpResponse (optional) The raw HTTP response(s)
      */
-    public function __construct(RequestInterface $request, $content, $rawContent)
+    public function __construct(RequestInterface $request, $content, HttpResponseInterface|array $httpResponse = null)
     {
         $this->request = $request;
-        $this->rawContent = $rawContent;
         $this->content = $content;
+        $this->httpResponses = is_array($httpResponse) ? $httpResponse : [$httpResponse];
     }
 
     /**
@@ -41,14 +42,6 @@ class Response implements ResponseInterface
     public function getRequest(): RequestInterface
     {
         return $this->request;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getRawContent()
-    {
-        return $this->rawContent;
     }
 
     /**
@@ -69,6 +62,14 @@ class Response implements ResponseInterface
         $this->content = $content;
 
         return $this;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getRawResponses(): array
+    {
+        return $this->httpResponses;
     }
 
     /**

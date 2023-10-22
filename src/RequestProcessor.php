@@ -163,12 +163,12 @@ class RequestProcessor
 
         // Once all pages have been fetched, we will merge them into a single response
         $contents = [];
-        $rawContents = [];
+        $rawResponses = [];
 
         // Extract data from each response
         foreach ($paginator->getResponses() as $page) {
             $contents[] = $page->getContent();
-            $rawContents[] = $page->getRawContent();
+            $rawResponses = array_merge($rawResponses, $page->getRawResponses());
         }
 
         // Get rid of potential empty pages
@@ -178,7 +178,7 @@ class RequestProcessor
         // of the content, we need to defer this operation to a dedicated object.
         $mergedContent = $request->getResponsePageMerger()->mergePaginatedContents(...$contents);
 
-        return new Response($request, $mergedContent, $rawContents);
+        return new Response($request, $mergedContent, $rawResponses);
     }
 
     /**
