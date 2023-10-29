@@ -60,11 +60,11 @@ final class Helper
      *
      * The pattern wildcard is the asterisk: "*".
      *
-     * @param string|null $value The string to test
+     * @param string $value The string to test
      * @param string $pattern The pattern
      * @return bool
      */
-    public static function stringIsLike(?string $value, string $pattern): bool
+    public static function stringIsLike(string $value, string $pattern): bool
     {
         if ($value === $pattern) {
             return true;

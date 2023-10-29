@@ -565,11 +565,11 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, Arrayable
                 case 'in':
                     return in_array($itemValue, $this->getPlainArray($value));
                 case '=~':
-                    return preg_match($value, $itemValue) === 1;
+                    return preg_match($value, (string) $itemValue) === 1;
                 case 'like':
-                    return Helper::stringIsLike($itemValue, $value);
+                    return Helper::stringIsLike((string) $itemValue, $value);
                 case 'not like':
-                    return ! Helper::stringIsLike($itemValue, $value);
+                    return ! Helper::stringIsLike((string) $itemValue, $value);
             }
 
             throw new InvalidComparisonOperatorException($operator);
