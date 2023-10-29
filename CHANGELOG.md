@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 https://github.com/tristanjahier/zoho-crm-php/compare/0.5.0...master
 
+### Added
+
+- Client preference `keep_raw_responses` (default `true`) to toggle retention of raw HTTP responses in response objects.
+
 ### Changed
 
 - Dropped support for PHP 7.
@@ -50,7 +54,7 @@ https://github.com/tristanjahier/zoho-crm-php/compare/0.5.0...master
 
 ### Fixed
 
-- Deprecation warnings related to functions `explode` and `trim`.
+- Deprecation warnings related to functions `explode`, `trim` and `preg_match`.
 
 ### Development
 
