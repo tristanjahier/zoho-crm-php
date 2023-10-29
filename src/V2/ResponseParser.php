@@ -15,6 +15,19 @@ use Zoho\Crm\Response;
  */
 class ResponseParser implements ResponseParserInterface
 {
+    /** @var Preferences The client preferences */
+    protected $preferences;
+
+    /**
+     * The constructor.
+     *
+     * @param Preferences $preferences The client preferences
+     */
+    public function __construct(Preferences $preferences)
+    {
+        $this->preferences = $preferences;
+    }
+
     /**
      * @inheritdoc
      *
@@ -33,6 +46,10 @@ class ResponseParser implements ResponseParserInterface
 
         if ($transformer = $request->getResponseTransformer()) {
             $content = $transformer->transformResponse($content, $request);
+        }
+
+        if (! $this->preferences->isEnabled('keep_raw_responses')) {
+            $httpResponse = null;
         }
 
         return new Response($request, $content, $httpResponse);

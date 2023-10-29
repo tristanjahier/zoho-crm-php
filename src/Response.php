@@ -18,7 +18,7 @@ class Response implements ResponseInterface
     private $content;
 
     /** @var \Psr\Http\Message\ResponseInterface[] The raw HTTP responses */
-    private $httpResponses;
+    private $httpResponses = [];
 
     /**
      * The constructor.
@@ -31,7 +31,10 @@ class Response implements ResponseInterface
     {
         $this->request = $request;
         $this->content = $content;
-        $this->httpResponses = is_array($httpResponse) ? $httpResponse : [$httpResponse];
+
+        if (isset($httpResponse)) {
+            $this->httpResponses = is_array($httpResponse) ? $httpResponse : [$httpResponse];
+        }
     }
 
     /**

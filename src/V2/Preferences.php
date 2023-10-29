@@ -25,5 +25,12 @@ class Preferences extends PreferencesContainer
          * @var int|null
          */
         'access_token_auto_refresh_limit' => null,
+
+        /**
+         * Whether references to the raw HTTP responses should be kept inside the response object.
+         *
+         * @var bool
+         */
+        'keep_raw_responses' => true,
     ];
 }

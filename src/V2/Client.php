@@ -99,7 +99,7 @@ class Client implements ClientInterface
         $this->requestProcessor = new RequestProcessor(
             $this,
             new HttpRequestSender(),
-            new ResponseParser(),
+            new ResponseParser($this->preferences),
             new ErrorHandler()
         );
 

@@ -52,7 +52,7 @@ trait BasicRequestImplementation
     /**
      * Execute the request and get the raw HTTP response(s).
      *
-     * @return \Psr\Http\Message\ResponseInterface|\Psr\Http\Message\ResponseInterface[]
+     * @return \Psr\Http\Message\ResponseInterface|\Psr\Http\Message\ResponseInterface[]|null
      */
     public function getRaw()
     {
@@ -60,6 +60,6 @@ trait BasicRequestImplementation
 
         return $this instanceof PaginatedRequestInterface && $this->mustBePaginatedAutomatically()
             ? $responses
-            : array_values($responses)[0];
+            : array_values($responses)[0] ?? null;
     }
 }
