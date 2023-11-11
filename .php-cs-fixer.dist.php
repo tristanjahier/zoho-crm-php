@@ -8,6 +8,7 @@ return (new PhpCsFixer\Config())
         '@PSR12' => true,
         '@PhpCsFixer' => true,
 
+        'declare_strict_types' => true,
         'not_operator_with_successor_space' => true,
         'yoda_style' => false,
         'blank_line_before_statement' => [
