@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Zoho\Crm\Utils;
 
 use GuzzleHttp\Psr7\Request;

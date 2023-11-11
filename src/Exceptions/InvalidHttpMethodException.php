@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Zoho\Crm\Exceptions;
 
 class InvalidHttpMethodException extends Exception

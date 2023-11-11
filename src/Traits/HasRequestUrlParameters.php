@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Zoho\Crm\Traits;
 
 use Zoho\Crm\Support\UrlParameters;
