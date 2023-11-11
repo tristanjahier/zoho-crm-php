@@ -81,6 +81,22 @@ final class Helper
     }
 
     /**
+     * Make a string finish with a single instance of a given suffix.
+     *
+     * Note: adapted from Laravel (`Illuminate\Support\Str::finish`).
+     *
+     * @param string $value The string to modify
+     * @param string $suffix The string value to have at the end
+     * @return string
+     */
+    public static function finishString(string $value, string $suffix): string
+    {
+        $quoted = preg_quote($suffix, '/');
+
+        return preg_replace('/(?:'.$quoted.')+$/u', '', $value) . $suffix;
+    }
+
+    /**
      * Get all segments of a URL path.
      *
      * @param string $url The URL to parse

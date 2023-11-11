@@ -11,6 +11,7 @@ use Zoho\Crm\Contracts\ClientInterface;
 use Zoho\Crm\Contracts\RequestInterface;
 use Zoho\Crm\Contracts\ResponseInterface;
 use Zoho\Crm\Exceptions\InvalidEndpointException;
+use Zoho\Crm\Support\Helper;
 use Zoho\Crm\Support\UrlParameters;
 use Zoho\Crm\V2\AccessTokenStores\StoreInterface;
 use Zoho\Crm\RequestProcessor;
@@ -117,15 +118,14 @@ class Client implements ClientInterface
      */
     public function setEndpoint(string $endpoint): void
     {
-        // Remove trailing slashes
-        $endpoint = rtrim($endpoint, '/');
+        // Make sure the endpoint ends with a single slash
+        $endpoint = Helper::finishString($endpoint, '/');
 
-        if ($endpoint === '') {
+        if ($endpoint === '/') {
             throw new InvalidEndpointException();
         }
 
-        // Make sure the endpoint ends with a single slash
-        $this->endpoint = $endpoint . '/';
+        $this->endpoint = $endpoint;
     }
 
     /**
@@ -216,15 +216,14 @@ class Client implements ClientInterface
      */
     public function setAuthorizationEndpoint(string $endpoint): void
     {
-        // Remove trailing slashes
-        $endpoint = rtrim($endpoint, '/');
+        // Make sure the endpoint ends with a single slash
+        $endpoint = Helper::finishString($endpoint, '/');
 
-        if ($endpoint === '') {
+        if ($endpoint === '/') {
             throw new InvalidEndpointException();
         }
 
-        // Make sure the endpoint ends with a single slash
-        $this->oAuthEndpoint = $endpoint . '/';
+        $this->oAuthEndpoint = $endpoint;
     }
 
     /**
