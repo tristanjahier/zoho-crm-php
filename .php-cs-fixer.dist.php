@@ -25,6 +25,7 @@ return (new PhpCsFixer\Config())
         'binary_operator_spaces' => ['operators' => ['=>' => null]],
         'no_homoglyph_names' => true,
         'increment_style' => false,
+        'ordered_types' => ['sort_algorithm' => 'none', 'null_adjustment' => 'always_last'],
 
         // Comments
         'no_empty_comment' => false,
