@@ -166,7 +166,7 @@ class Entity implements Arrayable
      */
     public function copy()
     {
-        // Just a simple shallow copy because entities only have primitives attributes
+        // Just a simple shallow copy because entities only have primitive properties
         return clone $this;
     }
 
