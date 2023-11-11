@@ -31,6 +31,10 @@ https://github.com/tristanjahier/zoho-crm-php/compare/0.5.0...master
 - Added explicit dependency on `psr/http-message`. To be clear: the library was *already* dependent on this package, but it was indirectly relying on Guzzle to install it.
 - The full original HTTP responses will now be kept in response objects, instead of only the raw body contents. In interface `ResponseInterface`, the `getRawContent` method has been replaced with `getRawResponses`, which must always return an array of HTTP responses.
   - Consequently, request method `getRaw` was changed to return an array of HTTP responses (PSR interface) if the request is paginated, or else a single HTTP response.
+- API access token refreshing is now handled by a dedicated component named the "access token broker", which must implement `Zoho\Crm\Contracts\AccessTokenBrokerInterface`. Related changes:
+  - `Zoho\Crm\V2\Client`'s constructor now accepts an instance of `AccessTokenBrokerInterface` as its first argument, replacing the client ID, client secret and refresh token. Default implementation is `Zoho\Crm\V2\AccessTokenBroker`.
+  - The callbacks registered with `Zoho\Crm\V2\Client::accessTokenRefreshed` now receive 2 arguments: the new access token (`string`) and its expiry date (`DateTimeInterface`), instead of an `array`.
+  - `Zoho\Crm\V2\Client::refreshAccessToken` return type is now `void`.
 
 ### Removed
 

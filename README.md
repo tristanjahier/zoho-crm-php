@@ -35,7 +35,9 @@ Here are just a few examples of what is possible to do with this library:
 
 ```php
 // Create an API client
-$client = new Zoho\Crm\V2\Client('MY_API_CLIENT_ID', 'MY_API_CLIENT_SECRET', 'MY_API_REFRESH_TOKEN');
+$client = new Zoho\Crm\V2\Client(
+    new Zoho\Crm\V2\AccessTokenBroker('MY_API_CLIENT_ID', 'MY_API_CLIENT_SECRET', 'MY_API_REFRESH_TOKEN')
+);
 
 // Create a request and execute it
 $response = $client->newRawRequest('Calls')->param('page', 2)->execute();
@@ -67,9 +69,16 @@ $client->records->contacts->delete($contactId);
 
 The main component of this library is the `Client` class. This is the **starting point** for each API request.
 
-To create a client object you need to provide the credentials of your registered API client. In that order, the client ID, the client secret, and the refresh token:
+To create a client object you need an "access token broker" first. It is an object which sole purpose is to provide your client with fresh API access tokens. It MUST implement `Zoho\Crm\Contracts\AccessTokenBrokerInterface`.
+
+`Zoho\Crm\V2\AccessTokenBroker` is the default implementation and it should suit most use cases. To create an instance you need to provide the credentials of your registered API client. In that order, the client ID, the client secret, and the refresh token:
 ```php
-$client = new Zoho\Crm\V2\Client('MY_API_CLIENT_ID', 'MY_API_CLIENT_SECRET', 'MY_API_REFRESH_TOKEN');
+$tokenBroker = new Zoho\Crm\V2\AccessTokenBroker('MY_API_CLIENT_ID', 'MY_API_CLIENT_SECRET', 'MY_API_REFRESH_TOKEN');
+```
+
+Then you can create your client using that token broker:
+```php
+$client = new Zoho\Crm\V2\Client($tokenBroker);
 ```
 
 It is sufficient to start making requests to the API of Zoho CRM. However, in this configuration, the API access token (that is used to authenticate requests) will only live as long as the `$client` instance. It means that as soon as your client is garbage-collected or your PHP script stops executing, you will lose your access token, even though it was probably still valid for many minutes!
@@ -77,16 +86,12 @@ It is sufficient to start making requests to the API of Zoho CRM. However, in th
 To prevent wasting fresh access tokens, **it is strongly recommended to use an "access token store" to enable persistency** across multiple PHP lifecycles:
 1. A token store is an object solely meant to handle the storage of the access token used by the client.
 2. It MUST implement `Zoho\Crm\V2\AccessTokenStores\StoreInterface`.
-3. It shall be passed as the 4th argument of the client constructor.
+3. It shall be passed as the 2nd argument of the client constructor.
 
 This library provides a few implementations in `Zoho\Crm\V2\AccessTokenStores`. To quickly get started you may use the `FileStore`, which, as its name suggests, simply stores the access token in the local file system. Example:
 ```php
-$client = new Zoho\Crm\V2\Client(
-    'MY_API_CLIENT_ID', 
-    'MY_API_CLIENT_SECRET', 
-    'MY_API_REFRESH_TOKEN', 
-    new Zoho\Crm\V2\AccessTokenStores\FileStore('dev/.token.json')
-);
+$tokenStore = new Zoho\Crm\V2\AccessTokenStores\FileStore('dev/.token.json');
+$client = new Zoho\Crm\V2\Client($tokenBroker, $tokenStore);
 ```
 
 Finally, you need to make sure that your client has a valid access token (not expired):

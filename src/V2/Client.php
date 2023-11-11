@@ -7,12 +7,12 @@ namespace Zoho\Crm\V2;
 use Closure;
 use DateTimeInterface;
 use GuzzleHttp\Psr7\Request;
+use Zoho\Crm\Contracts\AccessTokenBrokerInterface;
 use Zoho\Crm\Contracts\ClientInterface;
 use Zoho\Crm\Contracts\RequestInterface;
 use Zoho\Crm\Contracts\ResponseInterface;
 use Zoho\Crm\Exceptions\InvalidEndpointException;
 use Zoho\Crm\Support\Helper;
-use Zoho\Crm\Support\UrlParameters;
 use Zoho\Crm\V2\AccessTokenStores\StoreInterface;
 use Zoho\Crm\RequestProcessor;
 use Zoho\Crm\HttpRequestSender;
@@ -33,32 +33,20 @@ class Client implements ClientInterface
     /** @var string The API endpoint used by default */
     public const DEFAULT_ENDPOINT = 'https://www.zohoapis.com/crm/v2/';
 
-    /** @var string The API OAuth 2.0 authorization endpoint used by default */
-    public const DEFAULT_OAUTH_ENDPOINT = 'https://accounts.zoho.com/oauth/v2/';
-
     /** @var string[] The sub-APIs helpers classes */
     protected static $subApiClasses = [
         'records' => Records\SubApi::class,
         'users' => Users\SubApi::class,
     ];
 
-    /** @var string The OAuth 2.0 client ID */
-    protected $oAuthClientId;
-
-    /** @var string The OAuth 2.0 client secret */
-    protected $oAuthClientSecret;
-
-    /** @var string The OAuth 2.0 refresh token */
-    protected $oAuthRefreshToken;
-
-    /** @var string The API endpoint base URL (with trailing slash) */
-    protected $endpoint = self::DEFAULT_ENDPOINT;
-
-    /** @var string The API OAuth 2.0 authorization endpoint base URL */
-    protected $oAuthEndpoint = self::DEFAULT_OAUTH_ENDPOINT;
+    /** @var \Zoho\Crm\Contracts\AccessTokenBrokerInterface The access token broker */
+    protected $accessTokenBroker;
 
     /** @var AccessTokenStores\StoreInterface The access token store */
     protected $accessTokenStore;
+
+    /** @var string The API endpoint base URL (with trailing slash) */
+    protected $endpoint = self::DEFAULT_ENDPOINT;
 
     /** @var \Zoho\Crm\RequestProcessor The request processor */
     protected $requestProcessor;
@@ -75,22 +63,16 @@ class Client implements ClientInterface
     /**
      * The constructor.
      *
-     * @param string $oAuthClientId The client ID
-     * @param string $oAuthClientSecret The client secret
-     * @param string $oAuthRefreshToken The refresh token
+     * @param \Zoho\Crm\Contracts\AccessTokenBrokerInterface $accessTokenBroker The access token broker
      * @param AccessTokenStores\StoreInterface|null $accessTokenStore (optional) The access token store
      * @param string|null $endpoint (optional) The endpoint base URL
      */
     public function __construct(
-        string $oAuthClientId,
-        string $oAuthClientSecret,
-        string $oAuthRefreshToken,
+        AccessTokenBrokerInterface $accessTokenBroker,
         StoreInterface $accessTokenStore = null,
         string $endpoint = null
     ) {
-        $this->oAuthClientId = $oAuthClientId;
-        $this->oAuthClientSecret = $oAuthClientSecret;
-        $this->oAuthRefreshToken = $oAuthRefreshToken;
+        $this->accessTokenBroker = $accessTokenBroker;
         $this->accessTokenStore = $accessTokenStore ?? new AccessTokenStores\NoStore();
 
         if (isset($endpoint)) {
@@ -207,36 +189,6 @@ class Client implements ClientInterface
     }
 
     /**
-     * Set the API OAuth 2.0 authorization endpoint base URL.
-     *
-     * It will ensure that there is one slash at the end.
-     *
-     * @param string $endpoint The endpoint base URL
-     * @return void
-     */
-    public function setAuthorizationEndpoint(string $endpoint): void
-    {
-        // Make sure the endpoint ends with a single slash
-        $endpoint = Helper::finishString($endpoint, '/');
-
-        if ($endpoint === '/') {
-            throw new InvalidEndpointException();
-        }
-
-        $this->oAuthEndpoint = $endpoint;
-    }
-
-    /**
-     * Get the API OAuth 2.0 authorization endpoint.
-     *
-     * @return string
-     */
-    public function getAuthorizationEndpoint(): string
-    {
-        return $this->oAuthEndpoint;
-    }
-
-    /**
      * Set the API OAuth 2.0 access token and its expiry date.
      *
      * @param string|null $accessToken The new access token
@@ -290,35 +242,27 @@ class Client implements ClientInterface
     }
 
     /**
-     * Send a request to the OAuth 2.0 authorization server to get a fresh access token.
+     * Get the access token broker.
      *
-     * @return array
+     * @return \Zoho\Crm\Contracts\AccessTokenBrokerInterface
      */
-    public function refreshAccessToken(): array
+    public function getAccessTokenBroker(): AccessTokenBrokerInterface
     {
-        $httpRequestSender = new HttpRequestSender();
+        return $this->accessTokenBroker;
+    }
 
-        $parameters = new UrlParameters([
-            'grant_type' => 'refresh_token',
-            'client_id' => $this->oAuthClientId,
-            'client_secret' => $this->oAuthClientSecret,
-            'refresh_token' => $this->oAuthRefreshToken
-        ]);
+    /**
+     * Request a fresh API access token and update the store.
+     *
+     * @return void
+     */
+    public function refreshAccessToken(): void
+    {
+        [$token, $expiryDate] = $this->accessTokenBroker->getAccessTokenWithExpiryDate();
 
-        $request = new Request(
-            'POST',
-            $this->oAuthEndpoint . 'token',
-            ['Content-Type' => 'application/x-www-form-urlencoded'],
-            (string) $parameters
-        );
-
-        $response = $httpRequestSender->send($request);
-        $response = json_decode((string) $response->getBody(), true);
-
-        // Save the new access token
-        $this->accessTokenStore->setAccessToken($response['access_token'] ?? null);
-        $delayInSeconds = $response['expires_in_sec'] ?? $response['expires_in'];
-        $this->accessTokenStore->setExpiryDate((new \DateTime())->modify("+{$delayInSeconds} seconds"));
+        // Store the new access token
+        $this->accessTokenStore->setAccessToken($token);
+        $this->accessTokenStore->setExpiryDate($expiryDate);
 
         if ($this->preferences->isEnabled('access_token_auto_save')) {
             $this->accessTokenStore->save();
@@ -326,10 +270,8 @@ class Client implements ClientInterface
 
         // Fire the registered callbacks
         foreach ($this->accessTokenRefreshedCallbacks as $callback) {
-            $callback($response);
+            $callback($token, $expiryDate);
         }
-
-        return $response;
     }
 
     /**
