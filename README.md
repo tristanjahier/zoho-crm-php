@@ -85,12 +85,12 @@ It is sufficient to start making requests to the API of Zoho CRM. However, in th
 
 To prevent wasting fresh access tokens, **it is strongly recommended to use an "access token store" to enable persistency** across multiple PHP lifecycles:
 1. A token store is an object solely meant to handle the storage of the access token used by the client.
-2. It MUST implement `Zoho\Crm\V2\AccessTokenStores\StoreInterface`.
+2. It MUST implement `Zoho\Crm\Contracts\AccessTokenStoreInterface`.
 3. It shall be passed as the 2nd argument of the client constructor.
 
-This library provides a few implementations in `Zoho\Crm\V2\AccessTokenStores`. To quickly get started you may use the `FileStore`, which, as its name suggests, simply stores the access token in the local file system. Example:
+This library provides a few implementations in `Zoho\Crm\AccessTokenStorage`. To quickly get started you may use the `FileStore`, which, as its name suggests, simply stores the access token in the local file system. Example:
 ```php
-$tokenStore = new Zoho\Crm\V2\AccessTokenStores\FileStore('dev/.token.json');
+$tokenStore = new Zoho\Crm\AccessTokenStorage\FileStore('dev/.token.json');
 $client = new Zoho\Crm\V2\Client($tokenBroker, $tokenStore);
 ```
 

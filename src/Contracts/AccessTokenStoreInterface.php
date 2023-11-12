@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Zoho\Crm\V2\AccessTokenStores;
+namespace Zoho\Crm\Contracts;
 
 use DateTimeInterface;
 use DateTimeImmutable;
@@ -10,7 +10,7 @@ use DateTimeImmutable;
 /**
  * An interface to handle the storage of API access tokens.
  */
-interface StoreInterface
+interface AccessTokenStoreInterface
 {
     /**
      * Set the access token.

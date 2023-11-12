@@ -7,13 +7,14 @@ namespace Zoho\Crm\V2;
 use Closure;
 use DateTimeInterface;
 use GuzzleHttp\Psr7\Request;
+use Zoho\Crm\AccessTokenStorage\NoStore;
 use Zoho\Crm\Contracts\AccessTokenBrokerInterface;
+use Zoho\Crm\Contracts\AccessTokenStoreInterface;
 use Zoho\Crm\Contracts\ClientInterface;
 use Zoho\Crm\Contracts\RequestInterface;
 use Zoho\Crm\Contracts\ResponseInterface;
 use Zoho\Crm\Exceptions\InvalidEndpointException;
 use Zoho\Crm\Support\Helper;
-use Zoho\Crm\V2\AccessTokenStores\StoreInterface;
 use Zoho\Crm\RequestProcessor;
 use Zoho\Crm\HttpRequestSender;
 use Zoho\Crm\RawRequest;
@@ -42,7 +43,7 @@ class Client implements ClientInterface
     /** @var \Zoho\Crm\Contracts\AccessTokenBrokerInterface The access token broker */
     protected $accessTokenBroker;
 
-    /** @var AccessTokenStores\StoreInterface The access token store */
+    /** @var \Zoho\Crm\Contracts\AccessTokenStoreInterface The access token store */
     protected $accessTokenStore;
 
     /** @var string The API endpoint base URL (with trailing slash) */
@@ -64,16 +65,16 @@ class Client implements ClientInterface
      * The constructor.
      *
      * @param \Zoho\Crm\Contracts\AccessTokenBrokerInterface $accessTokenBroker The access token broker
-     * @param AccessTokenStores\StoreInterface|null $accessTokenStore (optional) The access token store
+     * @param \Zoho\Crm\Contracts\AccessTokenStoreInterface|null $accessTokenStore (optional) The access token store
      * @param string|null $endpoint (optional) The endpoint base URL
      */
     public function __construct(
         AccessTokenBrokerInterface $accessTokenBroker,
-        StoreInterface $accessTokenStore = null,
+        AccessTokenStoreInterface $accessTokenStore = null,
         string $endpoint = null
     ) {
         $this->accessTokenBroker = $accessTokenBroker;
-        $this->accessTokenStore = $accessTokenStore ?? new AccessTokenStores\NoStore();
+        $this->accessTokenStore = $accessTokenStore ?? new NoStore();
 
         if (isset($endpoint)) {
             $this->setEndpoint($endpoint);
@@ -224,9 +225,9 @@ class Client implements ClientInterface
     /**
      * Get the access token store.
      *
-     * @return StoreInterface
+     * @return AccessTokenStoreInterface
      */
-    public function getAccessTokenStore(): StoreInterface
+    public function getAccessTokenStore(): AccessTokenStoreInterface
     {
         return $this->accessTokenStore;
     }

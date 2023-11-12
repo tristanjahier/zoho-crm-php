@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Zoho\Crm\V2\AccessTokenStores;
+namespace Zoho\Crm\AccessTokenStorage;
 
 /**
  * A local file store for API access token.

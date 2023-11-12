@@ -2,15 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Zoho\Crm\V2\AccessTokenStores;
+namespace Zoho\Crm\AccessTokenStorage;
 
 use DateTimeInterface;
 use DateTimeImmutable;
+use Zoho\Crm\Contracts\AccessTokenStoreInterface;
 
 /**
  * Base implementation of an access token store.
  */
-abstract class AbstractStore implements StoreInterface
+abstract class AbstractStore implements AccessTokenStoreInterface
 {
     /** @var string|null The API access token */
     protected $accessToken;

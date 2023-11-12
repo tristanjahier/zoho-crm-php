@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Zoho\Crm\V2\AccessTokenStores;
+namespace Zoho\Crm\AccessTokenStorage;
 
 /**
  * Implementation of token store that let the developer inject the loading and saving logic.
