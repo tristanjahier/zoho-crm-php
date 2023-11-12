@@ -16,7 +16,7 @@ return (new PhpCsFixer\Config())
         ],
         'concat_space' => false,
         'ordered_class_elements' => false,
-        'ordered_imports' => ['sort_algorithm' => 'none', 'imports_order' => ['class', 'function', 'const']],
+        'ordered_imports' => ['sort_algorithm' => 'alpha', 'imports_order' => ['class', 'function', 'const']],
         'single_import_per_statement' => ['group_to_single_imports' => false],
         'global_namespace_import' => ['import_classes' => null, 'import_constants' => false, 'import_functions' => false],
         'single_trait_insert_per_statement' => false,
