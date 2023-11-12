@@ -6,6 +6,7 @@ namespace Zoho\Crm\AccessTokenStorage;
 
 use DateTimeInterface;
 use DateTimeImmutable;
+use LogicException;
 use Zoho\Crm\Contracts\AccessTokenStoreInterface;
 
 /**
@@ -13,11 +14,11 @@ use Zoho\Crm\Contracts\AccessTokenStoreInterface;
  */
 abstract class AbstractStore implements AccessTokenStoreInterface
 {
-    /** @var string|null The API access token */
-    protected $accessToken;
+    /** @var The API access token */
+    protected ?string $accessToken = null;
 
-    /** @var \DateTimeImmutable|null The access token expiry date */
-    protected $expiryDate;
+    /** @var The access token expiry date */
+    protected ?DateTimeImmutable $expiryDate = null;
 
     /**
      * @inheritdoc
@@ -91,10 +92,10 @@ abstract class AbstractStore implements AccessTokenStoreInterface
     public function expiresInLessThan(int $howMuch, string $what): bool
     {
         if ($howMuch < 0) {
-            throw new \LogicException('The amount of time cannot be negative.');
+            throw new LogicException('The amount of time cannot be negative.');
         }
 
-        $date = (new \DateTime())->modify("+{$howMuch} {$what}");
+        $date = (new DateTimeImmutable())->modify("+{$howMuch} {$what}");
 
         return is_null($this->accessToken) || $date > $this->expiryDate;
     }
