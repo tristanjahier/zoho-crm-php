@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Zoho\Crm;
 
 use Psr\Http\Message\ResponseInterface as HttpResponseInterface;
-use Zoho\Crm\Contracts\ResponseInterface;
 use Zoho\Crm\Contracts\RequestInterface;
+use Zoho\Crm\Contracts\ResponseInterface;
 
 /**
  * A container for the content of an API response.

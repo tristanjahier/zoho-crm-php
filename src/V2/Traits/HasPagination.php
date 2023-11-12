@@ -7,8 +7,8 @@ namespace Zoho\Crm\V2\Traits;
 use Zoho\Crm\Contracts\RequestPaginatorInterface;
 use Zoho\Crm\Contracts\ResponsePageMergerInterface;
 use Zoho\Crm\Traits\HasPagination as BasePaginationTrait;
-use Zoho\Crm\V2\RequestPaginator;
 use Zoho\Crm\V2\CollectionPageMerger;
+use Zoho\Crm\V2\RequestPaginator;
 
 /**
  * Basic API v2 implementation for PaginatedRequestInterface.

@@ -8,13 +8,13 @@ use Closure;
 use Exception;
 use GuzzleHttp\Psr7\Request as HttpRequest;
 use Zoho\Crm\Contracts\ClientInterface;
-use Zoho\Crm\Contracts\HttpRequestSenderInterface;
-use Zoho\Crm\Contracts\ResponseParserInterface;
 use Zoho\Crm\Contracts\ErrorHandlerInterface;
-use Zoho\Crm\Contracts\RequestInterface;
+use Zoho\Crm\Contracts\HttpRequestSenderInterface;
 use Zoho\Crm\Contracts\PaginatedRequestInterface;
-use Zoho\Crm\Exceptions\PaginatedRequestInBatchExecutionException;
+use Zoho\Crm\Contracts\RequestInterface;
+use Zoho\Crm\Contracts\ResponseParserInterface;
 use Zoho\Crm\Exceptions\AsyncBatchRequestException;
+use Zoho\Crm\Exceptions\PaginatedRequestInBatchExecutionException;
 
 /**
  * The API request processor.

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Zoho\Crm\Utils;
 
-use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Client as GuzzleClient;
+use GuzzleHttp\Psr7\Request;
 use Zoho\Crm\Support\UrlParameters;
 
 /**

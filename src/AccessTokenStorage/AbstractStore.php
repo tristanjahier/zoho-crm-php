@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Zoho\Crm\AccessTokenStorage;
 
-use DateTimeInterface;
 use DateTimeImmutable;
+use DateTimeInterface;
 use LogicException;
 use Zoho\Crm\Contracts\AccessTokenStoreInterface;
 

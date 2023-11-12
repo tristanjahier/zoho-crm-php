@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Zoho\Crm;
 
-use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\ResponseInterface;
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Promise\PromiseInterface;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 use Zoho\Crm\Contracts\HttpRequestSenderInterface;
 
 /**

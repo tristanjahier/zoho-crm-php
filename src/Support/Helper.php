@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Zoho\Crm\Support;
 
-use Doctrine\Inflector\InflectorFactory;
 use Doctrine\Inflector\Inflector;
+use Doctrine\Inflector\InflectorFactory;
 
 /**
  * Static helper class for miscellaneous purposes.

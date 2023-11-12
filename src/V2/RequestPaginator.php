@@ -6,8 +6,8 @@ namespace Zoho\Crm\V2;
 
 use Zoho\Crm\AbstractRequestPaginator;
 use Zoho\Crm\Contracts\RequestInterface;
-use Zoho\Crm\Response;
 use Zoho\Crm\Entities\Collection;
+use Zoho\Crm\Response;
 
 /**
  * Paginator for API v2 requests.

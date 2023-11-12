@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Zoho\Crm\Contracts;
 
-use DateTimeInterface;
 use DateTimeImmutable;
+use DateTimeInterface;
 
 /**
  * An interface to handle the storage of API access tokens.

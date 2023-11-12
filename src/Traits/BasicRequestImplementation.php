@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Zoho\Crm\Traits;
 
+use Zoho\Crm\Contracts\ClientInterface;
 use Zoho\Crm\Contracts\PaginatedRequestInterface;
 use Zoho\Crm\Contracts\RequestInterface;
 use Zoho\Crm\Contracts\ResponseInterface;
-use Zoho\Crm\Contracts\ClientInterface;
 
 /**
  * A trait that contains a basic implementation for most of the RequestInterface features.

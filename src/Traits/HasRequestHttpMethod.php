@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Zoho\Crm\Traits;
 
-use Zoho\Crm\Support\HttpMethod;
 use Zoho\Crm\Exceptions\InvalidHttpMethodException;
+use Zoho\Crm\Support\HttpMethod;
 
 /**
  * Basic implementation of HTTP method for RequestInterface.
