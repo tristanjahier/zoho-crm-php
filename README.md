@@ -529,9 +529,9 @@ For that, you can use the `setEndpoint()` method:
 $client->setEndpoint('https://www.zohoapis.eu/crm/v2/');
 ```
 
-Similarly, you can change the authorization endpoint:
+Similarly, **if you are using the default access token broker**, you can change the authorization endpoint:
 ```php
-$client->setAuthorizationEndpoint('https://accounts.zoho.eu/oauth/v2/');
+$client->getAccessTokenBroker()->setAuthorizationEndpoint('https://accounts.zoho.eu/oauth/v2/');
 ```
 
 ### Refresh the access token automatically
