@@ -35,8 +35,14 @@ https://github.com/tristanjahier/zoho-crm-php/compare/0.5.0...master
   - `Zoho\Crm\V2\Client`'s constructor now accepts an instance of `AccessTokenBrokerInterface` as its first argument, replacing the client ID, client secret and refresh token. Default implementation is `Zoho\Crm\V2\AccessTokenBroker`.
   - The callbacks registered with `Zoho\Crm\V2\Client::accessTokenRefreshed` now receive 2 arguments: the new access token (`string`) and its expiry date (`DateTimeInterface`), instead of an `array`.
   - `Zoho\Crm\V2\Client::refreshAccessToken` return type is now `void`.
+  - Methods `setAuthorizationEndpoint` and `getAuthorizationEndpoint` in `Zoho\Crm\V2\Client` have been removed.
 - Moved `Zoho\Crm\V2\AccessTokenStores\StoreInterface` to `Zoho\Crm\Contracts\AccessTokenStoreInterface`.
 - Moved access token store implementations (`FileStore`, `NoStore` etc.) from namespace `Zoho\Crm\V2\AccessTokenStores` to `Zoho\Crm\AccessTokenStorage`.
+- Enabled injection of request processing dependencies in `Zoho\Crm\V2\Client`'s constructor:
+  - The 3rd argument is an optional implementation of `Zoho\Crm\Contracts\HttpRequestSenderInterface`.
+  - The 4th argument is an optional implementation of `Zoho\Crm\Contracts\ResponseParserInterface`.
+  - The 5th argument is an optional implementation of `Zoho\Crm\Contracts\ErrorHandlerInterface`.
+- The optional `$endpoint` argument in `Zoho\Crm\V2\Client`'s constructor is now at the 6th position.
 
 ### Removed
 
