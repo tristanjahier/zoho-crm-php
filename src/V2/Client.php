@@ -11,8 +11,11 @@ use Zoho\Crm\AccessTokenStorage\NoStore;
 use Zoho\Crm\Contracts\AccessTokenBrokerInterface;
 use Zoho\Crm\Contracts\AccessTokenStoreInterface;
 use Zoho\Crm\Contracts\ClientInterface;
+use Zoho\Crm\Contracts\ErrorHandlerInterface;
+use Zoho\Crm\Contracts\HttpRequestSenderInterface;
 use Zoho\Crm\Contracts\RequestInterface;
 use Zoho\Crm\Contracts\ResponseInterface;
+use Zoho\Crm\Contracts\ResponseParserInterface;
 use Zoho\Crm\Exceptions\InvalidEndpointException;
 use Zoho\Crm\HttpRequestSender;
 use Zoho\Crm\RawRequest;
@@ -66,11 +69,17 @@ class Client implements ClientInterface
      *
      * @param \Zoho\Crm\Contracts\AccessTokenBrokerInterface $accessTokenBroker The access token broker
      * @param \Zoho\Crm\Contracts\AccessTokenStoreInterface|null $accessTokenStore (optional) The access token store
+     * @param \Zoho\Crm\Contracts\HttpRequestSenderInterface|null $httpRequestSender (optional) The HTTP request sender
+     * @param \Zoho\Crm\Contracts\ResponseParserInterface|null $responseParser (optional) The response parser
+     * @param \Zoho\Crm\Contracts\ErrorHandlerInterface|null $errorHandler (optional) The error handler
      * @param string|null $endpoint (optional) The endpoint base URL
      */
     public function __construct(
         AccessTokenBrokerInterface $accessTokenBroker,
         AccessTokenStoreInterface $accessTokenStore = null,
+        HttpRequestSenderInterface $httpRequestSender = null,
+        ResponseParserInterface $responseParser = null,
+        ErrorHandlerInterface $errorHandler = null,
         string $endpoint = null
     ) {
         $this->accessTokenBroker = $accessTokenBroker;
@@ -84,9 +93,9 @@ class Client implements ClientInterface
 
         $this->requestProcessor = new RequestProcessor(
             $this,
-            new HttpRequestSender(),
-            new ResponseParser($this->preferences),
-            new ErrorHandler()
+            $httpRequestSender ?? new HttpRequestSender(),
+            $responseParser ?? new ResponseParser($this->preferences),
+            $errorHandler ?? new ErrorHandler()
         );
 
         $this->registerMiddleware(new Middleware\Validation());
