@@ -11,7 +11,7 @@ use Zoho\Crm\Support\Collection;
 /**
  * A container class for the client preferences.
  */
-class PreferenceContainer extends Collection implements ClientPreferenceContainerInterface
+abstract class PreferenceContainer extends Collection implements ClientPreferenceContainerInterface
 {
     /** @var array The available preferences and their default values */
     protected static $defaults = [];
