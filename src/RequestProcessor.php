@@ -60,6 +60,26 @@ class RequestProcessor
         $this->httpRequestSender = $httpRequestSender;
         $this->responseParser = $responseParser;
         $this->errorHandler = $errorHandler;
+
+        $this->passClientPreferencesToComponents();
+    }
+
+    /**
+     * Pass the client preferences to the components that need them.
+     *
+     * @return void
+     */
+    protected function passClientPreferencesToComponents(): void
+    {
+        foreach ([
+            $this->httpRequestSender,
+            $this->responseParser,
+            $this->errorHandler,
+        ] as $component) {
+            if ($component instanceof NeedsClientPreferences) {
+                $component->setClientPreferences($this->client->preferences());
+            }
+        }
     }
 
     /**

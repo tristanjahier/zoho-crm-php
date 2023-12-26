@@ -9,23 +9,23 @@ use Zoho\Crm\Contracts\RequestInterface;
 use Zoho\Crm\Contracts\ResponseInterface;
 use Zoho\Crm\Contracts\ResponseParserInterface;
 use Zoho\Crm\Exceptions\UnreadableResponseException;
+use Zoho\Crm\NeedsClientPreferences;
+use Zoho\Crm\PreferencesContainer;
 use Zoho\Crm\Response;
 
 /**
  * A class to parse and transform a raw HTTP response into an API response object
  * with a clean and exploitable content.
  */
-class ResponseParser implements ResponseParserInterface
+class ResponseParser implements ResponseParserInterface, NeedsClientPreferences
 {
     /** @var Preferences The client preferences */
     protected $preferences;
 
     /**
-     * The constructor.
-     *
-     * @param Preferences $preferences The client preferences
+     * @inheritdoc
      */
-    public function __construct(Preferences $preferences)
+    public function setClientPreferences(PreferencesContainer $preferences): void
     {
         $this->preferences = $preferences;
     }
