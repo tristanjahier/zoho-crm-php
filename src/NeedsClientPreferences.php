@@ -9,8 +9,8 @@ interface NeedsClientPreferences
     /**
      * Set the client preferences.
      *
-     * @param PreferencesContainer $preferences The client preferences container
+     * @param PreferenceContainer $preferences The client preferences container
      * @return void
      */
-    public function setClientPreferences(PreferencesContainer $preferences): void;
+    public function setClientPreferences(PreferenceContainer $preferences): void;
 }

@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Zoho\Crm\V2;
 
-use Zoho\Crm\PreferencesContainer;
+use Zoho\Crm\PreferenceContainer;
 
 /**
  * A container class for the API v2 client preferences.
  */
-class Preferences extends PreferencesContainer
+class Preferences extends PreferenceContainer
 {
     /** @var array The available preferences and their default values */
     protected static $defaults = [

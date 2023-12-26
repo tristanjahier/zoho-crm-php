@@ -10,7 +10,7 @@ use Zoho\Crm\Support\Collection;
 /**
  * A container class for the client preferences.
  */
-class PreferencesContainer extends Collection
+class PreferenceContainer extends Collection
 {
     /** @var array The available preferences and their default values */
     protected static $defaults = [];

@@ -10,7 +10,7 @@ use Zoho\Crm\Contracts\ResponseInterface;
 use Zoho\Crm\Contracts\ResponseParserInterface;
 use Zoho\Crm\Exceptions\UnreadableResponseException;
 use Zoho\Crm\NeedsClientPreferences;
-use Zoho\Crm\PreferencesContainer;
+use Zoho\Crm\PreferenceContainer;
 use Zoho\Crm\Response;
 
 /**
@@ -25,7 +25,7 @@ class ResponseParser implements ResponseParserInterface, NeedsClientPreferences
     /**
      * @inheritdoc
      */
-    public function setClientPreferences(PreferencesContainer $preferences): void
+    public function setClientPreferences(PreferenceContainer $preferences): void
     {
         $this->preferences = $preferences;
     }
