@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace Zoho\Crm;
 
+use Zoho\Crm\Contracts\ClientPreferenceContainerInterface;
 use Zoho\Crm\Exceptions\UnsupportedPreferenceException;
 use Zoho\Crm\Support\Collection;
 
 /**
  * A container class for the client preferences.
  */
-class PreferenceContainer extends Collection
+class PreferenceContainer extends Collection implements ClientPreferenceContainerInterface
 {
     /** @var array The available preferences and their default values */
     protected static $defaults = [];
@@ -133,6 +134,19 @@ class PreferenceContainer extends Collection
     public function isEnabled($key): bool
     {
         return $this->get($key) === true;
+    }
+
+    /**
+     * Check if the value of a given preference is strictly false.
+     *
+     * @param string $key The name of the preference
+     * @return bool
+     *
+     * @throws Exceptions\UnsupportedPreferenceException
+     */
+    public function isDisabled($key): bool
+    {
+        return $this->get($key) === false;
     }
 
     /**

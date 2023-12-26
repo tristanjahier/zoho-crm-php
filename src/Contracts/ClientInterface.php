@@ -75,4 +75,11 @@ interface ClientInterface
      * @return void
      */
     public function registerMiddleware(callable $middleware): void;
+
+    /**
+     * Get the client preferences container.
+     *
+     * @return ClientPreferenceContainerInterface
+     */
+    public function preferences(): ClientPreferenceContainerInterface;
 }

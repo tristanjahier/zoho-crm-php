@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Zoho\Crm\V2;
 
 use Psr\Http\Message\ResponseInterface as HttpResponseInterface;
+use Zoho\Crm\Contracts\ClientPreferenceContainerInterface;
 use Zoho\Crm\Contracts\RequestInterface;
 use Zoho\Crm\Contracts\ResponseInterface;
 use Zoho\Crm\Contracts\ResponseParserInterface;
 use Zoho\Crm\Exceptions\UnreadableResponseException;
 use Zoho\Crm\NeedsClientPreferences;
-use Zoho\Crm\PreferenceContainer;
 use Zoho\Crm\Response;
 
 /**
@@ -25,7 +25,7 @@ class ResponseParser implements ResponseParserInterface, NeedsClientPreferences
     /**
      * @inheritdoc
      */
-    public function setClientPreferences(PreferenceContainer $preferences): void
+    public function setClientPreferences(ClientPreferenceContainerInterface $preferences): void
     {
         $this->preferences = $preferences;
     }
