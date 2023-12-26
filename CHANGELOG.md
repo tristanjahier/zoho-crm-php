@@ -12,6 +12,9 @@ https://github.com/tristanjahier/zoho-crm-php/compare/0.5.0...master
 ### Added
 
 - Client preference `keep_raw_responses` (default `true`) to toggle retention of raw HTTP responses in response objects.
+- Interface `Zoho\Crm\Contracts\ClientPreferenceContainerInterface`.
+- Method `preferences` to interface `Zoho\Crm\Contracts\ClientInterface`.
+- Method `isDisabled` to `Zoho\Crm\PreferenceContainer`.
 
 ### Changed
 
@@ -42,7 +45,9 @@ https://github.com/tristanjahier/zoho-crm-php/compare/0.5.0...master
   - The 3rd argument is an optional implementation of `Zoho\Crm\Contracts\HttpRequestSenderInterface`.
   - The 4th argument is an optional implementation of `Zoho\Crm\Contracts\ResponseParserInterface`.
   - The 5th argument is an optional implementation of `Zoho\Crm\Contracts\ErrorHandlerInterface`.
+  - Injected objects can be provided with the client preferences by implementing `Zoho\Crm\NeedsClientPreferences`.
 - The optional `$endpoint` argument in `Zoho\Crm\V2\Client`'s constructor is now at the 6th position.
+- `Zoho\Crm\PreferencesContainer` has been renamed `Zoho\Crm\PreferenceContainer` and is now abstract and implements `Zoho\Crm\Contracts\ClientPreferenceContainerInterface`.
 
 ### Removed
 
