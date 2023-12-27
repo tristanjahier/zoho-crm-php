@@ -553,19 +553,19 @@ In both cases, the closure is an anonymous function which takes 2 arguments:
 1. a copy of the request object ;
 2. a unique ID of the execution (random 16 chars string), in case you need to match the "before" and "after" hooks.
 
-Use the `beforeRequestExecution()` method to register a closure that will be invoked just before each request is executed, *but only after a successful request validation*.
+Use the `beforeEachRequest()` method to register a closure that will be invoked just before each request is executed, *but only after a successful request validation*.
 
-Use the `afterRequestExecution()` method to register a closure that will be invoked just after each request is executed and the API has returned a response. *If an error or an exception is thrown from the HTTP request layer, the closure will not be invoked.*
+Use the `afterEachRequest()` method to register a closure that will be invoked just after each request is executed and the API has returned a response. *If an error or an exception is thrown from the HTTP request layer, the closure will not be invoked.*
 
 Example:
 ```php
 use Zoho\Crm\Contracts\RequestInterface;
 
-$client->beforeRequestExecution(function (RequestInterface $request, string $execId) {
+$client->beforeEachRequest(function (RequestInterface $request, string $execId) {
     // do something...
 });
 
-$client->afterRequestExecution(function (RequestInterface $request, string $execId) {
+$client->afterEachRequest(function (RequestInterface $request, string $execId) {
     // do something...
 });
 ```

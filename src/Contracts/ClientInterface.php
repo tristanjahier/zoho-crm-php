@@ -49,7 +49,7 @@ interface ClientInterface
      * @param \Closure $callback The callback to execute
      * @return self
      */
-    public function beforeRequestExecution(Closure $callback): self;
+    public function beforeEachRequest(Closure $callback): self;
 
     /**
      * Register a callback to execute after each request.
@@ -57,7 +57,7 @@ interface ClientInterface
      * @param \Closure $callback The callback to execute
      * @return self
      */
-    public function afterRequestExecution(Closure $callback): self;
+    public function afterEachRequest(Closure $callback): self;
 
     /**
      * Get the number of API requests made by the client.
