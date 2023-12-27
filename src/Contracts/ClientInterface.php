@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Zoho\Crm\Contracts;
 
-use Closure;
-
 interface ClientInterface
 {
     /**
@@ -46,18 +44,18 @@ interface ClientInterface
     /**
      * Register a callback to execute before each request.
      *
-     * @param \Closure $callback The callback to execute
+     * @param callable $callback The callback to execute
      * @return self
      */
-    public function beforeEachRequest(Closure $callback): self;
+    public function beforeEachRequest(callable $callback): self;
 
     /**
      * Register a callback to execute after each request.
      *
-     * @param \Closure $callback The callback to execute
+     * @param callable $callback The callback to execute
      * @return self
      */
-    public function afterEachRequest(Closure $callback): self;
+    public function afterEachRequest(callable $callback): self;
 
     /**
      * Get the number of API requests made by the client.

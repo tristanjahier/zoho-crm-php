@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Zoho\Crm;
 
-use Closure;
 use Exception;
 use GuzzleHttp\Psr7\Request as HttpRequest;
 use Zoho\Crm\Contracts\ClientInterface;
@@ -33,10 +32,10 @@ class RequestProcessor
     /** @var Contracts\ErrorHandlerInterface The error handler */
     protected $errorHandler;
 
-    /** @var \Closure[] The callbacks to execute before each request */
+    /** @var callable[] The callbacks to execute before each request */
     protected $preExecutionHooks = [];
 
-    /** @var \Closure[] The callbacks to execute after each request */
+    /** @var callable[] The callbacks to execute after each request */
     protected $postExecutionHooks = [];
 
     /** @var callable[] The middlewares to apply to each request before execution */
@@ -270,10 +269,10 @@ class RequestProcessor
     /**
      * Register a callback to execute before each request.
      *
-     * @param \Closure $callback The callback to execute
+     * @param callable $callback The callback to execute
      * @return void
      */
-    public function registerPreExecutionHook(Closure $callback)
+    public function registerPreExecutionHook(callable $callback)
     {
         $this->preExecutionHooks[] = $callback;
     }
@@ -281,10 +280,10 @@ class RequestProcessor
     /**
      * Register a callback to execute after each request.
      *
-     * @param \Closure $callback The callback to execute
+     * @param callable $callback The callback to execute
      * @return void
      */
-    public function registerPostExecutionHook(Closure $callback)
+    public function registerPostExecutionHook(callable $callback)
     {
         $this->postExecutionHooks[] = $callback;
     }

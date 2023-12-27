@@ -163,7 +163,7 @@ class Client implements ClientInterface
      *
      * @return $this
      */
-    public function beforeEachRequest(Closure $callback): ClientInterface
+    public function beforeEachRequest(callable $callback): ClientInterface
     {
         $this->requestProcessor->registerPreExecutionHook($callback);
 
@@ -175,7 +175,7 @@ class Client implements ClientInterface
      *
      * @return $this
      */
-    public function afterEachRequest(Closure $callback): ClientInterface
+    public function afterEachRequest(callable $callback): ClientInterface
     {
         $this->requestProcessor->registerPostExecutionHook($callback);
 
