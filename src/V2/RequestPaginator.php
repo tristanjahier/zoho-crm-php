@@ -49,6 +49,7 @@ class RequestPaginator extends AbstractRequestPaginator
         }
 
         // Apply the "maximum modification date" limit.
+        // @todo replace this tightly coupled implementation with a more generic feature.
         if (method_exists($this->request, 'modifiedBefore') && $this->request->hasMaxModificationDate()) {
             $lastEntityDate = new \DateTime($page->getContent()->last()->get('Modified_Time'));
 
