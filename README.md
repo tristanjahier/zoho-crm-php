@@ -547,15 +547,15 @@ In the above example, the client will request a fresh access token when it needs
 
 ### Before and after request execution hooks
 
-If you need to, you can register a closure that will be executed **before** or **after** each request.
+If you need to, you can register a callback that will be executed **before** or **after** each request.
 
-In both cases, the closure is an anonymous function which takes 2 arguments:
+In both cases, the callback is a closure or any `callable` taking 2 arguments:
 1. a copy of the request object ;
 2. a unique ID of the execution (random 16 chars string), in case you need to match the "before" and "after" hooks.
 
-Use the `beforeEachRequest()` method to register a closure that will be invoked just before each request is executed, *but only after a successful request validation*.
+Use the `beforeEachRequest()` method to register a callback that will be invoked just before each request is executed, *but only after a successful request validation*.
 
-Use the `afterEachRequest()` method to register a closure that will be invoked just after each request is executed and the API has returned a response. *If an error or an exception is thrown from the HTTP request layer, the closure will not be invoked.*
+Use the `afterEachRequest()` method to register a callback that will be invoked just after each request is executed and the API has returned a response. *If an error or an exception is thrown from the HTTP request layer, the callback will not be invoked.*
 
 Example:
 ```php
