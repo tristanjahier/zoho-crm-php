@@ -15,6 +15,7 @@ https://github.com/tristanjahier/zoho-crm-php/compare/0.5.0...master
 - Interface `Zoho\Crm\Contracts\ClientPreferenceContainerInterface`.
 - Method `preferences` to interface `Zoho\Crm\Contracts\ClientInterface`.
 - Method `isDisabled` to `Zoho\Crm\PreferenceContainer`.
+- Methods `cancelBeforeEachRequestCallback` and `cancelAfterEachRequestCallback` to interface `Zoho\Crm\Contracts\ClientInterface` to unregister callbacks by ID.
 
 ### Changed
 
@@ -48,6 +49,9 @@ https://github.com/tristanjahier/zoho-crm-php/compare/0.5.0...master
   - Injected objects can be provided with the client preferences by implementing `Zoho\Crm\NeedsClientPreferences`.
 - The optional `$endpoint` argument in `Zoho\Crm\V2\Client`'s constructor is now at the 6th position.
 - `Zoho\Crm\PreferencesContainer` has been renamed `Zoho\Crm\PreferenceContainer` and is now abstract and implements `Zoho\Crm\Contracts\ClientPreferenceContainerInterface`.
+- Methods `beforeEachRequest` and `afterEachRequest` (formerly `beforeQueryExecution` and `afterQueryExecution`) of interface `Zoho\Crm\Contracts\ClientInterface` have 2 extra optional arguments:
+  - `string $id`: to uniquely identify the registered callback.
+  - `bool $overwrite`: to overwrite a potential callback that would already be registered with this ID.
 
 ### Removed
 

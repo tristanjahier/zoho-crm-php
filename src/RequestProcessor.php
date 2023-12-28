@@ -270,22 +270,101 @@ class RequestProcessor
      * Register a callback to execute before each request.
      *
      * @param callable $callback The callback to execute
+     * @param string $id (optional) A unique identifier for the callback
+     * @param bool $overwrite (optional) Whether to replace an existing callback having the same identifier
      * @return void
      */
-    public function registerPreExecutionHook(callable $callback)
+    public function registerPreExecutionHook(callable $callback, string $id = null, bool $overwrite = false)
     {
-        $this->preExecutionHooks[] = $callback;
+        $this->registerHook($this->preExecutionHooks, $callback, $id, $overwrite);
     }
 
     /**
      * Register a callback to execute after each request.
      *
      * @param callable $callback The callback to execute
+     * @param string $id (optional) A unique identifier for the callback
+     * @param bool $overwrite (optional) Whether to replace an existing callback having the same identifier
      * @return void
      */
-    public function registerPostExecutionHook(callable $callback)
+    public function registerPostExecutionHook(callable $callback, string $id = null, bool $overwrite = false)
     {
-        $this->postExecutionHooks[] = $callback;
+        $this->registerHook($this->postExecutionHooks, $callback, $id, $overwrite);
+    }
+
+    /**
+     * Register a callback in the given set.
+     *
+     * @param array &$set The set to put the callback in
+     * @param callable $callback The callback to execute
+     * @param string|null $id A unique identifier for the callback
+     * @param bool $overwrite Whether to replace an existing callback having the same identifier
+     * @return void
+     *
+     * @throws \InvalidArgumentException When the identifier is invalid
+     * @throws \RuntimeException When the identifier is already taken
+     */
+    protected function registerHook(array &$set, callable $callback, ?string $id, bool $overwrite)
+    {
+        if (! isset($id)) {
+            $set[] = $callback;
+            return;
+        }
+
+        if (is_numeric($id)) {
+            throw new \InvalidArgumentException('Callback identifier must not be a numeric string.');
+        }
+
+        if (! $overwrite && array_key_exists($id, $set)) {
+            throw new \RuntimeException("Callback identifier is not unique: '{$id}'.");
+        }
+
+        $set[$id] = $callback;
+    }
+
+    /**
+     * Unregister an identified callback that was to execute before each request.
+     *
+     * @param string $id The unique identifier of the callback
+     * @return void
+     */
+    public function unregisterPreExecutionHook(string $id)
+    {
+        $this->unregisterHook($this->preExecutionHooks, $id);
+    }
+
+    /**
+     * Unregister an identified callback that was to execute after each request.
+     *
+     * @param string $id The unique identifier of the callback
+     * @return void
+     */
+    public function unregisterPostExecutionHook(string $id)
+    {
+        $this->unregisterHook($this->postExecutionHooks, $id);
+    }
+
+    /**
+     * Unregister a callback by ID in the given set.
+     *
+     * @param array &$set The set to remove the callback from
+     * @param string $id The unique identifier of the callback
+     * @return void
+     *
+     * @throws \InvalidArgumentException When the identifier is invalid
+     * @throws \RuntimeException When there is no callback with this identifier
+     */
+    protected function unregisterHook(array &$set, string $id)
+    {
+        if (is_numeric($id)) {
+            throw new \InvalidArgumentException('Callback identifier must not be a numeric string.');
+        }
+
+        if (! array_key_exists($id, $set)) {
+            throw new \RuntimeException("No callback is registered with this identifier: '{$id}'.");
+        }
+
+        unset($set[$id]);
     }
 
     /**

@@ -163,9 +163,9 @@ class Client implements ClientInterface
      *
      * @return $this
      */
-    public function beforeEachRequest(callable $callback): ClientInterface
+    public function beforeEachRequest(callable $callback, string $id = null, bool $overwrite = false): static
     {
-        $this->requestProcessor->registerPreExecutionHook($callback);
+        $this->requestProcessor->registerPreExecutionHook($callback, $id, $overwrite);
 
         return $this;
     }
@@ -175,11 +175,31 @@ class Client implements ClientInterface
      *
      * @return $this
      */
-    public function afterEachRequest(callable $callback): ClientInterface
+    public function afterEachRequest(callable $callback, string $id = null, bool $overwrite = false): static
     {
-        $this->requestProcessor->registerPostExecutionHook($callback);
+        $this->requestProcessor->registerPostExecutionHook($callback, $id, $overwrite);
 
         return $this;
+    }
+
+    /**
+     * @inheritdoc
+     *
+     * @return void
+     */
+    public function cancelBeforeEachRequestCallback(string $id)
+    {
+        $this->requestProcessor->unregisterPreExecutionHook($id);
+    }
+
+    /**
+     * @inheritdoc
+     *
+     * @return void
+     */
+    public function cancelAfterEachRequestCallback(string $id)
+    {
+        $this->requestProcessor->unregisterPostExecutionHook($id);
     }
 
     /**

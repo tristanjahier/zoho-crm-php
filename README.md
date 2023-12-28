@@ -574,6 +574,18 @@ $client->afterEachRequest(function (RequestInterface $request, string $execId) {
 > Paginated requests will not trigger these hooks directly, but their subsequent requests (per page) will.
 > In other words, only the requests that directly lead to an API HTTP request will trigger the hooks.
 
+You can uniquely identify callbacks at registration:
+```php
+$client->beforeEachRequest(function () {}, id: 'logging');
+$client->afterEachRequest(function () {}, id: 'logging');
+```
+
+And then you can unregister these identified callbacks so that they will never be invoked anymore:
+```php
+$client->cancelBeforeEachRequestCallback('logging');
+$client->cancelAfterEachRequestCallback('logging');
+```
+
 ### Request middleware
 
 If you need to, you can register custom middleware that will be applied to each request before it is converted into an HTTP request. Unlike execution hooks, middleware can modify the request object. Actually, this is exactly the point of middleware.

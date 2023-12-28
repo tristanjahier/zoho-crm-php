@@ -45,17 +45,47 @@ interface ClientInterface
      * Register a callback to execute before each request.
      *
      * @param callable $callback The callback to execute
+     * @param string $id (optional) A unique identifier for the callback
+     * @param bool $overwrite (optional) Whether to replace an existing callback having the same identifier
      * @return self
+     *
+     * @throws \InvalidArgumentException When the identifier is invalid
+     * @throws \RuntimeException When the identifier is already taken
      */
-    public function beforeEachRequest(callable $callback): self;
+    public function beforeEachRequest(callable $callback, string $id = null, bool $overwrite = false): self;
 
     /**
      * Register a callback to execute after each request.
      *
      * @param callable $callback The callback to execute
+     * @param string $id (optional) A unique identifier for the callback
+     * @param bool $overwrite (optional) Whether to replace an existing callback having the same identifier
      * @return self
+     *
+     * @throws \InvalidArgumentException When the identifier is invalid
+     * @throws \RuntimeException When the identifier is already taken
      */
-    public function afterEachRequest(callable $callback): self;
+    public function afterEachRequest(callable $callback, string $id = null, bool $overwrite = false): self;
+
+    /**
+     * Remove an identified callback that was to execute before each request.
+     *
+     * @param string $id The unique identifier of the callback
+     *
+     * @throws \InvalidArgumentException When the identifier is invalid
+     * @throws \RuntimeException When there is no callback with this identifier
+     */
+    public function cancelBeforeEachRequestCallback(string $id);
+
+    /**
+     * Remove an identified callback that was to execute after each request.
+     *
+     * @param string $id The unique identifier of the callback
+     *
+     * @throws \InvalidArgumentException When the identifier is invalid
+     * @throws \RuntimeException When there is no callback with this identifier
+     */
+    public function cancelAfterEachRequestCallback(string $id);
 
     /**
      * Get the number of API requests made by the client.
