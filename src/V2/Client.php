@@ -6,7 +6,6 @@ namespace Zoho\Crm\V2;
 
 use Closure;
 use DateTimeInterface;
-use GuzzleHttp\Psr7\Request;
 use Zoho\Crm\AccessTokenStorage\NoStore;
 use Zoho\Crm\Contracts\AccessTokenBrokerInterface;
 use Zoho\Crm\Contracts\AccessTokenStoreInterface;
