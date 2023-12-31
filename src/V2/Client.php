@@ -189,7 +189,7 @@ class Client implements ClientInterface
      */
     public function cancelBeforeEachRequestCallback(string $id)
     {
-        $this->requestProcessor->unregisterPreExecutionHook($id);
+        $this->requestProcessor->deregisterPreExecutionHook($id);
     }
 
     /**
@@ -199,7 +199,7 @@ class Client implements ClientInterface
      */
     public function cancelAfterEachRequestCallback(string $id)
     {
-        $this->requestProcessor->unregisterPostExecutionHook($id);
+        $this->requestProcessor->deregisterPostExecutionHook($id);
     }
 
     /**

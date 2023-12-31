@@ -323,29 +323,29 @@ class RequestProcessor
     }
 
     /**
-     * Unregister an identified callback that was to execute before each request.
+     * Deregister an identified callback that was to execute before each request.
      *
      * @param string $id The unique identifier of the callback
      * @return void
      */
-    public function unregisterPreExecutionHook(string $id)
+    public function deregisterPreExecutionHook(string $id)
     {
-        $this->unregisterHook($this->preExecutionHooks, $id);
+        $this->deregisterHook($this->preExecutionHooks, $id);
     }
 
     /**
-     * Unregister an identified callback that was to execute after each request.
+     * Deregister an identified callback that was to execute after each request.
      *
      * @param string $id The unique identifier of the callback
      * @return void
      */
-    public function unregisterPostExecutionHook(string $id)
+    public function deregisterPostExecutionHook(string $id)
     {
-        $this->unregisterHook($this->postExecutionHooks, $id);
+        $this->deregisterHook($this->postExecutionHooks, $id);
     }
 
     /**
-     * Unregister a callback by ID in the given set.
+     * Deregister a callback by ID in the given set.
      *
      * @param array &$set The set to remove the callback from
      * @param string $id The unique identifier of the callback
@@ -354,7 +354,7 @@ class RequestProcessor
      * @throws \InvalidArgumentException When the identifier is invalid
      * @throws \RuntimeException When there is no callback with this identifier
      */
-    protected function unregisterHook(array &$set, string $id)
+    protected function deregisterHook(array &$set, string $id)
     {
         if (is_numeric($id)) {
             throw new \InvalidArgumentException('Callback identifier must not be a numeric string.');

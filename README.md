@@ -580,7 +580,7 @@ $client->beforeEachRequest(function () {}, id: 'logging');
 $client->afterEachRequest(function () {}, id: 'logging');
 ```
 
-And then you can unregister these identified callbacks so that they will never be invoked anymore:
+And then you can deregister these identified callbacks so that they will never be invoked anymore:
 ```php
 $client->cancelBeforeEachRequestCallback('logging');
 $client->cancelAfterEachRequestCallback('logging');
