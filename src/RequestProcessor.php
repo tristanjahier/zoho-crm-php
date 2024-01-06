@@ -75,7 +75,7 @@ class RequestProcessor
             $this->responseParser,
             $this->errorHandler,
         ] as $component) {
-            if ($component instanceof NeedsClientPreferences) {
+            if ($component instanceof ClientPreferencesAware) {
                 $component->setClientPreferences($this->client->preferences());
             }
         }

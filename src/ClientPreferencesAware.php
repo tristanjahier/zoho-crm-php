@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Zoho\Crm;
 
-interface NeedsClientPreferences
+interface ClientPreferencesAware
 {
     /**
      * Set the client preferences.

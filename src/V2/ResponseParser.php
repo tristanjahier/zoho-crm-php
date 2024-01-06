@@ -10,14 +10,14 @@ use Zoho\Crm\Contracts\RequestInterface;
 use Zoho\Crm\Contracts\ResponseInterface;
 use Zoho\Crm\Contracts\ResponseParserInterface;
 use Zoho\Crm\Exceptions\UnreadableResponseException;
-use Zoho\Crm\NeedsClientPreferences;
+use Zoho\Crm\ClientPreferencesAware;
 use Zoho\Crm\Response;
 
 /**
  * A class to parse and transform a raw HTTP response into an API response object
  * with a clean and exploitable content.
  */
-class ResponseParser implements ResponseParserInterface, NeedsClientPreferences
+class ResponseParser implements ResponseParserInterface, ClientPreferencesAware
 {
     /** @var Preferences The client preferences */
     protected $preferences;
