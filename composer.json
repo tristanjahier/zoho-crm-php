@@ -37,10 +37,10 @@
         }
     },
     "scripts": {
-        "fix-cs": "php-cs-fixer fix --verbose"
+        "lint": "php-cs-fixer fix --verbose"
     },
     "scripts-descriptions": {
-        "fix-cs": "Executes Symfony's PHP Coding Standards Fixer on the source code"
+        "lint": "Executes Symfony's PHP Coding Standards Fixer on the source code"
     },
     "config": {
         "sort-packages": true
