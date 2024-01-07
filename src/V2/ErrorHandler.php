@@ -18,6 +18,7 @@ class ErrorHandler implements ErrorHandlerInterface
      */
     public function handle(Exception $exception, RequestInterface $request): void
     {
+        // If Guzzle is not installed, this will simply be skipped.
         if ($exception instanceof \GuzzleHttp\Exception\ClientException) {
             if ($exception->getCode() === 401) {
                 $response = json_decode((string) $exception->getResponse()->getBody(), true);

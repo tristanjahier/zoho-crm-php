@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace Zoho\Crm\V2;
 
 use DateTimeImmutable;
-use GuzzleHttp\Client as GuzzleClient;
-use GuzzleHttp\Psr7\Request as HttpRequest;
-use GuzzleHttp\Psr7\Response as HttpResponse;
+use Http\Discovery\Psr17FactoryDiscovery;
+use Http\Discovery\Psr18ClientDiscovery;
+use Psr\Http\Client\ClientInterface;
+use Psr\Http\Message\ResponseInterface;
 use Zoho\Crm\Contracts\AccessTokenBrokerInterface;
 use Zoho\Crm\Exceptions\InvalidEndpointException;
 use Zoho\Crm\Support\Helper;
@@ -30,8 +31,8 @@ class AccessTokenBroker implements AccessTokenBrokerInterface
     /** @var The base URL of the API OAuth 2.0 authorization endpoint */
     protected string $endpointBaseUrl = self::DEFAULT_ENDPOINT_BASE_URL;
 
-    /** @var The Guzzle client to make HTTP requests */
-    protected GuzzleClient $httpClient;
+    /** @var The HTTP client to make requests */
+    protected ClientInterface $httpClient;
 
     /**
      * The constructor.
@@ -50,7 +51,7 @@ class AccessTokenBroker implements AccessTokenBrokerInterface
         $this->clientId = $clientId;
         $this->clientSecret = $clientSecret;
         $this->refreshToken = $refreshToken;
-        $this->httpClient = new GuzzleClient();
+        $this->httpClient = Psr18ClientDiscovery::find();
 
         if (isset($endpoint)) {
             $this->setAuthorizationEndpoint($endpoint);
@@ -90,9 +91,9 @@ class AccessTokenBroker implements AccessTokenBrokerInterface
     /**
      * Request to the OAuth 2.0 authorization server to get a fresh access token.
      *
-     * @return \GuzzleHttp\Psr7\Response
+     * @return \Psr\Http\Message\ResponseInterface
      */
-    public function requestFreshAccessToken(): HttpResponse
+    public function requestFreshAccessToken(): ResponseInterface
     {
         $parameters = new UrlParameters([
             'grant_type' => 'refresh_token',
@@ -101,14 +102,14 @@ class AccessTokenBroker implements AccessTokenBrokerInterface
             'refresh_token' => $this->refreshToken
         ]);
 
-        $request = new HttpRequest(
-            'POST',
-            $this->endpointBaseUrl . 'token',
-            ['Content-Type' => 'application/x-www-form-urlencoded'],
-            (string) $parameters
-        );
+        $requestFactory = Psr17FactoryDiscovery::findRequestFactory();
+        $streamFactory = Psr17FactoryDiscovery::findStreamFactory();
 
-        return $this->httpClient->send($request);
+        $request = $requestFactory->createRequest('POST', $this->endpointBaseUrl . 'token')
+            ->withHeader('Content-Type', 'application/x-www-form-urlencoded')
+            ->withBody($streamFactory->createStream((string) $parameters));
+
+        return $this->httpClient->sendRequest($request);
     }
 
     /**

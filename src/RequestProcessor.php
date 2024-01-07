@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Zoho\Crm;
 
 use Exception;
-use GuzzleHttp\Psr7\Request as HttpRequest;
+use Http\Discovery\Psr17FactoryDiscovery;
 use Zoho\Crm\Contracts\ClientInterface;
 use Zoho\Crm\Contracts\ErrorHandlerInterface;
 use Zoho\Crm\Contracts\HttpRequestSenderInterface;
@@ -31,6 +31,9 @@ class RequestProcessor
 
     /** @var Contracts\ErrorHandlerInterface The error handler */
     protected $errorHandler;
+
+    /** @var \Psr\Http\Message\RequestFactoryInterface The PSR-17 request factory */
+    protected $requestFactory;
 
     /** @var callable[] The callbacks to execute before each request */
     protected $preExecutionHooks = [];
@@ -59,6 +62,7 @@ class RequestProcessor
         $this->httpRequestSender = $httpRequestSender;
         $this->responseParser = $responseParser;
         $this->errorHandler = $errorHandler;
+        $this->requestFactory = Psr17FactoryDiscovery::findRequestFactory();
 
         $this->passClientPreferencesToComponents();
     }
@@ -106,7 +110,7 @@ class RequestProcessor
      *
      * @param Contracts\RequestInterface $request The request to process
      * @param bool $async (optional) Whether the resulting request must be asynchronous or not
-     * @return \Psr\Http\Message\ResponseInterface|\GuzzleHttp\Promise\PromiseInterface
+     * @return \Psr\Http\Message\ResponseInterface|\Http\Promise\Promise
      */
     protected function sendRequest(RequestInterface $request, bool $async = false)
     {
@@ -159,15 +163,21 @@ class RequestProcessor
      * Create an HTTP request out of an API request.
      *
      * @param Contracts\RequestInterface $request The API request
-     * @return \GuzzleHttp\Psr7\Request
+     * @return \Psr\Http\Message\RequestInterface
      */
     protected function createHttpRequest(RequestInterface $request)
     {
-        return new HttpRequest(
+        $httpRequest = $this->requestFactory->createRequest(
             $request->getHttpMethod(),
-            $this->client->getEndpoint() . $request->getUrlPath() . '?' . $request->getUrlParameters(),
-            $request->getHeaders(),
-            $request->getBody()
+            $this->client->getEndpoint() . $request->getUrlPath() . '?' . $request->getUrlParameters()
+        );
+
+        foreach ($request->getHeaders() as $name => $value) {
+            $httpRequest = $httpRequest->withHeader($name, $value);
+        }
+
+        return $httpRequest->withBody(
+            Psr17FactoryDiscovery::findStreamFactory()->createStream((string) $request->getBody())
         );
     }
 

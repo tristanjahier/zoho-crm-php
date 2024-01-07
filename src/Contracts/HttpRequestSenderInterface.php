@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Zoho\Crm\Contracts;
 
+use Http\Promise\Promise as PromiseInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
@@ -23,8 +24,9 @@ interface HttpRequestSenderInterface
      * @param \Psr\Http\Message\RequestInterface $request The request to send
      * @param callable $onFulfilled The closure to handle request success
      * @param callable|null $onRejected (optional) The closure to handle request failure
+     * @return \Http\Promise\Promise
      */
-    public function sendAsync(RequestInterface $request, callable $onFulfilled, callable $onRejected = null): mixed;
+    public function sendAsync(RequestInterface $request, callable $onFulfilled, callable $onRejected = null): PromiseInterface;
 
     /**
      * Settle a batch of HTTP promises, then return all responses.
