@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Zoho\Crm;
 
-use Http\Discovery\HttpAsyncClientDiscovery;
 use Http\Discovery\Exception\NotFoundException as HttpAsyncClientNotFoundException;
+use Http\Discovery\HttpAsyncClientDiscovery;
 use Http\Discovery\Psr18ClientDiscovery;
 use Http\Promise\Promise as PromiseInterface;
 use Psr\Http\Message\RequestInterface;
