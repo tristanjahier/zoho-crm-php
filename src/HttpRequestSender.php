@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Zoho\Crm;
 
 use Http\Discovery\HttpAsyncClientDiscovery;
+use Http\Discovery\Exception\NotFoundException as HttpAsyncClientNotFoundException;
 use Http\Discovery\Psr18ClientDiscovery;
 use Http\Promise\Promise as PromiseInterface;
 use Psr\Http\Message\RequestInterface;
@@ -22,8 +23,8 @@ class HttpRequestSender implements HttpRequestSenderInterface
     /** @var \Psr\Http\Client\ClientInterface The HTTP client to make requests */
     protected $httpClient;
 
-    /** @var \Http\Client\HttpAsyncClient The HTTP client to make asynchronous requests */
-    protected $httpAsyncClient;
+    /** @var \Http\Client\HttpAsyncClient|null The HTTP client to make asynchronous requests */
+    protected $httpAsyncClient = null;
 
     /**
      * The constructor.
@@ -31,7 +32,10 @@ class HttpRequestSender implements HttpRequestSenderInterface
     public function __construct()
     {
         $this->httpClient = Psr18ClientDiscovery::find();
-        $this->httpAsyncClient = HttpAsyncClientDiscovery::find();
+
+        try {
+            $this->httpAsyncClient = HttpAsyncClientDiscovery::find();
+        } catch (HttpAsyncClientNotFoundException) {}
     }
 
     /**
@@ -56,6 +60,10 @@ class HttpRequestSender implements HttpRequestSenderInterface
         callable $onFulfilled,
         callable $onRejected = null
     ): PromiseInterface {
+        if ($this->httpAsyncClient === null) {
+            throw new Exceptions\UnavailableHttpAsyncClientException();
+        }
+
         return $this->httpAsyncClient->sendAsyncRequest($request)->then($onFulfilled, $onRejected);
     }
 

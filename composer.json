@@ -16,7 +16,6 @@
     "require": {
         "php": "^8.0",
         "doctrine/inflector": "^2.0",
-        "php-http/async-client-implementation": "*",
         "php-http/discovery": "^1.19",
         "php-http/httplug": "^2.4",
         "psr/http-client": "^1.0",
