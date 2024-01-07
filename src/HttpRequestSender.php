@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Zoho\Crm;
 
-use Http\Discovery\Exception\NotFoundException as HttpAsyncClientNotFoundException;
+use Http\Client\HttpAsyncClient as AsyncClientInterface;
+use Http\Discovery\Exception\NotFoundException as HttpDiscoveryException;
 use Http\Discovery\HttpAsyncClientDiscovery;
 use Http\Discovery\Psr18ClientDiscovery;
 use Http\Promise\Promise as PromiseInterface;
+use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Zoho\Crm\Contracts\HttpRequestSenderInterface;
@@ -23,19 +25,22 @@ class HttpRequestSender implements HttpRequestSenderInterface
     /** @var \Psr\Http\Client\ClientInterface The HTTP client to make requests */
     protected $httpClient;
 
-    /** @var \Http\Client\HttpAsyncClient|null The HTTP client to make asynchronous requests */
-    protected $httpAsyncClient = null;
-
     /**
      * The constructor.
      */
     public function __construct()
     {
-        $this->httpClient = Psr18ClientDiscovery::find();
-
         try {
-            $this->httpAsyncClient = HttpAsyncClientDiscovery::find();
-        } catch (HttpAsyncClientNotFoundException) {}
+            $this->httpClient = HttpAsyncClientDiscovery::find();
+
+            if (! $this->httpClient instanceof ClientInterface) {
+                // Force fallback to the 'catch' block, because we do not want an HTTP client
+                // that supports ONLY asynchronous requests.
+                throw new HttpDiscoveryException();
+            }
+        } catch (HttpDiscoveryException) {
+            $this->httpClient = Psr18ClientDiscovery::find();
+        }
     }
 
     /**
@@ -60,11 +65,11 @@ class HttpRequestSender implements HttpRequestSenderInterface
         callable $onFulfilled,
         callable $onRejected = null
     ): PromiseInterface {
-        if ($this->httpAsyncClient === null) {
+        if (! $this->httpClient instanceof AsyncClientInterface) {
             throw new Exceptions\UnavailableHttpAsyncClientException();
         }
 
-        return $this->httpAsyncClient->sendAsyncRequest($request)->then($onFulfilled, $onRejected);
+        return $this->httpClient->sendAsyncRequest($request)->then($onFulfilled, $onRejected);
     }
 
     /**
