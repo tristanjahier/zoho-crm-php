@@ -15,12 +15,11 @@ https://github.com/tristanjahier/zoho-crm-php/compare/0.5.0...master
 - Interface `Zoho\Crm\Contracts\ClientPreferenceContainerInterface`.
 - Method `preferences` to interface `Zoho\Crm\Contracts\ClientInterface`.
 - Method `isDisabled` to `Zoho\Crm\PreferenceContainer`.
-- Methods `cancelBeforeEachRequestCallback` and `cancelAfterEachRequestCallback` to interface `Zoho\Crm\Contracts\ClientInterface` to unregister callbacks by ID.
+- Methods `cancelBeforeEachRequestCallback` and `cancelAfterEachRequestCallback` to interface `Zoho\Crm\Contracts\ClientInterface` to deregister callbacks by ID.
 
 ### Changed
 
 - Dropped support for PHP 7.
-- Dropped support for Guzzle 6.
 - Dropped support for Doctrine Inflector 1.
 - `Zoho\Crm\V2\ResponseParser` will now throw an `UnreadableResponseException` when the API response body cannot be parsed.
 - All exceptions provided by the library now extend `Zoho\Crm\Exceptions\Exception`.
@@ -32,7 +31,7 @@ https://github.com/tristanjahier/zoho-crm-php/compare/0.5.0...master
 - In `HttpRequestableInterface`, method `getUrl` has been replaced by `getUrlPath`, because it simplifies implementations to require the URL path separately.
 - Renamed "request sender" to "HTTP request sender" to clarify that this component is purely dedicated to HTTP transport (interface `Zoho\Crm\Contracts\HttpRequestSenderInterface` and implementation `Zoho\Crm\HttpRequestSender`).
   - Additionally, signatures of methods `sendAsync` and `fetchAsyncResponses` were modified.
-- Added explicit dependency on `psr/http-message`. To be clear: the library was *already* dependent on this package, but it was indirectly relying on Guzzle to install it.
+- Added explicit dependency on `psr/http-message`. To be clear: the library was *already* dependent on this package, but it was mistakenly relying on Guzzle to install it.
 - The full original HTTP responses will now be kept in response objects, instead of only the raw body contents. In interface `ResponseInterface`, the `getRawContent` method has been replaced with `getRawResponses`, which must always return an array of HTTP responses.
   - Consequently, request method `getRaw` was changed to return an array of HTTP responses (PSR interface) if the request is paginated, or else a single HTTP response.
 - API access token refreshing is now handled by a dedicated component named the "access token broker", which must implement `Zoho\Crm\Contracts\AccessTokenBrokerInterface`. Related changes:
@@ -46,12 +45,13 @@ https://github.com/tristanjahier/zoho-crm-php/compare/0.5.0...master
   - The 3rd argument is an optional implementation of `Zoho\Crm\Contracts\HttpRequestSenderInterface`.
   - The 4th argument is an optional implementation of `Zoho\Crm\Contracts\ResponseParserInterface`.
   - The 5th argument is an optional implementation of `Zoho\Crm\Contracts\ErrorHandlerInterface`.
-  - Injected objects can be provided with the client preferences by implementing `Zoho\Crm\NeedsClientPreferences`.
+  - Injected objects can be provided with the client preferences by implementing `Zoho\Crm\ClientPreferencesAware`.
 - The optional `$endpoint` argument in `Zoho\Crm\V2\Client`'s constructor is now at the 6th position.
 - `Zoho\Crm\PreferencesContainer` has been renamed `Zoho\Crm\PreferenceContainer` and is now abstract and implements `Zoho\Crm\Contracts\ClientPreferenceContainerInterface`.
 - Methods `beforeEachRequest` and `afterEachRequest` (formerly `beforeQueryExecution` and `afterQueryExecution`) of interface `Zoho\Crm\Contracts\ClientInterface` have 2 extra optional arguments:
   - `string $id`: to uniquely identify the registered callback.
   - `bool $overwrite`: to overwrite a potential callback that would already be registered with this ID.
+- This package is not dependent on Guzzle anymore. It instead relies on any implementations of the interfaces defined by PSR-7, PSR-17 and PSR-18. In addition it optionally relies on some HTTPlug interfaces for the support of asynchronous requests. Guzzle is now only a development dependency (and could be replaced by anything else compatible).
 
 ### Removed
 
