@@ -7,7 +7,7 @@ It aims to cover the whole API (every module and method), while providing a grea
 ## Requirements
 
 - PHP : `8.0+`
-- PHP cURL extension enabled
+- Implementations of [PSR-7 (HTTP messages)](https://www.php-fig.org/psr/psr-7/), [PSR-17 (HTTP factories)](https://www.php-fig.org/psr/psr-17/) and [PSR-18 (HTTP client)](https://www.php-fig.org/psr/psr-18/)
 
 ## Installation
 
@@ -25,6 +25,11 @@ or simply run this command:
 
 ```
 composer require tristanjahier/zoho-crm
+```
+
+If you do not known what "PSR-7, PSR-17 and PSR-18 implementations" are, basically it means that you need a standard-compliant HTTP client library installed. If you do not want to bother picking one, we recommend you to install the popular [Guzzle](https://docs.guzzlephp.org/en/stable/):
+```
+composer require guzzlehttp/guzzle
 ```
 
 ## Getting started
