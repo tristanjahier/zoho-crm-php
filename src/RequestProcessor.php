@@ -5,10 +5,9 @@ declare(strict_types=1);
 namespace Zoho\Crm;
 
 use Exception;
-use Http\Discovery\Psr17FactoryDiscovery;
 use Zoho\Crm\Contracts\ClientInterface;
 use Zoho\Crm\Contracts\ErrorHandlerInterface;
-use Zoho\Crm\Contracts\HttpRequestSenderInterface;
+use Zoho\Crm\Contracts\HttpLayerInterface;
 use Zoho\Crm\Contracts\PaginatedRequestInterface;
 use Zoho\Crm\Contracts\RequestInterface;
 use Zoho\Crm\Contracts\ResponseParserInterface;
@@ -23,17 +22,14 @@ class RequestProcessor
     /** @var Contracts\ClientInterface The client to which this processor is attached */
     protected $client;
 
-    /** @var Contracts\HttpRequestSenderInterface The HTTP request sender */
-    protected $httpRequestSender;
+    /** @var Contracts\HttpLayerInterface The HTTP layer */
+    protected $httpLayer;
 
     /** @var Contracts\ResponseParserInterface The response parser */
     protected $responseParser;
 
     /** @var Contracts\ErrorHandlerInterface The error handler */
     protected $errorHandler;
-
-    /** @var \Psr\Http\Message\RequestFactoryInterface The PSR-17 request factory */
-    protected $requestFactory;
 
     /** @var callable[] The callbacks to execute before each request */
     protected $preExecutionHooks = [];
@@ -48,21 +44,20 @@ class RequestProcessor
      * The constructor.
      *
      * @param Contracts\ClientInterface $client The client to which it is attached
-     * @param Contracts\HttpRequestSenderInterface $httpRequestSender The HTTP request sender
+     * @param Contracts\HttpLayerInterface $httpLayer The HTTP layer
      * @param Contracts\ResponseParserInterface $responseParser The response parser
      * @param Contracts\ErrorHandlerInterface $errorHandler The error handler
      */
     public function __construct(
         ClientInterface $client,
-        HttpRequestSenderInterface $httpRequestSender,
+        HttpLayerInterface $httpLayer,
         ResponseParserInterface $responseParser,
         ErrorHandlerInterface $errorHandler
     ) {
         $this->client = $client;
-        $this->httpRequestSender = $httpRequestSender;
+        $this->httpLayer = $httpLayer;
         $this->responseParser = $responseParser;
         $this->errorHandler = $errorHandler;
-        $this->requestFactory = Psr17FactoryDiscovery::findRequestFactory();
 
         $this->passClientPreferencesToComponents();
     }
@@ -75,7 +70,7 @@ class RequestProcessor
     protected function passClientPreferencesToComponents(): void
     {
         foreach ([
-            $this->httpRequestSender,
+            $this->httpLayer,
             $this->responseParser,
             $this->errorHandler,
         ] as $component) {
@@ -123,12 +118,18 @@ class RequestProcessor
         // Generate a "unique" ID for the request execution
         $execId = $this->generateRandomId();
 
-        $httpRequest = $this->createHttpRequest($request);
+        // Create a PSR-7 HTTP request, from the API request object.
+        $httpRequest = $this->httpLayer->createRequest(
+            $request->getHttpMethod(),
+            $this->client->getEndpoint() . $request->getUrlPath() . '?' . $request->getUrlParameters(),
+            $request->getHeaders(),
+            (string) $request->getBody()
+        );
 
         $this->firePreExecutionHooks($request->copy(), $execId);
 
         if ($async) {
-            return $this->httpRequestSender->sendAsync(
+            return $this->httpLayer->sendAsync(
                 $httpRequest,
                 function ($response) use ($request, $execId) {
                     $this->firePostExecutionHooks($request->copy(), $execId);
@@ -139,7 +140,7 @@ class RequestProcessor
         }
 
         try {
-            $response = $this->httpRequestSender->send($httpRequest);
+            $response = $this->httpLayer->send($httpRequest);
         } catch (Exception $e) {
             $this->handleException($e, $request);
         }
@@ -157,28 +158,6 @@ class RequestProcessor
     protected function generateRandomId()
     {
         return bin2hex(random_bytes(8));
-    }
-
-    /**
-     * Create an HTTP request out of an API request.
-     *
-     * @param Contracts\RequestInterface $request The API request
-     * @return \Psr\Http\Message\RequestInterface
-     */
-    protected function createHttpRequest(RequestInterface $request)
-    {
-        $httpRequest = $this->requestFactory->createRequest(
-            $request->getHttpMethod(),
-            $this->client->getEndpoint() . $request->getUrlPath() . '?' . $request->getUrlParameters()
-        );
-
-        foreach ($request->getHeaders() as $name => $value) {
-            $httpRequest = $httpRequest->withHeader($name, $value);
-        }
-
-        return $httpRequest->withBody(
-            Psr17FactoryDiscovery::findStreamFactory()->createStream((string) $request->getBody())
-        );
     }
 
     /**
@@ -236,7 +215,7 @@ class RequestProcessor
         }
 
         try {
-            $rawResponses = $this->httpRequestSender->fetchAsyncResponses($promises);
+            $rawResponses = $this->httpLayer->fetchAsyncResponses($promises);
         } catch (AsyncBatchRequestException $e) {
             // Unwrap the actual exception and retrieve the corresponding request.
             $this->handleException($e->getWrappedException(), $requests[$e->getKeyInBatch()]);
@@ -250,7 +229,7 @@ class RequestProcessor
     }
 
     /**
-     * Handle an exception thrown by the HTTP request sender.
+     * Handle an exception thrown by the HTTP layer.
      *
      * @param \Exception $exception
      * @param Contracts\RequestInterface $request The request
@@ -273,7 +252,7 @@ class RequestProcessor
      */
     public function getRequestCount(): int
     {
-        return $this->httpRequestSender->getRequestCount();
+        return $this->httpLayer->getRequestCount();
     }
 
     /**

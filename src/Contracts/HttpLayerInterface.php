@@ -8,8 +8,19 @@ use Http\Promise\Promise as PromiseInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
-interface HttpRequestSenderInterface
+interface HttpLayerInterface
 {
+    /**
+     * Create an HTTP request object with the given components.
+     *
+     * @param string $method The HTTP method (GET, POST etc.)
+     * @param string $url The full URL
+     * @param array $headers The request headers
+     * @param string $body The request body
+     * @return \Psr\Http\Message\RequestInterface
+     */
+    public function createRequest(string $method, string $url, array $headers, string $body): RequestInterface;
+
     /**
      * Send an HTTP request to the API, and return the response.
      *

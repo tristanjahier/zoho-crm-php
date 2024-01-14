@@ -7,23 +7,30 @@ namespace Zoho\Crm;
 use Http\Client\HttpAsyncClient as AsyncClientInterface;
 use Http\Discovery\Exception\NotFoundException as HttpDiscoveryException;
 use Http\Discovery\HttpAsyncClientDiscovery;
+use Http\Discovery\Psr17FactoryDiscovery;
 use Http\Discovery\Psr18ClientDiscovery;
 use Http\Promise\Promise as PromiseInterface;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use Zoho\Crm\Contracts\HttpRequestSenderInterface;
+use Zoho\Crm\Contracts\HttpLayerInterface;
 
 /**
- * The HTTP request sender.
+ * The HTTP layer.
  */
-class HttpRequestSender implements HttpRequestSenderInterface
+class HttpLayer implements HttpLayerInterface
 {
     /** @var int The number of API requests sent so far */
     protected $requestCount = 0;
 
     /** @var \Psr\Http\Client\ClientInterface The HTTP client to make requests */
     protected $httpClient;
+
+    /** @var \Psr\Http\Message\RequestFactoryInterface The PSR-17 request factory */
+    protected $requestFactory;
+
+    /** @var \Psr\Http\Message\StreamFactoryInterface The PSR-17 stream factory */
+    protected $streamFactory;
 
     /**
      * The constructor.
@@ -41,6 +48,23 @@ class HttpRequestSender implements HttpRequestSenderInterface
         } catch (HttpDiscoveryException) {
             $this->httpClient = Psr18ClientDiscovery::find();
         }
+
+        $this->requestFactory = Psr17FactoryDiscovery::findRequestFactory();
+        $this->streamFactory = Psr17FactoryDiscovery::findStreamFactory();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function createRequest(string $method, string $url, array $headers, string $body): RequestInterface
+    {
+        $request = $this->requestFactory->createRequest($method, $url);
+
+        foreach ($headers as $name => $value) {
+            $request = $request->withHeader($name, $value);
+        }
+
+        return $request->withBody($this->streamFactory->createStream($body));
     }
 
     /**

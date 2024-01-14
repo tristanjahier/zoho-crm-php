@@ -11,12 +11,12 @@ use Zoho\Crm\Contracts\AccessTokenBrokerInterface;
 use Zoho\Crm\Contracts\AccessTokenStoreInterface;
 use Zoho\Crm\Contracts\ClientInterface;
 use Zoho\Crm\Contracts\ErrorHandlerInterface;
-use Zoho\Crm\Contracts\HttpRequestSenderInterface;
+use Zoho\Crm\Contracts\HttpLayerInterface;
 use Zoho\Crm\Contracts\RequestInterface;
 use Zoho\Crm\Contracts\ResponseInterface;
 use Zoho\Crm\Contracts\ResponseParserInterface;
 use Zoho\Crm\Exceptions\InvalidEndpointException;
-use Zoho\Crm\HttpRequestSender;
+use Zoho\Crm\HttpLayer;
 use Zoho\Crm\RawRequest;
 use Zoho\Crm\RequestProcessor;
 use Zoho\Crm\Support\Helper;
@@ -68,7 +68,7 @@ class Client implements ClientInterface
      *
      * @param \Zoho\Crm\Contracts\AccessTokenBrokerInterface $accessTokenBroker The access token broker
      * @param \Zoho\Crm\Contracts\AccessTokenStoreInterface|null $accessTokenStore (optional) The access token store
-     * @param \Zoho\Crm\Contracts\HttpRequestSenderInterface|null $httpRequestSender (optional) The HTTP request sender
+     * @param \Zoho\Crm\Contracts\HttpLayerInterface|null $httpLayer (optional) The HTTP layer
      * @param \Zoho\Crm\Contracts\ResponseParserInterface|null $responseParser (optional) The response parser
      * @param \Zoho\Crm\Contracts\ErrorHandlerInterface|null $errorHandler (optional) The error handler
      * @param string|null $endpoint (optional) The endpoint base URL
@@ -76,7 +76,7 @@ class Client implements ClientInterface
     public function __construct(
         AccessTokenBrokerInterface $accessTokenBroker,
         AccessTokenStoreInterface $accessTokenStore = null,
-        HttpRequestSenderInterface $httpRequestSender = null,
+        HttpLayerInterface $httpLayer = null,
         ResponseParserInterface $responseParser = null,
         ErrorHandlerInterface $errorHandler = null,
         string $endpoint = null
@@ -92,7 +92,7 @@ class Client implements ClientInterface
 
         $this->requestProcessor = new RequestProcessor(
             $this,
-            $httpRequestSender ?? new HttpRequestSender(),
+            $httpLayer ?? new HttpLayer(),
             $responseParser ?? new ResponseParser(),
             $errorHandler ?? new ErrorHandler()
         );
