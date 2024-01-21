@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace Zoho\Crm\Utils;
 
-use Http\Discovery\Psr17FactoryDiscovery;
-use Http\Discovery\Psr18ClientDiscovery;
+use Zoho\Crm\HttpLayer;
 use Zoho\Crm\Support\UrlParameters;
 
 /**
@@ -45,8 +44,7 @@ final class OAuthHelper
         string $redirectUri,
         string $grantToken
     ) {
-        $httpClient = Psr18ClientDiscovery::find();
-        $requestFactory = Psr17FactoryDiscovery::findRequestFactory();
+        $httpLayer = new HttpLayer();
 
         $parameters = new UrlParameters([
             'grant_type' => 'authorization_code',
@@ -57,8 +55,8 @@ final class OAuthHelper
         ]);
 
         $url = self::DEFAULT_OAUTH_ENDPOINT . 'token?' . $parameters;
-        $request = $requestFactory->createRequest('POST', $url);
-        $response = $httpClient->sendRequest($request);
+        $request = $httpLayer->createRequest('POST', $url);
+        $response = $httpLayer->send($request);
 
         return json_decode((string) $response->getBody(), true);
     }
