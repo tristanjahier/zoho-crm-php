@@ -11,8 +11,10 @@ use Http\Discovery\Psr17FactoryDiscovery;
 use Http\Discovery\Psr18ClientDiscovery;
 use Http\Promise\Promise as PromiseInterface;
 use Psr\Http\Client\ClientInterface;
+use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\StreamFactoryInterface;
 use Zoho\Crm\Contracts\HttpLayerInterface;
 
 /**
@@ -34,23 +36,19 @@ class HttpLayer implements HttpLayerInterface
 
     /**
      * The constructor.
+     *
+     * @param \Psr\Http\Client\ClientInterface $client A PSR-18 HTTP client
+     * @param \Psr\Http\Message\RequestFactoryInterface $requestFactory A PSR-17 HTTP request factory
+     * @param \Psr\Http\Message\StreamFactoryInterface $streamFactory A PSR-17 HTTP stream factory
      */
-    public function __construct()
-    {
-        try {
-            $this->httpClient = HttpAsyncClientDiscovery::find();
-
-            if (! $this->httpClient instanceof ClientInterface) {
-                // Force fallback to the 'catch' block, because we do not want an HTTP client
-                // that supports ONLY asynchronous requests.
-                throw new HttpDiscoveryException();
-            }
-        } catch (HttpDiscoveryException) {
-            $this->httpClient = Psr18ClientDiscovery::find();
-        }
-
-        $this->requestFactory = Psr17FactoryDiscovery::findRequestFactory();
-        $this->streamFactory = Psr17FactoryDiscovery::findStreamFactory();
+    public function __construct(
+        ClientInterface $client = null,
+        RequestFactoryInterface $requestFactory = null,
+        StreamFactoryInterface $streamFactory = null
+    ) {
+        $this->httpClient = $client ?? $this->findBestPsr18Client();
+        $this->requestFactory = $requestFactory ?? Psr17FactoryDiscovery::findRequestFactory();
+        $this->streamFactory = $streamFactory ?? Psr17FactoryDiscovery::findStreamFactory();
     }
 
     /**
@@ -121,6 +119,28 @@ class HttpLayer implements HttpLayerInterface
         }
 
         return $responses;
+    }
+
+    /**
+     * Find the best HTTP client compliant with PSR-18, with asynchronous requests support if possible.
+     *
+     * @return \Psr\Http\Client\ClientInterface
+     */
+    protected function findBestPsr18Client(): ClientInterface
+    {
+        try {
+            $httpClient = HttpAsyncClientDiscovery::find();
+
+            if (! $httpClient instanceof ClientInterface) {
+                // Force fallback to the 'catch' block, because we do not want an HTTP client
+                // that supports ONLY asynchronous requests.
+                throw new HttpDiscoveryException();
+            }
+        } catch (HttpDiscoveryException) {
+            $httpClient = Psr18ClientDiscovery::find();
+        }
+
+        return $httpClient;
     }
 
     /**
