@@ -5,12 +5,10 @@ declare(strict_types=1);
 namespace Zoho\Crm\V2;
 
 use DateTimeImmutable;
-use Http\Discovery\Psr17FactoryDiscovery;
-use Http\Discovery\Psr18ClientDiscovery;
-use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\ResponseInterface;
 use Zoho\Crm\Contracts\AccessTokenBrokerInterface;
 use Zoho\Crm\Exceptions\InvalidEndpointException;
+use Zoho\Crm\HttpLayer;
 use Zoho\Crm\Support\Helper;
 use Zoho\Crm\Support\UrlParameters;
 
@@ -31,8 +29,8 @@ class AccessTokenBroker implements AccessTokenBrokerInterface
     /** @var The base URL of the API OAuth 2.0 authorization endpoint */
     protected string $endpointBaseUrl = self::DEFAULT_ENDPOINT_BASE_URL;
 
-    /** @var The HTTP client to make requests */
-    protected ClientInterface $httpClient;
+    /** @var The HTTP layer to make requests */
+    protected HttpLayer $httpLayer;
 
     /**
      * The constructor.
@@ -51,7 +49,7 @@ class AccessTokenBroker implements AccessTokenBrokerInterface
         $this->clientId = $clientId;
         $this->clientSecret = $clientSecret;
         $this->refreshToken = $refreshToken;
-        $this->httpClient = Psr18ClientDiscovery::find();
+        $this->httpLayer = new HttpLayer();
 
         if (isset($endpoint)) {
             $this->setAuthorizationEndpoint($endpoint);
@@ -102,14 +100,14 @@ class AccessTokenBroker implements AccessTokenBrokerInterface
             'refresh_token' => $this->refreshToken
         ]);
 
-        $requestFactory = Psr17FactoryDiscovery::findRequestFactory();
-        $streamFactory = Psr17FactoryDiscovery::findStreamFactory();
+        $request = $this->httpLayer->createRequest(
+            'POST',
+            $this->endpointBaseUrl . 'token',
+            ['Content-Type' => 'application/x-www-form-urlencoded'],
+            (string) $parameters
+        );
 
-        $request = $requestFactory->createRequest('POST', $this->endpointBaseUrl . 'token')
-            ->withHeader('Content-Type', 'application/x-www-form-urlencoded')
-            ->withBody($streamFactory->createStream((string) $parameters));
-
-        return $this->httpClient->sendRequest($request);
+        return $this->httpLayer->send($request);
     }
 
     /**
