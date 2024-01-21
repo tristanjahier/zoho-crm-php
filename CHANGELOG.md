@@ -29,8 +29,8 @@ https://github.com/tristanjahier/zoho-crm-php/compare/0.5.0...master
   - `Zoho\Crm\QueryProcessor` was renamed `Zoho\Crm\RequestProcessor`.
   - The `Query` suffix was changed for `Request` in all API query objects. For example: `ListQuery => ListRequest`, `SearchQuery => SearchRequest` `UpdateQuery => UpdateRequest`.
 - In `HttpRequestableInterface`, method `getUrl` has been replaced by `getUrlPath`, because it simplifies implementations to require the URL path separately.
-- Renamed "request sender" to "HTTP request sender" to clarify that this component is purely dedicated to HTTP transport (interface `Zoho\Crm\Contracts\HttpRequestSenderInterface` and implementation `Zoho\Crm\HttpRequestSender`).
-  - Additionally, signatures of methods `sendAsync` and `fetchAsyncResponses` were modified.
+- Renamed "request sender" to "HTTP layer" to clarify that this component is purely dedicated to HTTP transport (interface `Zoho\Crm\Contracts\HttpLayerInterface` and implementation `Zoho\Crm\HttpLayer`).
+  - Additionally, method `send` was renamed `sendRequest` and method `sendAsync` was renamed `sendAsyncRequest` to match the PSR-18 client interface. Signatures of methods `sendAsyncRequest` and `fetchAsyncResponses` were modified.
 - Added explicit dependency on `psr/http-message`. To be clear: the library was *already* dependent on this package, but it was mistakenly relying on Guzzle to install it.
 - The full original HTTP responses will now be kept in response objects, instead of only the raw body contents. In interface `ResponseInterface`, the `getRawContent` method has been replaced with `getRawResponses`, which must always return an array of HTTP responses.
   - Consequently, request method `getRaw` was changed to return an array of HTTP responses (PSR interface) if the request is paginated, or else a single HTTP response.
@@ -42,7 +42,7 @@ https://github.com/tristanjahier/zoho-crm-php/compare/0.5.0...master
 - Moved `Zoho\Crm\V2\AccessTokenStores\StoreInterface` to `Zoho\Crm\Contracts\AccessTokenStoreInterface`.
 - Moved access token store implementations (`FileStore`, `NoStore` etc.) from namespace `Zoho\Crm\V2\AccessTokenStores` to `Zoho\Crm\AccessTokenStorage`.
 - Enabled injection of request processing dependencies in `Zoho\Crm\V2\Client`'s constructor:
-  - The 3rd argument is an optional implementation of `Zoho\Crm\Contracts\HttpRequestSenderInterface`.
+  - The 3rd argument is an optional implementation of `Zoho\Crm\Contracts\HttpLayerInterface`.
   - The 4th argument is an optional implementation of `Zoho\Crm\Contracts\ResponseParserInterface`.
   - The 5th argument is an optional implementation of `Zoho\Crm\Contracts\ErrorHandlerInterface`.
   - Injected objects can be provided with the client preferences by implementing `Zoho\Crm\ClientPreferencesAware`.
