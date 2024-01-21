@@ -76,7 +76,7 @@ class HttpLayer implements HttpLayerInterface
      *
      * @throws \Psr\Http\Client\ClientExceptionInterface
      */
-    public function send(RequestInterface $request): ResponseInterface
+    public function sendRequest(RequestInterface $request): ResponseInterface
     {
         $this->requestCount++;
 
@@ -88,7 +88,7 @@ class HttpLayer implements HttpLayerInterface
      *
      * @return \Http\Promise\Promise
      */
-    public function sendAsync(
+    public function sendAsyncRequest(
         RequestInterface $request,
         callable $onFulfilled,
         callable $onRejected = null

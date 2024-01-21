@@ -129,7 +129,7 @@ class RequestProcessor
         $this->firePreExecutionHooks($request->copy(), $execId);
 
         if ($async) {
-            return $this->httpLayer->sendAsync(
+            return $this->httpLayer->sendAsyncRequest(
                 $httpRequest,
                 function ($response) use ($request, $execId) {
                     $this->firePostExecutionHooks($request->copy(), $execId);
@@ -140,7 +140,7 @@ class RequestProcessor
         }
 
         try {
-            $response = $this->httpLayer->send($httpRequest);
+            $response = $this->httpLayer->sendRequest($httpRequest);
         } catch (Exception $e) {
             $this->handleException($e, $request);
         }

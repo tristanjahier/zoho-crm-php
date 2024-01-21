@@ -56,7 +56,7 @@ final class OAuthHelper
 
         $url = self::DEFAULT_OAUTH_ENDPOINT . 'token?' . $parameters;
         $request = $httpLayer->createRequest('POST', $url);
-        $response = $httpLayer->send($request);
+        $response = $httpLayer->sendRequest($request);
 
         return json_decode((string) $response->getBody(), true);
     }

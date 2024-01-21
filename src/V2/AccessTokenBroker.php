@@ -107,7 +107,7 @@ class AccessTokenBroker implements AccessTokenBrokerInterface
             (string) $parameters
         );
 
-        return $this->httpLayer->send($request);
+        return $this->httpLayer->sendRequest($request);
     }
 
     /**
