@@ -15,11 +15,11 @@ interface HttpLayerInterface
      *
      * @param string $method The HTTP method (GET, POST etc.)
      * @param string $url The full URL
-     * @param array $headers The request headers
-     * @param string $body The request body
+     * @param array $headers (optional) The request headers
+     * @param string $body (optional) The request body
      * @return \Psr\Http\Message\RequestInterface
      */
-    public function createRequest(string $method, string $url, array $headers, string $body): RequestInterface;
+    public function createRequest(string $method, string $url, array $headers = [], string $body = null): RequestInterface;
 
     /**
      * Send an HTTP request to the API, and return the response.

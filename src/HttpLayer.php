@@ -56,7 +56,7 @@ class HttpLayer implements HttpLayerInterface
     /**
      * @inheritdoc
      */
-    public function createRequest(string $method, string $url, array $headers, string $body): RequestInterface
+    public function createRequest(string $method, string $url, array $headers = [], string $body = null): RequestInterface
     {
         $request = $this->requestFactory->createRequest($method, $url);
 
@@ -64,7 +64,11 @@ class HttpLayer implements HttpLayerInterface
             $request = $request->withHeader($name, $value);
         }
 
-        return $request->withBody($this->streamFactory->createStream($body));
+        if (isset($body)) {
+            $request = $request->withBody($this->streamFactory->createStream($body));
+        }
+
+        return $request;
     }
 
     /**
