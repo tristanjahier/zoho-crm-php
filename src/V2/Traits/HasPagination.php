@@ -8,7 +8,7 @@ use Zoho\Crm\Contracts\RequestPaginatorInterface;
 use Zoho\Crm\Contracts\ResponsePageMergerInterface;
 use Zoho\Crm\Traits\HasPagination as BasePaginationTrait;
 use Zoho\Crm\V2\CollectionPageMerger;
-use Zoho\Crm\V2\RequestPaginator;
+use Zoho\Crm\RequestPaginator;
 
 /**
  * Basic API v2 implementation for PaginatedRequestInterface.
@@ -20,7 +20,7 @@ trait HasPagination
     /**
      * @inheritdoc
      *
-     * @return \Zoho\Crm\V2\RequestPaginator
+     * @return \Zoho\Crm\RequestPaginator
      */
     public function getPaginator(): RequestPaginatorInterface
     {

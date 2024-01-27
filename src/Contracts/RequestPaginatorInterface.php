@@ -7,14 +7,17 @@ namespace Zoho\Crm\Contracts;
 interface RequestPaginatorInterface
 {
     /**
-     * Fetch pages until there is no more data to fetch.
+     * Get a request for the next page to fetch, and move forward the page cursor.
      */
-    public function fetchAll();
+    public function getNextPageRequest(): RequestInterface;
 
     /**
-     * Get all fetched responses.
-     *
-     * @return ResponseInterface[]
+     * Handle a freshly retrieved page, perform checks, alter contents if needed.
      */
-    public function getResponses(): array;
+    public function handlePage(ResponseInterface $pageResponse): void;
+
+    /**
+     * Determine if there could be more data to fetch.
+     */
+    public function hasMoreData(): bool;
 }

@@ -169,14 +169,47 @@ class RequestProcessor
     protected function executePaginatedRequest(PaginatedRequestInterface $request)
     {
         $paginator = $request->getPaginator();
-        $paginator->fetchAll();
+        $concurrency = $request->mustBePaginatedConcurrently() ? $request->getConcurrency() : 1;
+        $pageResponses = [];
 
-        // Once all pages have been fetched, we will merge them into a single response
+        // Fetch pages until there is no more data to fetch.
+        do {
+            $batchRequests = [];
+
+            for ($i = 0; $i < $concurrency; $i++) {
+                $batchRequests[] = $paginator->getNextPageRequest();
+            }
+
+            if ($concurrency > 1) {
+                $batchResponses = $this->executeAsyncBatch($batchRequests);
+            } else {
+                $batchResponses = [$this->executeRequest($batchRequests[0])];
+            }
+
+            foreach ($batchResponses as $pageResponse) {
+                $pageResponses[] = $pageResponse;
+                $paginator->handlePage($pageResponse);
+            }
+        } while ($paginator->hasMoreData());
+
+        // Once all pages have been fetched, we will merge them into a single response.
+        return $this->mergePaginatedResponses($request, $pageResponses);
+    }
+
+    /**
+     * Merge multiple responses of a paginated request into a single one.
+     *
+     * @param Contracts\PaginatedRequestInterface $request The origin request
+     * @param Response[] $responses The page responses
+     * @return Response
+     */
+    protected function mergePaginatedResponses(PaginatedRequestInterface $request, array $responses): Response
+    {
         $contents = [];
         $rawResponses = [];
 
         // Extract data from each response
-        foreach ($paginator->getResponses() as $page) {
+        foreach ($responses as $page) {
             $contents[] = $page->getContent();
             $rawResponses = array_merge($rawResponses, $page->getRawResponses());
         }
