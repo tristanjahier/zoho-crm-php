@@ -25,7 +25,7 @@ https://github.com/tristanjahier/zoho-crm-php/compare/0.5.0...master
 - All exceptions provided by the library now extend `Zoho\Crm\Exceptions\Exception`.
 - Denominations of "queries" have been changed for "requests" everywhere in the code. "Queries" was a confusing name. Indeed these objects act as high-level abstractions for API HTTP requests, so this name is more suitable. Very notable changes:
   - Interfaces `QueryInterface` and `PaginatedQueryInterface` were replaced with `RequestInterface` and `PaginatedRequestInterface`.
-  - Methods of interface `ClientInterface` have been renamed: `executeQuery => executeRequest`, `beforeQueryExecution => beforeEachRequest` and `afterQueryExecution => afterEachRequest`.
+  - Methods of interface `ClientInterface` have been renamed: `executeQuery => executeRequest`, `executeAsyncBatch => executeAsyncRequestBatch`, `beforeQueryExecution => beforeEachRequest` and `afterQueryExecution => afterEachRequest`.
   - `Zoho\Crm\QueryProcessor` was renamed `Zoho\Crm\RequestProcessor`.
   - The `Query` suffix was changed for `Request` in all API query objects. For example: `ListQuery => ListRequest`, `SearchQuery => SearchRequest` `UpdateQuery => UpdateRequest`.
 - In `HttpRequestableInterface`, method `getUrl` has been replaced by `getUrlPath`, because it simplifies implementations to require the URL path separately.
