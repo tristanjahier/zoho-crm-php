@@ -34,12 +34,12 @@ interface ClientInterface
     public function executeRequest(RequestInterface $request): ResponseInterface;
 
     /**
-     * Execute a batch of requests concurrently and get the responses when all received.
+     * Execute a batch of asynchronous requests concurrently and return the responses when all received.
      *
      * @param RequestInterface[] $requests The batch of requests to execute
      * @return ResponseInterface[]
      */
-    public function executeAsyncBatch(array $requests): array;
+    public function executeAsyncRequestBatch(array $requests): array;
 
     /**
      * Register a callback to execute before each request.

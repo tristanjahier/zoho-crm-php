@@ -181,7 +181,7 @@ class RequestProcessor
             }
 
             if ($concurrency > 1) {
-                $batchResponses = $this->executeAsyncBatch($batchRequests);
+                $batchResponses = $this->executeAsyncRequestBatch($batchRequests);
             } else {
                 $batchResponses = [$this->executeRequest($batchRequests[0])];
             }
@@ -225,7 +225,7 @@ class RequestProcessor
     }
 
     /**
-     * Execute a batch of requests concurrently and get the responses when all received.
+     * Execute a batch of asynchronous requests concurrently and return the responses when all received.
      *
      * The response objects are returned in the same order their requests were provided.
      *
@@ -234,7 +234,7 @@ class RequestProcessor
      *
      * @throws Exceptions\PaginatedRequestInBatchExecutionException
      */
-    public function executeAsyncBatch(array $requests)
+    public function executeAsyncRequestBatch(array $requests)
     {
         $responses = [];
         $promises = [];

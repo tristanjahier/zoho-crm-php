@@ -152,9 +152,9 @@ class Client implements ClientInterface
      *
      * @return \Zoho\Crm\Response[]
      */
-    public function executeAsyncBatch(array $requests): array
+    public function executeAsyncRequestBatch(array $requests): array
     {
-        return $this->requestProcessor->executeAsyncBatch($requests);
+        return $this->requestProcessor->executeAsyncRequestBatch($requests);
     }
 
     /**
