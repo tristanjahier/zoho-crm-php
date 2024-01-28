@@ -17,7 +17,7 @@ trait HasRequestHeaders
      *
      * @return $this
      */
-    public function setHeader(string $name, $value)
+    public function setHeader(string $name, string $value)
     {
         $this->headers[$name] = $value;
 

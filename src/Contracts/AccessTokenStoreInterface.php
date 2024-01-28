@@ -16,9 +16,8 @@ interface AccessTokenStoreInterface
      * Set the access token.
      *
      * @param string|null $token The new token
-     * @return void
      */
-    public function setAccessToken(?string $token): void;
+    public function setAccessToken(?string $token);
 
     /**
      * Get the access token.
@@ -33,9 +32,8 @@ interface AccessTokenStoreInterface
      * The date argument will not be modified.
      *
      * @param \DateTimeInterface|null $date The new expiry date
-     * @return void
      */
-    public function setExpiryDate(?DateTimeInterface $date): void;
+    public function setExpiryDate(?DateTimeInterface $date);
 
     /**
      * Get the token expiry date.

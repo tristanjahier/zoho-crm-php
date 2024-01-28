@@ -18,7 +18,7 @@ class UserListTransformer implements ResponseTransformerInterface
      *
      * @return \Zoho\Crm\Entities\Collection
      */
-    public function transformResponse($content, RequestInterface $request)
+    public function transformResponse(mixed $content, RequestInterface $request): mixed
     {
         $users = new Collection();
 

@@ -14,7 +14,7 @@ interface RequestPaginatorInterface
     /**
      * Handle a freshly retrieved page, perform checks, alter contents if needed.
      */
-    public function handlePage(ResponseInterface $pageResponse): void;
+    public function handlePage(ResponseInterface $pageResponse);
 
     /**
      * Determine if there could be more data to fetch.

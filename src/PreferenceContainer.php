@@ -11,10 +11,13 @@ use Zoho\Crm\Support\Collection;
 /**
  * A container class for the client preferences.
  */
-abstract class PreferenceContainer extends Collection implements ClientPreferenceContainerInterface
+abstract class PreferenceContainer implements ClientPreferenceContainerInterface
 {
     /** @var array The available preferences and their default values */
     protected static $defaults = [];
+
+    /** @var \Zoho\Crm\Support\Collection The preferences values */
+    protected Collection $items;
 
     /**
      * The constructor.
@@ -41,7 +44,7 @@ abstract class PreferenceContainer extends Collection implements ClientPreferenc
      */
     public function resetDefaults()
     {
-        $this->items = static::$defaults;
+        $this->items = new Collection(static::$defaults);
     }
 
     /**
@@ -53,10 +56,11 @@ abstract class PreferenceContainer extends Collection implements ClientPreferenc
      *
      * @throws Exceptions\UnsupportedPreferenceException
      */
-    public function set($key, $value)
+    public function set(string $key, mixed $value)
     {
-        if ($this->has($key)) {
-            return parent::set($key, $value);
+        if ($this->items->has($key)) {
+            $this->items->set($key, $value);
+            return $this;
         }
 
         throw new UnsupportedPreferenceException($key);
@@ -66,15 +70,14 @@ abstract class PreferenceContainer extends Collection implements ClientPreferenc
      * Get the value of a given preference.
      *
      * @param string $key The name of the preference
-     * @param mixed|null $default (optional) A default value if not found
      * @return mixed
      *
      * @throws Exceptions\UnsupportedPreferenceException
      */
-    public function get($key, $default = null)
+    public function get(string $key): mixed
     {
-        if ($this->has($key)) {
-            return parent::get($key);
+        if ($this->items->has($key)) {
+            return $this->items->get($key);
         }
 
         throw new UnsupportedPreferenceException($key);
@@ -105,7 +108,7 @@ abstract class PreferenceContainer extends Collection implements ClientPreferenc
      *
      * @throws Exceptions\UnsupportedPreferenceException
      */
-    public function enable($key)
+    public function enable(string $key)
     {
         return $this->set($key, true);
     }
@@ -118,7 +121,7 @@ abstract class PreferenceContainer extends Collection implements ClientPreferenc
      *
      * @throws Exceptions\UnsupportedPreferenceException
      */
-    public function disable($key)
+    public function disable(string $key)
     {
         return $this->set($key, false);
     }
@@ -131,7 +134,7 @@ abstract class PreferenceContainer extends Collection implements ClientPreferenc
      *
      * @throws Exceptions\UnsupportedPreferenceException
      */
-    public function isEnabled($key): bool
+    public function isEnabled(string $key): bool
     {
         return $this->get($key) === true;
     }
@@ -144,7 +147,7 @@ abstract class PreferenceContainer extends Collection implements ClientPreferenc
      *
      * @throws Exceptions\UnsupportedPreferenceException
      */
-    public function isDisabled($key): bool
+    public function isDisabled(string $key): bool
     {
         return $this->get($key) === false;
     }
@@ -157,7 +160,7 @@ abstract class PreferenceContainer extends Collection implements ClientPreferenc
      *
      * @throws Exceptions\UnsupportedPreferenceException
      */
-    public function isSet($key): bool
+    public function isSet(string $key): bool
     {
         return $this->get($key) !== null;
     }

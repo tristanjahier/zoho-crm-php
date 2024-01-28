@@ -6,7 +6,6 @@ namespace Zoho\Crm\Traits;
 
 use Zoho\Crm\Contracts\ClientInterface;
 use Zoho\Crm\Contracts\PaginatedRequestInterface;
-use Zoho\Crm\Contracts\RequestInterface;
 use Zoho\Crm\Contracts\ResponseInterface;
 
 /**
@@ -22,7 +21,7 @@ trait BasicRequestImplementation
     /**
      * @inheritdoc
      */
-    public function copy(): RequestInterface
+    public function copy(): static
     {
         return clone $this;
     }
@@ -46,7 +45,7 @@ trait BasicRequestImplementation
     /**
      * @inheritdoc
      */
-    public function get()
+    public function get(): mixed
     {
         return $this->execute()->getContent();
     }

@@ -52,7 +52,7 @@ class Response implements ResponseInterface
     /**
      * @inheritdoc
      */
-    public function getContent()
+    public function getContent(): mixed
     {
         return $this->content;
     }
@@ -62,7 +62,7 @@ class Response implements ResponseInterface
      *
      * @return $this
      */
-    public function setContent($content)
+    public function setContent(mixed $content)
     {
         $this->content = $content;
 

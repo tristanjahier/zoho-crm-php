@@ -14,5 +14,5 @@ interface ResponsePageMergerInterface
      * @param mixed[] ...$pages The responses content pages to merge
      * @return mixed
      */
-    public function mergePaginatedContents(...$pages);
+    public function mergePaginatedContents(mixed ...$pages): mixed;
 }

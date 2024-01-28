@@ -17,7 +17,7 @@ class UnwrapDataTransformer implements ResponseTransformerInterface
      *
      * @return mixed|null
      */
-    public function transformResponse($content, RequestInterface $request)
+    public function transformResponse(mixed $content, RequestInterface $request): mixed
     {
         return $content['data'] ?? null;
     }

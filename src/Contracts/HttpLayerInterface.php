@@ -42,7 +42,7 @@ interface HttpLayerInterface
     /**
      * Settle a batch of HTTP promises, then return all responses.
      *
-     * @param array $promises The promises to settle
+     * @param \Http\Promise\Promise[] $promises The promises to settle
      * @return \Psr\Http\Message\ResponseInterface[]
      */
     public function fetchAsyncResponses(array $promises): array;

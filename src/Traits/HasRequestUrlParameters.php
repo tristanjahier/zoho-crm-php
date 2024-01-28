@@ -19,7 +19,7 @@ trait HasRequestUrlParameters
      *
      * @return $this
      */
-    public function setUrlParameter(string $key, $value)
+    public function setUrlParameter(string $key, mixed $value)
     {
         $this->urlParameters->set($key, $value);
 
@@ -37,7 +37,7 @@ trait HasRequestUrlParameters
     /**
      * @inheritdoc
      */
-    public function getUrlParameter(string $key)
+    public function getUrlParameter(string $key): mixed
     {
         return $this->urlParameters[$key];
     }
@@ -86,7 +86,7 @@ trait HasRequestUrlParameters
      * @param mixed $value The value
      * @return $this
      */
-    public function param(string $key, $value)
+    public function param(string $key, mixed $value)
     {
         $this->setUrlParameter($key, $value);
 

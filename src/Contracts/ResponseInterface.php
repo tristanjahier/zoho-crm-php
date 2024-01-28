@@ -11,14 +11,14 @@ interface ResponseInterface
      *
      * @return mixed
      */
-    public function getContent();
+    public function getContent(): mixed;
 
     /**
      * Set the parsed, cleaned up content.
      *
      * @param mixed $content The response content
      */
-    public function setContent($content);
+    public function setContent(mixed $content);
 
     /**
      * Get the raw HTTP response objects that originated this refined response.

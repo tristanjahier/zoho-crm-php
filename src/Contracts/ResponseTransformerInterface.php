@@ -16,5 +16,5 @@ interface ResponseTransformerInterface
      * @param RequestInterface $request The origin request
      * @return mixed
      */
-    public function transformResponse($content, RequestInterface $request);
+    public function transformResponse(mixed $content, RequestInterface $request): mixed;
 }

@@ -12,11 +12,10 @@ interface ClientInterface
      * It will ensure that there is one slash at the end.
      *
      * @param string $endpoint The endpoint base URL
-     * @return void
      *
      * @throws \Zoho\Crm\Exceptions\InvalidEndpointException
      */
-    public function setEndpoint(string $endpoint): void;
+    public function setEndpoint(string $endpoint);
 
     /**
      * Get the API endpoint base URL.
@@ -47,12 +46,11 @@ interface ClientInterface
      * @param callable $callback The callback to execute
      * @param string $id (optional) A unique identifier for the callback
      * @param bool $overwrite (optional) Whether to replace an existing callback having the same identifier
-     * @return self
      *
      * @throws \InvalidArgumentException When the identifier is invalid
      * @throws \RuntimeException When the identifier is already taken
      */
-    public function beforeEachRequest(callable $callback, string $id = null, bool $overwrite = false): self;
+    public function beforeEachRequest(callable $callback, string $id = null, bool $overwrite = false);
 
     /**
      * Register a callback to execute after each request.
@@ -60,12 +58,11 @@ interface ClientInterface
      * @param callable $callback The callback to execute
      * @param string $id (optional) A unique identifier for the callback
      * @param bool $overwrite (optional) Whether to replace an existing callback having the same identifier
-     * @return self
      *
      * @throws \InvalidArgumentException When the identifier is invalid
      * @throws \RuntimeException When the identifier is already taken
      */
-    public function afterEachRequest(callable $callback, string $id = null, bool $overwrite = false): self;
+    public function afterEachRequest(callable $callback, string $id = null, bool $overwrite = false);
 
     /**
      * Remove an identified callback that was to execute before each request.
@@ -100,9 +97,8 @@ interface ClientInterface
      * The request may be altered by the middleware.
      *
      * @param callable $middleware The middleware to register
-     * @return void
      */
-    public function registerMiddleware(callable $middleware): void;
+    public function registerMiddleware(callable $middleware);
 
     /**
      * Get the client preferences container.

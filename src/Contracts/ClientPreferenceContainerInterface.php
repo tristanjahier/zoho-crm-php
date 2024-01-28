@@ -14,7 +14,7 @@ interface ClientPreferenceContainerInterface
      *
      * @throws \Zoho\Crm\Exceptions\UnsupportedPreferenceException
      */
-    public function get($key);
+    public function get(string $key): mixed;
 
     /**
      * Set the value of the named preference.
@@ -24,7 +24,7 @@ interface ClientPreferenceContainerInterface
      *
      * @throws \Zoho\Crm\Exceptions\UnsupportedPreferenceException
      */
-    public function set($key, $value);
+    public function set(string $key, mixed $value);
 
     /**
      * Set the value of the named preference to true.
@@ -33,7 +33,7 @@ interface ClientPreferenceContainerInterface
      *
      * @throws \Zoho\Crm\Exceptions\UnsupportedPreferenceException
      */
-    public function enable($key);
+    public function enable(string $key);
 
     /**
      * Set the value of the named preference to false.
@@ -42,7 +42,7 @@ interface ClientPreferenceContainerInterface
      *
      * @throws \Zoho\Crm\Exceptions\UnsupportedPreferenceException
      */
-    public function disable($key);
+    public function disable(string $key);
 
     /**
      * Check if the value of the named preference is strictly true.
@@ -52,7 +52,7 @@ interface ClientPreferenceContainerInterface
      *
      * @throws \Zoho\Crm\Exceptions\UnsupportedPreferenceException
      */
-    public function isEnabled($key): bool;
+    public function isEnabled(string $key): bool;
 
     /**
      * Check if the value of the named preference is strictly false.
@@ -62,7 +62,7 @@ interface ClientPreferenceContainerInterface
      *
      * @throws \Zoho\Crm\Exceptions\UnsupportedPreferenceException
      */
-    public function isDisabled($key): bool;
+    public function isDisabled(string $key): bool;
 
     /**
      * Check if the named preference has a non-null value.
@@ -72,5 +72,5 @@ interface ClientPreferenceContainerInterface
      *
      * @throws \Zoho\Crm\Exceptions\UnsupportedPreferenceException
      */
-    public function isSet($key): bool;
+    public function isSet(string $key): bool;
 }

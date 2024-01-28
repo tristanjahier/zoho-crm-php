@@ -17,7 +17,7 @@ class CollectionPageMerger implements ResponsePageMergerInterface
      *
      * @return \Zoho\Crm\Entities\Collection
      */
-    public function mergePaginatedContents(...$pages)
+    public function mergePaginatedContents(mixed ...$pages): mixed
     {
         $entities = new Collection();
 

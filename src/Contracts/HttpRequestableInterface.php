@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Zoho\Crm\Contracts;
 
+use Stringable;
 use Zoho\Crm\Support\UrlParameters;
 
 interface HttpRequestableInterface
@@ -28,7 +29,7 @@ interface HttpRequestableInterface
      * @param string $key The parameter key
      * @param mixed $value The parameter value
      */
-    public function setUrlParameter(string $key, $value);
+    public function setUrlParameter(string $key, mixed $value);
 
     /**
      * Get all query string parameters.
@@ -43,7 +44,7 @@ interface HttpRequestableInterface
      * @param string $key The parameter key
      * @return mixed
      */
-    public function getUrlParameter(string $key);
+    public function getUrlParameter(string $key): mixed;
 
     /**
      * Check if a query string parameter exists by key.
@@ -66,7 +67,7 @@ interface HttpRequestableInterface
      * @param string $name The name of the header
      * @param mixed $value The value of the header
      */
-    public function setHeader(string $name, $value);
+    public function setHeader(string $name, string $value);
 
     /**
      * Remove a header field by name.
@@ -85,14 +86,14 @@ interface HttpRequestableInterface
     /**
      * Set the body of the HTTP request.
      *
-     * @param mixed $content The body content
+     * @param string|\Stringable $content The body content
      */
-    public function setBody($content);
+    public function setBody(string|Stringable $content);
 
     /**
      * Get the body of the HTTP request.
      *
-     * @return mixed
+     * @return string|\Stringable
      */
-    public function getBody();
+    public function getBody(): string|Stringable;
 }

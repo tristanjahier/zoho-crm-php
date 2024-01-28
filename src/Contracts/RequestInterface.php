@@ -10,21 +10,18 @@ interface RequestInterface extends HttpRequestableInterface
      * Validate the request.
      *
      * Check attributes consistency and the presence of the required ones.
-     * If the validation passes, nothing will happen.
-     * If it fails, an exception will be thrown.
-     *
-     * @return void
+     * If the validation fails an exception will be thrown.
      *
      * @throws \Zoho\Crm\Exceptions\InvalidRequestException
      */
-    public function validate(): void;
+    public function validate();
 
     /**
      * Create a deep copy of the request.
      *
-     * @return self
+     * @return static
      */
-    public function copy(): self;
+    public function copy(): static;
 
     /**
      * Get the bound API client.
@@ -45,7 +42,7 @@ interface RequestInterface extends HttpRequestableInterface
      *
      * @return mixed
      */
-    public function get();
+    public function get(): mixed;
 
     /**
      * Get an instance of a response transformer.

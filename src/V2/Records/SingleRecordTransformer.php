@@ -15,9 +15,9 @@ class SingleRecordTransformer implements ResponseTransformerInterface
     /**
      * @inheritdoc
      *
-     * @return Record
+     * @return Record|null
      */
-    public function transformResponse($content, RequestInterface $request)
+    public function transformResponse(mixed $content, RequestInterface $request): mixed
     {
         if (empty($content['data'])) {
             return null;
