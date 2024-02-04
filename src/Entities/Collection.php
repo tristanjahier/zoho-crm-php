@@ -57,7 +57,7 @@ class Collection extends BaseCollection
      * @param string $attribute The name of the attribute
      * @return string|null
      */
-    protected function getItemPropertyValue($item, $attribute)
+    protected function getItemPropertyValue(mixed $item, string $attribute): mixed
     {
         return $item->get($attribute);
     }
