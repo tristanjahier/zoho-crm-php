@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Zoho\Crm\V2\Users;
 
 use Zoho\Crm\Contracts\PaginatedRequestInterface;
-use Zoho\Crm\Contracts\ResponseTransformerInterface;
 use Zoho\Crm\V2\AbstractRequest;
 use Zoho\Crm\V2\Traits\HasPagination;
 

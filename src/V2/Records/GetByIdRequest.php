@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Zoho\Crm\V2\Records;
 
-use Zoho\Crm\Contracts\ResponseTransformerInterface;
 use Zoho\Crm\Exceptions\InvalidRequestException;
 
 /**

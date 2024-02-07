@@ -6,7 +6,6 @@ namespace Zoho\Crm\V2\Records;
 
 use DateTimeInterface;
 use Zoho\Crm\Contracts\PaginatedRequestInterface;
-use Zoho\Crm\Contracts\ResponseTransformerInterface;
 use Zoho\Crm\Exceptions\InvalidRequestException;
 use Zoho\Crm\Support\Helper;
 use Zoho\Crm\V2\Traits\HasPagination;
