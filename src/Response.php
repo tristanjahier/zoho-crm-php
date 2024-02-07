@@ -14,13 +14,13 @@ use Zoho\Crm\Contracts\ResponseInterface;
 class Response implements ResponseInterface
 {
     /** @var \Zoho\Crm\Contracts\RequestInterface The origin request */
-    private $request;
+    private RequestInterface $request;
 
     /** @var mixed The parsed, cleaned up response content */
-    private $content;
+    private mixed $content;
 
     /** @var \Psr\Http\Message\ResponseInterface[] The raw HTTP responses */
-    private $httpResponses = [];
+    private array $httpResponses = [];
 
     /**
      * The constructor.
@@ -29,7 +29,7 @@ class Response implements ResponseInterface
      * @param mixed $content The parsed response content
      * @param HttpResponseInterface|HttpResponseInterface[]|null $httpResponse (optional) The raw HTTP response(s)
      */
-    public function __construct(RequestInterface $request, $content, HttpResponseInterface|array $httpResponse = null)
+    public function __construct(RequestInterface $request, mixed $content, HttpResponseInterface|array $httpResponse = null)
     {
         $this->request = $request;
         $this->content = $content;
@@ -62,7 +62,7 @@ class Response implements ResponseInterface
      *
      * @return $this
      */
-    public function setContent(mixed $content)
+    public function setContent(mixed $content): static
     {
         $this->content = $content;
 
@@ -91,7 +91,7 @@ class Response implements ResponseInterface
      *
      * @return bool
      */
-    public function hasContent()
+    public function hasContent(): bool
     {
         return ! $this->isEmpty();
     }

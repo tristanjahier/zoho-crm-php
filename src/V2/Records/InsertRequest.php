@@ -18,13 +18,13 @@ class InsertRequest extends AbstractRequest
     public const TRIGGERS = ['workflow', 'approval', 'blueprint'];
 
     /** @inheritdoc */
-    protected $httpMethod = HttpMethod::POST;
+    protected string $httpMethod = HttpMethod::POST;
 
     /** @var array The records to insert */
-    protected $records = [];
+    protected array $records = [];
 
     /** @var array The things that the API request will trigger in Zoho CRM */
-    protected $triggers = self::TRIGGERS;
+    protected array $triggers = self::TRIGGERS;
 
     /**
      * Add a record to be inserted.
@@ -32,14 +32,10 @@ class InsertRequest extends AbstractRequest
      * @param array|Record $data The record data or object
      * @return $this
      */
-    public function addRecord($data): self
+    public function addRecord(array|Record $data): static
     {
         if ($data instanceof Record) {
             $data = $data->toArray();
-        }
-
-        if (! is_array($data)) {
-            throw new \InvalidArgumentException('Data must be an array or an instance of '.Record::class.'.');
         }
 
         $this->records[] = $data;
@@ -53,7 +49,7 @@ class InsertRequest extends AbstractRequest
      * @param iterable $records The records
      * @return $this
      */
-    public function addRecords(iterable $records): self
+    public function addRecords(iterable $records): static
     {
         foreach ($records as $record) {
             $this->addRecord($record);
@@ -68,7 +64,7 @@ class InsertRequest extends AbstractRequest
      * @param string[] $triggers The trigger names
      * @return $this
      */
-    public function triggers($triggers): self
+    public function triggers(array|string $triggers): static
     {
         $triggers = is_array($triggers) ? $triggers : func_get_args();
 
@@ -88,7 +84,7 @@ class InsertRequest extends AbstractRequest
      *
      * @return $this
      */
-    public function disableTriggers(): self
+    public function disableTriggers(): static
     {
         $this->triggers = [];
 
@@ -122,7 +118,7 @@ class InsertRequest extends AbstractRequest
     /**
      * @inheritdoc
      */
-    public function getBody()
+    public function getBody(): string
     {
         return json_encode([
             'data' => $this->records,

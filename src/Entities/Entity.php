@@ -14,16 +14,16 @@ use Zoho\Crm\Support\Helper;
 class Entity implements Arrayable
 {
     /** @var string|null The name of the entity */
-    protected static $name;
+    protected static ?string $name;
 
     /** @var string|null The name of the identifier attribute */
-    protected static $idName;
+    protected static ?string $idName;
 
     /** @var string[] The entity attributes */
-    protected $attributes = [];
+    protected array $attributes = [];
 
     /** @var \Zoho\Crm\Contracts\ClientInterface|null The client to which the entity is bound */
-    protected $client;
+    protected ?ClientInterface $client;
 
     /**
      * The constructor.
@@ -42,7 +42,7 @@ class Entity implements Arrayable
      *
      * @return string
      */
-    public static function name()
+    public static function name(): string
     {
         return isset(static::$name) ? static::$name : Helper::getClassShortName(static::class);
     }
@@ -52,7 +52,7 @@ class Entity implements Arrayable
      *
      * @return string
      */
-    public static function idName()
+    public static function idName(): string
     {
         return static::$idName;
     }
@@ -63,7 +63,7 @@ class Entity implements Arrayable
      * @param string $attribute The name of the attribute
      * @return bool
      */
-    public function has($attribute)
+    public function has(string $attribute): bool
     {
         return isset($this->attributes[$attribute]);
     }
@@ -74,7 +74,7 @@ class Entity implements Arrayable
      * @param string $attribute The name of the attribute
      * @return string|null
      */
-    public function get($attribute)
+    public function get(string $attribute): mixed
     {
         return $this->attributes[$attribute] ?? null;
     }
@@ -86,7 +86,7 @@ class Entity implements Arrayable
      * @param string $value The value of the attribute
      * @return void
      */
-    public function set($attribute, $value)
+    public function set(string $attribute, mixed $value): void
     {
         $this->attributes[$attribute] = $value;
     }
@@ -99,7 +99,7 @@ class Entity implements Arrayable
      * @param string $attribute The name of the attribute
      * @return void
      */
-    public function unset($attribute)
+    public function unset(string $attribute): void
     {
         unset($this->attributes[$attribute]);
     }
@@ -109,7 +109,7 @@ class Entity implements Arrayable
      *
      * @return string|null
      */
-    public function getId()
+    public function getId(): ?string
     {
         if (is_null($idName = static::idName())) {
             return null;
@@ -123,7 +123,7 @@ class Entity implements Arrayable
      *
      * @return string[]
      */
-    public function toArray()
+    public function toArray(): array
     {
         return $this->attributes;
     }
@@ -144,7 +144,7 @@ class Entity implements Arrayable
      * @param \Zoho\Crm\Contracts\ClientInterface|null $client The client to which the entity is bound
      * @return void
      */
-    public function setClient(?ClientInterface $client)
+    public function setClient(?ClientInterface $client): void
     {
         $this->client = $client;
     }
@@ -154,7 +154,7 @@ class Entity implements Arrayable
      *
      * @return bool
      */
-    public function isDetached()
+    public function isDetached(): bool
     {
         return is_null($this->client);
     }
@@ -164,7 +164,7 @@ class Entity implements Arrayable
      *
      * @return static
      */
-    public function copy()
+    public function copy(): static
     {
         // Just a simple shallow copy because entities only have primitive properties
         return clone $this;
@@ -176,7 +176,7 @@ class Entity implements Arrayable
      * @param string $attribute The name of the attribute
      * @return string|null
      */
-    public function __get($attribute)
+    public function __get(string $attribute): mixed
     {
         return $this->get($attribute);
     }
@@ -188,7 +188,7 @@ class Entity implements Arrayable
      * @param string $value The value of the attribute
      * @return void
      */
-    public function __set($attribute, $value)
+    public function __set(string $attribute, mixed $value): void
     {
         $this->set($attribute, $value);
     }
@@ -199,7 +199,7 @@ class Entity implements Arrayable
      * @param string $attribute The name of the attribute
      * @return bool
      */
-    public function __isset($attribute)
+    public function __isset(string $attribute): bool
     {
         return $this->has($attribute);
     }
@@ -210,7 +210,7 @@ class Entity implements Arrayable
      * @param string $attribute The name of the attribute
      * @return void
      */
-    public function __unset($attribute)
+    public function __unset(string $attribute): void
     {
         $this->unset($attribute);
     }
@@ -220,7 +220,7 @@ class Entity implements Arrayable
      *
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return json_encode([
             'type' => static::name(),
@@ -233,7 +233,7 @@ class Entity implements Arrayable
      *
      * @return string[]
      */
-    public function __sleep()
+    public function __sleep(): array
     {
         // $attributes is the only property that needs to be serialized
         return ['attributes'];

@@ -15,7 +15,7 @@ use Zoho\Crm\V2\Client;
 abstract class AbstractRequest extends BaseRequest
 {
     /** @var string The name of the Zoho module */
-    protected $module;
+    protected string $module;
 
     /**
      * The constructor.
@@ -35,7 +35,7 @@ abstract class AbstractRequest extends BaseRequest
      * @param string $module The name of the Zoho module
      * @return $this
      */
-    public function setModule(string $module)
+    public function setModule(string $module): static
     {
         $this->module = $module;
 

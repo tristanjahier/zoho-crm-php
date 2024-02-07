@@ -14,5 +14,5 @@ use Zoho\Crm\Support\HttpMethod;
 class UpdateManyRequest extends InsertRequest
 {
     /** @inheritdoc */
-    protected $httpMethod = HttpMethod::PUT;
+    protected string $httpMethod = HttpMethod::PUT;
 }

@@ -16,10 +16,10 @@ use Zoho\Crm\Support\HttpMethod;
 class DeleteRequest extends AbstractRequest
 {
     /** @inheritdoc */
-    protected $httpMethod = HttpMethod::DELETE;
+    protected string $httpMethod = HttpMethod::DELETE;
 
     /** @var string|null The ID of the record to delete */
-    protected $recordId;
+    protected ?string $recordId = null;
 
     /**
      * Set the ID of the record to delete.
@@ -27,7 +27,7 @@ class DeleteRequest extends AbstractRequest
      * @param string $id The ID to delete
      * @return $this
      */
-    public function setRecordId(string $id): self
+    public function setRecordId(string $id): static
     {
         $this->recordId = $id;
 
@@ -50,7 +50,7 @@ class DeleteRequest extends AbstractRequest
      * @param bool $enabled (optional) Whether the workflow rules should be triggered
      * @return $this
      */
-    public function triggerWorkflowRules(bool $enabled = true): self
+    public function triggerWorkflowRules(bool $enabled = true): static
     {
         return $this->param('wf_trigger', Helper::booleanToString($enabled));
     }

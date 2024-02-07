@@ -15,7 +15,7 @@ class UrlParameters extends Collection
      * @param array|\Zoho\Crm\Support\Collection $others The other URL parameters
      * @return static
      */
-    public function extend($others)
+    public function extend(array|Collection $others): static
     {
         return $this->replace($others);
     }
@@ -31,7 +31,7 @@ class UrlParameters extends Collection
      * @param mixed $value The value to cast
      * @return string
      */
-    protected function castValueToString($value)
+    protected function castValueToString(mixed $value): string
     {
         if (is_bool($value)) {
             return Helper::booleanToString($value);
@@ -59,7 +59,7 @@ class UrlParameters extends Collection
      * @param string $key The key of the parameter
      * @return string
      */
-    public function castItemToString(string $key)
+    public function castItemToString(string $key): string
     {
         return $this->castValueToString($this->get($key));
     }
@@ -69,7 +69,7 @@ class UrlParameters extends Collection
      *
      * @return string[]
      */
-    public function toStringArray()
+    public function toStringArray(): array
     {
         return $this->map(function ($value) {
             return $this->castValueToString($value);
@@ -85,7 +85,7 @@ class UrlParameters extends Collection
      *
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return http_build_query($this->toStringArray(), '', '&', PHP_QUERY_RFC3986);
     }
@@ -96,7 +96,7 @@ class UrlParameters extends Collection
      * @param string $query The string to parse
      * @return static
      */
-    public static function createFromString(string $query)
+    public static function createFromString(string $query): static
     {
         $parameters = [];
         parse_str($query, $parameters);
@@ -110,7 +110,7 @@ class UrlParameters extends Collection
      * @param string $url The URL to parse
      * @return static
      */
-    public static function createFromUrl(string $url)
+    public static function createFromUrl(string $url): static
     {
         return static::createFromString(parse_url($url, PHP_URL_QUERY) ?? '');
     }

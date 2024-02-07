@@ -13,7 +13,7 @@ use Zoho\Crm\Support\HttpMethod;
 trait HasRequestHttpMethod
 {
     /** @var string The HTTP method */
-    protected $httpMethod = HttpMethod::GET;
+    protected string $httpMethod = HttpMethod::GET;
 
     /**
      * Set the HTTP method.
@@ -21,7 +21,7 @@ trait HasRequestHttpMethod
      * @param string $method The HTTP method to use
      * @return $this
      */
-    public function setHttpMethod(string $method)
+    public function setHttpMethod(string $method): static
     {
         if (! HttpMethod::isValid($method)) {
             throw new InvalidHttpMethodException($method);

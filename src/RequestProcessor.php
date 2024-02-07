@@ -5,11 +5,14 @@ declare(strict_types=1);
 namespace Zoho\Crm;
 
 use Exception;
+use Http\Promise\Promise as HttpPromiseInterface;
+use Psr\Http\Message\ResponseInterface as HttpResponseInterface;
 use Zoho\Crm\Contracts\ClientInterface;
 use Zoho\Crm\Contracts\ErrorHandlerInterface;
 use Zoho\Crm\Contracts\HttpLayerInterface;
 use Zoho\Crm\Contracts\PaginatedRequestInterface;
 use Zoho\Crm\Contracts\RequestInterface;
+use Zoho\Crm\Contracts\ResponseInterface;
 use Zoho\Crm\Contracts\ResponseParserInterface;
 use Zoho\Crm\Exceptions\AsyncBatchRequestException;
 use Zoho\Crm\Exceptions\PaginatedRequestInBatchExecutionException;
@@ -20,25 +23,25 @@ use Zoho\Crm\Exceptions\PaginatedRequestInBatchExecutionException;
 class RequestProcessor
 {
     /** @var Contracts\ClientInterface The client to which this processor is attached */
-    protected $client;
+    protected ClientInterface $client;
 
     /** @var Contracts\HttpLayerInterface The HTTP layer */
-    protected $httpLayer;
+    protected HttpLayerInterface $httpLayer;
 
     /** @var Contracts\ResponseParserInterface The response parser */
-    protected $responseParser;
+    protected ResponseParserInterface $responseParser;
 
     /** @var Contracts\ErrorHandlerInterface The error handler */
-    protected $errorHandler;
+    protected ErrorHandlerInterface $errorHandler;
 
     /** @var callable[] The callbacks to execute before each request */
-    protected $preExecutionHooks = [];
+    protected array $preExecutionHooks = [];
 
     /** @var callable[] The callbacks to execute after each request */
-    protected $postExecutionHooks = [];
+    protected array $postExecutionHooks = [];
 
     /** @var callable[] The middlewares to apply to each request before execution */
-    protected $middlewares = [];
+    protected array $middlewares = [];
 
     /**
      * The constructor.
@@ -86,7 +89,7 @@ class RequestProcessor
      * @param Contracts\RequestInterface $request The request to execute
      * @return Response
      */
-    public function executeRequest(RequestInterface $request)
+    public function executeRequest(RequestInterface $request): ResponseInterface
     {
         if ($request instanceof PaginatedRequestInterface && $request->mustBePaginatedAutomatically()) {
             return $this->executePaginatedRequest($request);
@@ -107,8 +110,10 @@ class RequestProcessor
      * @param bool $async (optional) Whether the resulting request must be asynchronous or not
      * @return \Psr\Http\Message\ResponseInterface|\Http\Promise\Promise
      */
-    protected function sendRequest(RequestInterface $request, bool $async = false)
-    {
+    protected function sendRequest(
+        RequestInterface $request,
+        bool $async = false
+    ): HttpResponseInterface|HttpPromiseInterface {
         // Use a copy of the request, so that all modifications potentially
         // brought by middleware are not affecting the original request.
         $request = $request->copy();
@@ -155,7 +160,7 @@ class RequestProcessor
      *
      * @return string
      */
-    protected function generateRandomId()
+    protected function generateRandomId(): string
     {
         return bin2hex(random_bytes(8));
     }
@@ -166,7 +171,7 @@ class RequestProcessor
      * @param Contracts\PaginatedRequestInterface $request The request to execute
      * @return Response
      */
-    protected function executePaginatedRequest(PaginatedRequestInterface $request)
+    protected function executePaginatedRequest(PaginatedRequestInterface $request): ResponseInterface
     {
         $paginator = $request->getPaginator();
         $concurrency = $request->mustBePaginatedConcurrently() ? $request->getConcurrency() : 1;
@@ -234,7 +239,7 @@ class RequestProcessor
      *
      * @throws Exceptions\PaginatedRequestInBatchExecutionException
      */
-    public function executeAsyncRequestBatch(array $requests)
+    public function executeAsyncRequestBatch(array $requests): array
     {
         $responses = [];
         $promises = [];
@@ -270,7 +275,7 @@ class RequestProcessor
      *
      * @throws \Exception
      */
-    protected function handleException(Exception $exception, RequestInterface $request)
+    protected function handleException(Exception $exception, RequestInterface $request): void
     {
         $this->errorHandler->handle($exception, $request);
 
@@ -296,7 +301,7 @@ class RequestProcessor
      * @param bool $overwrite (optional) Whether to replace an existing callback having the same identifier
      * @return void
      */
-    public function registerPreExecutionHook(callable $callback, string $id = null, bool $overwrite = false)
+    public function registerPreExecutionHook(callable $callback, string $id = null, bool $overwrite = false): void
     {
         $this->registerHook($this->preExecutionHooks, $callback, $id, $overwrite);
     }
@@ -309,7 +314,7 @@ class RequestProcessor
      * @param bool $overwrite (optional) Whether to replace an existing callback having the same identifier
      * @return void
      */
-    public function registerPostExecutionHook(callable $callback, string $id = null, bool $overwrite = false)
+    public function registerPostExecutionHook(callable $callback, string $id = null, bool $overwrite = false): void
     {
         $this->registerHook($this->postExecutionHooks, $callback, $id, $overwrite);
     }
@@ -326,7 +331,7 @@ class RequestProcessor
      * @throws \InvalidArgumentException When the identifier is invalid
      * @throws \RuntimeException When the identifier is already taken
      */
-    protected function registerHook(array &$set, callable $callback, ?string $id, bool $overwrite)
+    protected function registerHook(array &$set, callable $callback, ?string $id, bool $overwrite): void
     {
         if (! isset($id)) {
             $set[] = $callback;
@@ -350,7 +355,7 @@ class RequestProcessor
      * @param string $id The unique identifier of the callback
      * @return void
      */
-    public function deregisterPreExecutionHook(string $id)
+    public function deregisterPreExecutionHook(string $id): void
     {
         $this->deregisterHook($this->preExecutionHooks, $id);
     }
@@ -361,7 +366,7 @@ class RequestProcessor
      * @param string $id The unique identifier of the callback
      * @return void
      */
-    public function deregisterPostExecutionHook(string $id)
+    public function deregisterPostExecutionHook(string $id): void
     {
         $this->deregisterHook($this->postExecutionHooks, $id);
     }
@@ -376,7 +381,7 @@ class RequestProcessor
      * @throws \InvalidArgumentException When the identifier is invalid
      * @throws \RuntimeException When there is no callback with this identifier
      */
-    protected function deregisterHook(array &$set, string $id)
+    protected function deregisterHook(array &$set, string $id): void
     {
         if (is_numeric($id)) {
             throw new \InvalidArgumentException('Callback identifier must not be a numeric string.');
@@ -395,7 +400,7 @@ class RequestProcessor
      * @param mixed[] ...$args The arguments to pass to the callbacks
      * @return void
      */
-    protected function firePreExecutionHooks(...$args)
+    protected function firePreExecutionHooks(mixed ...$args): void
     {
         foreach ($this->preExecutionHooks as $callback) {
             $callback(...$args);
@@ -408,7 +413,7 @@ class RequestProcessor
      * @param mixed[] ...$args The arguments to pass to the callbacks
      * @return void
      */
-    protected function firePostExecutionHooks(...$args)
+    protected function firePostExecutionHooks(mixed ...$args): void
     {
         foreach ($this->postExecutionHooks as $callback) {
             $callback(...$args);
@@ -421,7 +426,7 @@ class RequestProcessor
      * @param callable $middleware The middleware to register
      * @return void
      */
-    public function registerMiddleware(callable $middleware)
+    public function registerMiddleware(callable $middleware): void
     {
         $this->middlewares[] = $middleware;
     }
@@ -432,7 +437,7 @@ class RequestProcessor
      * @param Contracts\RequestInterface $request The request being executed
      * @return void
      */
-    protected function applyMiddlewaresToRequest(RequestInterface $request)
+    protected function applyMiddlewaresToRequest(RequestInterface $request): void
     {
         foreach ($this->middlewares as $middleware) {
             $middleware($request);

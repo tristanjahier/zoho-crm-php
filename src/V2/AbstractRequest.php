@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Zoho\Crm\V2;
 
+use Zoho\Crm\Contracts\ClientInterface;
 use Zoho\Crm\Contracts\RequestInterface;
 use Zoho\Crm\Support\UrlParameters;
 use Zoho\Crm\Traits\{
@@ -20,7 +21,7 @@ abstract class AbstractRequest implements RequestInterface
     use BasicRequestImplementation, HasRequestHttpMethod, HasRequestUrlParameters;
 
     /** @var Client The API client that originated this request */
-    protected $client;
+    protected ClientInterface $client;
 
     /**
      * The constructor.
@@ -38,7 +39,7 @@ abstract class AbstractRequest implements RequestInterface
      *
      * @return void
      */
-    public function __clone()
+    public function __clone(): void
     {
         $this->urlParameters = clone $this->urlParameters;
     }

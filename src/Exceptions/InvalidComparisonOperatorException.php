@@ -11,7 +11,7 @@ class InvalidComparisonOperatorException extends Exception
      *
      * @param string $operator The invalid comparison operator
      */
-    public function __construct($operator)
+    public function __construct(string $operator)
     {
         parent::__construct("Operator {$operator} is not a valid comparison operator.");
     }

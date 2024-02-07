@@ -45,7 +45,7 @@ trait HasPagination
      *
      * @throws \InvalidArgumentException
      */
-    public function page(int $page)
+    public function page(int $page): static
     {
         if ($page <= 0) {
             throw new \InvalidArgumentException('Page number must be a positive non-zero integer.');
@@ -62,7 +62,7 @@ trait HasPagination
      *
      * @throws \InvalidArgumentException
      */
-    public function perPage(int $perPage)
+    public function perPage(int $perPage): static
     {
         $max = RequestPaginator::PAGE_MAX_SIZE;
 

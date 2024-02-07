@@ -20,7 +20,7 @@ use Zoho\Crm\Response;
 class ResponseParser implements ResponseParserInterface, ClientPreferencesAware
 {
     /** @var Preferences The client preferences */
-    protected $preferences;
+    protected Preferences $preferences;
 
     /**
      * @inheritdoc

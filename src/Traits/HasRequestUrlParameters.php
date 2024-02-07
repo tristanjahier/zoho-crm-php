@@ -12,14 +12,14 @@ use Zoho\Crm\Support\UrlParameters;
 trait HasRequestUrlParameters
 {
     /** @var \Zoho\Crm\Support\UrlParameters The URL parameters collection */
-    protected $urlParameters;
+    protected UrlParameters $urlParameters;
 
     /**
      * @inheritdoc
      *
      * @return $this
      */
-    public function setUrlParameter(string $key, mixed $value)
+    public function setUrlParameter(string $key, mixed $value): static
     {
         $this->urlParameters->set($key, $value);
 
@@ -55,7 +55,7 @@ trait HasRequestUrlParameters
      *
      * @return void
      */
-    public function removeUrlParameter(string $key)
+    public function removeUrlParameter(string $key): void
     {
         $this->urlParameters->unset($key);
     }
@@ -68,7 +68,7 @@ trait HasRequestUrlParameters
      * @param array|\Zoho\Crm\Support\UrlParameters $parameters (optional) The new set of parameters
      * @return $this
      */
-    public function resetUrlParameters($parameters = [])
+    public function resetUrlParameters(array|UrlParameters $parameters = []): static
     {
         if (! $parameters instanceof UrlParameters) {
             $parameters = new UrlParameters($parameters);
@@ -86,7 +86,7 @@ trait HasRequestUrlParameters
      * @param mixed $value The value
      * @return $this
      */
-    public function param(string $key, mixed $value)
+    public function param(string $key, mixed $value): static
     {
         $this->setUrlParameter($key, $value);
 
@@ -99,7 +99,7 @@ trait HasRequestUrlParameters
      * @param array $parameters The parameters
      * @return $this
      */
-    public function params(array $parameters)
+    public function params(array $parameters): static
     {
         foreach ($parameters as $key => $value) {
             $this->setUrlParameter($key, $value);
@@ -114,7 +114,7 @@ trait HasRequestUrlParameters
      * @param string $key The parameter key
      * @return $this
      */
-    public function removeParam(string $key)
+    public function removeParam(string $key): static
     {
         $this->removeUrlParameter($key);
 

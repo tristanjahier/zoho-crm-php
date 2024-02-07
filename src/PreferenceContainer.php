@@ -14,7 +14,7 @@ use Zoho\Crm\Support\Collection;
 abstract class PreferenceContainer implements ClientPreferenceContainerInterface
 {
     /** @var array The available preferences and their default values */
-    protected static $defaults = [];
+    protected static array $defaults = [];
 
     /** @var \Zoho\Crm\Support\Collection The preferences values */
     protected Collection $items;
@@ -32,7 +32,7 @@ abstract class PreferenceContainer implements ClientPreferenceContainerInterface
      *
      * @return array
      */
-    public function defaults()
+    public function defaults(): array
     {
         return static::$defaults;
     }
@@ -42,7 +42,7 @@ abstract class PreferenceContainer implements ClientPreferenceContainerInterface
      *
      * @return void
      */
-    public function resetDefaults()
+    public function resetDefaults(): void
     {
         $this->items = new Collection(static::$defaults);
     }
@@ -56,7 +56,7 @@ abstract class PreferenceContainer implements ClientPreferenceContainerInterface
      *
      * @throws Exceptions\UnsupportedPreferenceException
      */
-    public function set(string $key, mixed $value)
+    public function set(string $key, mixed $value): static
     {
         if ($this->items->has($key)) {
             $this->items->set($key, $value);
@@ -91,7 +91,7 @@ abstract class PreferenceContainer implements ClientPreferenceContainerInterface
      *
      * @throws Exceptions\UnsupportedPreferenceException
      */
-    public function override($newPrefs)
+    public function override(array $newPrefs): static
     {
         foreach ($newPrefs as $key => $value) {
             $this->set($key, $value);
@@ -108,7 +108,7 @@ abstract class PreferenceContainer implements ClientPreferenceContainerInterface
      *
      * @throws Exceptions\UnsupportedPreferenceException
      */
-    public function enable(string $key)
+    public function enable(string $key): static
     {
         return $this->set($key, true);
     }
@@ -121,7 +121,7 @@ abstract class PreferenceContainer implements ClientPreferenceContainerInterface
      *
      * @throws Exceptions\UnsupportedPreferenceException
      */
-    public function disable(string $key)
+    public function disable(string $key): static
     {
         return $this->set($key, false);
     }

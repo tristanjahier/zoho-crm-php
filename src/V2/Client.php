@@ -37,31 +37,31 @@ class Client implements ClientInterface
     public const DEFAULT_ENDPOINT = 'https://www.zohoapis.com/crm/v2/';
 
     /** @var string[] The sub-APIs helpers classes */
-    protected static $subApiClasses = [
+    protected static array $subApiClasses = [
         'records' => Records\SubApi::class,
         'users' => Users\SubApi::class,
     ];
 
     /** @var \Zoho\Crm\Contracts\AccessTokenBrokerInterface The access token broker */
-    protected $accessTokenBroker;
+    protected AccessTokenBrokerInterface $accessTokenBroker;
 
     /** @var \Zoho\Crm\Contracts\AccessTokenStoreInterface The access token store */
-    protected $accessTokenStore;
+    protected AccessTokenStoreInterface $accessTokenStore;
 
     /** @var string The API endpoint base URL (with trailing slash) */
-    protected $endpoint = self::DEFAULT_ENDPOINT;
+    protected string $endpoint = self::DEFAULT_ENDPOINT;
 
     /** @var \Zoho\Crm\RequestProcessor The request processor */
-    protected $requestProcessor;
+    protected RequestProcessor $requestProcessor;
 
     /** @var Preferences The client preferences container */
-    protected $preferences;
+    protected Preferences $preferences;
 
     /** @var AbstractSubApi[] The sub-APIs helpers */
-    protected $subApis = [];
+    protected array $subApis = [];
 
     /** @var \Closure[] The callbacks to execute each time the access token has been refreshed */
-    protected $accessTokenRefreshedCallbacks = [];
+    protected array $accessTokenRefreshedCallbacks = [];
 
     /**
      * The constructor.
@@ -186,7 +186,7 @@ class Client implements ClientInterface
      *
      * @return void
      */
-    public function cancelBeforeEachRequestCallback(string $id)
+    public function cancelBeforeEachRequestCallback(string $id): void
     {
         $this->requestProcessor->deregisterPreExecutionHook($id);
     }
@@ -196,7 +196,7 @@ class Client implements ClientInterface
      *
      * @return void
      */
-    public function cancelAfterEachRequestCallback(string $id)
+    public function cancelAfterEachRequestCallback(string $id): void
     {
         $this->requestProcessor->deregisterPostExecutionHook($id);
     }
@@ -224,7 +224,7 @@ class Client implements ClientInterface
      * @param \DateTimeInterface|null $expiryDate The new expiry date
      * @return void
      */
-    public function setAccessToken(?string $accessToken, ?DateTimeInterface $expiryDate)
+    public function setAccessToken(?string $accessToken, ?DateTimeInterface $expiryDate): void
     {
         $this->accessTokenStore->setAccessToken($accessToken);
         $this->accessTokenStore->setExpiryDate($expiryDate);
@@ -309,7 +309,7 @@ class Client implements ClientInterface
      * @param \Closure $callback The callback to execute
      * @return $this
      */
-    public function accessTokenRefreshed(Closure $callback): self
+    public function accessTokenRefreshed(Closure $callback): static
     {
         $this->accessTokenRefreshedCallbacks[] = $callback;
 
@@ -322,7 +322,7 @@ class Client implements ClientInterface
      * @param string|null $path (optional) The URL path
      * @return RawRequest
      */
-    public function newRawRequest(string $path = null)
+    public function newRawRequest(string $path = null): RawRequest
     {
         return (new RawRequest($this))->setUrl($path);
     }
@@ -366,7 +366,7 @@ class Client implements ClientInterface
      * @param string $name The name of the sub-API
      * @return AbstractSubApi
      */
-    public function __get(string $name)
+    public function __get(string $name): AbstractSubApi
     {
         return $this->getSubApi($name);
     }

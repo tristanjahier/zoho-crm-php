@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Zoho\Crm\V2\Records;
 
+use DateTimeInterface;
 use Zoho\Crm\Contracts\PaginatedRequestInterface;
 use Zoho\Crm\Contracts\ResponseTransformerInterface;
 use Zoho\Crm\Exceptions\InvalidRequestException;
@@ -20,10 +21,10 @@ class ListRelatedRequest extends AbstractRequest implements PaginatedRequestInte
     use HasPagination;
 
     /** @var string|null The record ID */
-    protected $recordId;
+    protected ?string $recordId = null;
 
     /** @var string|null The name of the related module */
-    protected $relatedModule;
+    protected ?string $relatedModule = null;
 
     /**
      * Set the record ID.
@@ -31,7 +32,7 @@ class ListRelatedRequest extends AbstractRequest implements PaginatedRequestInte
      * @param string $id The record ID
      * @return $this
      */
-    public function setRecordId(string $id): self
+    public function setRecordId(string $id): static
     {
         $this->recordId = $id;
 
@@ -54,7 +55,7 @@ class ListRelatedRequest extends AbstractRequest implements PaginatedRequestInte
      * @param string $relatedModule The name of the related module
      * @return $this
      */
-    public function setRelatedModule(string $relatedModule): self
+    public function setRelatedModule(string $relatedModule): static
     {
         $this->relatedModule = $relatedModule;
 
@@ -113,7 +114,7 @@ class ListRelatedRequest extends AbstractRequest implements PaginatedRequestInte
      *
      * @throws \InvalidArgumentException
      */
-    public function modifiedAfter($date)
+    public function modifiedAfter(DateTimeInterface|string|null $date): static
     {
         if (is_null($date)) {
             return $this->removeHeader('If-Modified-Since');
@@ -132,7 +133,7 @@ class ListRelatedRequest extends AbstractRequest implements PaginatedRequestInte
      *
      * @throws \InvalidArgumentException
      */
-    protected function getValidatedDateObject($date)
+    protected function getValidatedDateObject(DateTimeInterface|string $date): DateTimeInterface
     {
         if (! Helper::isValidDateInput($date)) {
             throw new \InvalidArgumentException('Date must implement DateTimeInterface or be a valid date string.');

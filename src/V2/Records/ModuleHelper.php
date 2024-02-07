@@ -12,10 +12,10 @@ use Zoho\Crm\V2\Client;
 class ModuleHelper
 {
     /** @var \Zoho\Crm\V2\Client The client to which the module is linked */
-    protected $client;
+    protected Client $client;
 
     /** @var string The name of the module */
-    protected $name;
+    protected string $name;
 
     /**
      * The constructor.
@@ -112,7 +112,7 @@ class ModuleHelper
      * @param array|null $triggers (optional) The triggers to enable
      * @return InsertRequest
      */
-    public function newInsertRequest($records = null, array $triggers = null): InsertRequest
+    public function newInsertRequest(iterable $records = null, array $triggers = null): InsertRequest
     {
         $request = new InsertRequest($this->client, $this->name);
 
@@ -135,8 +135,11 @@ class ModuleHelper
      * @param array|null $triggers (optional) The triggers to enable
      * @return UpdateRequest
      */
-    public function newUpdateRequest(string $id = null, $data = null, array $triggers = null): UpdateRequest
-    {
+    public function newUpdateRequest(
+        string $id = null,
+        array|Record $data = null,
+        array $triggers = null
+    ): UpdateRequest {
         $request = new UpdateRequest($this->client, $this->name);
 
         if (isset($id)) {
@@ -161,7 +164,7 @@ class ModuleHelper
      * @param array|null $triggers (optional) The triggers to enable
      * @return UpdateManyRequest
      */
-    public function newUpdateManyRequest($records = null, array $triggers = null): UpdateManyRequest
+    public function newUpdateManyRequest(iterable $records = null, array $triggers = null): UpdateManyRequest
     {
         $request = new UpdateManyRequest($this->client, $this->name);
 
@@ -185,7 +188,7 @@ class ModuleHelper
      * @return UpsertRequest
      */
     public function newUpsertRequest(
-        $records = null,
+        iterable $records = null,
         array $duplicateCheckFields = null,
         array $triggers = null
     ): UpsertRequest {
@@ -329,7 +332,7 @@ class ModuleHelper
      * @param array|null $triggers (optional) The triggers to enable
      * @return array|null
      */
-    public function insert($record, array $triggers = null): ?array
+    public function insert(array|Record $record, array $triggers = null): ?array
     {
         $response = $this->newInsertRequest([$record], $triggers)->get();
 
@@ -345,7 +348,7 @@ class ModuleHelper
      * @param array|null $triggers (optional) The triggers to enable
      * @return array[]
      */
-    public function insertMany($records, array $triggers = null): array
+    public function insertMany(iterable $records, array $triggers = null): array
     {
         return $this->newInsertRequest($records, $triggers)->get();
     }
@@ -358,7 +361,7 @@ class ModuleHelper
      * @param array|null $triggers (optional) The triggers to enable
      * @return array|null
      */
-    public function update(string $id, $data, array $triggers = null): ?array
+    public function update(string $id, array|Record $data, array $triggers = null): ?array
     {
         $response = $this->newUpdateRequest($id, $data, $triggers)->get();
 
@@ -374,7 +377,7 @@ class ModuleHelper
      * @param array|null $triggers (optional) The triggers to enable
      * @return array[]
      */
-    public function updateMany($records, array $triggers = null): array
+    public function updateMany(iterable $records, array $triggers = null): array
     {
         return $this->newUpdateManyRequest($records, $triggers)->get();
     }
@@ -387,7 +390,7 @@ class ModuleHelper
      * @param array|null $triggers (optional) The triggers to enable
      * @return array|null
      */
-    public function upsert($record, array $duplicateCheckFields = null, array $triggers = null): ?array
+    public function upsert(array|Record $record, array $duplicateCheckFields = null, array $triggers = null): ?array
     {
         $response = $this->newUpsertRequest([$record], $duplicateCheckFields, $triggers)->get();
 
@@ -404,7 +407,7 @@ class ModuleHelper
      * @param array|null $triggers (optional) The triggers to enable
      * @return array[]
      */
-    public function upsertMany($records, array $duplicateCheckFields = null, array $triggers = null): array
+    public function upsertMany(iterable $records, array $duplicateCheckFields = null, array $triggers = null): array
     {
         return $this->newUpsertRequest($records, $duplicateCheckFields, $triggers)->get();
     }

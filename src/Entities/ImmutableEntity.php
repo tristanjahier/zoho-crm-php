@@ -16,7 +16,7 @@ class ImmutableEntity extends Entity
      *
      * @throws \Zoho\Crm\Exceptions\ImmutableEntityException
      */
-    final public function set($attribute, $value)
+    final public function set(string $attribute, mixed $value): void
     {
         throw new ImmutableEntityException();
     }
@@ -26,7 +26,7 @@ class ImmutableEntity extends Entity
      *
      * @throws \Zoho\Crm\Exceptions\ImmutableEntityException
      */
-    final public function __set($attribute, $value)
+    final public function __set(string $attribute, mixed $value): void
     {
         throw new ImmutableEntityException();
     }
@@ -36,7 +36,7 @@ class ImmutableEntity extends Entity
      *
      * @throws \Zoho\Crm\Exceptions\ImmutableEntityException
      */
-    final public function unset($attribute)
+    final public function unset(string $attribute): void
     {
         throw new ImmutableEntityException();
     }
@@ -46,7 +46,7 @@ class ImmutableEntity extends Entity
      *
      * @throws \Zoho\Crm\Exceptions\ImmutableEntityException
      */
-    final public function __unset($attribute)
+    final public function __unset(string $attribute): void
     {
         throw new ImmutableEntityException();
     }

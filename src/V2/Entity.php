@@ -14,7 +14,7 @@ class Entity extends BaseEntity
     /**
      * @inheritdoc
      */
-    public static function idName()
+    public static function idName(): string
     {
         if (isset(static::$idName)) {
             return static::$idName;

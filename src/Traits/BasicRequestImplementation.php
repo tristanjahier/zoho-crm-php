@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Zoho\Crm\Traits;
 
+use Psr\Http\Message\ResponseInterface as HttpResponseInterface;
 use Zoho\Crm\Contracts\ClientInterface;
 use Zoho\Crm\Contracts\PaginatedRequestInterface;
 use Zoho\Crm\Contracts\ResponseInterface;
@@ -16,7 +17,7 @@ trait BasicRequestImplementation
     use HasRequestHeaders, HasRequestBody;
 
     /** @var \Zoho\Crm\Contracts\ClientInterface The API client that originated this request */
-    protected $client;
+    protected ClientInterface $client;
 
     /**
      * @inheritdoc
@@ -55,7 +56,7 @@ trait BasicRequestImplementation
      *
      * @return \Psr\Http\Message\ResponseInterface|\Psr\Http\Message\ResponseInterface[]|null
      */
-    public function getRaw()
+    public function getRaw(): HttpResponseInterface|array|null
     {
         $responses = $this->execute()->getRawResponses();
 

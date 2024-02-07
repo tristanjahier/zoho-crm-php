@@ -23,16 +23,16 @@ use Zoho\Crm\Contracts\HttpLayerInterface;
 class HttpLayer implements HttpLayerInterface
 {
     /** @var int The number of API requests sent so far */
-    protected $requestCount = 0;
+    protected int $requestCount = 0;
 
     /** @var \Psr\Http\Client\ClientInterface The HTTP client to make requests */
-    protected $httpClient;
+    protected ClientInterface $httpClient;
 
     /** @var \Psr\Http\Message\RequestFactoryInterface The PSR-17 request factory */
-    protected $requestFactory;
+    protected RequestFactoryInterface $requestFactory;
 
     /** @var \Psr\Http\Message\StreamFactoryInterface The PSR-17 stream factory */
-    protected $streamFactory;
+    protected StreamFactoryInterface $streamFactory;
 
     /**
      * The constructor.
@@ -148,7 +148,7 @@ class HttpLayer implements HttpLayerInterface
      *
      * @return void
      */
-    public function resetRequestCount()
+    public function resetRequestCount(): void
     {
         $this->requestCount = 0;
     }

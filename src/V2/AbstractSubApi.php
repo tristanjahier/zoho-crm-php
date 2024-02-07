@@ -10,7 +10,7 @@ namespace Zoho\Crm\V2;
 abstract class AbstractSubApi
 {
     /** @var \Zoho\Crm\V2\Client The client to which the sub-API is attached */
-    protected $client;
+    protected Client $client;
 
     /**
      * The constructor.

@@ -29,7 +29,7 @@ class VarDumpCaster
      *
      * @return array
      */
-    public static function getConfig()
+    public static function getConfig(): array
     {
         return [
             ClientInterface::class => self::class.'::castClient',
@@ -45,7 +45,7 @@ class VarDumpCaster
      * @param \Zoho\Crm\Contracts\ClientInterface $client The client instance
      * @return array
      */
-    public static function castClient(ClientInterface $client)
+    public static function castClient(ClientInterface $client): array
     {
         $properties = [
             Caster::PREFIX_PROTECTED . 'endpoint' => $client->getEndpoint(),
@@ -65,7 +65,7 @@ class VarDumpCaster
      * @param \Zoho\Crm\V2\Client $client The client instance
      * @return array
      */
-    public static function castV2Client(V2Client $client)
+    public static function castV2Client(V2Client $client): array
     {
         $properties = [];
 
@@ -82,7 +82,7 @@ class VarDumpCaster
      * @param \Zoho\Crm\Contracts\RequestInterface $request The request instance
      * @return array
      */
-    public static function castRequest(RequestInterface $request)
+    public static function castRequest(RequestInterface $request): array
     {
         return self::prefixKeys([
             'httpMethod' => $request->getHttpMethod(),
@@ -101,7 +101,7 @@ class VarDumpCaster
      * @param \Zoho\Crm\Entities\Entity $entity The entity instance
      * @return array
      */
-    public static function castEntity(Entity $entity)
+    public static function castEntity(Entity $entity): array
     {
         return self::prefixKeys($entity->toArray(), Caster::PREFIX_VIRTUAL);
     }
@@ -112,7 +112,7 @@ class VarDumpCaster
      * @param \Zoho\Crm\Support\Collection $collection The collection instance
      * @return array
      */
-    public static function castCollection(Collection $collection)
+    public static function castCollection(Collection $collection): array
     {
         return [
             Caster::PREFIX_PROTECTED . 'items' => $collection->items()
@@ -126,7 +126,7 @@ class VarDumpCaster
      * @param string $prefix The key prefix
      * @return array
      */
-    private static function prefixKeys(array $array, string $prefix)
+    private static function prefixKeys(array $array, string $prefix): array
     {
         $result = [];
 

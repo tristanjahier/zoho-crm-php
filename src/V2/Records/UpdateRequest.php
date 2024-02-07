@@ -15,16 +15,16 @@ use Zoho\Crm\Support\HttpMethod;
 class UpdateRequest extends AbstractRequest
 {
     /** @inheritdoc */
-    protected $httpMethod = HttpMethod::PUT;
+    protected string $httpMethod = HttpMethod::PUT;
 
     /** @var string|null The ID of the record to update */
-    protected $recordId;
+    protected ?string $recordId = null;
 
     /** @var array The new field values to save */
-    protected $recordData = [];
+    protected array $recordData = [];
 
     /** @var array The things that the API request will trigger in Zoho CRM */
-    protected $triggers = InsertRequest::TRIGGERS;
+    protected array $triggers = InsertRequest::TRIGGERS;
 
     /**
      * Set the ID of the record to update.
@@ -32,7 +32,7 @@ class UpdateRequest extends AbstractRequest
      * @param string $id The record ID
      * @return $this
      */
-    public function setRecordId(string $id): self
+    public function setRecordId(string $id): static
     {
         $this->recordId = $id;
 
@@ -55,14 +55,10 @@ class UpdateRequest extends AbstractRequest
      * @param array|Record $data The record data
      * @return $this
      */
-    public function setRecordData($data): self
+    public function setRecordData(array|Record $data): static
     {
         if ($data instanceof Record) {
             $data = $data->toArray();
-        }
-
-        if (! is_array($data)) {
-            throw new \InvalidArgumentException('Data must be an array or an instance of '.Record::class.'.');
         }
 
         $this->recordData = $data;
@@ -76,7 +72,7 @@ class UpdateRequest extends AbstractRequest
      * @param string[] $triggers The trigger names
      * @return $this
      */
-    public function triggers($triggers)
+    public function triggers(array|string $triggers): static
     {
         $triggers = is_array($triggers) ? $triggers : func_get_args();
 
@@ -96,7 +92,7 @@ class UpdateRequest extends AbstractRequest
      *
      * @return $this
      */
-    public function disableTriggers()
+    public function disableTriggers(): static
     {
         $this->triggers = [];
 
@@ -130,7 +126,7 @@ class UpdateRequest extends AbstractRequest
     /**
      * @inheritdoc
      */
-    public function getBody()
+    public function getBody(): string
     {
         return json_encode([
             'data' => [$this->recordData],

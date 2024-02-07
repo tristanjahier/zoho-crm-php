@@ -14,7 +14,7 @@ class InvalidRequestException extends Exception
      * @param \Zoho\Crm\Contracts\RequestInterface $request The API request
      * @param string $message A short message explaining why the request is invalid
      */
-    public function __construct(RequestInterface $request, $message)
+    public function __construct(RequestInterface $request, string $message)
     {
         $url = '/' . $request->getUrlPath();
 

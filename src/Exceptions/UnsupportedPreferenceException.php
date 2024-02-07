@@ -11,7 +11,7 @@ class UnsupportedPreferenceException extends Exception
      *
      * @param string $preference The preference key
      */
-    public function __construct($preference)
+    public function __construct(string $preference)
     {
         parent::__construct("Preference '{$preference}' is not supported.");
     }

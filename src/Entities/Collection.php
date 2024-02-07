@@ -17,7 +17,7 @@ class Collection extends BaseCollection
      * @param string $id The entity ID
      * @return Entity|null
      */
-    public function find($id)
+    public function find(string $id): ?Entity
     {
         return $this->first(function ($entity) use ($id) {
             return $entity->getId() === $id;
@@ -29,7 +29,7 @@ class Collection extends BaseCollection
      *
      * @return \Zoho\Crm\Support\Collection
      */
-    public function entityIds()
+    public function entityIds(): BaseCollection
     {
         return $this->map(function ($entity) {
             return $entity->getId();
@@ -41,7 +41,7 @@ class Collection extends BaseCollection
      *
      * @return static
      */
-    public function uniqueById()
+    public function uniqueById(): static
     {
         if ($this->isEmpty()) {
             return $this;

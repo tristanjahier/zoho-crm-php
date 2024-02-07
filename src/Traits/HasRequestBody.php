@@ -19,7 +19,7 @@ trait HasRequestBody
      *
      * @return $this
      */
-    public function setBody(string|Stringable $content)
+    public function setBody(string|Stringable $content): static
     {
         $this->body = $content;
 

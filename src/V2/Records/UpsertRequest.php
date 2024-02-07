@@ -12,7 +12,7 @@ namespace Zoho\Crm\V2\Records;
 class UpsertRequest extends InsertRequest
 {
     /** @var string[] The unique fields used to check duplicates */
-    protected $duplicateCheckFields = [];
+    protected array $duplicateCheckFields = [];
 
     /**
      * Set the fields that must be used for duplicate check.
@@ -20,7 +20,7 @@ class UpsertRequest extends InsertRequest
      * @param string[] $fields The fields (array or multiple args)
      * @return $this
      */
-    public function checkDuplicatesOn($fields): self
+    public function checkDuplicatesOn(array|string $fields): static
     {
         $this->duplicateCheckFields = is_array($fields) ? $fields : func_get_args();
 
@@ -38,7 +38,7 @@ class UpsertRequest extends InsertRequest
     /**
      * @inheritdoc
      */
-    public function getBody()
+    public function getBody(): string
     {
         return json_encode([
             'data' => $this->records,

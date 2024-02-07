@@ -10,10 +10,10 @@ namespace Zoho\Crm\AccessTokenStorage;
 class FileStore extends AbstractStore
 {
     /** @var string The file path where the token must be cached/stored */
-    protected $filePath;
+    protected string $filePath;
 
     /** @var bool Whether the file exists or not */
-    protected $fileExists;
+    protected bool $fileExists;
 
     /**
      * The constructor.

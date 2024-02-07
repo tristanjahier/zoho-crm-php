@@ -10,10 +10,10 @@ namespace Zoho\Crm\Traits;
 trait HasPagination
 {
     /** @var bool Whether the request must be automatically paginated or not */
-    protected $autoPaginated = false;
+    protected bool $autoPaginated = false;
 
     /** @var int|null The maximum number of concurrent requests allowed to fetch pages */
-    protected $concurrency;
+    protected ?int $concurrency;
 
     /**
      * @inheritdoc
@@ -47,7 +47,7 @@ trait HasPagination
      * @param bool $enabled (optional) Whether the request is auto paginated, true if omitted
      * @return $this
      */
-    public function autoPaginated(bool $enabled = true): self
+    public function autoPaginated(bool $enabled = true): static
     {
         $this->autoPaginated = $enabled;
 
@@ -60,7 +60,7 @@ trait HasPagination
      * @param int|null $concurrency The concurrency limit
      * @return $this
      */
-    public function concurrency(?int $concurrency): self
+    public function concurrency(?int $concurrency): static
     {
         if (! is_null($concurrency) && (! is_int($concurrency) || $concurrency <= 0)) {
             throw new \InvalidArgumentException('Request concurrency must be a positive non-zero integer.');

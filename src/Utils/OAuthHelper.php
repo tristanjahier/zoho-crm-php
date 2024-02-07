@@ -43,7 +43,7 @@ final class OAuthHelper
         string $clientSecret,
         string $redirectUri,
         string $grantToken
-    ) {
+    ): array {
         $httpLayer = new HttpLayer();
 
         $parameters = new UrlParameters([

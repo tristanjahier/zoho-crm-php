@@ -10,13 +10,13 @@ class RequestPaginator implements Contracts\RequestPaginatorInterface
     public const PAGE_MAX_SIZE = 200;
 
     /** @var Contracts\PaginatedRequestInterface The parent request */
-    protected $request;
+    protected Contracts\PaginatedRequestInterface $request;
 
     /** @var bool Whether there is still data to fetch */
-    protected $hasMoreData = true;
+    protected bool $hasMoreData = true;
 
     /** @var int The latest page fetched */
-    protected $latestPageFetched = 0;
+    protected int $latestPageFetched = 0;
 
     /**
      * The constructor.
@@ -90,7 +90,7 @@ class RequestPaginator implements Contracts\RequestPaginatorInterface
      * @param \Zoho\Crm\Entities\Collection $entities The entities to filter
      * @return \Zoho\Crm\Entities\Collection
      */
-    protected function filterEntitiesExceedingMaxModificationDate(Entities\Collection $entities)
+    protected function filterEntitiesExceedingMaxModificationDate(Entities\Collection $entities): Entities\Collection
     {
         return $entities->filter(function ($entity) {
             $modifiedAt = new \DateTime($entity->get('Modified_Time'));

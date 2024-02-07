@@ -16,7 +16,7 @@ use Zoho\Crm\Support\HttpMethod;
 class DeleteManyRequest extends AbstractRequest
 {
     /** @inheritdoc */
-    protected $httpMethod = HttpMethod::DELETE;
+    protected string $httpMethod = HttpMethod::DELETE;
 
     /**
      * Set the IDs of the records to delete.
@@ -24,7 +24,7 @@ class DeleteManyRequest extends AbstractRequest
      * @param string[] $ids The IDs to delete
      * @return $this
      */
-    public function setRecordIds(array $ids): self
+    public function setRecordIds(array $ids): static
     {
         // Basic input filter
         $ids = array_filter(array_map('trim', $ids));
@@ -52,7 +52,7 @@ class DeleteManyRequest extends AbstractRequest
      * @param bool $enabled (optional) Whether the workflow rules should be triggered
      * @return $this
      */
-    public function triggerWorkflowRules(bool $enabled = true): self
+    public function triggerWorkflowRules(bool $enabled = true): static
     {
         return $this->param('wf_trigger', Helper::booleanToString($enabled));
     }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Zoho\Crm\V2\Records;
 
+use DateTimeInterface;
 use Zoho\Crm\Contracts\PaginatedRequestInterface;
 use Zoho\Crm\Contracts\ResponseTransformerInterface;
 use Zoho\Crm\Support\Helper;
@@ -44,7 +45,7 @@ class ListDeletedRequest extends AbstractRequest implements PaginatedRequestInte
      *
      * @throws \InvalidArgumentException
      */
-    public function after($date)
+    public function after(DateTimeInterface|string|null $date): static
     {
         if (is_null($date)) {
             return $this->removeHeader('If-Modified-Since');
@@ -63,7 +64,7 @@ class ListDeletedRequest extends AbstractRequest implements PaginatedRequestInte
      *
      * @throws \InvalidArgumentException
      */
-    protected function getValidatedDateObject($date)
+    protected function getValidatedDateObject(DateTimeInterface|string $date): DateTimeInterface
     {
         if (! Helper::isValidDateInput($date)) {
             throw new \InvalidArgumentException('Date must implement DateTimeInterface or be a valid date string.');

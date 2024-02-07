@@ -10,14 +10,14 @@ namespace Zoho\Crm\Traits;
 trait HasRequestHeaders
 {
     /** @var string[] The array of HTTP request headers */
-    protected $headers = [];
+    protected array $headers = [];
 
     /**
      * @inheritdoc
      *
      * @return $this
      */
-    public function setHeader(string $name, string $value)
+    public function setHeader(string $name, string $value): static
     {
         $this->headers[$name] = $value;
 
@@ -29,7 +29,7 @@ trait HasRequestHeaders
      *
      * @return $this
      */
-    public function removeHeader(string $name)
+    public function removeHeader(string $name): static
     {
         unset($this->headers[$name]);
 

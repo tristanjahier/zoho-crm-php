@@ -52,7 +52,7 @@ class SubApi extends AbstractSubApi
      * @param string $name The name of the module in camel case
      * @return ModuleHelper
      */
-    public function __get(string $name)
+    public function __get(string $name): ModuleHelper
     {
         return $this->module(Helper::inflector()->classify($name));
     }

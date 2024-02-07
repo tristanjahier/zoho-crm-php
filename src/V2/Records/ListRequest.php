@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Zoho\Crm\V2\Records;
 
+use DateTimeInterface;
 use Zoho\Crm\Contracts\PaginatedRequestInterface;
 use Zoho\Crm\Contracts\ResponseTransformerInterface;
 use Zoho\Crm\Exceptions\InvalidRequestException;
@@ -20,7 +21,7 @@ class ListRequest extends AbstractRequest implements PaginatedRequestInterface
     use HasPagination;
 
     /** @var \DateTime|null The maximum record modification date to fetch */
-    protected $maxModificationDate;
+    protected ?DateTimeInterface $maxModificationDate = null;
 
     /**
      * @inheritdoc
@@ -70,7 +71,7 @@ class ListRequest extends AbstractRequest implements PaginatedRequestInterface
      * @param string[] $fields An array of field names
      * @return $this
      */
-    public function select($fields)
+    public function select(array|string $fields): static
     {
         $fields = is_array($fields) ? $fields : func_get_args();
         $fields = $this->normalizeSelectedFields($fields);
@@ -87,7 +88,7 @@ class ListRequest extends AbstractRequest implements PaginatedRequestInterface
      * @param string[] $fields An array of field names
      * @return $this
      */
-    public function unselect($fields)
+    public function unselect(array|string $fields): static
     {
         $fields = is_array($fields) ? $fields : func_get_args();
         $fields = $this->normalizeSelectedFields($fields);
@@ -150,7 +151,7 @@ class ListRequest extends AbstractRequest implements PaginatedRequestInterface
      *
      * @return $this
      */
-    public function unselectAll()
+    public function unselectAll(): static
     {
         return $this->removeParam('fields');
     }
@@ -160,7 +161,7 @@ class ListRequest extends AbstractRequest implements PaginatedRequestInterface
      *
      * @return $this
      */
-    public function selectTimestamps()
+    public function selectTimestamps(): static
     {
         return $this->select('Created_Time', 'Modified_Time');
     }
@@ -170,7 +171,7 @@ class ListRequest extends AbstractRequest implements PaginatedRequestInterface
      *
      * @return $this
      */
-    public function selectDefaultFields()
+    public function selectDefaultFields(): static
     {
         return $this->selectTimestamps()->select('Created_By', 'Modified_By', 'Owner');
     }
@@ -184,7 +185,7 @@ class ListRequest extends AbstractRequest implements PaginatedRequestInterface
      * @param string $order (optional) The ordering direction
      * @return $this
      */
-    public function sortBy(string $field, string $order = 'asc')
+    public function sortBy(string $field, string $order = 'asc'): static
     {
         return $this->params([
             'sort_by' => $field,
@@ -198,7 +199,7 @@ class ListRequest extends AbstractRequest implements PaginatedRequestInterface
      * @param string $field The field name
      * @return $this
      */
-    public function sortByDesc(string $field)
+    public function sortByDesc(string $field): static
     {
         return $this->sortBy($field, 'desc');
     }
@@ -208,7 +209,7 @@ class ListRequest extends AbstractRequest implements PaginatedRequestInterface
      *
      * @return $this
      */
-    public function sortAsc()
+    public function sortAsc(): static
     {
         return $this->param('sort_order', 'asc');
     }
@@ -218,7 +219,7 @@ class ListRequest extends AbstractRequest implements PaginatedRequestInterface
      *
      * @return $this
      */
-    public function sortDesc()
+    public function sortDesc(): static
     {
         return $this->param('sort_order', 'desc');
     }
@@ -231,7 +232,7 @@ class ListRequest extends AbstractRequest implements PaginatedRequestInterface
      *
      * @throws \InvalidArgumentException
      */
-    public function modifiedAfter($date)
+    public function modifiedAfter(DateTimeInterface|string|null $date): static
     {
         if (is_null($date)) {
             return $this->removeHeader('If-Modified-Since');
@@ -250,7 +251,7 @@ class ListRequest extends AbstractRequest implements PaginatedRequestInterface
      *
      * @throws \InvalidArgumentException
      */
-    public function modifiedBefore($date)
+    public function modifiedBefore(DateTimeInterface|string|null $date): static
     {
         $this->maxModificationDate = is_null($date) ? null : $this->getValidatedDateObject($date);
 
@@ -266,7 +267,7 @@ class ListRequest extends AbstractRequest implements PaginatedRequestInterface
      *
      * @throws \InvalidArgumentException
      */
-    public function modifiedBetween($from, $to)
+    public function modifiedBetween(DateTimeInterface|string|null $from, DateTimeInterface|string|null $to): static
     {
         return $this->modifiedAfter($from)->modifiedBefore($to);
     }
@@ -286,7 +287,7 @@ class ListRequest extends AbstractRequest implements PaginatedRequestInterface
      *
      * @return \DateTime|null
      */
-    public function getMaxModificationDate(): ?\DateTime
+    public function getMaxModificationDate(): ?DateTimeInterface
     {
         return $this->maxModificationDate;
     }
@@ -299,7 +300,7 @@ class ListRequest extends AbstractRequest implements PaginatedRequestInterface
      *
      * @throws \InvalidArgumentException
      */
-    protected function getValidatedDateObject($date)
+    protected function getValidatedDateObject(DateTimeInterface|string $date): DateTimeInterface
     {
         if (! Helper::isValidDateInput($date)) {
             throw new \InvalidArgumentException('Date must implement DateTimeInterface or be a valid date string.');

@@ -19,7 +19,7 @@ class RawRequest implements RequestInterface
     use Traits\HasRequestUrlParameters;
 
     /** @var string|null The URL path */
-    protected $urlPath;
+    protected ?string $urlPath = null;
 
     /**
      * The constructor.
@@ -37,7 +37,7 @@ class RawRequest implements RequestInterface
      * @param string|null $url The new URL
      * @return $this
      */
-    public function setUrl(?string $url)
+    public function setUrl(?string $url): static
     {
         $url = $url ?? '';
         $this->urlPath = parse_url($url, PHP_URL_PATH);
@@ -76,7 +76,7 @@ class RawRequest implements RequestInterface
      *
      * @return void
      */
-    public function __clone()
+    public function __clone(): void
     {
         $this->urlParameters = clone $this->urlParameters;
     }

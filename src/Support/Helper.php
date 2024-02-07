@@ -13,7 +13,7 @@ use Doctrine\Inflector\InflectorFactory;
 final class Helper
 {
     /** @var \Doctrine\Inflector\Inflector Cached instance of Doctrine Inflector */
-    private static $inflector;
+    private static Inflector $inflector;
 
     /**
      * The constructor.
@@ -131,7 +131,7 @@ final class Helper
      * @param mixed $date The value to check
      * @return bool
      */
-    public static function isValidDateInput($date): bool
+    public static function isValidDateInput(string|\DateTimeInterface $date): bool
     {
         if ($date instanceof \DateTimeInterface) {
             return true;
@@ -157,7 +157,7 @@ final class Helper
      */
     public static function inflector(): Inflector
     {
-        if (self::$inflector !== null) {
+        if (isset(self::$inflector)) {
             return self::$inflector;
         }
 

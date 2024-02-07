@@ -14,7 +14,7 @@ use Zoho\Crm\V2\Client;
 class Authorization implements MiddlewareInterface
 {
     /** @var \Zoho\Crm\V2\Client The client to which the middleware is attached */
-    protected $client;
+    protected Client $client;
 
     /**
      * The constructor.

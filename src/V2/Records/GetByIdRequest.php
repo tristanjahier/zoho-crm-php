@@ -15,7 +15,7 @@ use Zoho\Crm\Exceptions\InvalidRequestException;
 class GetByIdRequest extends AbstractRequest
 {
     /** @var string|null The ID of the record to fetch */
-    protected $recordId;
+    protected ?string $recordId = null;
 
     /**
      * Set the ID of the record to fetch.
@@ -23,7 +23,7 @@ class GetByIdRequest extends AbstractRequest
      * @param string $id The ID to fetch
      * @return $this
      */
-    public function setRecordId(string $id): self
+    public function setRecordId(string $id): static
     {
         $this->recordId = $id;
 
