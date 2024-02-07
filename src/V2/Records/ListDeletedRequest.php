@@ -32,7 +32,7 @@ class ListDeletedRequest extends AbstractRequest implements PaginatedRequestInte
      *
      * @return DeletedRecordListTransformer
      */
-    public function getResponseTransformer(): ?ResponseTransformerInterface
+    public function getResponseTransformer(): DeletedRecordListTransformer
     {
         return new DeletedRecordListTransformer();
     }

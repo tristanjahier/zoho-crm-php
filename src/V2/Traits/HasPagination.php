@@ -32,7 +32,7 @@ trait HasPagination
      *
      * @return \Zoho\Crm\V2\CollectionPageMerger
      */
-    public function getResponsePageMerger(): ResponsePageMergerInterface
+    public function getResponsePageMerger(): CollectionPageMerger
     {
         return new CollectionPageMerger();
     }

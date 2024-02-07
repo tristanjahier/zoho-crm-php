@@ -30,7 +30,7 @@ class SearchRequest extends AbstractRequest implements PaginatedRequestInterface
      *
      * @return RecordListTransformer
      */
-    public function getResponseTransformer(): ?ResponseTransformerInterface
+    public function getResponseTransformer(): RecordListTransformer
     {
         return new RecordListTransformer();
     }

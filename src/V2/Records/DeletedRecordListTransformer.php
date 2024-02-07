@@ -18,7 +18,7 @@ class DeletedRecordListTransformer implements ResponseTransformerInterface
      *
      * @return \Zoho\Crm\Entities\Collection
      */
-    public function transformResponse(mixed $content, RequestInterface $request): mixed
+    public function transformResponse(mixed $content, RequestInterface $request): Collection
     {
         $records = new Collection();
 

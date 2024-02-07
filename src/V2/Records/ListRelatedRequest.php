@@ -101,7 +101,7 @@ class ListRelatedRequest extends AbstractRequest implements PaginatedRequestInte
      *
      * @return RecordListTransformer
      */
-    public function getResponseTransformer(): ?ResponseTransformerInterface
+    public function getResponseTransformer(): RecordListTransformer
     {
         return new RecordListTransformer();
     }

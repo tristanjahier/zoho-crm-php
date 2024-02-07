@@ -65,7 +65,7 @@ class GetByIdRequest extends AbstractRequest
      *
      * @return SingleRecordTransformer
      */
-    public function getResponseTransformer(): ?ResponseTransformerInterface
+    public function getResponseTransformer(): SingleRecordTransformer
     {
         return new SingleRecordTransformer();
     }
