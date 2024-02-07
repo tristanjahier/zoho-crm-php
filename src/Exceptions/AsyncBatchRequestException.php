@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace Zoho\Crm\Exceptions;
 
-use Exception;
-use Zoho\Crm\Exceptions\Exception as BaseException;
+use Throwable;
 
-class AsyncBatchRequestException extends BaseException
+class AsyncBatchRequestException extends Exception
 {
-    /** @var \Exception The actual exception that was thrown */
-    protected Exception $wrappedException;
+    /** @var \Throwable The actual exception that was thrown */
+    protected Throwable $wrappedException;
 
     /** @var mixed The key of the failed request inside the batch */
     protected string|int $keyInBatch;
@@ -18,10 +17,10 @@ class AsyncBatchRequestException extends BaseException
     /**
      * The constructor.
      *
-     * @param \Exception $wrappedException The actual exception that was thrown
+     * @param \Throwable $wrappedException The actual exception that was thrown
      * @param mixed $keyInBatch The key of the failed request inside the batch
      */
-    public function __construct(Exception $wrappedException, string|int $keyInBatch)
+    public function __construct(Throwable $wrappedException, string|int $keyInBatch)
     {
         $this->wrappedException = $wrappedException;
         $this->keyInBatch = $keyInBatch;
@@ -30,9 +29,9 @@ class AsyncBatchRequestException extends BaseException
     /**
      * Get the actual exception that was thrown by the HTTP layer.
      *
-     * @return \Exception
+     * @return \Throwable
      */
-    public function getWrappedException(): Exception
+    public function getWrappedException(): Throwable
     {
         return $this->wrappedException;
     }
