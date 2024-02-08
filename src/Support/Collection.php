@@ -15,6 +15,8 @@ use Zoho\Crm\Exceptions\InvalidComparisonOperatorException;
  * Generic collection class for any type of object.
  *
  * It acts as a wrapper for arrays, allowing to manipulate them in an object-oriented way.
+ *
+ * @phpstan-consistent-constructor
  */
 class Collection implements ArrayAccess, Countable, IteratorAggregate, Arrayable
 {
