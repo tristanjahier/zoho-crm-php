@@ -271,7 +271,7 @@ class RequestProcessor
      *
      * @param \Exception $exception
      * @param Contracts\RequestInterface $request The request
-     * @return void
+     * @return never
      *
      * @throws \Exception
      */
