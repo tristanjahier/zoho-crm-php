@@ -27,6 +27,7 @@
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.0",
         "php-http/guzzle7-adapter": "^1.0",
+        "phpstan/phpstan": "^1.0",
         "phpunit/phpunit": "^9.0",
         "psy/psysh": "^0.12",
         "symfony/var-dumper": "^6.0"
@@ -43,10 +44,12 @@
         }
     },
     "scripts": {
-        "lint": "php-cs-fixer fix --verbose"
+        "lint": "php-cs-fixer fix --verbose",
+        "stan": "phpstan analyse"
     },
     "scripts-descriptions": {
-        "lint": "Executes Symfony's PHP Coding Standards Fixer on the source code"
+        "lint": "Executes Symfony's PHP Coding Standards Fixer on the source code",
+        "stan": "Runs a static analysis of the source code using PHPStan"
     },
     "config": {
         "sort-packages": true,
