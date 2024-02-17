@@ -6,8 +6,8 @@
     xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/phpDocumentor/phpDocumentor/master/data/xsd/phpdoc.xsd"
 >
     <paths>
-        <output>docs/api</output>
-        <cache>docs/cache</cache>
+        <output>docs/phpdocumentor</output>
+        <cache>docs/phpdocumentor/cache</cache>
     </paths>
     <version number="latest">
         <api>

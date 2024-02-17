@@ -3,7 +3,7 @@
 use Doctum\Doctum;
 
 return new Doctum('./src/', [
-    'build_dir' => __DIR__ . '/docs/api',
-    'cache_dir' => __DIR__ . '/docs/cache',
+    'build_dir' => __DIR__ . '/docs/doctum',
+    'cache_dir' => __DIR__ . '/docs/doctum/cache',
     'title' => 'API Documentation',
 ]);
