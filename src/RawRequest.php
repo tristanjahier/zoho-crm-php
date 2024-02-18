@@ -18,7 +18,7 @@ class RawRequest implements RequestInterface
     use Traits\HasRequestHttpMethod;
     use Traits\HasRequestUrlParameters;
 
-    /** @var string|null The URL path */
+    /** The URL path */
     protected ?string $urlPath = null;
 
     /**

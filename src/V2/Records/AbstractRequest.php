@@ -14,7 +14,7 @@ use Zoho\Crm\V2\Client;
  */
 abstract class AbstractRequest extends BaseRequest
 {
-    /** @var string The name of the Zoho module */
+    /** The name of the Zoho module */
     protected string $module;
 
     /**

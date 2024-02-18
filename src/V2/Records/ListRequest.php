@@ -19,7 +19,7 @@ class ListRequest extends AbstractRequest implements PaginatedRequestInterface
 {
     use HasPagination;
 
-    /** @var \DateTime|null The maximum record modification date to fetch */
+    /** The maximum record modification date to fetch */
     protected ?DateTimeInterface $maxModificationDate = null;
 
     /**

@@ -22,16 +22,16 @@ use Zoho\Crm\Contracts\HttpLayerInterface;
  */
 class HttpLayer implements HttpLayerInterface
 {
-    /** @var int The number of API requests sent so far */
+    /** The number of API requests sent so far */
     protected int $requestCount = 0;
 
-    /** @var \Psr\Http\Client\ClientInterface The HTTP client to make requests */
+    /** The HTTP client to make requests */
     protected ClientInterface $httpClient;
 
-    /** @var \Psr\Http\Message\RequestFactoryInterface The PSR-17 request factory */
+    /** The PSR-17 request factory */
     protected RequestFactoryInterface $requestFactory;
 
-    /** @var \Psr\Http\Message\StreamFactoryInterface The PSR-17 stream factory */
+    /** The PSR-17 stream factory */
     protected StreamFactoryInterface $streamFactory;
 
     /**

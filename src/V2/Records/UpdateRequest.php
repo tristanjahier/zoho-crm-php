@@ -17,13 +17,17 @@ class UpdateRequest extends AbstractRequest
     /** @inheritdoc */
     protected string $httpMethod = HttpMethod::PUT;
 
-    /** @var string|null The ID of the record to update */
+    /** The ID of the record to update */
     protected ?string $recordId = null;
 
-    /** @var array The new field values to save */
+    /** The new field values to save */
     protected array $recordData = [];
 
-    /** @var array The things that the API request will trigger in Zoho CRM */
+    /**
+     * The things that the API request will trigger in Zoho CRM
+     *
+     * @var string[]
+     */
     protected array $triggers = InsertRequest::TRIGGERS;
 
     /**

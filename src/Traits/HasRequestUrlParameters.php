@@ -11,7 +11,7 @@ use Zoho\Crm\Support\UrlParameters;
  */
 trait HasRequestUrlParameters
 {
-    /** @var \Zoho\Crm\Support\UrlParameters The URL parameters collection */
+    /** The URL parameters collection */
     protected UrlParameters $urlParameters;
 
     /**

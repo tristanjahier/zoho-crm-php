@@ -11,10 +11,10 @@ use Zoho\Crm\V2\Client;
  */
 class ModuleHelper
 {
-    /** @var \Zoho\Crm\V2\Client The client to which the module is linked */
+    /** The client to which the module is linked */
     protected Client $client;
 
-    /** @var string The name of the module */
+    /** The name of the module */
     protected string $name;
 
     /**

@@ -18,7 +18,7 @@ class DeleteRequest extends AbstractRequest
     /** @inheritdoc */
     protected string $httpMethod = HttpMethod::DELETE;
 
-    /** @var string|null The ID of the record to delete */
+    /** The ID of the record to delete */
     protected ?string $recordId = null;
 
     /**

@@ -11,7 +11,7 @@ use Stringable;
  */
 trait HasRequestBody
 {
-    /** @var string|\Stringable The HTTP request body */
+    /** The HTTP request body */
     protected string|Stringable $body = '';
 
     /**

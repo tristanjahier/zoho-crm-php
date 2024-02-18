@@ -19,10 +19,10 @@ class ListRelatedRequest extends AbstractRequest implements PaginatedRequestInte
 {
     use HasPagination;
 
-    /** @var string|null The record ID */
+    /** The record ID */
     protected ?string $recordId = null;
 
-    /** @var string|null The name of the related module */
+    /** The name of the related module */
     protected ?string $relatedModule = null;
 
     /**

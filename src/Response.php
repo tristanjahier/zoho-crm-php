@@ -13,13 +13,17 @@ use Zoho\Crm\Contracts\ResponseInterface;
  */
 class Response implements ResponseInterface
 {
-    /** @var \Zoho\Crm\Contracts\RequestInterface The origin request */
+    /** The origin request */
     private RequestInterface $request;
 
-    /** @var mixed The parsed, cleaned up response content */
+    /** The parsed, cleaned up response content */
     private mixed $content;
 
-    /** @var \Psr\Http\Message\ResponseInterface[] The raw HTTP responses */
+    /**
+     * The raw HTTP responses
+     *
+     * @var \Psr\Http\Message\ResponseInterface[]
+     */
     private array $httpResponses = [];
 
     /**

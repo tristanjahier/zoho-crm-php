@@ -11,7 +11,11 @@ use Zoho\Crm\PreferenceContainer;
  */
 class Preferences extends PreferenceContainer
 {
-    /** @var array The available preferences and their default values */
+    /**
+     * The available preferences and their default values
+     *
+     * @var array<string, mixed>
+     */
     protected static array $defaults = [
         /**
          * Whether the new access token should be saved automatically as soon as it is refreshed.

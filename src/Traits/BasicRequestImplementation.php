@@ -16,7 +16,7 @@ trait BasicRequestImplementation
 {
     use HasRequestHeaders, HasRequestBody;
 
-    /** @var \Zoho\Crm\Contracts\ClientInterface The API client that originated this request */
+    /** The API client that originated this request */
     protected ClientInterface $client;
 
     /**

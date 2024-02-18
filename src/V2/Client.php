@@ -28,39 +28,55 @@ use Zoho\Crm\Support\Helper;
  *
  * @author Tristan Jahier <tristan.jahier@gmail.com>
  *
- * @property Records\SubApi $records
- * @property Users\SubApi $users
+ * @property Records\SubApi $records The Records sub-API helper
+ * @property Users\SubApi $users The Users sub-API helper
  */
 class Client implements ClientInterface
 {
-    /** @var string The API endpoint used by default */
+    /**
+     * The API endpoint used by default
+     *
+     * @var string
+     */
     public const DEFAULT_ENDPOINT = 'https://www.zohoapis.com/crm/v2/';
 
-    /** @var string[] The sub-APIs helpers classes */
+    /**
+     * The sub-APIs helpers classes
+     *
+     * @var array<string, class-string>
+     */
     protected static array $subApiClasses = [
         'records' => Records\SubApi::class,
         'users' => Users\SubApi::class,
     ];
 
-    /** @var \Zoho\Crm\Contracts\AccessTokenBrokerInterface The access token broker */
+    /** The access token broker */
     protected AccessTokenBrokerInterface $accessTokenBroker;
 
-    /** @var \Zoho\Crm\Contracts\AccessTokenStoreInterface The access token store */
+    /** The access token store */
     protected AccessTokenStoreInterface $accessTokenStore;
 
-    /** @var string The API endpoint base URL (with trailing slash) */
+    /** The API endpoint base URL (with trailing slash) */
     protected string $endpoint = self::DEFAULT_ENDPOINT;
 
-    /** @var \Zoho\Crm\RequestProcessor The request processor */
+    /** The request processor */
     protected RequestProcessor $requestProcessor;
 
-    /** @var Preferences The client preferences container */
+    /** The client preferences container */
     protected Preferences $preferences;
 
-    /** @var AbstractSubApi[] The sub-APIs helpers */
+    /**
+     * The sub-APIs helpers
+     *
+     * @var AbstractSubApi[]
+     */
     protected array $subApis = [];
 
-    /** @var \Closure[] The callbacks to execute each time the access token has been refreshed */
+    /**
+     * The callbacks to execute each time the access token has been refreshed
+     *
+     * @var Closure[]
+     */
     protected array $accessTokenRefreshedCallbacks = [];
 
     /**

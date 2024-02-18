@@ -8,10 +8,10 @@ use Throwable;
 
 class AsyncBatchRequestException extends Exception
 {
-    /** @var \Throwable The actual exception that was thrown */
+    /** The actual exception that was thrown */
     protected Throwable $wrappedException;
 
-    /** @var mixed The key of the failed request inside the batch */
+    /** The key of the failed request inside the batch */
     protected string|int $keyInBatch;
 
     /**

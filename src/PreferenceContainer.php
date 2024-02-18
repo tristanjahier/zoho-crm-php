@@ -13,10 +13,14 @@ use Zoho\Crm\Support\Collection;
  */
 abstract class PreferenceContainer implements ClientPreferenceContainerInterface
 {
-    /** @var array The available preferences and their default values */
+    /**
+     * The available preferences and their default values
+     *
+     * @var array<string, mixed>
+     */
     protected static array $defaults = [];
 
-    /** @var \Zoho\Crm\Support\Collection The preferences values */
+    /** The preferences values */
     protected Collection $items;
 
     /**

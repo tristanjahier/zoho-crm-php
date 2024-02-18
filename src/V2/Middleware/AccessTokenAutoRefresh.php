@@ -13,7 +13,7 @@ use Zoho\Crm\V2\Client;
  */
 class AccessTokenAutoRefresh implements MiddlewareInterface
 {
-    /** @var \Zoho\Crm\V2\Client The client to which the middleware is attached */
+    /** The client to which the middleware is attached */
     protected Client $client;
 
     /**

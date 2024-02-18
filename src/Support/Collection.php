@@ -20,7 +20,7 @@ use Zoho\Crm\Exceptions\InvalidComparisonOperatorException;
  */
 class Collection implements ArrayAccess, Countable, IteratorAggregate, Arrayable
 {
-    /** @var array The inner array */
+    /** The inner array */
     protected array $items = [];
 
     /**

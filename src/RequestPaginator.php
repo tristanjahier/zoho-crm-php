@@ -6,16 +6,20 @@ namespace Zoho\Crm;
 
 class RequestPaginator implements Contracts\RequestPaginatorInterface
 {
-    /** @var int The maximum number of items per page */
+    /**
+     * The maximum number of items per page
+     *
+     * @var int
+     */
     public const PAGE_MAX_SIZE = 200;
 
-    /** @var Contracts\PaginatedRequestInterface The parent request */
+    /** The parent request */
     protected Contracts\PaginatedRequestInterface $request;
 
-    /** @var bool Whether there is still data to fetch */
+    /** Whether there is still data to fetch */
     protected bool $hasMoreData = true;
 
-    /** @var int The latest page fetched */
+    /** The latest page fetched */
     protected int $latestPageFetched = 0;
 
     /**

@@ -22,25 +22,37 @@ use Zoho\Crm\Exceptions\PaginatedRequestInBatchExecutionException;
  */
 class RequestProcessor
 {
-    /** @var Contracts\ClientInterface The client to which this processor is attached */
+    /** The client to which this processor is attached */
     protected ClientInterface $client;
 
-    /** @var Contracts\HttpLayerInterface The HTTP layer */
+    /** The HTTP layer */
     protected HttpLayerInterface $httpLayer;
 
-    /** @var Contracts\ResponseParserInterface The response parser */
+    /** The response parser */
     protected ResponseParserInterface $responseParser;
 
-    /** @var Contracts\ErrorHandlerInterface The error handler */
+    /** The error handler */
     protected ErrorHandlerInterface $errorHandler;
 
-    /** @var callable[] The callbacks to execute before each request */
+    /**
+     * The callbacks to execute before each request
+     *
+     * @var callable[]
+     */
     protected array $preExecutionHooks = [];
 
-    /** @var callable[] The callbacks to execute after each request */
+    /**
+     * The callbacks to execute after each request
+     *
+     * @var callable[]
+     */
     protected array $postExecutionHooks = [];
 
-    /** @var callable[] The middlewares to apply to each request before execution */
+    /**
+     * The middlewares to apply to each request before execution
+     *
+     * @var callable[]
+     */
     protected array $middlewares = [];
 
     /**

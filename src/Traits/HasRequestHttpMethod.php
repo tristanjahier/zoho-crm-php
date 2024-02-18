@@ -12,7 +12,7 @@ use Zoho\Crm\Support\HttpMethod;
  */
 trait HasRequestHttpMethod
 {
-    /** @var string The HTTP method */
+    /** The HTTP method */
     protected string $httpMethod = HttpMethod::GET;
 
     /**

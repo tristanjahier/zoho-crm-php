@@ -14,22 +14,26 @@ use Zoho\Crm\Support\UrlParameters;
 
 class AccessTokenBroker implements AccessTokenBrokerInterface
 {
-    /** @var string The base URL of the API OAuth 2.0 authorization endpoint used by default */
+    /**
+     * The base URL of the API OAuth 2.0 authorization endpoint used by default
+     *
+     * @var string
+     */
     public const DEFAULT_ENDPOINT_BASE_URL = 'https://accounts.zoho.com/oauth/v2/';
 
-    /** @var The OAuth 2.0 client ID */
+    /** The OAuth 2.0 client ID */
     protected string $clientId;
 
-    /** @var The OAuth 2.0 client secret */
+    /** The OAuth 2.0 client secret */
     protected string $clientSecret;
 
-    /** @var The OAuth 2.0 refresh token */
+    /** The OAuth 2.0 refresh token */
     protected string $refreshToken;
 
-    /** @var The base URL of the API OAuth 2.0 authorization endpoint */
+    /** The base URL of the API OAuth 2.0 authorization endpoint */
     protected string $endpointBaseUrl = self::DEFAULT_ENDPOINT_BASE_URL;
 
-    /** @var The HTTP layer to make requests */
+    /** The HTTP layer to make requests */
     protected HttpLayer $httpLayer;
 
     /**

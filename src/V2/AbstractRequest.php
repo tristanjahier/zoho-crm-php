@@ -20,7 +20,7 @@ abstract class AbstractRequest implements RequestInterface
 {
     use BasicRequestImplementation, HasRequestHttpMethod, HasRequestUrlParameters;
 
-    /** @var Client The API client that originated this request */
+    /** The API client that originated this request */
     protected ClientInterface $client;
 
     /**

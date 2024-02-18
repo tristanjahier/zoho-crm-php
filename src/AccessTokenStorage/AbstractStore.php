@@ -14,10 +14,10 @@ use Zoho\Crm\Contracts\AccessTokenStoreInterface;
  */
 abstract class AbstractStore implements AccessTokenStoreInterface
 {
-    /** @var The API access token */
+    /** The API access token */
     protected ?string $accessToken = null;
 
-    /** @var The access token expiry date */
+    /** The access token expiry date */
     protected ?DateTimeImmutable $expiryDate = null;
 
     /**

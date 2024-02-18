@@ -14,16 +14,24 @@ use Zoho\Crm\Support\HttpMethod;
  */
 class InsertRequest extends AbstractRequest
 {
-    /** @var string[] All available triggers */
+    /**
+     * All available triggers
+     *
+     * @var string[]
+     */
     public const TRIGGERS = ['workflow', 'approval', 'blueprint'];
 
     /** @inheritdoc */
     protected string $httpMethod = HttpMethod::POST;
 
-    /** @var array The records to insert */
+    /** The records to insert */
     protected array $records = [];
 
-    /** @var array The things that the API request will trigger in Zoho CRM */
+    /**
+     * The things that the API request will trigger in Zoho CRM
+     *
+     * @var string[]
+     */
     protected array $triggers = self::TRIGGERS;
 
     /**

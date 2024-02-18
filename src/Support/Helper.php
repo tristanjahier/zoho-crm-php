@@ -12,7 +12,7 @@ use Doctrine\Inflector\InflectorFactory;
  */
 final class Helper
 {
-    /** @var \Doctrine\Inflector\Inflector Cached instance of Doctrine Inflector */
+    /** Cached instance of Doctrine Inflector */
     private static Inflector $inflector;
 
     /**

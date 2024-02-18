@@ -10,10 +10,10 @@ use Zoho\Crm\Contracts\AccessTokenBrokerInterface;
 
 class FixedAccessTokenBroker implements AccessTokenBrokerInterface
 {
-    /** @var The API access token */
+    /** The API access token */
     protected string $accessToken;
 
-    /** @var The access token expiry date */
+    /** The access token expiry date */
     protected DateTimeImmutable $expiryDate;
 
     /**

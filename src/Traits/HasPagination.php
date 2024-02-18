@@ -9,10 +9,10 @@ namespace Zoho\Crm\Traits;
  */
 trait HasPagination
 {
-    /** @var bool Whether the request must be automatically paginated or not */
+    /** Whether the request must be automatically paginated or not */
     protected bool $autoPaginated = false;
 
-    /** @var int|null The maximum number of concurrent requests allowed to fetch pages */
+    /** The maximum number of concurrent requests allowed to fetch pages */
     protected ?int $concurrency;
 
     /**

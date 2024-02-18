@@ -13,16 +13,20 @@ use Zoho\Crm\Support\Helper;
  */
 class Entity implements Arrayable
 {
-    /** @var string|null The name of the entity */
+    /** The name of the entity */
     protected static ?string $name;
 
-    /** @var string|null The name of the identifier attribute */
+    /** The name of the identifier attribute */
     protected static ?string $idName;
 
-    /** @var string[] The entity attributes */
+    /**
+     * The entity attributes
+     *
+     * @var string[]
+     */
     protected array $attributes = [];
 
-    /** @var \Zoho\Crm\Contracts\ClientInterface|null The client to which the entity is bound */
+    /** The client to which the entity is bound */
     protected ?ClientInterface $client;
 
     /**
