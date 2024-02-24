@@ -27,7 +27,7 @@ or simply run this command:
 composer require tristanjahier/zoho-crm
 ```
 
-If you do not known what "PSR-7, PSR-17 and PSR-18 implementations" are, basically it means that you need a standard-compliant HTTP client library installed. If you do not want to bother picking one, we recommend you to install the popular [Guzzle](https://docs.guzzlephp.org/en/stable/):
+If you do not know what "PSR-7, PSR-17 and PSR-18 implementations" are, basically it means that you need a standard-compliant HTTP client library installed. If you do not want to bother picking one, we recommend you to install the popular [Guzzle](https://docs.guzzlephp.org/en/stable/):
 ```
 composer require guzzlehttp/guzzle
 ```
