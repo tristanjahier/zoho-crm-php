@@ -30,7 +30,9 @@ https://github.com/tristanjahier/zoho-crm-php/compare/0.5.0...master
   - The `Query` suffix was changed for `Request` in all API query objects. For example: `ListQuery => ListRequest`, `SearchQuery => SearchRequest` `UpdateQuery => UpdateRequest`.
 - In `HttpRequestableInterface`, method `getUrl` has been replaced by `getUrlPath`, because it simplifies implementations to require the URL path separately.
 - Renamed "request sender" to "HTTP layer" to clarify that this component is purely dedicated to HTTP transport (interface `Zoho\Crm\Contracts\HttpLayerInterface` and implementation `Zoho\Crm\HttpLayer`).
+  - The HTTP layer also has the new responsibility to create HTTP request objects with the `createRequest` method.
   - Additionally, method `send` was renamed `sendRequest` and method `sendAsync` was renamed `sendAsyncRequest` to match the PSR-18 client interface. Signatures of methods `sendAsyncRequest` and `fetchAsyncResponses` were modified.
+  - The default implementation of the HTTP layer allows dependency injection of the preferred PSR-18 HTTP client and PSR-17 request & stream factories.
 - Added explicit dependency on `psr/http-message`. To be clear: the library was *already* dependent on this package, but it was mistakenly relying on Guzzle to install it.
 - The full original HTTP responses will now be kept in response objects, instead of only the raw body contents. In interface `ResponseInterface`, the `getRawContent` method has been replaced with `getRawResponses`, which must always return an array of HTTP responses.
   - Consequently, request method `getRaw` was changed to return an array of HTTP responses (PSR interface) if the request is paginated, or else a single HTTP response.
@@ -52,6 +54,11 @@ https://github.com/tristanjahier/zoho-crm-php/compare/0.5.0...master
   - `string $id`: to uniquely identify the registered callback.
   - `bool $overwrite`: to overwrite a potential callback that would already be registered with this ID.
 - This package is not dependent on Guzzle anymore. It instead relies on any implementations of the interfaces defined by PSR-7, PSR-17 and PSR-18. In addition it optionally relies on some HTTPlug interfaces for the support of asynchronous requests. Guzzle is now only a development dependency (and could be replaced by anything else compatible).
+- Modified the way that request pagination works. The request paginator component has been trimmed a lot. Its responsibilities have been simplified. Now it must provide a request object for the next page, analyse a given API response, and determine if there is more data to fetch. All the logic of page iteration, sending requests and collecting API responses is now done by the request processor. This change has been made to avoid a cyclic dependency between the request processor and request paginators. Most notably:
+  - In `RequestPaginatorInterface`, methods `fetchAll` and `getResponses` have been removed, and methods `getNextPageRequest`, `handlePage` and `hasMoreData` were added.
+  - `Zoho\Crm\AbstractRequestPaginator` and `Zoho\Crm\V2\RequestPaginator` have been deleted, and `Zoho\Crm\RequestPaginator` was added.
+- Type declarations (a.k.a. type hints) have been added or updated everywhere possible. It can be a breaking change if you were implementing interfaces or extending classes. These changes will **not** be detailed in this change log.
+- Updated docblocks. This has no impact on the library's functionnality. It is only mentioned because it could help your IDE make better suggestions and hints when working with this library.
 
 ### Removed
 
@@ -83,6 +90,8 @@ https://github.com/tristanjahier/zoho-crm-php/compare/0.5.0...master
   - `symfony/var-dumper`: `5 -> 6`
 - Required PsySH (`psy/psysh`) as a development dependency (instead of relying only on a global installation).
 - Installed PHP Coding Standards Fixer (`friendsofphp/php-cs-fixer`) as a development dependency.
+- Added configuration files for 2 documentation generators: [phpDocumentor](https://phpdoc.org/) and [Doctum](https://doctum.long-term.support/).
+- Installed PHPStan (`phpstan/phpstan`) as a development dependency, and made the codebase comply with levels 0 and 1.
 
 
 ## [0.5.0] - 2023-09-03
