@@ -14,8 +14,6 @@ class CollectionPageMerger implements ResponsePageMergerInterface
 {
     /**
      * @inheritdoc
-     *
-     * @return \Zoho\Crm\Entities\Collection
      */
     public function mergePaginatedContents(mixed ...$pages): Collection
     {

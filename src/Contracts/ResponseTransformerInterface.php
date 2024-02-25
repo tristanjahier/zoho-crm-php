@@ -14,7 +14,6 @@ interface ResponseTransformerInterface
      *
      * @param mixed $content The raw response content
      * @param RequestInterface $request The origin request
-     * @return mixed
      */
     public function transformResponse(mixed $content, RequestInterface $request): mixed;
 }

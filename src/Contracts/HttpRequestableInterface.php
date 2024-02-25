@@ -11,15 +11,11 @@ interface HttpRequestableInterface
 {
     /**
      * Get the HTTP method that must be used for the request.
-     *
-     * @return string
      */
     public function getHttpMethod(): string;
 
     /**
      * Get the URL path to request.
-     *
-     * @return string
      */
     public function getUrlPath(): string;
 
@@ -33,8 +29,6 @@ interface HttpRequestableInterface
 
     /**
      * Get all query string parameters.
-     *
-     * @return \Zoho\Crm\Support\UrlParameters
      */
     public function getUrlParameters(): UrlParameters;
 
@@ -42,7 +36,6 @@ interface HttpRequestableInterface
      * Get the value of a query string parameter by key.
      *
      * @param string $key The parameter key
-     * @return mixed
      */
     public function getUrlParameter(string $key): mixed;
 
@@ -50,7 +43,6 @@ interface HttpRequestableInterface
      * Check if a query string parameter exists by key.
      *
      * @param string $key The parameter key
-     * @return bool
      */
     public function hasUrlParameter(string $key): bool;
 
@@ -92,8 +84,6 @@ interface HttpRequestableInterface
 
     /**
      * Get the body of the HTTP request.
-     *
-     * @return string|\Stringable
      */
     public function getBody(): string|Stringable;
 }

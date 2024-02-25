@@ -17,7 +17,6 @@ interface HttpLayerInterface
      * @param string $url The full URL
      * @param array $headers (optional) The request headers
      * @param string $body (optional) The request body
-     * @return \Psr\Http\Message\RequestInterface
      */
     public function createRequest(string $method, string $url, array $headers = [], string $body = null): RequestInterface;
 
@@ -25,7 +24,6 @@ interface HttpLayerInterface
      * Send an HTTP request to the API, and return the response.
      *
      * @param \Psr\Http\Message\RequestInterface $request The request to send
-     * @return \Psr\Http\Message\ResponseInterface
      */
     public function sendRequest(RequestInterface $request): ResponseInterface;
 
@@ -35,7 +33,6 @@ interface HttpLayerInterface
      * @param \Psr\Http\Message\RequestInterface $request The request to send
      * @param callable $onFulfilled The closure to handle request success
      * @param callable|null $onRejected (optional) The closure to handle request failure
-     * @return \Http\Promise\Promise
      */
     public function sendAsyncRequest(RequestInterface $request, callable $onFulfilled, callable $onRejected = null): PromiseInterface;
 
@@ -49,8 +46,6 @@ interface HttpLayerInterface
 
     /**
      * Get the number of API requests sent so far.
-     *
-     * @return int
      */
     public function getRequestCount(): int;
 }

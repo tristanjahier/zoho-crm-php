@@ -28,8 +28,6 @@ class AsyncBatchRequestException extends Exception
 
     /**
      * Get the actual exception that was thrown by the HTTP layer.
-     *
-     * @return \Throwable
      */
     public function getWrappedException(): Throwable
     {
@@ -38,8 +36,6 @@ class AsyncBatchRequestException extends Exception
 
     /**
      * Get the key of the failed request inside the batch.
-     *
-     * @return mixed
      */
     public function getKeyInBatch(): string|int
     {

@@ -18,29 +18,21 @@ interface RequestInterface extends HttpRequestableInterface
 
     /**
      * Create a deep copy of the request.
-     *
-     * @return static
      */
     public function copy(): static;
 
     /**
      * Get the bound API client.
-     *
-     * @return ClientInterface
      */
     public function getClient(): ClientInterface;
 
     /**
      * Execute the request with the bound client.
-     *
-     * @return ResponseInterface
      */
     public function execute(): ResponseInterface;
 
     /**
      * Execute the request and get a result adapted to its nature.
-     *
-     * @return mixed
      */
     public function get(): mixed;
 
@@ -48,8 +40,6 @@ interface RequestInterface extends HttpRequestableInterface
      * Get an instance of a response transformer.
      *
      * It may return null if there is no need of additional response transformation.
-     *
-     * @return ResponseTransformerInterface|null
      */
     public function getResponseTransformer(): ?ResponseTransformerInterface;
 }

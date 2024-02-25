@@ -66,7 +66,6 @@ class AccessTokenBroker implements AccessTokenBrokerInterface
      * It will ensure that there is one slash at the end.
      *
      * @param string $endpoint The endpoint base URL
-     * @return void
      */
     public function setAuthorizationEndpoint(string $endpoint): void
     {
@@ -82,8 +81,6 @@ class AccessTokenBroker implements AccessTokenBrokerInterface
 
     /**
      * Get the API OAuth 2.0 authorization endpoint.
-     *
-     * @return string
      */
     public function getAuthorizationEndpoint(): string
     {
@@ -92,8 +89,6 @@ class AccessTokenBroker implements AccessTokenBrokerInterface
 
     /**
      * Request to the OAuth 2.0 authorization server to get a fresh access token.
-     *
-     * @return \Psr\Http\Message\ResponseInterface
      */
     public function requestFreshAccessToken(): ResponseInterface
     {

@@ -36,8 +36,6 @@ abstract class AbstractRequest implements RequestInterface
 
     /**
      * Allow the deep cloning of the request.
-     *
-     * @return void
      */
     public function __clone(): void
     {

@@ -33,8 +33,6 @@ abstract class PreferenceContainer implements ClientPreferenceContainerInterface
 
     /**
      * Get all available preferences and their default values.
-     *
-     * @return array
      */
     public function defaults(): array
     {
@@ -43,8 +41,6 @@ abstract class PreferenceContainer implements ClientPreferenceContainerInterface
 
     /**
      * Reset all preferences to their default values.
-     *
-     * @return void
      */
     public function resetDefaults(): void
     {
@@ -74,7 +70,6 @@ abstract class PreferenceContainer implements ClientPreferenceContainerInterface
      * Get the value of a given preference.
      *
      * @param string $key The name of the preference
-     * @return mixed
      *
      * @throws Exceptions\UnsupportedPreferenceException
      */
@@ -134,7 +129,6 @@ abstract class PreferenceContainer implements ClientPreferenceContainerInterface
      * Check if the value of a given preference is strictly true.
      *
      * @param string $key The name of the preference
-     * @return bool
      *
      * @throws Exceptions\UnsupportedPreferenceException
      */
@@ -147,7 +141,6 @@ abstract class PreferenceContainer implements ClientPreferenceContainerInterface
      * Check if the value of a given preference is strictly false.
      *
      * @param string $key The name of the preference
-     * @return bool
      *
      * @throws Exceptions\UnsupportedPreferenceException
      */
@@ -160,7 +153,6 @@ abstract class PreferenceContainer implements ClientPreferenceContainerInterface
      * Check if a given preference has a non-null value.
      *
      * @param string $key The name of the preference
-     * @return bool
      *
      * @throws Exceptions\UnsupportedPreferenceException
      */

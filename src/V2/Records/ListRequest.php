@@ -56,8 +56,6 @@ class ListRequest extends AbstractRequest implements PaginatedRequestInterface
 
     /**
      * @inheritdoc
-     *
-     * @return RecordListTransformer
      */
     public function getResponseTransformer(): RecordListTransformer
     {
@@ -126,8 +124,6 @@ class ListRequest extends AbstractRequest implements PaginatedRequestInterface
 
     /**
      * Check if there is a field selection.
-     *
-     * @return bool
      */
     public function hasSelection(): bool
     {
@@ -138,7 +134,6 @@ class ListRequest extends AbstractRequest implements PaginatedRequestInterface
      * Check if a field is selected.
      *
      * @param string $field The field to check
-     * @return bool
      */
     public function hasSelected(string $field): bool
     {
@@ -273,8 +268,6 @@ class ListRequest extends AbstractRequest implements PaginatedRequestInterface
 
     /**
      * Check if the request has a maximum modification date for records.
-     *
-     * @return bool
      */
     public function hasMaxModificationDate(): bool
     {
@@ -283,8 +276,6 @@ class ListRequest extends AbstractRequest implements PaginatedRequestInterface
 
     /**
      * Get the maximum date for records' last modification.
-     *
-     * @return \DateTime|null
      */
     public function getMaxModificationDate(): ?DateTimeInterface
     {
@@ -295,7 +286,6 @@ class ListRequest extends AbstractRequest implements PaginatedRequestInterface
      * Ensure to get a valid DateTime object.
      *
      * @param \DateTimeInterface|string $date A date object or a valid string
-     * @return \DateTime
      *
      * @throws \InvalidArgumentException
      */

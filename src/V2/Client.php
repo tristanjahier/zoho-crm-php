@@ -145,8 +145,6 @@ class Client implements ClientInterface
 
     /**
      * Get the client preferences container.
-     *
-     * @return Preferences
      */
     public function preferences(): Preferences
     {
@@ -199,8 +197,6 @@ class Client implements ClientInterface
 
     /**
      * @inheritdoc
-     *
-     * @return void
      */
     public function cancelBeforeEachRequestCallback(string $id): void
     {
@@ -209,8 +205,6 @@ class Client implements ClientInterface
 
     /**
      * @inheritdoc
-     *
-     * @return void
      */
     public function cancelAfterEachRequestCallback(string $id): void
     {
@@ -238,7 +232,6 @@ class Client implements ClientInterface
      *
      * @param string|null $accessToken The new access token
      * @param \DateTimeInterface|null $expiryDate The new expiry date
-     * @return void
      */
     public function setAccessToken(?string $accessToken, ?DateTimeInterface $expiryDate): void
     {
@@ -248,8 +241,6 @@ class Client implements ClientInterface
 
     /**
      * Get the API OAuth 2.0 access token.
-     *
-     * @return string|null
      */
     public function getAccessToken(): ?string
     {
@@ -258,8 +249,6 @@ class Client implements ClientInterface
 
     /**
      * Get the API OAuth 2.0 access token expiry date.
-     *
-     * @return \DateTimeInterface|null
      */
     public function getAccessTokenExpiryDate(): ?DateTimeInterface
     {
@@ -268,8 +257,6 @@ class Client implements ClientInterface
 
     /**
      * Get the access token store.
-     *
-     * @return AccessTokenStoreInterface
      */
     public function getAccessTokenStore(): AccessTokenStoreInterface
     {
@@ -278,8 +265,6 @@ class Client implements ClientInterface
 
     /**
      * Determine if the access token exists and is still valid.
-     *
-     * @return bool
      */
     public function accessTokenIsValid(): bool
     {
@@ -288,8 +273,6 @@ class Client implements ClientInterface
 
     /**
      * Get the access token broker.
-     *
-     * @return \Zoho\Crm\Contracts\AccessTokenBrokerInterface
      */
     public function getAccessTokenBroker(): AccessTokenBrokerInterface
     {
@@ -298,8 +281,6 @@ class Client implements ClientInterface
 
     /**
      * Request a fresh API access token and update the store.
-     *
-     * @return void
      */
     public function refreshAccessToken(): void
     {
@@ -336,7 +317,6 @@ class Client implements ClientInterface
      * Create a new raw request object.
      *
      * @param string|null $path (optional) The URL path
-     * @return RawRequest
      */
     public function newRawRequest(string $path = null): RawRequest
     {
@@ -345,8 +325,6 @@ class Client implements ClientInterface
 
     /**
      * Attach all sub-APIs helpers.
-     *
-     * @return void
      */
     protected function attachSubApis(): void
     {
@@ -369,7 +347,6 @@ class Client implements ClientInterface
      * Get a sub-API helper by name.
      *
      * @param string $name The name of the sub-API
-     * @return AbstractSubApi
      */
     public function getSubApi(string $name): AbstractSubApi
     {
@@ -380,7 +357,6 @@ class Client implements ClientInterface
      * Dynamically retrieve sub-API helpers as client public properties.
      *
      * @param string $name The name of the sub-API
-     * @return AbstractSubApi
      */
     public function __get(string $name): AbstractSubApi
     {

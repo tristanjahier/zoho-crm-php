@@ -15,8 +15,6 @@ class RecordListTransformer implements ResponseTransformerInterface
 {
     /**
      * @inheritdoc
-     *
-     * @return \Zoho\Crm\Entities\Collection
      */
     public function transformResponse(mixed $content, RequestInterface $request): Collection
     {

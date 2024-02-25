@@ -12,7 +12,6 @@ interface ResponsePageMergerInterface
      * Useful to reduce all paginated records into a single collection.
      *
      * @param mixed[] ...$pages The responses content pages to merge
-     * @return mixed
      */
     public function mergePaginatedContents(mixed ...$pages): mixed;
 }

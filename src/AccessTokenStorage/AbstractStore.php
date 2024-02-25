@@ -72,8 +72,6 @@ abstract class AbstractStore implements AccessTokenStoreInterface
      * Determine if the access token has expired or not.
      *
      * Opposite of {@see self::isValid()}.
-     *
-     * @return bool
      */
     public function hasExpired(): bool
     {
@@ -85,7 +83,6 @@ abstract class AbstractStore implements AccessTokenStoreInterface
      *
      * @param int $howMuch The amount of time (> 0)
      * @param string $what The unit of time (supported by DateTime)
-     * @return bool
      *
      * @throws \LogicException when $howMuch is negative
      */

@@ -83,8 +83,6 @@ class HttpLayer implements HttpLayerInterface
 
     /**
      * @inheritdoc
-     *
-     * @return \Http\Promise\Promise
      */
     public function sendAsyncRequest(
         RequestInterface $request,
@@ -123,8 +121,6 @@ class HttpLayer implements HttpLayerInterface
 
     /**
      * Find the best HTTP client compliant with PSR-18, with asynchronous requests support if possible.
-     *
-     * @return \Psr\Http\Client\ClientInterface
      */
     protected function findBestPsr18Client(): ClientInterface
     {
@@ -145,8 +141,6 @@ class HttpLayer implements HttpLayerInterface
 
     /**
      * Reset the API request counter.
-     *
-     * @return void
      */
     public function resetRequestCount(): void
     {

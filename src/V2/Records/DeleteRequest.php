@@ -36,8 +36,6 @@ class DeleteRequest extends AbstractRequest
 
     /**
      * Get the ID of the record to delete.
-     *
-     * @return string|null
      */
     public function getRecordId(): ?string
     {

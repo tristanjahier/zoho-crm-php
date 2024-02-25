@@ -29,7 +29,6 @@ final class Helper
      * Get the string representation of a boolean value.
      *
      * @param bool $bool The boolean value
-     * @return string
      */
     public static function booleanToString(bool $bool): string
     {
@@ -40,7 +39,6 @@ final class Helper
      * Get the boolean value corresponding to a string.
      *
      * @param string $bool A string representing a boolean
-     * @return bool
      *
      * @throws \Exception if the string is neither "true" nor "false"
      */
@@ -64,7 +62,6 @@ final class Helper
      *
      * @param string $value The string to test
      * @param string $pattern The pattern
-     * @return bool
      */
     public static function stringIsLike(string $value, string $pattern): bool
     {
@@ -87,7 +84,6 @@ final class Helper
      *
      * @param string $value The string to modify
      * @param string $suffix The string value to have at the end
-     * @return string
      */
     public static function finishString(string $value, string $suffix): string
     {
@@ -114,7 +110,6 @@ final class Helper
      *
      * @param string $url The URL to parse
      * @param int $index The segment index
-     * @return string|null
      */
     public static function getUrlPathSegmentByIndex(string $url, int $index): ?string
     {
@@ -129,7 +124,6 @@ final class Helper
      * It must be either an object implementing DateTimeInterface, or a valid date string.
      *
      * @param mixed $date The value to check
-     * @return bool
      */
     public static function isValidDateInput(string|\DateTimeInterface $date): bool
     {
@@ -152,8 +146,6 @@ final class Helper
 
     /**
      * Get an instance of Doctrine Inflector for string manipulations.
-     *
-     * @return \Doctrine\Inflector\Inflector
      */
     public static function inflector(): Inflector
     {

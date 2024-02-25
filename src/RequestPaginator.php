@@ -38,8 +38,6 @@ class RequestPaginator implements Contracts\RequestPaginatorInterface
      * There is no actual check, so if it returns true, it only means
      * that as far as we know, we have not fetched the last record/page yet.
      * The value is updated after each fetch.
-     *
-     * @return bool
      */
     public function hasMoreData(): bool
     {
@@ -60,7 +58,6 @@ class RequestPaginator implements Contracts\RequestPaginatorInterface
      * Handle a freshly retrieved page, perform checks, alter contents if needed.
      *
      * @param Contracts\ResponseInterface $page The page response
-     * @return void
      */
     public function handlePage(Contracts\ResponseInterface $page): void
     {
@@ -92,7 +89,6 @@ class RequestPaginator implements Contracts\RequestPaginatorInterface
      * the maximum date set in the request.
      *
      * @param \Zoho\Crm\Entities\Collection $entities The entities to filter
-     * @return \Zoho\Crm\Entities\Collection
      */
     protected function filterEntitiesExceedingMaxModificationDate(Entities\Collection $entities): Entities\Collection
     {
@@ -104,8 +100,6 @@ class RequestPaginator implements Contracts\RequestPaginatorInterface
 
     /**
      * Get the size of a page.
-     *
-     * @return int
      */
     protected function getPageSize(): int
     {

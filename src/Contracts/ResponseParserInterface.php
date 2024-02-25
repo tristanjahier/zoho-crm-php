@@ -13,7 +13,6 @@ interface ResponseParserInterface
      *
      * @param \Psr\Http\Message\ResponseInterface $httpResponse The API response to read
      * @param RequestInterface $request The origin request
-     * @return ResponseInterface
      *
      * @throws \Zoho\Crm\Exceptions\UnreadableResponseException
      */

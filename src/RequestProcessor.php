@@ -79,8 +79,6 @@ class RequestProcessor
 
     /**
      * Pass the client preferences to the components that need them.
-     *
-     * @return void
      */
     protected function passClientPreferencesToComponents(): void
     {
@@ -120,7 +118,6 @@ class RequestProcessor
      *
      * @param Contracts\RequestInterface $request The request to process
      * @param bool $async (optional) Whether the resulting request must be asynchronous or not
-     * @return \Psr\Http\Message\ResponseInterface|\Http\Promise\Promise
      */
     protected function sendRequest(
         RequestInterface $request,
@@ -169,8 +166,6 @@ class RequestProcessor
 
     /**
      * Generate a random alpha-numeric string of 16 characters.
-     *
-     * @return string
      */
     protected function generateRandomId(): string
     {
@@ -218,7 +213,6 @@ class RequestProcessor
      *
      * @param Contracts\PaginatedRequestInterface $request The origin request
      * @param Response[] $responses The page responses
-     * @return Response
      */
     protected function mergePaginatedResponses(PaginatedRequestInterface $request, array $responses): Response
     {
@@ -297,8 +291,6 @@ class RequestProcessor
 
     /**
      * Get the number of API requests sent so far.
-     *
-     * @return int
      */
     public function getRequestCount(): int
     {
@@ -311,7 +303,6 @@ class RequestProcessor
      * @param callable $callback The callback to execute
      * @param string $id (optional) A unique identifier for the callback
      * @param bool $overwrite (optional) Whether to replace an existing callback having the same identifier
-     * @return void
      */
     public function registerPreExecutionHook(callable $callback, string $id = null, bool $overwrite = false): void
     {
@@ -324,7 +315,6 @@ class RequestProcessor
      * @param callable $callback The callback to execute
      * @param string $id (optional) A unique identifier for the callback
      * @param bool $overwrite (optional) Whether to replace an existing callback having the same identifier
-     * @return void
      */
     public function registerPostExecutionHook(callable $callback, string $id = null, bool $overwrite = false): void
     {
@@ -338,7 +328,6 @@ class RequestProcessor
      * @param callable $callback The callback to execute
      * @param string|null $id A unique identifier for the callback
      * @param bool $overwrite Whether to replace an existing callback having the same identifier
-     * @return void
      *
      * @throws \InvalidArgumentException When the identifier is invalid
      * @throws \RuntimeException When the identifier is already taken
@@ -365,7 +354,6 @@ class RequestProcessor
      * Deregister an identified callback that was to execute before each request.
      *
      * @param string $id The unique identifier of the callback
-     * @return void
      */
     public function deregisterPreExecutionHook(string $id): void
     {
@@ -376,7 +364,6 @@ class RequestProcessor
      * Deregister an identified callback that was to execute after each request.
      *
      * @param string $id The unique identifier of the callback
-     * @return void
      */
     public function deregisterPostExecutionHook(string $id): void
     {
@@ -388,7 +375,6 @@ class RequestProcessor
      *
      * @param array &$set The set to remove the callback from
      * @param string $id The unique identifier of the callback
-     * @return void
      *
      * @throws \InvalidArgumentException When the identifier is invalid
      * @throws \RuntimeException When there is no callback with this identifier
@@ -410,7 +396,6 @@ class RequestProcessor
      * Execute all registered "pre-execution" callbacks.
      *
      * @param mixed[] ...$args The arguments to pass to the callbacks
-     * @return void
      */
     protected function firePreExecutionHooks(mixed ...$args): void
     {
@@ -423,7 +408,6 @@ class RequestProcessor
      * Execute all registered "post-execution" callbacks.
      *
      * @param mixed[] ...$args The arguments to pass to the callbacks
-     * @return void
      */
     protected function firePostExecutionHooks(mixed ...$args): void
     {
@@ -436,7 +420,6 @@ class RequestProcessor
      * Register a middleware that will be applied to each request before execution.
      *
      * @param callable $middleware The middleware to register
-     * @return void
      */
     public function registerMiddleware(callable $middleware): void
     {
@@ -447,7 +430,6 @@ class RequestProcessor
      * Apply the registered middlewares to a request.
      *
      * @param Contracts\RequestInterface $request The request being executed
-     * @return void
      */
     protected function applyMiddlewaresToRequest(RequestInterface $request): void
     {

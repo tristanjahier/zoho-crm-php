@@ -13,8 +13,6 @@ class SubApi extends AbstractSubApi
 {
     /**
      * Create a request to list the users.
-     *
-     * @return ListRequest
      */
     public function newListRequest(): ListRequest
     {
@@ -23,8 +21,6 @@ class SubApi extends AbstractSubApi
 
     /**
      * Create an auto-paginated request to retrieve all the users.
-     *
-     * @return ListRequest
      */
     public function all(): ListRequest
     {

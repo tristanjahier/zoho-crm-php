@@ -35,8 +35,6 @@ class ListRequest extends AbstractRequest implements PaginatedRequestInterface
 
     /**
      * @inheritdoc
-     *
-     * @return RecordListTransformer
      */
     public function getResponseTransformer(): UserListTransformer
     {

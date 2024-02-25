@@ -44,8 +44,6 @@ abstract class AbstractRequest extends BaseRequest
 
     /**
      * Get the requested module.
-     *
-     * @return string
      */
     public function getModule(): string
     {

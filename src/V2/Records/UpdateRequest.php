@@ -45,8 +45,6 @@ class UpdateRequest extends AbstractRequest
 
     /**
      * Get the ID of the record to update.
-     *
-     * @return string|null
      */
     public function getRecordId(): ?string
     {

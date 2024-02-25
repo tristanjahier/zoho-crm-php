@@ -28,8 +28,6 @@ class ListDeletedRequest extends AbstractRequest implements PaginatedRequestInte
 
     /**
      * @inheritdoc
-     *
-     * @return DeletedRecordListTransformer
      */
     public function getResponseTransformer(): DeletedRecordListTransformer
     {
@@ -59,7 +57,6 @@ class ListDeletedRequest extends AbstractRequest implements PaginatedRequestInte
      * Ensure to get a valid DateTime object.
      *
      * @param \DateTimeInterface|string $date A date object or a valid string
-     * @return \DateTime
      *
      * @throws \InvalidArgumentException
      */

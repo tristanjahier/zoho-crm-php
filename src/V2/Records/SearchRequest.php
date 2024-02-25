@@ -26,8 +26,6 @@ class SearchRequest extends AbstractRequest implements PaginatedRequestInterface
 
     /**
      * @inheritdoc
-     *
-     * @return RecordListTransformer
      */
     public function getResponseTransformer(): RecordListTransformer
     {

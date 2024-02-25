@@ -52,8 +52,6 @@ trait HasRequestUrlParameters
 
     /**
      * @inheritdoc
-     *
-     * @return void
      */
     public function removeUrlParameter(string $key): void
     {

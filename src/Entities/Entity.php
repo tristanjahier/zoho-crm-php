@@ -43,8 +43,6 @@ class Entity implements Arrayable
 
     /**
      * Get the name of the entity.
-     *
-     * @return string
      */
     public static function name(): string
     {
@@ -53,8 +51,6 @@ class Entity implements Arrayable
 
     /**
      * Get the name of the identifier attribute.
-     *
-     * @return string
      */
     public static function idName(): string
     {
@@ -65,7 +61,6 @@ class Entity implements Arrayable
      * Check if an attribute is defined.
      *
      * @param string $attribute The name of the attribute
-     * @return bool
      */
     public function has(string $attribute): bool
     {
@@ -88,7 +83,6 @@ class Entity implements Arrayable
      *
      * @param string $attribute The name of the attribute
      * @param string $value The value of the attribute
-     * @return void
      */
     public function set(string $attribute, mixed $value): void
     {
@@ -101,7 +95,6 @@ class Entity implements Arrayable
      * The attribute will be completely unset, not just set to null.
      *
      * @param string $attribute The name of the attribute
-     * @return void
      */
     public function unset(string $attribute): void
     {
@@ -110,8 +103,6 @@ class Entity implements Arrayable
 
     /**
      * Get the entity ID.
-     *
-     * @return string|null
      */
     public function getId(): ?string
     {
@@ -134,8 +125,6 @@ class Entity implements Arrayable
 
     /**
      * Get the client to which the entity is bound.
-     *
-     * @return \Zoho\Crm\Contracts\ClientInterface|null
      */
     public function getClient(): ?ClientInterface
     {
@@ -146,7 +135,6 @@ class Entity implements Arrayable
      * Set the client to which the entity is bound.
      *
      * @param \Zoho\Crm\Contracts\ClientInterface|null $client The client to which the entity is bound
-     * @return void
      */
     public function setClient(?ClientInterface $client): void
     {
@@ -155,8 +143,6 @@ class Entity implements Arrayable
 
     /**
      * Check if the entity is bound to a client.
-     *
-     * @return bool
      */
     public function isDetached(): bool
     {
@@ -165,8 +151,6 @@ class Entity implements Arrayable
 
     /**
      * Copy the entity object.
-     *
-     * @return static
      */
     public function copy(): static
     {
@@ -190,7 +174,6 @@ class Entity implements Arrayable
      *
      * @param string $attribute The name of the attribute
      * @param string $value The value of the attribute
-     * @return void
      */
     public function __set(string $attribute, mixed $value): void
     {
@@ -201,7 +184,6 @@ class Entity implements Arrayable
      * Check if an attribute is defined as if it was a public property.
      *
      * @param string $attribute The name of the attribute
-     * @return bool
      */
     public function __isset(string $attribute): bool
     {
@@ -212,7 +194,6 @@ class Entity implements Arrayable
      * Unset an attribute as if it was a public property.
      *
      * @param string $attribute The name of the attribute
-     * @return void
      */
     public function __unset(string $attribute): void
     {
@@ -221,8 +202,6 @@ class Entity implements Arrayable
 
     /**
      * Return a string representation of the entity.
-     *
-     * @return string
      */
     public function __toString(): string
     {

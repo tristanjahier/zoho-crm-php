@@ -26,8 +26,6 @@ class VarDumpCaster
      * Get an associative array of the custom casters.
      *
      * @see \Symfony\Component\VarDumper\Cloner\AbstractCloner::addCasters()
-     *
-     * @return array
      */
     public static function getConfig(): array
     {
@@ -43,7 +41,6 @@ class VarDumpCaster
      * Cast a client instance.
      *
      * @param \Zoho\Crm\Contracts\ClientInterface $client The client instance
-     * @return array
      */
     public static function castClient(ClientInterface $client): array
     {
@@ -63,7 +60,6 @@ class VarDumpCaster
      * Cast a V2 client instance.
      *
      * @param \Zoho\Crm\V2\Client $client The client instance
-     * @return array
      */
     public static function castV2Client(V2Client $client): array
     {
@@ -80,7 +76,6 @@ class VarDumpCaster
      * Cast a request instance.
      *
      * @param \Zoho\Crm\Contracts\RequestInterface $request The request instance
-     * @return array
      */
     public static function castRequest(RequestInterface $request): array
     {
@@ -99,7 +94,6 @@ class VarDumpCaster
      * Cast an entity instance.
      *
      * @param \Zoho\Crm\Entities\Entity $entity The entity instance
-     * @return array
      */
     public static function castEntity(Entity $entity): array
     {
@@ -110,7 +104,6 @@ class VarDumpCaster
      * Cast a collection instance.
      *
      * @param \Zoho\Crm\Support\Collection $collection The collection instance
-     * @return array
      */
     public static function castCollection(Collection $collection): array
     {
@@ -124,7 +117,6 @@ class VarDumpCaster
      *
      * @param array $array The array
      * @param string $prefix The key prefix
-     * @return array
      */
     private static function prefixKeys(array $array, string $prefix): array
     {

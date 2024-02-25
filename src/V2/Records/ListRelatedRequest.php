@@ -40,8 +40,6 @@ class ListRelatedRequest extends AbstractRequest implements PaginatedRequestInte
 
     /**
      * Get the record ID.
-     *
-     * @return string|null
      */
     public function getRecordId(): ?string
     {
@@ -63,8 +61,6 @@ class ListRelatedRequest extends AbstractRequest implements PaginatedRequestInte
 
     /**
      * Get the name of the related module.
-     *
-     * @return string|null
      */
     public function getRelatedModule(): ?string
     {
@@ -97,8 +93,6 @@ class ListRelatedRequest extends AbstractRequest implements PaginatedRequestInte
 
     /**
      * @inheritdoc
-     *
-     * @return RecordListTransformer
      */
     public function getResponseTransformer(): RecordListTransformer
     {
@@ -128,7 +122,6 @@ class ListRelatedRequest extends AbstractRequest implements PaginatedRequestInte
      * Ensure to get a valid date object (implementing DateTimeInterface).
      *
      * @param \DateTimeInterface|string $date A date object or a valid string
-     * @return \DateTimeInterface
      *
      * @throws \InvalidArgumentException
      */

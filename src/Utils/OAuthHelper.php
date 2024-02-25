@@ -40,7 +40,6 @@ final class OAuthHelper
      * @param string $clientSecret The client secret
      * @param string $redirectUri The client redirect URI
      * @param string $grantToken The grant token
-     * @return array
      */
     public static function getAccessAndRefreshTokens(
         string $clientId,

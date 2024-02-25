@@ -13,7 +13,6 @@ interface ErrorHandlerInterface
      *
      * @param \Exception $exception The exception to handle
      * @param RequestInterface $request The request that failed
-     * @return void
      *
      * @throws \Exception
      */

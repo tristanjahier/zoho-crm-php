@@ -31,8 +31,6 @@ class ModuleHelper
 
     /**
      * Create a request to list the records of the module.
-     *
-     * @return ListRequest
      */
     public function newListRequest(): ListRequest
     {
@@ -43,7 +41,6 @@ class ModuleHelper
      * Create a request to get a specific record by ID.
      *
      * @param string|null $id (optional) The record ID
-     * @return GetByIdRequest
      */
     public function newGetByIdRequest(string $id = null): GetByIdRequest
     {
@@ -58,8 +55,6 @@ class ModuleHelper
 
     /**
      * Create a request to list the deleted records of the module.
-     *
-     * @return ListDeletedRequest
      */
     public function newListDeletedRequest(): ListDeletedRequest
     {
@@ -70,7 +65,6 @@ class ModuleHelper
      * Create a request to perform a search among the records of the module.
      *
      * @param string|null $criteria (optional) The search criteria
-     * @return SearchRequest
      */
     public function newSearchRequest(string $criteria = null): SearchRequest
     {
@@ -88,7 +82,6 @@ class ModuleHelper
      *
      * @param string|null $recordId (optional) The record ID
      * @param string|null $relatedModule (optional) The name of the related module
-     * @return ListRelatedRequest
      */
     public function newListRelatedRequest(string $recordId = null, string $relatedModule = null): ListRelatedRequest
     {
@@ -110,7 +103,6 @@ class ModuleHelper
      *
      * @param iterable|null $records (optional) The records to insert
      * @param array|null $triggers (optional) The triggers to enable
-     * @return InsertRequest
      */
     public function newInsertRequest(iterable $records = null, array $triggers = null): InsertRequest
     {
@@ -133,7 +125,6 @@ class ModuleHelper
      * @param string|null $id (optional) The record ID
      * @param array|Record|null $data (optional) The field values to update
      * @param array|null $triggers (optional) The triggers to enable
-     * @return UpdateRequest
      */
     public function newUpdateRequest(
         string $id = null,
@@ -162,7 +153,6 @@ class ModuleHelper
      *
      * @param iterable|null $records (optional) The records to update
      * @param array|null $triggers (optional) The triggers to enable
-     * @return UpdateManyRequest
      */
     public function newUpdateManyRequest(iterable $records = null, array $triggers = null): UpdateManyRequest
     {
@@ -185,7 +175,6 @@ class ModuleHelper
      * @param iterable|null $records (optional) The records to upsert
      * @param array|null $duplicateCheckFields (optional) The fields used for duplicate check
      * @param array|null $triggers (optional) The triggers to enable
-     * @return UpsertRequest
      */
     public function newUpsertRequest(
         iterable $records = null,
@@ -213,7 +202,6 @@ class ModuleHelper
      * Create a request to delete a specific record by ID.
      *
      * @param string|null $id (optional) The record ID
-     * @return DeleteRequest
      */
     public function newDeleteRequest(string $id = null): DeleteRequest
     {
@@ -230,7 +218,6 @@ class ModuleHelper
      * Create a request to delete many records by ID.
      *
      * @param array|null $ids (optional) The records IDs
-     * @return DeleteManyRequest
      */
     public function newDeleteManyRequest(array $ids = null): DeleteManyRequest
     {
@@ -245,8 +232,6 @@ class ModuleHelper
 
     /**
      * Create an auto-paginated request to retrieve all the records.
-     *
-     * @return ListRequest
      */
     public function all(): ListRequest
     {
@@ -255,8 +240,6 @@ class ModuleHelper
 
     /**
      * Create an auto-paginated request to retrieve all the deleted records.
-     *
-     * @return ListDeletedRequest
      */
     public function deleted(): ListDeletedRequest
     {
@@ -267,7 +250,6 @@ class ModuleHelper
      * Create an auto-paginated request to search records matching some criteria.
      *
      * @param string $criteria The search criteria
-     * @return SearchRequest
      */
     public function search(string $criteria): SearchRequest
     {
@@ -279,7 +261,6 @@ class ModuleHelper
      *
      * @param string $field The name of the field
      * @param string $value The wanted value
-     * @return SearchRequest
      */
     public function searchBy(string $field, string $value): SearchRequest
     {
@@ -291,7 +272,6 @@ class ModuleHelper
      *
      * @param string $recordId The record ID
      * @param string $relatedModule The name of the related module
-     * @return ListRelatedRequest
      */
     public function relationsOf(string $recordId, string $relatedModule): ListRelatedRequest
     {
@@ -305,7 +285,6 @@ class ModuleHelper
      *
      * @param string $relatedModule The name of the related module
      * @param string $recordId The related record ID
-     * @return ListRelatedRequest
      */
     public function relatedTo(string $relatedModule, string $recordId): ListRelatedRequest
     {
@@ -318,7 +297,6 @@ class ModuleHelper
      * Retrieve a specific record by ID.
      *
      * @param string $id The record ID
-     * @return Record|null
      */
     public function find(string $id): ?Record
     {
@@ -330,7 +308,6 @@ class ModuleHelper
      *
      * @param array|Record $record The record to insert
      * @param array|null $triggers (optional) The triggers to enable
-     * @return array|null
      */
     public function insert(array|Record $record, array $triggers = null): ?array
     {
@@ -359,7 +336,6 @@ class ModuleHelper
      * @param string $id The record ID
      * @param array|Record $data The field values to update
      * @param array|null $triggers (optional) The triggers to enable
-     * @return array|null
      */
     public function update(string $id, array|Record $data, array $triggers = null): ?array
     {
@@ -388,7 +364,6 @@ class ModuleHelper
      * @param array|Record $record The record to upsert
      * @param array|null $duplicateCheckFields (optional) The fields used for duplicate check
      * @param array|null $triggers (optional) The triggers to enable
-     * @return array|null
      */
     public function upsert(array|Record $record, array $duplicateCheckFields = null, array $triggers = null): ?array
     {
@@ -416,7 +391,6 @@ class ModuleHelper
      * Delete a record by ID.
      *
      * @param string $id The ID of the record to delete
-     * @return array|null
      */
     public function delete(string $id): ?array
     {

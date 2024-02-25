@@ -45,8 +45,6 @@ class Response implements ResponseInterface
 
     /**
      * Get the origin request.
-     *
-     * @return \Zoho\Crm\Contracts\RequestInterface
      */
     public function getRequest(): RequestInterface
     {
@@ -92,8 +90,6 @@ class Response implements ResponseInterface
 
     /**
      * Check that the response has a content (is not empty).
-     *
-     * @return bool
      */
     public function hasContent(): bool
     {

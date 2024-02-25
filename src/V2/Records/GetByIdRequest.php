@@ -31,8 +31,6 @@ class GetByIdRequest extends AbstractRequest
 
     /**
      * Get the ID of the record to fetch.
-     *
-     * @return string|null
      */
     public function getRecordId(): ?string
     {
@@ -61,8 +59,6 @@ class GetByIdRequest extends AbstractRequest
 
     /**
      * @inheritdoc
-     *
-     * @return SingleRecordTransformer
      */
     public function getResponseTransformer(): SingleRecordTransformer
     {

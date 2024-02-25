@@ -19,8 +19,6 @@ interface ClientInterface
 
     /**
      * Get the API endpoint base URL.
-     *
-     * @return string
      */
     public function getEndpoint(): string;
 
@@ -28,7 +26,6 @@ interface ClientInterface
      * Execute a request and get a formal and generic response object.
      *
      * @param RequestInterface $request The request to execute
-     * @return ResponseInterface
      */
     public function executeRequest(RequestInterface $request): ResponseInterface;
 
@@ -86,8 +83,6 @@ interface ClientInterface
 
     /**
      * Get the number of API requests made by the client.
-     *
-     * @return int
      */
     public function getRequestCount(): int;
 
@@ -102,8 +97,6 @@ interface ClientInterface
 
     /**
      * Get the client preferences container.
-     *
-     * @return ClientPreferenceContainerInterface
      */
     public function preferences(): ClientPreferenceContainerInterface;
 }

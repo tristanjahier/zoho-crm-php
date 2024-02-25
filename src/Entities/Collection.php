@@ -15,7 +15,6 @@ class Collection extends BaseCollection
      * Find an entity by ID.
      *
      * @param string $id The entity ID
-     * @return Entity|null
      */
     public function find(string $id): ?Entity
     {
@@ -26,8 +25,6 @@ class Collection extends BaseCollection
 
     /**
      * Get the IDs of the entities.
-     *
-     * @return \Zoho\Crm\Support\Collection
      */
     public function entityIds(): BaseCollection
     {
@@ -38,8 +35,6 @@ class Collection extends BaseCollection
 
     /**
      * Return a collection of unique entities, based on their IDs.
-     *
-     * @return static
      */
     public function uniqueById(): static
     {

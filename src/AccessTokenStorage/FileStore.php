@@ -32,8 +32,6 @@ class FileStore extends AbstractStore
 
     /**
      * Read the file and load its contents if existing.
-     *
-     * @return void
      */
     public function load(): void
     {
@@ -54,8 +52,6 @@ class FileStore extends AbstractStore
 
     /**
      * Alias of {@see self::load()}.
-     *
-     * @return void
      */
     public function reload(): void
     {
@@ -64,8 +60,6 @@ class FileStore extends AbstractStore
 
     /**
      * Determine if the file exists.
-     *
-     * @return bool
      */
     public function exists(): bool
     {
@@ -76,8 +70,6 @@ class FileStore extends AbstractStore
      * Create the file if it does not exist.
      *
      * Return true if the creation was successful or if the file already exists.
-     *
-     * @return bool
      */
     public function createUnlessExists(): bool
     {

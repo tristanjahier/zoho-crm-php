@@ -14,8 +14,6 @@ class UnwrapDataTransformer implements ResponseTransformerInterface
 {
     /**
      * @inheritdoc
-     *
-     * @return mixed|null
      */
     public function transformResponse(mixed $content, RequestInterface $request): mixed
     {

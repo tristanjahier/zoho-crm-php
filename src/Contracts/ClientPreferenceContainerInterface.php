@@ -10,7 +10,6 @@ interface ClientPreferenceContainerInterface
      * Get the value of the named preference.
      *
      * @param string $key The name of the preference
-     * @return mixed
      *
      * @throws \Zoho\Crm\Exceptions\UnsupportedPreferenceException
      */
@@ -48,7 +47,6 @@ interface ClientPreferenceContainerInterface
      * Check if the value of the named preference is strictly true.
      *
      * @param string $key The name of the preference
-     * @return bool
      *
      * @throws \Zoho\Crm\Exceptions\UnsupportedPreferenceException
      */
@@ -58,7 +56,6 @@ interface ClientPreferenceContainerInterface
      * Check if the value of the named preference is strictly false.
      *
      * @param string $key The name of the preference
-     * @return bool
      *
      * @throws \Zoho\Crm\Exceptions\UnsupportedPreferenceException
      */
@@ -68,7 +65,6 @@ interface ClientPreferenceContainerInterface
      * Check if the named preference has a non-null value.
      *
      * @param string $key The name of the preference
-     * @return bool
      *
      * @throws \Zoho\Crm\Exceptions\UnsupportedPreferenceException
      */

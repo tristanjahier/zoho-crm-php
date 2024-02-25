@@ -10,7 +10,6 @@ interface ClientPreferencesAware
      * Set the client preferences.
      *
      * @param Contracts\ClientPreferenceContainerInterface $preferences The client preferences container
-     * @return void
      */
     public function setClientPreferences(Contracts\ClientPreferenceContainerInterface $preferences): void;
 }

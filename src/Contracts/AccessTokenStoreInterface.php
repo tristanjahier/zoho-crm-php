@@ -21,8 +21,6 @@ interface AccessTokenStoreInterface
 
     /**
      * Get the access token.
-     *
-     * @return string|null
      */
     public function getAccessToken(): ?string;
 
@@ -37,22 +35,16 @@ interface AccessTokenStoreInterface
 
     /**
      * Get the token expiry date.
-     *
-     * @return \DateTimeImmutable|null
      */
     public function getExpiryDate(): ?DateTimeImmutable;
 
     /**
      * Determine if the access token exists and is still valid or not.
-     *
-     * @return bool
      */
     public function isValid(): bool;
 
     /**
      * Save the current state back into the storage.
-     *
-     * @return bool
      */
     public function save(): bool;
 }

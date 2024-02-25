@@ -39,8 +39,6 @@ class CustomStore extends AbstractStore
 
     /**
      * Read the storage and load its contents if existing.
-     *
-     * @return void
      */
     public function reload(): void
     {

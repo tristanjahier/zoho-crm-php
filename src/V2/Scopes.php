@@ -96,7 +96,6 @@ final class Scopes
      * Determine if a given scope is valid.
      *
      * @param string $scope The scope to check
-     * @return bool
      */
     public static function isValid(string $scope): bool
     {
@@ -139,8 +138,6 @@ final class Scopes
 
     /**
      * Generate a string with all available scopes, with full access.
-     *
-     * @return string
      */
     public static function getAll(): string
     {
@@ -162,8 +159,6 @@ final class Scopes
 
     /**
      * Generate a string with all available scopes, with read-only access.
-     *
-     * @return string
      */
     public static function getAllReadOnly(): string
     {
@@ -183,7 +178,6 @@ final class Scopes
      *
      * @param string[] $modules (optional) The wanted modules. Empty array = all modules.
      * @param bool $readOnly (optional) Whether to get read-only access or not
-     * @return string
      */
     public static function getModules(array $modules = [], bool $readOnly = false): string
     {

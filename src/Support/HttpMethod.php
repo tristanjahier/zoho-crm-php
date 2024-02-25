@@ -50,7 +50,6 @@ abstract class HttpMethod
      * Check if a string is a valid HTTP method.
      *
      * @param string $method The string to check
-     * @return bool
      */
     public static function isValid(string $method): bool
     {

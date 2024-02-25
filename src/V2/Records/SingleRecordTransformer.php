@@ -14,8 +14,6 @@ class SingleRecordTransformer implements ResponseTransformerInterface
 {
     /**
      * @inheritdoc
-     *
-     * @return Record|null
      */
     public function transformResponse(mixed $content, RequestInterface $request): ?Record
     {

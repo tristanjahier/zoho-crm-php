@@ -28,8 +28,6 @@ trait HasPagination
 
     /**
      * @inheritdoc
-     *
-     * @return \Zoho\Crm\V2\CollectionPageMerger
      */
     public function getResponsePageMerger(): CollectionPageMerger
     {

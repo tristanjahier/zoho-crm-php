@@ -8,8 +8,6 @@ interface ResponseInterface
 {
     /**
      * Get the parsed, cleaned up content.
-     *
-     * @return mixed
      */
     public function getContent(): mixed;
 
@@ -32,8 +30,6 @@ interface ResponseInterface
 
     /**
      * Check that the response is empty.
-     *
-     * @return bool
      */
     public function isEmpty(): bool;
 }

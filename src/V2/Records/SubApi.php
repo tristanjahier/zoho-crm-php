@@ -36,7 +36,6 @@ class SubApi extends AbstractSubApi
      * Create a module helper.
      *
      * @param string $name The name of the module
-     * @return ModuleHelper
      */
     public function module(string $name): ModuleHelper
     {
@@ -50,7 +49,6 @@ class SubApi extends AbstractSubApi
      * Example: `$client->records->priceBooks` instead of `$client->records->module('PriceBooks')`.
      *
      * @param string $name The name of the module in camel case
-     * @return ModuleHelper
      */
     public function __get(string $name): ModuleHelper
     {
