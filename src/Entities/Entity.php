@@ -20,7 +20,7 @@ class Entity implements Arrayable
     protected static ?string $idName;
 
     /**
-     * The entity attributes
+     * The entity attributes.
      *
      * @var string[]
      */

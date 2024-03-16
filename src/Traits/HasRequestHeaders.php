@@ -10,7 +10,7 @@ namespace Zoho\Crm\Traits;
 trait HasRequestHeaders
 {
     /**
-     * The array of HTTP request headers
+     * The array of HTTP request headers.
      *
      * @var array<string, string>
      */

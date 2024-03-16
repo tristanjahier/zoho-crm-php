@@ -12,7 +12,7 @@ use RuntimeException;
 abstract class Exception extends RuntimeException
 {
     /**
-     * The exception message
+     * The exception message.
      *
      * @var string
      */

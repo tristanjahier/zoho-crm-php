@@ -12,14 +12,14 @@ namespace Zoho\Crm\V2;
 final class Scopes
 {
     /**
-     * The root of each Zoho CRM scopes
+     * The root of each Zoho CRM scopes.
      *
      * @var string
      */
     public const SERVICE_NAME = 'ZohoCRM';
 
     /**
-     * All valid scopes
+     * All valid scopes.
      *
      * @var array<string, mixed>
      */

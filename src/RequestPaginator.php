@@ -7,7 +7,7 @@ namespace Zoho\Crm;
 class RequestPaginator implements Contracts\RequestPaginatorInterface
 {
     /**
-     * The maximum number of items per page
+     * The maximum number of items per page.
      *
      * @var int
      */

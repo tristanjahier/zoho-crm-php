@@ -15,7 +15,7 @@ use Zoho\Crm\Support\HttpMethod;
 class InsertRequest extends AbstractRequest
 {
     /**
-     * All available triggers
+     * All available triggers.
      *
      * @var string[]
      */
@@ -28,7 +28,7 @@ class InsertRequest extends AbstractRequest
     protected array $records = [];
 
     /**
-     * The things that the API request will trigger in Zoho CRM
+     * The things that the API request will trigger in Zoho CRM.
      *
      * @var string[]
      */

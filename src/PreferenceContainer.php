@@ -14,7 +14,7 @@ use Zoho\Crm\Support\Collection;
 abstract class PreferenceContainer implements ClientPreferenceContainerInterface
 {
     /**
-     * The available preferences and their default values
+     * The available preferences and their default values.
      *
      * @var array<string, mixed>
      */

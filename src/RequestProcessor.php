@@ -35,21 +35,21 @@ class RequestProcessor
     protected ErrorHandlerInterface $errorHandler;
 
     /**
-     * The callbacks to execute before each request
+     * The callbacks to execute before each request.
      *
      * @var callable[]
      */
     protected array $preExecutionHooks = [];
 
     /**
-     * The callbacks to execute after each request
+     * The callbacks to execute after each request.
      *
      * @var callable[]
      */
     protected array $postExecutionHooks = [];
 
     /**
-     * The middlewares to apply to each request before execution
+     * The middlewares to apply to each request before execution.
      *
      * @var callable[]
      */
@@ -275,7 +275,6 @@ class RequestProcessor
     /**
      * Handle an exception thrown by the HTTP layer.
      *
-     * @param \Exception $exception
      * @param Contracts\RequestInterface $request The request
      * @return never
      *

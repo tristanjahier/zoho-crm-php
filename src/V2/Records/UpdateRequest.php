@@ -24,7 +24,7 @@ class UpdateRequest extends AbstractRequest
     protected array $recordData = [];
 
     /**
-     * The things that the API request will trigger in Zoho CRM
+     * The things that the API request will trigger in Zoho CRM.
      *
      * @var string[]
      */

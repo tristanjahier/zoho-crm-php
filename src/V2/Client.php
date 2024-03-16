@@ -34,14 +34,14 @@ use Zoho\Crm\Support\Helper;
 class Client implements ClientInterface
 {
     /**
-     * The API endpoint used by default
+     * The API endpoint used by default.
      *
      * @var string
      */
     public const DEFAULT_ENDPOINT = 'https://www.zohoapis.com/crm/v2/';
 
     /**
-     * The sub-APIs helpers classes
+     * The sub-APIs helpers classes.
      *
      * @var array<string, class-string>
      */
@@ -66,14 +66,14 @@ class Client implements ClientInterface
     protected Preferences $preferences;
 
     /**
-     * The sub-APIs helpers
+     * The sub-APIs helpers.
      *
      * @var AbstractSubApi[]
      */
     protected array $subApis = [];
 
     /**
-     * The callbacks to execute each time the access token has been refreshed
+     * The callbacks to execute each time the access token has been refreshed.
      *
      * @var Closure[]
      */

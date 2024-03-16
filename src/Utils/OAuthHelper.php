@@ -15,7 +15,7 @@ use Zoho\Crm\Support\UrlParameters;
 final class OAuthHelper
 {
     /**
-     * The API OAuth 2.0 authorization endpoint used by default
+     * The API OAuth 2.0 authorization endpoint used by default.
      *
      * @var string
      */

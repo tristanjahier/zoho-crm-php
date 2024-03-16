@@ -15,7 +15,7 @@ use Zoho\Crm\Support\UrlParameters;
 class AccessTokenBroker implements AccessTokenBrokerInterface
 {
     /**
-     * The base URL of the API OAuth 2.0 authorization endpoint used by default
+     * The base URL of the API OAuth 2.0 authorization endpoint used by default.
      *
      * @var string
      */

@@ -12,7 +12,7 @@ namespace Zoho\Crm\V2\Records;
 class UpsertRequest extends InsertRequest
 {
     /**
-     * The unique fields used to check duplicates
+     * The unique fields used to check duplicates.
      *
      * @var string[]
      */

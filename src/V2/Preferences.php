@@ -12,7 +12,7 @@ use Zoho\Crm\PreferenceContainer;
 class Preferences extends PreferenceContainer
 {
     /**
-     * The available preferences and their default values
+     * The available preferences and their default values.
      *
      * @var array<string, mixed>
      */

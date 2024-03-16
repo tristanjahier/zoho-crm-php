@@ -10,14 +10,14 @@ namespace Zoho\Crm\AccessTokenStorage;
 class CustomStore extends AbstractStore
 {
     /**
-     * The callback used to load the data
+     * The callback used to load the data.
      *
      * @var callable
      */
     protected $loadCallback;
 
     /**
-     * The callback used to save the data
+     * The callback used to save the data.
      *
      * @var callable
      */

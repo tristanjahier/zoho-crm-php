@@ -20,7 +20,7 @@ class Response implements ResponseInterface
     private mixed $content;
 
     /**
-     * The raw HTTP responses
+     * The raw HTTP responses.
      *
      * @var \Psr\Http\Message\ResponseInterface[]
      */
