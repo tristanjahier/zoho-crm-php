@@ -50,7 +50,6 @@ class Collection extends BaseCollection
      *
      * @param Entity $item The entity
      * @param string $attribute The name of the attribute
-     * @return string|null
      */
     protected function getItemPropertyValue(mixed $item, string $attribute): mixed
     {

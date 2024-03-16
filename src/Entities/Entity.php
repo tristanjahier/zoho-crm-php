@@ -71,7 +71,6 @@ class Entity implements Arrayable
      * Get the value of an attribute.
      *
      * @param string $attribute The name of the attribute
-     * @return string|null
      */
     public function get(string $attribute): mixed
     {
@@ -82,7 +81,7 @@ class Entity implements Arrayable
      * Set the value of an attribute.
      *
      * @param string $attribute The name of the attribute
-     * @param string $value The value of the attribute
+     * @param mixed $value The value of the attribute
      */
     public function set(string $attribute, mixed $value): void
     {
@@ -162,7 +161,6 @@ class Entity implements Arrayable
      * Get the value of an attribute as if it was a public property.
      *
      * @param string $attribute The name of the attribute
-     * @return string|null
      */
     public function __get(string $attribute): mixed
     {
@@ -173,7 +171,7 @@ class Entity implements Arrayable
      * Set the value of an attribute as if it was a public property.
      *
      * @param string $attribute The name of the attribute
-     * @param string $value The value of the attribute
+     * @param mixed $value The value of the attribute
      */
     public function __set(string $attribute, mixed $value): void
     {
