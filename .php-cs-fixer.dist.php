@@ -40,6 +40,7 @@ return (new PhpCsFixer\Config())
         'phpdoc_separation' => ['groups' => [['param', 'return'], ['throws']], 'skip_unlisted_annotations' => true],
         'phpdoc_summary' => true,
         'phpdoc_types_order' => ['null_adjustment' => 'always_last', 'sort_algorithm' => 'none'],
+        'no_superfluous_phpdoc_tags' => true,
         'return_assignment' => true,
         'self_static_accessor' => true,
         'simple_to_complex_string_variable' => true,
