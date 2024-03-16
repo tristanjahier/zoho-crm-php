@@ -26,6 +26,8 @@ class VarDumpCaster
      * Get an associative array of the custom casters.
      *
      * @see \Symfony\Component\VarDumper\Cloner\AbstractCloner::addCasters()
+     *
+     * @return array<class-string, string>
      */
     public static function getConfig(): array
     {
