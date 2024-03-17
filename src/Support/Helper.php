@@ -123,7 +123,7 @@ final class Helper
      *
      * It must be either an object implementing DateTimeInterface, or a valid date string.
      *
-     * @param mixed $date The value to check
+     * @param string|\DateTimeInterface $date The value to check
      */
     public static function isValidDateInput(string|\DateTimeInterface $date): bool
     {

@@ -240,7 +240,7 @@ class RequestProcessor
      *
      * The response objects are returned in the same order their requests were provided.
      *
-     * @param Request[] $requests The batch of requests to execute
+     * @param Contracts\RequestInterface[] $requests The batch of requests to execute
      * @return Response[]
      *
      * @throws Exceptions\PaginatedRequestInBatchExecutionException

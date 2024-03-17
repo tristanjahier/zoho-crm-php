@@ -57,7 +57,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, Arrayable
     /**
      * Set the item at a given index.
      *
-     * @param mixed $key The index
+     * @param string|int $key The index
      * @param mixed $value The item
      * @return $this
      */
@@ -71,7 +71,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, Arrayable
     /**
      * Remove the item at a given index.
      *
-     * @param mixed $key The index
+     * @param string|int $key The index
      * @return $this
      */
     public function unset(string|int $key): static
@@ -84,7 +84,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, Arrayable
     /**
      * Determine if an item exists at a given index.
      *
-     * @param mixed $key The index
+     * @param string|int $key The index
      */
     public function has(string|int $key): bool
     {
@@ -94,7 +94,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, Arrayable
     /**
      * Get the item at a given index.
      *
-     * @param mixed $key The index
+     * @param string|int $key The index
      * @param mixed|null $default (optional) The value to return if the item is not present
      */
     public function get(string|int $key, mixed $default = null): mixed
@@ -168,7 +168,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, Arrayable
      *
      * @see self::where()
      *
-     * @param mixed $key The item property name
+     * @param string $key The item property name
      * @param mixed $operator The comparison operator
      * @param mixed|null $value (optional) The item property value
      *
@@ -199,7 +199,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, Arrayable
      *
      * @see self::where()
      *
-     * @param mixed $key The item property name
+     * @param string $key The item property name
      * @param mixed $operator The comparison operator
      * @param mixed|null $value (optional) The item property value
      *
@@ -237,8 +237,8 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, Arrayable
      *
      * @see array_column()
      *
-     * @param mixed $value The column/property to extract
-     * @param mixed|null $key (optional) The column/property to use as index
+     * @param string|int $value The column/property to extract
+     * @param string|int|null $key (optional) The column/property to use as index
      */
     public function column(string|int $value, string|int $key = null): static
     {
@@ -443,7 +443,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, Arrayable
      * If a key or a property name is provided, its values will be summed.
      * If a callback is provided, it will be called on each item to get the value to sum.
      *
-     * @param mixed|null $property (optional) The property to sum
+     * @param string|null $property (optional) The property to sum
      */
     public function sum(string $property = null): int|float
     {
@@ -494,7 +494,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, Arrayable
     /**
      * Create a callback able to filter items based on a WHERE-like comparison.
      *
-     * @param mixed $key The item property name
+     * @param string $key The item property name
      * @param mixed $operator The comparison operator
      * @param mixed|null $value (optional) The item property value
      *
@@ -545,7 +545,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, Arrayable
      * The comparison operator argument is optional. You can pass 2 arguments only,
      * in this case the operator will be assumed to be "=" by default.
      *
-     * @param mixed $key The item property name
+     * @param string $key The item property name
      * @param mixed $operator The comparison operator
      * @param mixed|null $value (optional) The item property value
      *
@@ -561,7 +561,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, Arrayable
      *
      * @see self::where()
      *
-     * @param mixed $key The item property name
+     * @param string $key The item property name
      * @param array|self $values An array or collection of values
      */
     public function whereIn(string $key, array|self $values): static
@@ -572,7 +572,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, Arrayable
     /**
      * Get items where a given property is loosely equal to a given value.
      *
-     * @param mixed $key The item property name
+     * @param string $key The item property name
      * @param mixed $value The item property value
      */
     public function whereLoose(string $key, mixed $value): static
@@ -587,7 +587,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, Arrayable
      *
      * You can either pass one array of keys, or multiple arguments.
      *
-     * @param mixed|mixed[] ...$keys The keys of the items to keep
+     * @param string|int|(string|int)[] ...$keys The keys of the items to keep
      */
     public function only(array|string|int $keys): static
     {
@@ -601,7 +601,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, Arrayable
      *
      * You can either pass one array of keys, or multiple arguments.
      *
-     * @param mixed|mixed[] ...$keys The keys of the items to remove
+     * @param string|int|(string|int)[] ...$keys The keys of the items to remove
      */
     public function except(array|string|int $keys): static
     {
@@ -654,7 +654,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, Arrayable
     /**
      * Create a collection of unique items, based on a given item property.
      *
-     * @param mixed $key The item property name
+     * @param string $key The item property name
      */
     public function uniqueBy(string $key): static
     {
@@ -674,7 +674,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, Arrayable
     /**
      * Get the duplicate items, based on a given item property.
      *
-     * @param mixed $key The item property name
+     * @param string $key The item property name
      */
     public function duplicatesBy(string $key): static
     {
@@ -711,7 +711,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, Arrayable
      * @see asort()
      * @see arsort()
      *
-     * @param mixed $key The item property name
+     * @param string $key The item property name
      * @param int $options (optional) PHP SORT_* flags
      * @param bool $descending (optional) Whether to sort in descending order or not
      */
@@ -732,7 +732,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, Arrayable
     /**
      * Sort the items by a given property, in descending order.
      *
-     * @param mixed $key The item property name
+     * @param string $key The item property name
      * @param int $options (optional) PHP SORT_* flags
      */
     public function sortByDesc(string $key, int $options = SORT_REGULAR): static
@@ -750,7 +750,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, Arrayable
      *
      * @param mixed|callable $value The value to search
      * @param bool $strict (optional) Whether the comparison should be strict or not
-     * @return mixed|false
+     * @return string|int|false
      */
     public function search(mixed $value, bool $strict = false): string|int|bool
     {
@@ -896,7 +896,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, Arrayable
      * the value will be retrieved as a public property.
      *
      * @param mixed $item The collection item
-     * @param mixed $property The key or the property to get
+     * @param string $property The key or the property to get
      */
     protected function getItemPropertyValue(mixed $item, string $property): mixed
     {
@@ -916,7 +916,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, Arrayable
      *
      * If the provided argument is already a callback, it is returned as is.
      *
-     * @param mixed $property The key or the property to get, or a callback
+     * @param string|callable $property The key or the property to get, or a callback
      */
     protected function getItemPropertyRetriever(string|callable $property): callable
     {

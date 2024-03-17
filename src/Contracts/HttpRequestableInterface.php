@@ -57,7 +57,7 @@ interface HttpRequestableInterface
      * Set a header field.
      *
      * @param string $name The name of the header
-     * @param mixed $value The value of the header
+     * @param string $value The value of the header
      */
     public function setHeader(string $name, string $value);
 

@@ -18,7 +18,7 @@ class AsyncBatchRequestException extends Exception
      * The constructor.
      *
      * @param \Throwable $wrappedException The actual exception that was thrown
-     * @param mixed $keyInBatch The key of the failed request inside the batch
+     * @param string|int $keyInBatch The key of the failed request inside the batch
      */
     public function __construct(Throwable $wrappedException, string|int $keyInBatch)
     {
