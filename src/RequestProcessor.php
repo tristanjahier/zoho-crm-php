@@ -251,7 +251,7 @@ class RequestProcessor
         $promises = [];
 
         foreach ($requests as $i => $request) {
-            if ($request->mustBePaginatedAutomatically()) {
+            if ($request instanceof PaginatedRequestInterface && $request->mustBePaginatedAutomatically()) {
                 throw new PaginatedRequestInBatchExecutionException();
             }
 
