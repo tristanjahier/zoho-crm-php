@@ -51,7 +51,7 @@ class RequestPaginator implements Contracts\RequestPaginatorInterface
     {
         $request = $this->request->copy();
         $request->disableAutomaticPagination();
-        $request->param('page', ++$this->latestPageFetched);
+        $request->setUrlParameter('page', ++$this->latestPageFetched);
 
         return $request;
     }
