@@ -76,7 +76,7 @@ class RequestPaginator implements Contracts\RequestPaginatorInterface
 
         // Apply the "maximum modification date" limit.
         // @todo replace this tightly coupled implementation with a more generic feature.
-        if (method_exists($this->request, 'modifiedBefore') && $this->request->hasMaxModificationDate()) {
+        if (method_exists($this->request, 'getMaxModificationDate') && $this->request->getMaxModificationDate() !== null) {
             $lastEntityDate = new \DateTime($page->getContent()->last()->get('Modified_Time'));
 
             if ($lastEntityDate >= $this->request->getMaxModificationDate()) {

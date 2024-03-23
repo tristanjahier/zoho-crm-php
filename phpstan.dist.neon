@@ -4,7 +4,5 @@ parameters:
         - src
     ignoreErrors:
         - # Ignore errors related to the "max modification date" feature until we implement a better design.
-            messages:
-                - '#Call to an undefined method Zoho\\Crm\\Contracts\\PaginatedRequestInterface::hasMaxModificationDate\(\)#'
-                - '#Call to an undefined method Zoho\\Crm\\Contracts\\PaginatedRequestInterface::getMaxModificationDate\(\)#'
+            message: '#Call to an undefined method Zoho\\Crm\\Contracts\\PaginatedRequestInterface::getMaxModificationDate\(\)#'
             path: src/RequestPaginator.php
