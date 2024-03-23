@@ -12,6 +12,11 @@ interface PaginatedRequestInterface extends RequestInterface
     public function mustBePaginatedAutomatically(): bool;
 
     /**
+     * Set the request not to be automatically paginated.
+     */
+    public function disableAutomaticPagination();
+
+    /**
      * Determine if the request requires concurrent and asynchronous pagination.
      */
     public function mustBePaginatedConcurrently(): bool;

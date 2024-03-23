@@ -26,6 +26,14 @@ trait HasPagination
     /**
      * @inheritdoc
      */
+    public function disableAutomaticPagination(): void
+    {
+        $this->autoPaginated = false;
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function mustBePaginatedConcurrently(): bool
     {
         return isset($this->concurrency) && $this->concurrency > 1;
