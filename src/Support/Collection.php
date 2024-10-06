@@ -583,6 +583,26 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, Arrayable
     }
 
     /**
+     * Get items where a given property is null.
+     *
+     * @param string $key The item property name
+     */
+    public function whereNull(string $key): static
+    {
+        return $this->where($key, null);
+    }
+
+    /**
+     * Get items where a given property is NOT null.
+     *
+     * @param string $key The item property name
+     */
+    public function whereNotNull(string $key): static
+    {
+        return $this->where($key, '!=', null);
+    }
+
+    /**
      * Create a collection with only the items indexed by the given keys.
      *
      * You can either pass one array of keys, or multiple arguments.
