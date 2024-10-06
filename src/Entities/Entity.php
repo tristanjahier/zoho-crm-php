@@ -6,6 +6,7 @@ namespace Zoho\Crm\Entities;
 
 use Zoho\Crm\Contracts\ClientInterface;
 use Zoho\Crm\Support\Arrayable;
+use Zoho\Crm\Support\Collection;
 use Zoho\Crm\Support\Helper;
 
 /**
@@ -110,6 +111,14 @@ class Entity implements Arrayable
         }
 
         return $this->get($idName);
+    }
+
+    /**
+     * Get all of the attributes as a collection.
+     */
+    public function getAttributes(): Collection
+    {
+        return new Collection($this->attributes);
     }
 
     /**
