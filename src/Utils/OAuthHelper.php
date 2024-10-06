@@ -63,4 +63,30 @@ final class OAuthHelper
 
         return json_decode((string) $response->getBody(), true);
     }
+
+    /**
+     * Revoke a refresh token.
+     *
+     * (It also seems to work with access tokens, even though it is undocumented.)
+     *
+     * @see https://www.zoho.com/crm/developer/docs/api/revoke-tokens.html
+     *
+     * @param string $refreshToken The refresh token to revoke
+     */
+    public static function revokeToken(string $refreshToken): array
+    {
+        $httpLayer = new HttpLayer();
+        $parameters = new UrlParameters(['token' => $refreshToken]);
+        $url = self::DEFAULT_OAUTH_ENDPOINT . 'token/revoke?' . $parameters;
+        $request = $httpLayer->createRequest('POST', $url);
+        $response = $httpLayer->sendRequest($request);
+
+        if ($response->getStatusCode() !== 200) {
+            throw new \Exception(
+                "Zoho CRM API token revoke error! Response status: {$response->getStatusCode()} {$response->getReasonPhrase()}."
+            );
+        }
+
+        return json_decode((string) $response->getBody(), true);
+    }
 }
