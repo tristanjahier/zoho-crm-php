@@ -10,6 +10,7 @@ return (new PhpCsFixer\Config())
         'concat_space' => false,
         'ordered_imports' => ['imports_order' => ['class', 'function', 'const'], 'sort_algorithm' => 'alpha'],
         'single_trait_insert_per_statement' => false,
+        'trailing_comma_in_multiline' => false,
 
         // Extra
         'align_multiline_comment' => ['comment_type' => 'phpdocs_like'],
