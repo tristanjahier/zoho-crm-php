@@ -527,6 +527,8 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, Arrayable
                     return $itemValue <= $value;
                 case 'in':
                     return in_array($itemValue, $this->getPlainArray($value));
+                case 'not in':
+                    return ! in_array($itemValue, $this->getPlainArray($value));
                 case '=~':
                     return preg_match($value, (string) $itemValue) === 1;
                 case 'like':
@@ -567,6 +569,19 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, Arrayable
     public function whereIn(string $key, array|self $values): static
     {
         return $this->where($key, 'in', $values);
+    }
+
+    /**
+     * Get items where the value of a given property is NOT included in a given array.
+     *
+     * @see self::where()
+     *
+     * @param string $key The item property name
+     * @param array|self $values An array or collection of values
+     */
+    public function whereNotIn(string $key, array|self $values): static
+    {
+        return $this->where($key, 'not in', $values);
     }
 
     /**
