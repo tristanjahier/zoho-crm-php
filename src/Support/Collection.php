@@ -378,6 +378,22 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, Arrayable
     }
 
     /**
+     * Push the items of another collection onto this one.
+     *
+     * @param array|self $items Another collection
+     */
+    public function concat(array|self $items): static
+    {
+        $results = $this->items;
+
+        foreach ($this->getPlainArray($items) as $item) {
+            $results[] = $item;
+        }
+
+        return new static($results);
+    }
+
+    /**
      * Slice the collection.
      *
      * @see array_slice()
