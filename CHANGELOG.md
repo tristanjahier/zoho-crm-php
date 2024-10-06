@@ -91,7 +91,7 @@ https://github.com/tristanjahier/zoho-crm-php/compare/0.5.0...master
 - Required PsySH (`psy/psysh`) as a development dependency (instead of relying only on a global installation).
 - Installed PHP Coding Standards Fixer (`friendsofphp/php-cs-fixer`) as a development dependency.
 - Added configuration files for 2 documentation generators: [phpDocumentor](https://phpdoc.org/) and [Doctum](https://doctum.long-term.support/).
-- Installed PHPStan (`phpstan/phpstan`) as a development dependency, and made the codebase comply with levels 0 and 1.
+- Installed PHPStan (`phpstan/phpstan`) as a development dependency, and made the codebase comply up to level 2.
 
 
 ## [0.5.0] - 2023-09-03
