@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Zoho\Crm\Utils;
 
 use Zoho\Crm\HttpLayer;
+use Zoho\Crm\Support\Helper;
 use Zoho\Crm\Support\UrlParameters;
 
 /**
@@ -40,12 +41,14 @@ final class OAuthHelper
      * @param string $clientSecret The client secret
      * @param string $redirectUri The client redirect URI
      * @param string $grantToken The grant token
+     * @param string|null $endpoint (optional) The authorization endpoint base URL
      */
     public static function getAccessAndRefreshTokens(
         string $clientId,
         string $clientSecret,
         string $redirectUri,
-        string $grantToken
+        string $grantToken,
+        ?string $endpoint = null
     ): array {
         $httpLayer = new HttpLayer();
 
@@ -57,7 +60,8 @@ final class OAuthHelper
             'code' => $grantToken
         ]);
 
-        $url = self::DEFAULT_OAUTH_ENDPOINT . 'token?' . $parameters;
+        $endpoint = Helper::finishString($endpoint ?? self::DEFAULT_OAUTH_ENDPOINT, '/');
+        $url = $endpoint . 'token?' . $parameters;
         $request = $httpLayer->createRequest('POST', $url);
         $response = $httpLayer->sendRequest($request);
 
@@ -72,12 +76,14 @@ final class OAuthHelper
      * @see https://www.zoho.com/crm/developer/docs/api/revoke-tokens.html
      *
      * @param string $refreshToken The refresh token to revoke
+     * @param string|null $endpoint (optional) The authorization endpoint base URL
      */
-    public static function revokeToken(string $refreshToken): array
+    public static function revokeToken(string $refreshToken, ?string $endpoint = null): array
     {
         $httpLayer = new HttpLayer();
         $parameters = new UrlParameters(['token' => $refreshToken]);
-        $url = self::DEFAULT_OAUTH_ENDPOINT . 'token/revoke?' . $parameters;
+        $endpoint = Helper::finishString($endpoint ?? self::DEFAULT_OAUTH_ENDPOINT, '/');
+        $url = $endpoint . 'token/revoke?' . $parameters;
         $request = $httpLayer->createRequest('POST', $url);
         $response = $httpLayer->sendRequest($request);
 
